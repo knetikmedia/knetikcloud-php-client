@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -62,9 +62,27 @@ class PaymentAuthorizationResource implements ArrayAccess
         'payment_type' => '\KnetikCloud\Model\SimpleReferenceResourceInt_'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'captured' => null,
+        'created' => 'int64',
+        'details' => null,
+        'id' => 'int32',
+        'invoice' => 'int32',
+        'payment_type' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**

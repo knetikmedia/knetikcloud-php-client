@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -97,7 +97,7 @@ class ReportingSubscriptionsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceBillingReport_
      */
-    public function getSubscriptionReports($size = null, $page = null)
+    public function getSubscriptionReports($size = '25', $page = '1')
     {
         list($response) = $this->getSubscriptionReportsWithHttpInfo($size, $page);
         return $response;
@@ -113,7 +113,7 @@ class ReportingSubscriptionsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceBillingReport_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getSubscriptionReportsWithHttpInfo($size = null, $page = null)
+    public function getSubscriptionReportsWithHttpInfo($size = '25', $page = '1')
     {
         // parse inputs
         $resourcePath = "/reporting/subscription";
@@ -135,7 +135,7 @@ class ReportingSubscriptionsApi
         if ($page !== null) {
             $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

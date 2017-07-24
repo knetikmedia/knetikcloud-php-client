@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -254,7 +254,7 @@ class UsersInventoryApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -300,7 +300,7 @@ class UsersInventoryApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\EntitlementItem
      */
-    public function createEntitlementItem($cascade = null, $entitlement_item = null)
+    public function createEntitlementItem($cascade = 'false', $entitlement_item = null)
     {
         list($response) = $this->createEntitlementItemWithHttpInfo($cascade, $entitlement_item);
         return $response;
@@ -316,7 +316,7 @@ class UsersInventoryApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\EntitlementItem, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createEntitlementItemWithHttpInfo($cascade = null, $entitlement_item = null)
+    public function createEntitlementItemWithHttpInfo($cascade = 'false', $entitlement_item = null)
     {
         // parse inputs
         $resourcePath = "/entitlements";
@@ -512,7 +512,7 @@ class UsersInventoryApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -604,7 +604,7 @@ class UsersInventoryApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -690,7 +690,7 @@ class UsersInventoryApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -737,7 +737,7 @@ class UsersInventoryApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceEntitlementItem_
      */
-    public function getEntitlementItems($size = null, $page = null, $order = null)
+    public function getEntitlementItems($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getEntitlementItemsWithHttpInfo($size, $page, $order);
         return $response;
@@ -754,7 +754,7 @@ class UsersInventoryApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceEntitlementItem_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getEntitlementItemsWithHttpInfo($size = null, $page = null, $order = null)
+    public function getEntitlementItemsWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/entitlements";
@@ -780,7 +780,7 @@ class UsersInventoryApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -866,7 +866,7 @@ class UsersInventoryApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -917,7 +917,7 @@ class UsersInventoryApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceItemTemplateResource_
      */
-    public function getEntitlementTemplates($size = null, $page = null, $order = null)
+    public function getEntitlementTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getEntitlementTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -934,7 +934,7 @@ class UsersInventoryApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceItemTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getEntitlementTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getEntitlementTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/entitlements/templates";
@@ -960,7 +960,7 @@ class UsersInventoryApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1017,7 +1017,7 @@ class UsersInventoryApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceUserInventoryResource_
      */
-    public function getUserInventories($id, $inactive = null, $size = null, $page = null, $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
+    public function getUserInventories($id, $inactive = 'false', $size = '25', $page = '1', $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
     {
         list($response) = $this->getUserInventoriesWithHttpInfo($id, $inactive, $size, $page, $filter_item_name, $filter_item_id, $filter_username, $filter_group, $filter_date);
         return $response;
@@ -1040,7 +1040,7 @@ class UsersInventoryApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceUserInventoryResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUserInventoriesWithHttpInfo($id, $inactive = null, $size = null, $page = null, $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
+    public function getUserInventoriesWithHttpInfo($id, $inactive = 'false', $size = '25', $page = '1', $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
@@ -1098,7 +1098,7 @@ class UsersInventoryApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1202,7 +1202,7 @@ class UsersInventoryApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1254,7 +1254,7 @@ class UsersInventoryApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceUserItemLogResource_
      */
-    public function getUserInventoryLog($user_id, $id, $size = null, $page = null)
+    public function getUserInventoryLog($user_id, $id, $size = '25', $page = '1')
     {
         list($response) = $this->getUserInventoryLogWithHttpInfo($user_id, $id, $size, $page);
         return $response;
@@ -1272,7 +1272,7 @@ class UsersInventoryApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceUserItemLogResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUserInventoryLogWithHttpInfo($user_id, $id, $size = null, $page = null)
+    public function getUserInventoryLogWithHttpInfo($user_id, $id, $size = '25', $page = '1')
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -1318,7 +1318,7 @@ class UsersInventoryApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1374,7 +1374,7 @@ class UsersInventoryApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceUserInventoryResource_
      */
-    public function getUsersInventory($inactive = null, $size = null, $page = null, $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
+    public function getUsersInventory($inactive = 'false', $size = '25', $page = '1', $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
     {
         list($response) = $this->getUsersInventoryWithHttpInfo($inactive, $size, $page, $filter_item_name, $filter_item_id, $filter_username, $filter_group, $filter_date);
         return $response;
@@ -1396,7 +1396,7 @@ class UsersInventoryApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceUserInventoryResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUsersInventoryWithHttpInfo($inactive = null, $size = null, $page = null, $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
+    public function getUsersInventoryWithHttpInfo($inactive = 'false', $size = '25', $page = '1', $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
     {
         // parse inputs
         $resourcePath = "/inventories";
@@ -1442,7 +1442,7 @@ class UsersInventoryApi
         if ($filter_date !== null) {
             $queryParams['filter_date'] = $this->apiClient->getSerializer()->toQueryValue($filter_date);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1590,7 +1590,7 @@ class UsersInventoryApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return void
      */
-    public function updateEntitlementItem($entitlement_id, $cascade = null, $entitlement_item = null)
+    public function updateEntitlementItem($entitlement_id, $cascade = 'false', $entitlement_item = null)
     {
         list($response) = $this->updateEntitlementItemWithHttpInfo($entitlement_id, $cascade, $entitlement_item);
         return $response;
@@ -1607,7 +1607,7 @@ class UsersInventoryApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateEntitlementItemWithHttpInfo($entitlement_id, $cascade = null, $entitlement_item = null)
+    public function updateEntitlementItemWithHttpInfo($entitlement_id, $cascade = 'false', $entitlement_item = null)
     {
         // verify the required parameter 'entitlement_id' is set
         if ($entitlement_id === null) {
@@ -2172,7 +2172,7 @@ class UsersInventoryApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

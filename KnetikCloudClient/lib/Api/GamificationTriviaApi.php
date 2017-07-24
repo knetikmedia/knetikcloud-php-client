@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -707,7 +707,7 @@ class GamificationTriviaApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -793,7 +793,7 @@ class GamificationTriviaApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -893,7 +893,7 @@ class GamificationTriviaApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -985,7 +985,7 @@ class GamificationTriviaApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1071,7 +1071,7 @@ class GamificationTriviaApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1126,7 +1126,7 @@ class GamificationTriviaApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceImportJobResource_
      */
-    public function getImportJobs($filter_vendor = null, $filter_category = null, $filter_name = null, $filter_status = null, $size = null, $page = null, $order = null)
+    public function getImportJobs($filter_vendor = null, $filter_category = null, $filter_name = null, $filter_status = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getImportJobsWithHttpInfo($filter_vendor, $filter_category, $filter_name, $filter_status, $size, $page, $order);
         return $response;
@@ -1147,7 +1147,7 @@ class GamificationTriviaApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceImportJobResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getImportJobsWithHttpInfo($filter_vendor = null, $filter_category = null, $filter_name = null, $filter_status = null, $size = null, $page = null, $order = null)
+    public function getImportJobsWithHttpInfo($filter_vendor = null, $filter_category = null, $filter_name = null, $filter_status = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/trivia/import";
@@ -1189,7 +1189,7 @@ class GamificationTriviaApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1279,7 +1279,7 @@ class GamificationTriviaApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1383,7 +1383,7 @@ class GamificationTriviaApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1473,7 +1473,7 @@ class GamificationTriviaApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1555,7 +1555,7 @@ class GamificationTriviaApi
         if ($since !== null) {
             $queryParams['since'] = $this->apiClient->getSerializer()->toQueryValue($since);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1645,7 +1645,7 @@ class GamificationTriviaApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1735,7 +1735,7 @@ class GamificationTriviaApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1786,7 +1786,7 @@ class GamificationTriviaApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceQuestionTemplateResource_
      */
-    public function getQuestionTemplates($size = null, $page = null, $order = null)
+    public function getQuestionTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getQuestionTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -1803,7 +1803,7 @@ class GamificationTriviaApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceQuestionTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getQuestionTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getQuestionTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/trivia/questions/templates";
@@ -1829,7 +1829,7 @@ class GamificationTriviaApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1888,7 +1888,7 @@ class GamificationTriviaApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceQuestionResource_
      */
-    public function getQuestions($size = null, $page = null, $order = null, $filter_search = null, $filter_idset = null, $filter_category = null, $filter_tagset = null, $filter_tag = null, $filter_type = null, $filter_published = null, $filter_import_id = null)
+    public function getQuestions($size = '25', $page = '1', $order = 'id:ASC', $filter_search = null, $filter_idset = null, $filter_category = null, $filter_tagset = null, $filter_tag = null, $filter_type = null, $filter_published = null, $filter_import_id = null)
     {
         list($response) = $this->getQuestionsWithHttpInfo($size, $page, $order, $filter_search, $filter_idset, $filter_category, $filter_tagset, $filter_tag, $filter_type, $filter_published, $filter_import_id);
         return $response;
@@ -1913,7 +1913,7 @@ class GamificationTriviaApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceQuestionResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getQuestionsWithHttpInfo($size = null, $page = null, $order = null, $filter_search = null, $filter_idset = null, $filter_category = null, $filter_tagset = null, $filter_tag = null, $filter_type = null, $filter_published = null, $filter_import_id = null)
+    public function getQuestionsWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC', $filter_search = null, $filter_idset = null, $filter_category = null, $filter_tagset = null, $filter_tag = null, $filter_type = null, $filter_published = null, $filter_import_id = null)
     {
         // parse inputs
         $resourcePath = "/trivia/questions";
@@ -1971,7 +1971,7 @@ class GamificationTriviaApi
         if ($filter_import_id !== null) {
             $queryParams['filter_import_id'] = $this->apiClient->getSerializer()->toQueryValue($filter_import_id);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -2089,7 +2089,7 @@ class GamificationTriviaApi
         if ($filter_published !== null) {
             $queryParams['filter_published'] = $this->apiClient->getSerializer()->toQueryValue($filter_published);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -2189,7 +2189,7 @@ class GamificationTriviaApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -2293,7 +2293,7 @@ class GamificationTriviaApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -2427,7 +2427,7 @@ class GamificationTriviaApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -2521,7 +2521,7 @@ class GamificationTriviaApi
         if ($filter_import_id !== null) {
             $queryParams['filter_import_id'] = $this->apiClient->getSerializer()->toQueryValue($filter_import_id);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

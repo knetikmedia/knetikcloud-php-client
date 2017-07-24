@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -180,7 +180,7 @@ class StoreApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\StoreItem
      */
-    public function createStoreItem($cascade = null, $store_item = null)
+    public function createStoreItem($cascade = 'false', $store_item = null)
     {
         list($response) = $this->createStoreItemWithHttpInfo($cascade, $store_item);
         return $response;
@@ -196,7 +196,7 @@ class StoreApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\StoreItem, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createStoreItemWithHttpInfo($cascade = null, $store_item = null)
+    public function createStoreItemWithHttpInfo($cascade = 'false', $store_item = null)
     {
         // parse inputs
         $resourcePath = "/store/items";
@@ -315,7 +315,7 @@ class StoreApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -401,7 +401,7 @@ class StoreApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -473,7 +473,7 @@ class StoreApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -563,7 +563,7 @@ class StoreApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -614,7 +614,7 @@ class StoreApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceStoreItemTemplateResource_
      */
-    public function getItemTemplates($size = null, $page = null, $order = null)
+    public function getItemTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getItemTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -631,7 +631,7 @@ class StoreApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceStoreItemTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getItemTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getItemTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/store/items/templates";
@@ -657,7 +657,7 @@ class StoreApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -710,7 +710,7 @@ class StoreApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceStoreItem_
      */
-    public function getStore($limit = null, $page = null, $use_catalog = null, $ignore_location = null, $in_stock_only = null)
+    public function getStore($limit = null, $page = null, $use_catalog = null, $ignore_location = null, $in_stock_only = 'false')
     {
         list($response) = $this->getStoreWithHttpInfo($limit, $page, $use_catalog, $ignore_location, $in_stock_only);
         return $response;
@@ -729,7 +729,7 @@ class StoreApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceStoreItem_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getStoreWithHttpInfo($limit = null, $page = null, $use_catalog = null, $ignore_location = null, $in_stock_only = null)
+    public function getStoreWithHttpInfo($limit = null, $page = null, $use_catalog = null, $ignore_location = null, $in_stock_only = 'false')
     {
         // parse inputs
         $resourcePath = "/store";
@@ -763,7 +763,7 @@ class StoreApi
         if ($in_stock_only !== null) {
             $queryParams['in_stock_only'] = $this->apiClient->getSerializer()->toQueryValue($in_stock_only);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -849,7 +849,7 @@ class StoreApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -910,7 +910,7 @@ class StoreApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceStoreItem_
      */
-    public function getStoreItems($filter_name_search = null, $filter_unique_key = null, $filter_published = null, $filter_displayable = null, $filter_start = null, $filter_end = null, $filter_start_date = null, $filter_stop_date = null, $filter_sku = null, $filter_price = null, $filter_tag = null, $filter_items_by_type = null, $filter_bundled_skus = null, $filter_vendor = null, $size = null, $page = null, $order = null)
+    public function getStoreItems($filter_name_search = null, $filter_unique_key = null, $filter_published = null, $filter_displayable = null, $filter_start = null, $filter_end = null, $filter_start_date = null, $filter_stop_date = null, $filter_sku = null, $filter_price = null, $filter_tag = null, $filter_items_by_type = null, $filter_bundled_skus = null, $filter_vendor = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getStoreItemsWithHttpInfo($filter_name_search, $filter_unique_key, $filter_published, $filter_displayable, $filter_start, $filter_end, $filter_start_date, $filter_stop_date, $filter_sku, $filter_price, $filter_tag, $filter_items_by_type, $filter_bundled_skus, $filter_vendor, $size, $page, $order);
         return $response;
@@ -941,7 +941,7 @@ class StoreApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceStoreItem_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getStoreItemsWithHttpInfo($filter_name_search = null, $filter_unique_key = null, $filter_published = null, $filter_displayable = null, $filter_start = null, $filter_end = null, $filter_start_date = null, $filter_stop_date = null, $filter_sku = null, $filter_price = null, $filter_tag = null, $filter_items_by_type = null, $filter_bundled_skus = null, $filter_vendor = null, $size = null, $page = null, $order = null)
+    public function getStoreItemsWithHttpInfo($filter_name_search = null, $filter_unique_key = null, $filter_published = null, $filter_displayable = null, $filter_start = null, $filter_end = null, $filter_start_date = null, $filter_stop_date = null, $filter_sku = null, $filter_price = null, $filter_tag = null, $filter_items_by_type = null, $filter_bundled_skus = null, $filter_vendor = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/store/items";
@@ -1023,7 +1023,7 @@ class StoreApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1167,7 +1167,7 @@ class StoreApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\StoreItem
      */
-    public function updateStoreItem($id, $cascade = null, $store_item = null)
+    public function updateStoreItem($id, $cascade = 'false', $store_item = null)
     {
         list($response) = $this->updateStoreItemWithHttpInfo($id, $cascade, $store_item);
         return $response;
@@ -1184,7 +1184,7 @@ class StoreApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\StoreItem, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateStoreItemWithHttpInfo($id, $cascade = null, $store_item = null)
+    public function updateStoreItemWithHttpInfo($id, $cascade = 'false', $store_item = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {

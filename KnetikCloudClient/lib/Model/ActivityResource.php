@@ -1,6 +1,6 @@
 <?php
 /**
- * RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_
+ * ActivityResource
  *
  * PHP version 5
  *
@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -32,14 +32,15 @@ namespace KnetikCloud\Model;
 use \ArrayAccess;
 
 /**
- * RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_ Class Doc Comment
+ * ActivityResource Class Doc Comment
  *
  * @category    Class
+ * @description Represents an activity that can be parameterized and tracked through metrics (scores, etc)
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_ implements ArrayAccess
+class ActivityResource implements ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -47,7 +48,7 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
       * The original name of the model.
       * @var string
       */
-    protected static $swaggerModelName = 'Represents an activity that can be parameterized and tracked through metrics (scores, etc)';
+    protected static $swaggerModelName = 'ActivityResource';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -62,7 +63,7 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
         'long_description' => 'string',
         'name' => 'string',
         'reward_set' => '\KnetikCloud\Model\RewardSetResource',
-        'settings' => '\KnetikCloud\Model\TheDefinitionOfAnActivityParametersExDifficultyLevel[]',
+        'settings' => '\KnetikCloud\Model\AvailableSettingResource[]',
         'short_description' => 'string',
         'template' => 'bool',
         'template_id' => 'string',
@@ -71,9 +72,36 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
         'updated_date' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'additional_properties' => null,
+        'created_date' => 'int64',
+        'entitlements' => null,
+        'id' => 'int64',
+        'launch' => null,
+        'long_description' => null,
+        'name' => null,
+        'reward_set' => null,
+        'settings' => null,
+        'short_description' => null,
+        'template' => null,
+        'template_id' => null,
+        'type' => null,
+        'unique_key' => null,
+        'updated_date' => 'int64'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -399,7 +427,7 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
 
     /**
      * Gets settings
-     * @return \KnetikCloud\Model\TheDefinitionOfAnActivityParametersExDifficultyLevel[]
+     * @return \KnetikCloud\Model\AvailableSettingResource[]
      */
     public function getSettings()
     {
@@ -408,7 +436,7 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
 
     /**
      * Sets settings
-     * @param \KnetikCloud\Model\TheDefinitionOfAnActivityParametersExDifficultyLevel[] $settings Define what parameters are required/available to start and run an activity. For example: Difficulty, Number of Questions, Character name, Avatar, Duration, etc. Not populated when getting listing
+     * @param \KnetikCloud\Model\AvailableSettingResource[] $settings Define what parameters are required/available to start and run an activity. For example: Difficulty, Number of Questions, Character name, Avatar, Duration, etc. Not populated when getting listing
      * @return $this
      */
     public function setSettings($settings)

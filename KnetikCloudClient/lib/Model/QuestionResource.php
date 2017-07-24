@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -71,9 +71,36 @@ class QuestionResource implements ArrayAccess
         'vendor' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'additional_properties' => null,
+        'answers' => null,
+        'category' => null,
+        'created_date' => 'int64',
+        'difficulty' => 'int32',
+        'id' => null,
+        'import_id' => 'int64',
+        'published_date' => 'int64',
+        'question' => null,
+        'source1' => null,
+        'source2' => null,
+        'tags' => null,
+        'template' => null,
+        'updated_date' => 'int64',
+        'vendor' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**

@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -97,9 +97,62 @@ class InvoiceResource implements ArrayAccess
         'vendor_name' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'billing_address1' => null,
+        'billing_address2' => null,
+        'billing_city_name' => null,
+        'billing_country_name' => null,
+        'billing_full_name' => null,
+        'billing_postal_code' => null,
+        'billing_state_name' => null,
+        'cart_id' => null,
+        'created_date' => 'int64',
+        'currency' => null,
+        'current_fulfillment_status' => null,
+        'current_payment_status' => null,
+        'discount' => 'double',
+        'email' => null,
+        'external_ref' => null,
+        'fed_tax' => 'double',
+        'grand_total' => 'double',
+        'id' => 'int32',
+        'invoice_number' => null,
+        'items' => null,
+        'name_prefix' => null,
+        'order_notes' => null,
+        'parent_invoice_id' => 'int32',
+        'payment_method_id' => 'int32',
+        'phone' => null,
+        'phone_number' => null,
+        'shipping' => 'double',
+        'shipping_address1' => null,
+        'shipping_address2' => null,
+        'shipping_city_name' => null,
+        'shipping_country_name' => null,
+        'shipping_full_name' => null,
+        'shipping_postal_code' => null,
+        'shipping_state_name' => null,
+        'sort' => 'int32',
+        'state_tax' => 'double',
+        'subtotal' => 'double',
+        'updated_date' => 'int64',
+        'user' => null,
+        'vendor_id' => 'int32',
+        'vendor_name' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**

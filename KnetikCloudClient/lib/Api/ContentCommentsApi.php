@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -220,7 +220,7 @@ class ContentCommentsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -306,7 +306,7 @@ class ContentCommentsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -354,7 +354,7 @@ class ContentCommentsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceCommentResource_
      */
-    public function getComments($context, $context_id, $size = null, $page = null)
+    public function getComments($context, $context_id, $size = '25', $page = '1')
     {
         list($response) = $this->getCommentsWithHttpInfo($context, $context_id, $size, $page);
         return $response;
@@ -372,7 +372,7 @@ class ContentCommentsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceCommentResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getCommentsWithHttpInfo($context, $context_id, $size = null, $page = null)
+    public function getCommentsWithHttpInfo($context, $context_id, $size = '25', $page = '1')
     {
         // verify the required parameter 'context' is set
         if ($context === null) {
@@ -410,7 +410,7 @@ class ContentCommentsApi
         if ($page !== null) {
             $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -457,7 +457,7 @@ class ContentCommentsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\CommentSearch
      */
-    public function searchComments($query = null, $size = null, $page = null)
+    public function searchComments($query = null, $size = '25', $page = '1')
     {
         list($response) = $this->searchCommentsWithHttpInfo($query, $size, $page);
         return $response;
@@ -474,7 +474,7 @@ class ContentCommentsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\CommentSearch, HTTP status code, HTTP response headers (array of strings)
      */
-    public function searchCommentsWithHttpInfo($query = null, $size = null, $page = null)
+    public function searchCommentsWithHttpInfo($query = null, $size = '25', $page = '1')
     {
         // parse inputs
         $resourcePath = "/comments/search";

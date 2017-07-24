@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -226,7 +226,7 @@ class BRERuleEngineCategoriesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -272,7 +272,7 @@ class BRERuleEngineCategoriesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceBreCategoryResource_
      */
-    public function getBRECategories($size = null, $page = null)
+    public function getBRECategories($size = '25', $page = '1')
     {
         list($response) = $this->getBRECategoriesWithHttpInfo($size, $page);
         return $response;
@@ -288,7 +288,7 @@ class BRERuleEngineCategoriesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceBreCategoryResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getBRECategoriesWithHttpInfo($size = null, $page = null)
+    public function getBRECategoriesWithHttpInfo($size = '25', $page = '1')
     {
         // parse inputs
         $resourcePath = "/bre/categories";
@@ -310,7 +310,7 @@ class BRERuleEngineCategoriesApi
         if ($page !== null) {
             $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -400,7 +400,7 @@ class BRERuleEngineCategoriesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -490,7 +490,7 @@ class BRERuleEngineCategoriesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -541,7 +541,7 @@ class BRERuleEngineCategoriesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceTemplateResource_
      */
-    public function getBRECategoryTemplates($size = null, $page = null, $order = null)
+    public function getBRECategoryTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getBRECategoryTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -558,7 +558,7 @@ class BRERuleEngineCategoriesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getBRECategoryTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getBRECategoryTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/bre/categories/templates";
@@ -584,7 +584,7 @@ class BRERuleEngineCategoriesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

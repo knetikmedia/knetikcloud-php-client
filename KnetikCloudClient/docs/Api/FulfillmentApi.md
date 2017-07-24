@@ -40,7 +40,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **type** | [**\KnetikCloud\Model\FulfillmentType**](../Model/\KnetikCloud\Model\FulfillmentType.md)| The fulfillment type | [optional]
+ **type** | [**\KnetikCloud\Model\FulfillmentType**](../Model/FulfillmentType.md)| The fulfillment type | [optional]
 
 ### Return type
 
@@ -222,7 +222,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id |
- **fulfillment_type** | [**\KnetikCloud\Model\FulfillmentType**](../Model/\KnetikCloud\Model\FulfillmentType.md)| The fulfillment type | [optional]
+ **fulfillment_type** | [**\KnetikCloud\Model\FulfillmentType**](../Model/FulfillmentType.md)| The fulfillment type | [optional]
 
 ### Return type
 

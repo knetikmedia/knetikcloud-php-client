@@ -48,7 +48,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **cascade** | **bool**| Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. | [optional] [default to false]
- **shipping_item** | [**\KnetikCloud\Model\ShippingItem**](../Model/\KnetikCloud\Model\ShippingItem.md)| The shipping item object | [optional]
+ **shipping_item** | [**\KnetikCloud\Model\ShippingItem**](../Model/ShippingItem.md)| The shipping item object | [optional]
 
 ### Return type
 
@@ -96,7 +96,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **shipping_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/\KnetikCloud\Model\ItemTemplateResource.md)| The new shipping template | [optional]
+ **shipping_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/ItemTemplateResource.md)| The new shipping template | [optional]
 
 ### Return type
 
@@ -379,7 +379,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the shipping item |
  **cascade** | **bool**| Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. | [optional] [default to false]
- **shipping_item** | [**\KnetikCloud\Model\ShippingItem**](../Model/\KnetikCloud\Model\ShippingItem.md)| The shipping item object | [optional]
+ **shipping_item** | [**\KnetikCloud\Model\ShippingItem**](../Model/ShippingItem.md)| The shipping item object | [optional]
 
 ### Return type
 
@@ -427,7 +427,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **shipping_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/\KnetikCloud\Model\ItemTemplateResource.md)| The shipping template resource object | [optional]
+ **shipping_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/ItemTemplateResource.md)| The shipping template resource object | [optional]
 
 ### Return type
 

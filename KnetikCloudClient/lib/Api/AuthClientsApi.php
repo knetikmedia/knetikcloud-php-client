@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -220,7 +220,7 @@ class AuthClientsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -306,7 +306,7 @@ class AuthClientsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -382,7 +382,7 @@ class AuthClientsApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -433,7 +433,7 @@ class AuthClientsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceClientResource_
      */
-    public function getClients($size = null, $page = null, $order = null)
+    public function getClients($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getClientsWithHttpInfo($size, $page, $order);
         return $response;
@@ -450,7 +450,7 @@ class AuthClientsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceClientResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getClientsWithHttpInfo($size = null, $page = null, $order = null)
+    public function getClientsWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/auth/clients";
@@ -476,7 +476,7 @@ class AuthClientsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -303,7 +303,7 @@ class CategoriesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -395,7 +395,7 @@ class CategoriesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -444,7 +444,7 @@ class CategoriesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceCategoryResource_
      */
-    public function getCategories($filter_search = null, $filter_active = null, $size = null, $page = null, $order = null)
+    public function getCategories($filter_search = null, $filter_active = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getCategoriesWithHttpInfo($filter_search, $filter_active, $size, $page, $order);
         return $response;
@@ -463,7 +463,7 @@ class CategoriesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceCategoryResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getCategoriesWithHttpInfo($filter_search = null, $filter_active = null, $size = null, $page = null, $order = null)
+    public function getCategoriesWithHttpInfo($filter_search = null, $filter_active = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/categories";
@@ -497,7 +497,7 @@ class CategoriesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -583,7 +583,7 @@ class CategoriesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -669,7 +669,7 @@ class CategoriesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -720,7 +720,7 @@ class CategoriesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceTemplateResource_
      */
-    public function getCategoryTemplates($size = null, $page = null, $order = null)
+    public function getCategoryTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getCategoryTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -737,7 +737,7 @@ class CategoriesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getCategoryTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getCategoryTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/categories/templates";
@@ -763,7 +763,7 @@ class CategoriesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -813,7 +813,7 @@ class CategoriesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceString_
      */
-    public function getTags($size = null, $page = null)
+    public function getTags($size = '25', $page = '1')
     {
         list($response) = $this->getTagsWithHttpInfo($size, $page);
         return $response;
@@ -829,7 +829,7 @@ class CategoriesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceString_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getTagsWithHttpInfo($size = null, $page = null)
+    public function getTagsWithHttpInfo($size = '25', $page = '1')
     {
         // parse inputs
         $resourcePath = "/tags";
@@ -851,7 +851,7 @@ class CategoriesApi
         if ($page !== null) {
             $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

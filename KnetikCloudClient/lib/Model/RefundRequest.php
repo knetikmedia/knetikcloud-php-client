@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -55,13 +55,30 @@ class RefundRequest implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'amount' => 'double',
+        'bundle_sku' => 'string',
         'notes' => 'string',
         'sku' => 'string'
+    ];
+
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'amount' => 'double',
+        'bundle_sku' => null,
+        'notes' => null,
+        'sku' => null
     ];
 
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -70,6 +87,7 @@ class RefundRequest implements ArrayAccess
      */
     protected static $attributeMap = [
         'amount' => 'amount',
+        'bundle_sku' => 'bundle_sku',
         'notes' => 'notes',
         'sku' => 'sku'
     ];
@@ -81,6 +99,7 @@ class RefundRequest implements ArrayAccess
      */
     protected static $setters = [
         'amount' => 'setAmount',
+        'bundle_sku' => 'setBundleSku',
         'notes' => 'setNotes',
         'sku' => 'setSku'
     ];
@@ -92,6 +111,7 @@ class RefundRequest implements ArrayAccess
      */
     protected static $getters = [
         'amount' => 'getAmount',
+        'bundle_sku' => 'getBundleSku',
         'notes' => 'getNotes',
         'sku' => 'getSku'
     ];
@@ -128,6 +148,7 @@ class RefundRequest implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['amount'] = isset($data['amount']) ? $data['amount'] : null;
+        $this->container['bundle_sku'] = isset($data['bundle_sku']) ? $data['bundle_sku'] : null;
         $this->container['notes'] = isset($data['notes']) ? $data['notes'] : null;
         $this->container['sku'] = isset($data['sku']) ? $data['sku'] : null;
     }
@@ -180,6 +201,27 @@ class RefundRequest implements ArrayAccess
     public function setAmount($amount)
     {
         $this->container['amount'] = $amount;
+
+        return $this;
+    }
+
+    /**
+     * Gets bundle_sku
+     * @return string
+     */
+    public function getBundleSku()
+    {
+        return $this->container['bundle_sku'];
+    }
+
+    /**
+     * Sets bundle_sku
+     * @param string $bundle_sku The SKU of a bundle item from the invoice that the target item is within.
+     * @return $this
+     */
+    public function setBundleSku($bundle_sku)
+    {
+        $this->container['bundle_sku'] = $bundle_sku;
 
         return $this;
     }

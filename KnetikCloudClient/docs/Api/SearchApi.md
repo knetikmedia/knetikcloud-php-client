@@ -78,7 +78,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\SearchApi();
-$mappings = array(new SearchReferenceMapping()); // \KnetikCloud\Model\SearchReferenceMapping[] | The mappings to add
+$mappings = array(new \KnetikCloud\Model\SearchReferenceMapping()); // \KnetikCloud\Model\SearchReferenceMapping[] | The mappings to add
 
 try {
     $api_instance->addSearchMappings($mappings);

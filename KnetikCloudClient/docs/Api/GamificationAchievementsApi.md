@@ -55,7 +55,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **achievement** | [**\KnetikCloud\Model\AchievementDefinitionResource**](../Model/\KnetikCloud\Model\AchievementDefinitionResource.md)| The achievement definition | [optional]
+ **achievement** | [**\KnetikCloud\Model\AchievementDefinitionResource**](../Model/AchievementDefinitionResource.md)| The achievement definition | [optional]
 
 ### Return type
 
@@ -103,7 +103,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **template** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The achievement template to be created | [optional]
+ **template** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The achievement template to be created | [optional]
 
 ### Return type
 
@@ -865,7 +865,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **string**| The name of the achievement |
- **achievement** | [**\KnetikCloud\Model\AchievementDefinitionResource**](../Model/\KnetikCloud\Model\AchievementDefinitionResource.md)| The achievement definition | [optional]
+ **achievement** | [**\KnetikCloud\Model\AchievementDefinitionResource**](../Model/AchievementDefinitionResource.md)| The achievement definition | [optional]
 
 ### Return type
 
@@ -913,7 +913,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **template** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The updated template | [optional]
+ **template** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The updated template | [optional]
 
 ### Return type
 

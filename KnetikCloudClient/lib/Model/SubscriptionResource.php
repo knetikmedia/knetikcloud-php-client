@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -76,9 +76,41 @@ class SubscriptionResource implements ArrayAccess
         'vendor_id' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'additional_properties' => null,
+        'availability' => null,
+        'category' => null,
+        'consolidation_day_of_month' => 'int32',
+        'created_date' => 'int64',
+        'geo_country_list' => null,
+        'geo_policy_type' => null,
+        'id' => 'int32',
+        'long_description' => null,
+        'name' => null,
+        'plans' => null,
+        'short_description' => null,
+        'sort' => 'int32',
+        'store_end' => 'int64',
+        'store_start' => 'int64',
+        'tags' => null,
+        'template' => null,
+        'unique_key' => null,
+        'updated_date' => 'int64',
+        'vendor_id' => 'int32'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -254,14 +286,20 @@ class SubscriptionResource implements ArrayAccess
     {
         $invalid_properties = [];
 
-        $allowed_values = ["all", "new_subscribers"];
+        $allowed_values = $this->getAvailabilityAllowableValues();
         if (!in_array($this->container['availability'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'availability', must be one of 'all', 'new_subscribers'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'availability', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
-        $allowed_values = ["whitelist", "blacklist"];
+        $allowed_values = $this->getGeoPolicyTypeAllowableValues();
         if (!in_array($this->container['geo_policy_type'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'geo_policy_type', must be one of 'whitelist', 'blacklist'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'geo_policy_type', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         if ($this->container['name'] === null) {
@@ -282,11 +320,11 @@ class SubscriptionResource implements ArrayAccess
     public function valid()
     {
 
-        $allowed_values = ["all", "new_subscribers"];
+        $allowed_values = $this->getAvailabilityAllowableValues();
         if (!in_array($this->container['availability'], $allowed_values)) {
             return false;
         }
-        $allowed_values = ["whitelist", "blacklist"];
+        $allowed_values = $this->getGeoPolicyTypeAllowableValues();
         if (!in_array($this->container['geo_policy_type'], $allowed_values)) {
             return false;
         }
@@ -337,9 +375,14 @@ class SubscriptionResource implements ArrayAccess
      */
     public function setAvailability($availability)
     {
-        $allowed_values = array('all', 'new_subscribers');
-        if (!is_null($availability) && (!in_array($availability, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'availability', must be one of 'all', 'new_subscribers'");
+        $allowed_values = $this->getAvailabilityAllowableValues();
+        if (!is_null($availability) && !in_array($availability, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'availability', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['availability'] = $availability;
 
@@ -446,9 +489,14 @@ class SubscriptionResource implements ArrayAccess
      */
     public function setGeoPolicyType($geo_policy_type)
     {
-        $allowed_values = array('whitelist', 'blacklist');
-        if (!is_null($geo_policy_type) && (!in_array($geo_policy_type, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'geo_policy_type', must be one of 'whitelist', 'blacklist'");
+        $allowed_values = $this->getGeoPolicyTypeAllowableValues();
+        if (!is_null($geo_policy_type) && !in_array($geo_policy_type, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'geo_policy_type', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['geo_policy_type'] = $geo_policy_type;
 

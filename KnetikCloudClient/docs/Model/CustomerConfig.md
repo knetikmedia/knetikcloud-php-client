@@ -5,6 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **aliases** | **string** |  | [optional] 
 **database** | [**\KnetikCloud\Model\DatabaseConfig**](DatabaseConfig.md) |  | [optional] 
+**io** | [**\KnetikCloud\Model\IOConfig**](IOConfig.md) |  | [optional] 
 **name** | **string** |  | [optional] 
 **s3_config** | [**\KnetikCloud\Model\S3Config**](S3Config.md) |  | [optional] 
 

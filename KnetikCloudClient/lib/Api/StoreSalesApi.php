@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -220,7 +220,7 @@ class StoreSalesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -306,7 +306,7 @@ class StoreSalesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -357,7 +357,7 @@ class StoreSalesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceCatalogSale_
      */
-    public function getCatalogSales($size = null, $page = null, $order = null)
+    public function getCatalogSales($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getCatalogSalesWithHttpInfo($size, $page, $order);
         return $response;
@@ -374,7 +374,7 @@ class StoreSalesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceCatalogSale_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getCatalogSalesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getCatalogSalesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/store/sales";
@@ -400,7 +400,7 @@ class StoreSalesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

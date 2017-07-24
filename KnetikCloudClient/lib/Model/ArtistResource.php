@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -69,9 +69,34 @@ class ArtistResource implements ArrayAccess
         'updated_date' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'additional_properties' => null,
+        'born' => null,
+        'contribution_count' => 'int32',
+        'contributions' => null,
+        'created_date' => 'int64',
+        'died' => null,
+        'id' => 'int64',
+        'long_description' => null,
+        'name' => null,
+        'priority' => 'int32',
+        'short_description' => null,
+        'template' => null,
+        'updated_date' => 'int64'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**

@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -49,7 +49,6 @@ class StoreSubscriptionsApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -57,7 +56,6 @@ class StoreSubscriptionsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -65,7 +63,6 @@ class StoreSubscriptionsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -73,7 +70,6 @@ class StoreSubscriptionsApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -84,7 +80,6 @@ class StoreSubscriptionsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateSubscription()
     {
-
     }
 
     /**
@@ -95,7 +90,6 @@ class StoreSubscriptionsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateSubscriptionTemplate()
     {
-
     }
 
     /**
@@ -106,7 +100,6 @@ class StoreSubscriptionsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteSubscription()
     {
-
     }
 
     /**
@@ -117,7 +110,6 @@ class StoreSubscriptionsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteSubscriptionTemplate()
     {
-
     }
 
     /**
@@ -128,7 +120,6 @@ class StoreSubscriptionsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSubscription()
     {
-
     }
 
     /**
@@ -139,7 +130,6 @@ class StoreSubscriptionsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSubscriptionTemplate()
     {
-
     }
 
     /**
@@ -150,7 +140,6 @@ class StoreSubscriptionsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSubscriptionTemplates()
     {
-
     }
 
     /**
@@ -161,7 +150,6 @@ class StoreSubscriptionsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSubscriptions()
     {
-
     }
 
     /**
@@ -172,7 +160,6 @@ class StoreSubscriptionsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessSubscriptions()
     {
-
     }
 
     /**
@@ -183,7 +170,6 @@ class StoreSubscriptionsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateSubscription()
     {
-
     }
 
     /**
@@ -194,7 +180,5 @@ class StoreSubscriptionsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateSubscriptionTemplate()
     {
-
     }
-
 }

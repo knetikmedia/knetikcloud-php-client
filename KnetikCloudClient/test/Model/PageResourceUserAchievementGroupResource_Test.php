@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class PageResourceUserAchievementGroupResource_Test extends \PHPUnit_Framework_T
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class PageResourceUserAchievementGroupResource_Test extends \PHPUnit_Framework_T
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class PageResourceUserAchievementGroupResource_Test extends \PHPUnit_Framework_T
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class PageResourceUserAchievementGroupResource_Test extends \PHPUnit_Framework_T
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class PageResourceUserAchievementGroupResource_Test extends \PHPUnit_Framework_T
      */
     public function testPageResourceUserAchievementGroupResource_()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class PageResourceUserAchievementGroupResource_Test extends \PHPUnit_Framework_T
      */
     public function testPropertyContent()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class PageResourceUserAchievementGroupResource_Test extends \PHPUnit_Framework_T
      */
     public function testPropertyFirst()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class PageResourceUserAchievementGroupResource_Test extends \PHPUnit_Framework_T
      */
     public function testPropertyLast()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class PageResourceUserAchievementGroupResource_Test extends \PHPUnit_Framework_T
      */
     public function testPropertyNumber()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class PageResourceUserAchievementGroupResource_Test extends \PHPUnit_Framework_T
      */
     public function testPropertyNumberOfElements()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class PageResourceUserAchievementGroupResource_Test extends \PHPUnit_Framework_T
      */
     public function testPropertySize()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class PageResourceUserAchievementGroupResource_Test extends \PHPUnit_Framework_T
      */
     public function testPropertySort()
     {
-
     }
 
     /**
@@ -143,7 +131,6 @@ class PageResourceUserAchievementGroupResource_Test extends \PHPUnit_Framework_T
      */
     public function testPropertyTotalElements()
     {
-
     }
 
     /**
@@ -151,7 +138,5 @@ class PageResourceUserAchievementGroupResource_Test extends \PHPUnit_Framework_T
      */
     public function testPropertyTotalPages()
     {
-
     }
-
 }

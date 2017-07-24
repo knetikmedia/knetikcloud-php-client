@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -65,9 +65,30 @@ class PageResourceSimpleWallet_ implements ArrayAccess
         'total_pages' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'content' => null,
+        'first' => null,
+        'last' => null,
+        'number' => 'int32',
+        'number_of_elements' => 'int32',
+        'size' => 'int32',
+        'sort' => null,
+        'total_elements' => 'int64',
+        'total_pages' => 'int32'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**

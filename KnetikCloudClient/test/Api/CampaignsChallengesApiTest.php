@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -49,7 +49,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -57,7 +56,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -65,7 +63,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -73,7 +70,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -84,7 +80,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateChallenge()
     {
-
     }
 
     /**
@@ -95,7 +90,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateChallengeActivity()
     {
-
     }
 
     /**
@@ -106,7 +100,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateChallengeActivityTemplate()
     {
-
     }
 
     /**
@@ -117,7 +110,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateChallengeTemplate()
     {
-
     }
 
     /**
@@ -128,7 +120,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteChallenge()
     {
-
     }
 
     /**
@@ -139,7 +130,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteChallengeActivity()
     {
-
     }
 
     /**
@@ -150,7 +140,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteChallengeActivityTemplate()
     {
-
     }
 
     /**
@@ -161,7 +150,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteChallengeEvent()
     {
-
     }
 
     /**
@@ -172,7 +160,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteChallengeTemplate()
     {
-
     }
 
     /**
@@ -183,7 +170,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetChallenge()
     {
-
     }
 
     /**
@@ -194,7 +180,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetChallengeActivities()
     {
-
     }
 
     /**
@@ -205,7 +190,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetChallengeActivity()
     {
-
     }
 
     /**
@@ -216,7 +200,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetChallengeActivityTemplate()
     {
-
     }
 
     /**
@@ -227,7 +210,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetChallengeActivityTemplates()
     {
-
     }
 
     /**
@@ -238,7 +220,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetChallengeEvent()
     {
-
     }
 
     /**
@@ -249,7 +230,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetChallengeEvents()
     {
-
     }
 
     /**
@@ -260,7 +240,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetChallengeTemplate()
     {
-
     }
 
     /**
@@ -271,7 +250,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetChallengeTemplates()
     {
-
     }
 
     /**
@@ -282,7 +260,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetChallenges()
     {
-
     }
 
     /**
@@ -293,7 +270,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateChallenge()
     {
-
     }
 
     /**
@@ -304,7 +280,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateChallengeActivity()
     {
-
     }
 
     /**
@@ -315,7 +290,6 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateChallengeActivityTemplate()
     {
-
     }
 
     /**
@@ -326,7 +300,5 @@ class CampaignsChallengesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateChallengeTemplate()
     {
-
     }
-
 }

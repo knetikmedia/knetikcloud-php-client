@@ -46,7 +46,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **category** | [**\KnetikCloud\Model\CategoryResource**](../Model/\KnetikCloud\Model\CategoryResource.md)| The category to create | [optional]
+ **category** | [**\KnetikCloud\Model\CategoryResource**](../Model/CategoryResource.md)| The category to create | [optional]
 
 ### Return type
 
@@ -94,7 +94,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **template** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The template to create | [optional]
+ **template** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The template to create | [optional]
 
 ### Return type
 
@@ -471,7 +471,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the category |
- **category** | [**\KnetikCloud\Model\CategoryResource**](../Model/\KnetikCloud\Model\CategoryResource.md)| The category to update | [optional]
+ **category** | [**\KnetikCloud\Model\CategoryResource**](../Model/CategoryResource.md)| The category to update | [optional]
 
 ### Return type
 
@@ -519,7 +519,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **template** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The updated template information | [optional]
+ **template** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The updated template information | [optional]
 
 ### Return type
 

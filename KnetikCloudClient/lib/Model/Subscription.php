@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -59,9 +59,24 @@ class Subscription extends StoreItem implements ArrayAccess
         'subscription_plans' => '\KnetikCloud\Model\SubscriptionPlan[]'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'availability' => null,
+        'consolidation_day_of_month' => 'int32',
+        'subscription_plans' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes + parent::swaggerTypes();
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats + parent::swaggerFormats();
     }
 
     /**
@@ -157,9 +172,12 @@ class Subscription extends StoreItem implements ArrayAccess
     {
         $invalid_properties = parent::listInvalidProperties();
 
-        $allowed_values = ["all", "new_subscribers"];
+        $allowed_values = $this->getAvailabilityAllowableValues();
         if (!in_array($this->container['availability'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'availability', must be one of 'all', 'new_subscribers'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'availability', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -177,7 +195,7 @@ class Subscription extends StoreItem implements ArrayAccess
             return false;
         }
 
-        $allowed_values = ["all", "new_subscribers"];
+        $allowed_values = $this->getAvailabilityAllowableValues();
         if (!in_array($this->container['availability'], $allowed_values)) {
             return false;
         }
@@ -201,9 +219,14 @@ class Subscription extends StoreItem implements ArrayAccess
      */
     public function setAvailability($availability)
     {
-        $allowed_values = array('all', 'new_subscribers');
-        if (!is_null($availability) && (!in_array($availability, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'availability', must be one of 'all', 'new_subscribers'");
+        $allowed_values = $this->getAvailabilityAllowableValues();
+        if (!is_null($availability) && !in_array($availability, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'availability', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['availability'] = $availability;
 

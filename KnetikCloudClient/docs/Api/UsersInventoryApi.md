@@ -60,7 +60,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the user |
- **user_inventory_add_request** | [**\KnetikCloud\Model\UserInventoryAddRequest**](../Model/\KnetikCloud\Model\UserInventoryAddRequest.md)| The user inventory add request object | [optional]
+ **user_inventory_add_request** | [**\KnetikCloud\Model\UserInventoryAddRequest**](../Model/UserInventoryAddRequest.md)| The user inventory add request object | [optional]
 
 ### Return type
 
@@ -159,7 +159,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **cascade** | **bool**| Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. | [optional] [default to false]
- **entitlement_item** | [**\KnetikCloud\Model\EntitlementItem**](../Model/\KnetikCloud\Model\EntitlementItem.md)| The entitlement item object | [optional]
+ **entitlement_item** | [**\KnetikCloud\Model\EntitlementItem**](../Model/EntitlementItem.md)| The entitlement item object | [optional]
 
 ### Return type
 
@@ -207,7 +207,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **template** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/\KnetikCloud\Model\ItemTemplateResource.md)| The entitlement template to be created | [optional]
+ **template** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/ItemTemplateResource.md)| The entitlement template to be created | [optional]
 
 ### Return type
 
@@ -756,7 +756,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **int**| The id of the user to grant the entitlement to |
- **grant_request** | [**\KnetikCloud\Model\EntitlementGrantRequest**](../Model/\KnetikCloud\Model\EntitlementGrantRequest.md)| grantRequest |
+ **grant_request** | [**\KnetikCloud\Model\EntitlementGrantRequest**](../Model/EntitlementGrantRequest.md)| grantRequest |
 
 ### Return type
 
@@ -805,7 +805,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **entitlement_id** | **int**| The id of the entitlement |
  **cascade** | **bool**| Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. | [optional] [default to false]
- **entitlement_item** | [**\KnetikCloud\Model\EntitlementItem**](../Model/\KnetikCloud\Model\EntitlementItem.md)| The entitlement item object | [optional]
+ **entitlement_item** | [**\KnetikCloud\Model\EntitlementItem**](../Model/EntitlementItem.md)| The entitlement item object | [optional]
 
 ### Return type
 
@@ -853,7 +853,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **template** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/\KnetikCloud\Model\ItemTemplateResource.md)| The updated template | [optional]
+ **template** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/ItemTemplateResource.md)| The updated template | [optional]
 
 ### Return type
 

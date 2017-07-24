@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -226,7 +226,7 @@ class AuthRolesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -312,7 +312,7 @@ class AuthRolesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -402,7 +402,7 @@ class AuthRolesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -453,7 +453,7 @@ class AuthRolesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceRoleResource_
      */
-    public function getRoles($size = null, $page = null, $order = null)
+    public function getRoles($size = '25', $page = '1', $order = null)
     {
         list($response) = $this->getRolesWithHttpInfo($size, $page, $order);
         return $response;
@@ -470,7 +470,7 @@ class AuthRolesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceRoleResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getRolesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getRolesWithHttpInfo($size = '25', $page = '1', $order = null)
     {
         // parse inputs
         $resourcePath = "/auth/roles";
@@ -496,7 +496,7 @@ class AuthRolesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -586,7 +586,7 @@ class AuthRolesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

@@ -40,7 +40,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **permission_resource** | [**\KnetikCloud\Model\PermissionResource**](../Model/\KnetikCloud\Model\PermissionResource.md)| The permission resource object | [optional]
+ **permission_resource** | [**\KnetikCloud\Model\PermissionResource**](../Model/PermissionResource.md)| The permission resource object | [optional]
 
 ### Return type
 
@@ -231,7 +231,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **permission** | **string**| The permission value |
- **permission_resource** | [**\KnetikCloud\Model\PermissionResource**](../Model/\KnetikCloud\Model\PermissionResource.md)| The permission resource object | [optional]
+ **permission_resource** | [**\KnetikCloud\Model\PermissionResource**](../Model/PermissionResource.md)| The permission resource object | [optional]
 
 ### Return type
 

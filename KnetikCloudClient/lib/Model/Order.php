@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -61,9 +61,26 @@ class Order implements ArrayAccess
         'property' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'ascending' => null,
+        'direction' => null,
+        'ignore_case' => null,
+        'null_handling' => null,
+        'property' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -181,14 +198,20 @@ class Order implements ArrayAccess
     {
         $invalid_properties = [];
 
-        $allowed_values = ["ASC", "DESC"];
+        $allowed_values = $this->getDirectionAllowableValues();
         if (!in_array($this->container['direction'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'direction', must be one of 'ASC', 'DESC'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'direction', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
-        $allowed_values = ["NATIVE", "NULLS_FIRST", "NULLS_LAST"];
+        $allowed_values = $this->getNullHandlingAllowableValues();
         if (!in_array($this->container['null_handling'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'null_handling', must be one of 'NATIVE', 'NULLS_FIRST', 'NULLS_LAST'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'null_handling', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -203,11 +226,11 @@ class Order implements ArrayAccess
     public function valid()
     {
 
-        $allowed_values = ["ASC", "DESC"];
+        $allowed_values = $this->getDirectionAllowableValues();
         if (!in_array($this->container['direction'], $allowed_values)) {
             return false;
         }
-        $allowed_values = ["NATIVE", "NULLS_FIRST", "NULLS_LAST"];
+        $allowed_values = $this->getNullHandlingAllowableValues();
         if (!in_array($this->container['null_handling'], $allowed_values)) {
             return false;
         }
@@ -252,9 +275,14 @@ class Order implements ArrayAccess
      */
     public function setDirection($direction)
     {
-        $allowed_values = array('ASC', 'DESC');
-        if (!is_null($direction) && (!in_array($direction, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'direction', must be one of 'ASC', 'DESC'");
+        $allowed_values = $this->getDirectionAllowableValues();
+        if (!is_null($direction) && !in_array($direction, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'direction', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['direction'] = $direction;
 
@@ -298,9 +326,14 @@ class Order implements ArrayAccess
      */
     public function setNullHandling($null_handling)
     {
-        $allowed_values = array('NATIVE', 'NULLS_FIRST', 'NULLS_LAST');
-        if (!is_null($null_handling) && (!in_array($null_handling, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'null_handling', must be one of 'NATIVE', 'NULLS_FIRST', 'NULLS_LAST'");
+        $allowed_values = $this->getNullHandlingAllowableValues();
+        if (!is_null($null_handling) && !in_array($null_handling, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'null_handling', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['null_handling'] = $null_handling;
 

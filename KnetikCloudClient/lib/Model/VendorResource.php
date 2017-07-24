@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -72,9 +72,37 @@ class VendorResource implements ArrayAccess
         'url' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'active' => null,
+        'additional_properties' => null,
+        'create_date' => 'int64',
+        'description' => null,
+        'id' => 'int32',
+        'image_url' => null,
+        'manual_approval' => null,
+        'name' => null,
+        'primary_contact_email' => null,
+        'primary_contact_name' => null,
+        'primary_contact_phone' => null,
+        'sales_email' => null,
+        'support_email' => null,
+        'template' => null,
+        'update_date' => 'int64',
+        'url' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**

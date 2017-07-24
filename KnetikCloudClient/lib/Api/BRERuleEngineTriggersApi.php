@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -220,7 +220,7 @@ class BRERuleEngineTriggersApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -306,7 +306,7 @@ class BRERuleEngineTriggersApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -361,7 +361,7 @@ class BRERuleEngineTriggersApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceBreTriggerResource_
      */
-    public function getBRETriggers($filter_system = null, $filter_category = null, $filter_tags = null, $filter_name = null, $filter_search = null, $size = null, $page = null)
+    public function getBRETriggers($filter_system = null, $filter_category = null, $filter_tags = null, $filter_name = null, $filter_search = null, $size = '25', $page = '1')
     {
         list($response) = $this->getBRETriggersWithHttpInfo($filter_system, $filter_category, $filter_tags, $filter_name, $filter_search, $size, $page);
         return $response;
@@ -382,7 +382,7 @@ class BRERuleEngineTriggersApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceBreTriggerResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getBRETriggersWithHttpInfo($filter_system = null, $filter_category = null, $filter_tags = null, $filter_name = null, $filter_search = null, $size = null, $page = null)
+    public function getBRETriggersWithHttpInfo($filter_system = null, $filter_category = null, $filter_tags = null, $filter_name = null, $filter_search = null, $size = '25', $page = '1')
     {
         // parse inputs
         $resourcePath = "/bre/triggers";
@@ -424,7 +424,7 @@ class BRERuleEngineTriggersApi
         if ($page !== null) {
             $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

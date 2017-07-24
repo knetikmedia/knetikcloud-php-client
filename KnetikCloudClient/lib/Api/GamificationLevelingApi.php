@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -220,7 +220,7 @@ class GamificationLevelingApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -306,7 +306,7 @@ class GamificationLevelingApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -382,7 +382,7 @@ class GamificationLevelingApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -434,7 +434,7 @@ class GamificationLevelingApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceLevelingResource_
      */
-    public function getLevels($filter_name = null, $size = null, $page = null, $order = null)
+    public function getLevels($filter_name = null, $size = '25', $page = '1', $order = 'name:ASC')
     {
         list($response) = $this->getLevelsWithHttpInfo($filter_name, $size, $page, $order);
         return $response;
@@ -452,7 +452,7 @@ class GamificationLevelingApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceLevelingResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getLevelsWithHttpInfo($filter_name = null, $size = null, $page = null, $order = null)
+    public function getLevelsWithHttpInfo($filter_name = null, $size = '25', $page = '1', $order = 'name:ASC')
     {
         // parse inputs
         $resourcePath = "/leveling";
@@ -482,7 +482,7 @@ class GamificationLevelingApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -586,7 +586,7 @@ class GamificationLevelingApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -639,7 +639,7 @@ class GamificationLevelingApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceUserLevelingResource_
      */
-    public function getUserLevels($user_id, $filter_name = null, $size = null, $page = null, $order = null)
+    public function getUserLevels($user_id, $filter_name = null, $size = '25', $page = '1', $order = null)
     {
         list($response) = $this->getUserLevelsWithHttpInfo($user_id, $filter_name, $size, $page, $order);
         return $response;
@@ -658,7 +658,7 @@ class GamificationLevelingApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceUserLevelingResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUserLevelsWithHttpInfo($user_id, $filter_name = null, $size = null, $page = null, $order = null)
+    public function getUserLevelsWithHttpInfo($user_id, $filter_name = null, $size = '25', $page = '1', $order = null)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -700,7 +700,7 @@ class GamificationLevelingApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

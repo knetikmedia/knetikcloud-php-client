@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class ActivityUserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class ActivityUserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class ActivityUserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class ActivityUserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class ActivityUserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testActivityUserResource()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class ActivityUserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyHost()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class ActivityUserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyId()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class ActivityUserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyJoinedDate()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class ActivityUserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyLeftDate()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class ActivityUserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyMetric()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class ActivityUserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyStatus()
     {
-
     }
 
     /**
@@ -135,7 +124,5 @@ class ActivityUserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUser()
     {
-
     }
-
 }

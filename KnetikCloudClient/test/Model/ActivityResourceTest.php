@@ -1,6 +1,6 @@
 <?php
 /**
- * RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_Test
+ * ActivityResourceTest
  *
  * PHP version 5
  *
@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -30,16 +30,16 @@
 namespace KnetikCloud;
 
 /**
- * RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_Test Class Doc Comment
+ * ActivityResourceTest Class Doc Comment
  *
  * @category    Class */
-// * @description RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_
+// * @description Represents an activity that can be parameterized and tracked through metrics (scores, etc)
 /**
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_Test extends \PHPUnit_Framework_TestCase
+class ActivityResourceTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -47,7 +47,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,15 +68,13 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
-     * Test "RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_"
+     * Test "ActivityResource"
      */
-    public function testRepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_()
+    public function testActivityResource()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function testPropertyAdditionalProperties()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function testPropertyCreatedDate()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function testPropertyEntitlements()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function testPropertyId()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function testPropertyLaunch()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function testPropertyLongDescription()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function testPropertyName()
     {
-
     }
 
     /**
@@ -143,7 +131,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function testPropertyRewardSet()
     {
-
     }
 
     /**
@@ -151,7 +138,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function testPropertySettings()
     {
-
     }
 
     /**
@@ -159,7 +145,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function testPropertyShortDescription()
     {
-
     }
 
     /**
@@ -167,7 +152,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function testPropertyTemplate()
     {
-
     }
 
     /**
@@ -175,7 +159,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function testPropertyTemplateId()
     {
-
     }
 
     /**
@@ -183,7 +166,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function testPropertyType()
     {
-
     }
 
     /**
@@ -191,7 +173,6 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function testPropertyUniqueKey()
     {
-
     }
 
     /**
@@ -199,7 +180,5 @@ class RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEt
      */
     public function testPropertyUpdatedDate()
     {
-
     }
-
 }

@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class UserActivityResultsResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class UserActivityResultsResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class UserActivityResultsResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class UserActivityResultsResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,31 +75,6 @@ class UserActivityResultsResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testUserActivityResultsResource()
     {
-
-    }
-
-    /**
-     * Test attribute "currency_rewards"
-     */
-    public function testPropertyCurrencyRewards()
-    {
-
-    }
-
-    /**
-     * Test attribute "item_rewards"
-     */
-    public function testPropertyItemRewards()
-    {
-
-    }
-
-    /**
-     * Test attribute "rank"
-     */
-    public function testPropertyRank()
-    {
-
     }
 
     /**
@@ -111,7 +82,6 @@ class UserActivityResultsResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyScore()
     {
-
     }
 
     /**
@@ -119,23 +89,12 @@ class UserActivityResultsResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyTags()
     {
-
     }
 
     /**
-     * Test attribute "ties"
+     * Test attribute "user_id"
      */
-    public function testPropertyTies()
+    public function testPropertyUserId()
     {
-
     }
-
-    /**
-     * Test attribute "user"
-     */
-    public function testPropertyUser()
-    {
-
-    }
-
 }

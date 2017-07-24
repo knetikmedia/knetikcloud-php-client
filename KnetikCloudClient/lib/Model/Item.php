@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -70,9 +70,35 @@ class Item implements ArrayAccess
         'updated_date' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'additional_properties' => null,
+        'behaviors' => null,
+        'category' => null,
+        'created_date' => 'int64',
+        'id' => 'int32',
+        'long_description' => null,
+        'name' => null,
+        'short_description' => null,
+        'sort' => 'int32',
+        'tags' => null,
+        'template' => null,
+        'type_hint' => null,
+        'unique_key' => null,
+        'updated_date' => 'int64'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**

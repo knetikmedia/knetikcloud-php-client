@@ -40,7 +40,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **relationship** | [**\KnetikCloud\Model\UserRelationshipResource**](../Model/\KnetikCloud\Model\UserRelationshipResource.md)| The new relationship | [optional]
+ **relationship** | [**\KnetikCloud\Model\UserRelationshipResource**](../Model/UserRelationshipResource.md)| The new relationship | [optional]
 
 ### Return type
 
@@ -229,7 +229,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the relationship |
- **relationship** | [**\KnetikCloud\Model\UserRelationshipResource**](../Model/\KnetikCloud\Model\UserRelationshipResource.md)| The new relationship | [optional]
+ **relationship** | [**\KnetikCloud\Model\UserRelationshipResource**](../Model/UserRelationshipResource.md)| The new relationship | [optional]
 
 ### Return type
 

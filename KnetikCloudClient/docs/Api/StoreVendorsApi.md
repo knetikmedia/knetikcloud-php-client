@@ -45,7 +45,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **vendor** | [**\KnetikCloud\Model\VendorResource**](../Model/\KnetikCloud\Model\VendorResource.md)| The vendor | [optional]
+ **vendor** | [**\KnetikCloud\Model\VendorResource**](../Model/VendorResource.md)| The vendor | [optional]
 
 ### Return type
 
@@ -93,7 +93,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **vendor_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/\KnetikCloud\Model\ItemTemplateResource.md)| The new vendor template | [optional]
+ **vendor_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/ItemTemplateResource.md)| The new vendor template | [optional]
 
 ### Return type
 
@@ -423,7 +423,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the vendor |
- **vendor** | [**\KnetikCloud\Model\VendorResource**](../Model/\KnetikCloud\Model\VendorResource.md)| The vendor | [optional]
+ **vendor** | [**\KnetikCloud\Model\VendorResource**](../Model/VendorResource.md)| The vendor | [optional]
 
 ### Return type
 
@@ -471,7 +471,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **vendor_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/\KnetikCloud\Model\ItemTemplateResource.md)| The vendor template resource object | [optional]
+ **vendor_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/ItemTemplateResource.md)| The vendor template resource object | [optional]
 
 ### Return type
 

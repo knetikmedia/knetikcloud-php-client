@@ -42,7 +42,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **bre_trigger_resource** | [**\KnetikCloud\Model\BreTriggerResource**](../Model/\KnetikCloud\Model\BreTriggerResource.md)| The BRE trigger resource object | [optional]
+ **bre_trigger_resource** | [**\KnetikCloud\Model\BreTriggerResource**](../Model/BreTriggerResource.md)| The BRE trigger resource object | [optional]
 
 ### Return type
 
@@ -243,7 +243,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **event_name** | **string**| The trigger event name |
- **bre_trigger_resource** | [**\KnetikCloud\Model\BreTriggerResource**](../Model/\KnetikCloud\Model\BreTriggerResource.md)| The BRE trigger resource object | [optional]
+ **bre_trigger_resource** | [**\KnetikCloud\Model\BreTriggerResource**](../Model/BreTriggerResource.md)| The BRE trigger resource object | [optional]
 
 ### Return type
 

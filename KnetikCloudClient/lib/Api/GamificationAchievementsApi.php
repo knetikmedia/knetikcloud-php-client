@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -303,7 +303,7 @@ class GamificationAchievementsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -395,7 +395,7 @@ class GamificationAchievementsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -481,7 +481,7 @@ class GamificationAchievementsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -571,7 +571,7 @@ class GamificationAchievementsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -622,7 +622,7 @@ class GamificationAchievementsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceTemplateResource_
      */
-    public function getAchievementTemplates($size = null, $page = null, $order = null)
+    public function getAchievementTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getAchievementTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -639,7 +639,7 @@ class GamificationAchievementsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getAchievementTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getAchievementTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/achievements/templates";
@@ -665,7 +665,7 @@ class GamificationAchievementsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -741,7 +741,7 @@ class GamificationAchievementsApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -796,7 +796,7 @@ class GamificationAchievementsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceAchievementDefinitionResource_
      */
-    public function getAchievements($filter_tagset = null, $filter_name = null, $filter_hidden = null, $size = null, $page = null, $order = null, $filter_derived = null)
+    public function getAchievements($filter_tagset = null, $filter_name = null, $filter_hidden = null, $size = '25', $page = '1', $order = 'name:ASC', $filter_derived = 'false')
     {
         list($response) = $this->getAchievementsWithHttpInfo($filter_tagset, $filter_name, $filter_hidden, $size, $page, $order, $filter_derived);
         return $response;
@@ -817,7 +817,7 @@ class GamificationAchievementsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceAchievementDefinitionResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getAchievementsWithHttpInfo($filter_tagset = null, $filter_name = null, $filter_hidden = null, $size = null, $page = null, $order = null, $filter_derived = null)
+    public function getAchievementsWithHttpInfo($filter_tagset = null, $filter_name = null, $filter_hidden = null, $size = '25', $page = '1', $order = 'name:ASC', $filter_derived = 'false')
     {
         // parse inputs
         $resourcePath = "/achievements";
@@ -859,7 +859,7 @@ class GamificationAchievementsApi
         if ($filter_derived !== null) {
             $queryParams['filter_derived'] = $this->apiClient->getSerializer()->toQueryValue($filter_derived);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -949,7 +949,7 @@ class GamificationAchievementsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1053,7 +1053,7 @@ class GamificationAchievementsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1107,7 +1107,7 @@ class GamificationAchievementsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceUserAchievementGroupResource_
      */
-    public function getUserAchievementsProgress($user_id, $filter_achievement_derived = null, $filter_achievement_tagset = null, $filter_achievement_name = null, $size = null, $page = null)
+    public function getUserAchievementsProgress($user_id, $filter_achievement_derived = null, $filter_achievement_tagset = null, $filter_achievement_name = null, $size = '25', $page = '1')
     {
         list($response) = $this->getUserAchievementsProgressWithHttpInfo($user_id, $filter_achievement_derived, $filter_achievement_tagset, $filter_achievement_name, $size, $page);
         return $response;
@@ -1127,7 +1127,7 @@ class GamificationAchievementsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceUserAchievementGroupResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUserAchievementsProgressWithHttpInfo($user_id, $filter_achievement_derived = null, $filter_achievement_tagset = null, $filter_achievement_name = null, $size = null, $page = null)
+    public function getUserAchievementsProgressWithHttpInfo($user_id, $filter_achievement_derived = null, $filter_achievement_tagset = null, $filter_achievement_name = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -1173,7 +1173,7 @@ class GamificationAchievementsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1227,7 +1227,7 @@ class GamificationAchievementsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceUserAchievementGroupResource_
      */
-    public function getUsersAchievementProgress($achievement_name, $filter_achievement_derived = null, $filter_achievement_tagset = null, $filter_achievement_name = null, $size = null, $page = null)
+    public function getUsersAchievementProgress($achievement_name, $filter_achievement_derived = null, $filter_achievement_tagset = null, $filter_achievement_name = null, $size = '25', $page = '1')
     {
         list($response) = $this->getUsersAchievementProgressWithHttpInfo($achievement_name, $filter_achievement_derived, $filter_achievement_tagset, $filter_achievement_name, $size, $page);
         return $response;
@@ -1247,7 +1247,7 @@ class GamificationAchievementsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceUserAchievementGroupResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUsersAchievementProgressWithHttpInfo($achievement_name, $filter_achievement_derived = null, $filter_achievement_tagset = null, $filter_achievement_name = null, $size = null, $page = null)
+    public function getUsersAchievementProgressWithHttpInfo($achievement_name, $filter_achievement_derived = null, $filter_achievement_tagset = null, $filter_achievement_name = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'achievement_name' is set
         if ($achievement_name === null) {
@@ -1293,7 +1293,7 @@ class GamificationAchievementsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1346,7 +1346,7 @@ class GamificationAchievementsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceUserAchievementGroupResource_
      */
-    public function getUsersAchievementsProgress($filter_achievement_derived = null, $filter_achievement_tagset = null, $filter_achievement_name = null, $size = null, $page = null)
+    public function getUsersAchievementsProgress($filter_achievement_derived = null, $filter_achievement_tagset = null, $filter_achievement_name = null, $size = '25', $page = '1')
     {
         list($response) = $this->getUsersAchievementsProgressWithHttpInfo($filter_achievement_derived, $filter_achievement_tagset, $filter_achievement_name, $size, $page);
         return $response;
@@ -1365,7 +1365,7 @@ class GamificationAchievementsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceUserAchievementGroupResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUsersAchievementsProgressWithHttpInfo($filter_achievement_derived = null, $filter_achievement_tagset = null, $filter_achievement_name = null, $size = null, $page = null)
+    public function getUsersAchievementsProgressWithHttpInfo($filter_achievement_derived = null, $filter_achievement_tagset = null, $filter_achievement_name = null, $size = '25', $page = '1')
     {
         // parse inputs
         $resourcePath = "/users/achievements";
@@ -1399,7 +1399,7 @@ class GamificationAchievementsApi
         if ($page !== null) {
             $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

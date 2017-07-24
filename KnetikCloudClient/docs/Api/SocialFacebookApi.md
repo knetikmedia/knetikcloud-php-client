@@ -37,7 +37,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **facebook_token** | [**\KnetikCloud\Model\FacebookToken**](../Model/\KnetikCloud\Model\FacebookToken.md)| The token from facebook | [optional]
+ **facebook_token** | [**\KnetikCloud\Model\FacebookToken**](../Model/FacebookToken.md)| The token from facebook | [optional]
 
 ### Return type
 

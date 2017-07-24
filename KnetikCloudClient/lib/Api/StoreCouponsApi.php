@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -97,7 +97,7 @@ class StoreCouponsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\CouponItem
      */
-    public function createCouponItem($cascade = null, $coupon_item = null)
+    public function createCouponItem($cascade = 'false', $coupon_item = null)
     {
         list($response) = $this->createCouponItemWithHttpInfo($cascade, $coupon_item);
         return $response;
@@ -113,7 +113,7 @@ class StoreCouponsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\CouponItem, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createCouponItemWithHttpInfo($cascade = null, $coupon_item = null)
+    public function createCouponItemWithHttpInfo($cascade = 'false', $coupon_item = null)
     {
         // parse inputs
         $resourcePath = "/store/coupons";
@@ -309,7 +309,7 @@ class StoreCouponsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -401,7 +401,7 @@ class StoreCouponsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -487,7 +487,7 @@ class StoreCouponsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -577,7 +577,7 @@ class StoreCouponsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -628,7 +628,7 @@ class StoreCouponsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceItemTemplateResource_
      */
-    public function getCouponTemplates($size = null, $page = null, $order = null)
+    public function getCouponTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getCouponTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -645,7 +645,7 @@ class StoreCouponsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceItemTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getCouponTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getCouponTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/store/coupons/templates";
@@ -671,7 +671,7 @@ class StoreCouponsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -722,7 +722,7 @@ class StoreCouponsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\CouponItem
      */
-    public function updateCouponItem($id, $cascade = null, $coupon_item = null)
+    public function updateCouponItem($id, $cascade = 'false', $coupon_item = null)
     {
         list($response) = $this->updateCouponItemWithHttpInfo($id, $cascade, $coupon_item);
         return $response;
@@ -739,7 +739,7 @@ class StoreCouponsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\CouponItem, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateCouponItemWithHttpInfo($id, $cascade = null, $coupon_item = null)
+    public function updateCouponItemWithHttpInfo($id, $cascade = 'false', $coupon_item = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {

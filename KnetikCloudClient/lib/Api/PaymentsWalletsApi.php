@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -151,7 +151,7 @@ class PaymentsWalletsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -208,7 +208,7 @@ class PaymentsWalletsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceWalletTransactionResource_
      */
-    public function getUserWalletTransactions($user_id, $currency_code, $filter_type = null, $filter_max_date = null, $filter_min_date = null, $filter_sign = null, $size = null, $page = null, $order = null)
+    public function getUserWalletTransactions($user_id, $currency_code, $filter_type = null, $filter_max_date = null, $filter_min_date = null, $filter_sign = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getUserWalletTransactionsWithHttpInfo($user_id, $currency_code, $filter_type, $filter_max_date, $filter_min_date, $filter_sign, $size, $page, $order);
         return $response;
@@ -231,7 +231,7 @@ class PaymentsWalletsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceWalletTransactionResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUserWalletTransactionsWithHttpInfo($user_id, $currency_code, $filter_type = null, $filter_max_date = null, $filter_min_date = null, $filter_sign = null, $size = null, $page = null, $order = null)
+    public function getUserWalletTransactionsWithHttpInfo($user_id, $currency_code, $filter_type = null, $filter_max_date = null, $filter_min_date = null, $filter_sign = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -297,7 +297,7 @@ class PaymentsWalletsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -387,7 +387,7 @@ class PaymentsWalletsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -463,7 +463,7 @@ class PaymentsWalletsApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -522,7 +522,7 @@ class PaymentsWalletsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceWalletTransactionResource_
      */
-    public function getWalletTransactions($filter_invoice = null, $filter_type = null, $filter_date = null, $filter_sign = null, $filter_user_id = null, $filter_username = null, $filter_details = null, $filter_currency_code = null, $size = null, $page = null, $order = null)
+    public function getWalletTransactions($filter_invoice = null, $filter_type = null, $filter_date = null, $filter_sign = null, $filter_user_id = null, $filter_username = null, $filter_details = null, $filter_currency_code = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getWalletTransactionsWithHttpInfo($filter_invoice, $filter_type, $filter_date, $filter_sign, $filter_user_id, $filter_username, $filter_details, $filter_currency_code, $size, $page, $order);
         return $response;
@@ -547,7 +547,7 @@ class PaymentsWalletsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceWalletTransactionResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getWalletTransactionsWithHttpInfo($filter_invoice = null, $filter_type = null, $filter_date = null, $filter_sign = null, $filter_user_id = null, $filter_username = null, $filter_details = null, $filter_currency_code = null, $size = null, $page = null, $order = null)
+    public function getWalletTransactionsWithHttpInfo($filter_invoice = null, $filter_type = null, $filter_date = null, $filter_sign = null, $filter_user_id = null, $filter_username = null, $filter_details = null, $filter_currency_code = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/wallets/transactions";
@@ -605,7 +605,7 @@ class PaymentsWalletsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -656,7 +656,7 @@ class PaymentsWalletsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceSimpleWallet_
      */
-    public function getWallets($size = null, $page = null, $order = null)
+    public function getWallets($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getWalletsWithHttpInfo($size, $page, $order);
         return $response;
@@ -673,7 +673,7 @@ class PaymentsWalletsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceSimpleWallet_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getWalletsWithHttpInfo($size = null, $page = null, $order = null)
+    public function getWalletsWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/wallets";
@@ -699,7 +699,7 @@ class PaymentsWalletsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

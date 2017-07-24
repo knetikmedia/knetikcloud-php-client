@@ -97,7 +97,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **poll_resource** | [**\KnetikCloud\Model\PollResource**](../Model/\KnetikCloud\Model\PollResource.md)| The poll object | [optional]
+ **poll_resource** | [**\KnetikCloud\Model\PollResource**](../Model/PollResource.md)| The poll object | [optional]
 
 ### Return type
 
@@ -145,7 +145,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **poll_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The poll template resource object | [optional]
+ **poll_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The poll template resource object | [optional]
 
 ### Return type
 
@@ -527,7 +527,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The poll id |
- **poll_resource** | [**\KnetikCloud\Model\PollResource**](../Model/\KnetikCloud\Model\PollResource.md)| The poll object | [optional]
+ **poll_resource** | [**\KnetikCloud\Model\PollResource**](../Model/PollResource.md)| The poll object | [optional]
 
 ### Return type
 
@@ -575,7 +575,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **poll_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The poll template resource object | [optional]
+ **poll_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The poll template resource object | [optional]
 
 ### Return type
 

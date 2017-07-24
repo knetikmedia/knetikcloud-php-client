@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -64,9 +64,29 @@ class StoreItem extends Item implements ArrayAccess
         'vendor_id' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'displayable' => null,
+        'geo_country_list' => null,
+        'geo_policy_type' => null,
+        'shipping_tier' => 'int32',
+        'skus' => null,
+        'store_end' => 'int64',
+        'store_start' => 'int64',
+        'vendor_id' => 'int32'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes + parent::swaggerTypes();
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats + parent::swaggerFormats();
     }
 
     /**
@@ -182,9 +202,12 @@ class StoreItem extends Item implements ArrayAccess
     {
         $invalid_properties = parent::listInvalidProperties();
 
-        $allowed_values = ["whitelist", "blacklist"];
+        $allowed_values = $this->getGeoPolicyTypeAllowableValues();
         if (!in_array($this->container['geo_policy_type'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'geo_policy_type', must be one of 'whitelist', 'blacklist'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'geo_policy_type', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         if ($this->container['skus'] === null) {
@@ -208,7 +231,7 @@ class StoreItem extends Item implements ArrayAccess
             return false;
         }
 
-        $allowed_values = ["whitelist", "blacklist"];
+        $allowed_values = $this->getGeoPolicyTypeAllowableValues();
         if (!in_array($this->container['geo_policy_type'], $allowed_values)) {
             return false;
         }
@@ -280,9 +303,14 @@ class StoreItem extends Item implements ArrayAccess
      */
     public function setGeoPolicyType($geo_policy_type)
     {
-        $allowed_values = array('whitelist', 'blacklist');
-        if (!is_null($geo_policy_type) && (!in_array($geo_policy_type, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'geo_policy_type', must be one of 'whitelist', 'blacklist'");
+        $allowed_values = $this->getGeoPolicyTypeAllowableValues();
+        if (!is_null($geo_policy_type) && !in_array($geo_policy_type, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'geo_policy_type', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['geo_policy_type'] = $geo_policy_type;
 

@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -49,7 +49,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -57,7 +56,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -65,7 +63,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -73,7 +70,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -84,7 +80,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateActivity()
     {
-
     }
 
     /**
@@ -95,7 +90,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateActivityOccurrence()
     {
-
     }
 
     /**
@@ -106,7 +100,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateActivityTemplate()
     {
-
     }
 
     /**
@@ -117,7 +110,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteActivity()
     {
-
     }
 
     /**
@@ -128,7 +120,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteActivityTemplate()
     {
-
     }
 
     /**
@@ -139,7 +130,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetActivities()
     {
-
     }
 
     /**
@@ -150,7 +140,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetActivity()
     {
-
     }
 
     /**
@@ -161,7 +150,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetActivityTemplate()
     {
-
     }
 
     /**
@@ -172,7 +160,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetActivityTemplates()
     {
-
     }
 
     /**
@@ -183,7 +170,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetActivityOccurrenceResults()
     {
-
     }
 
     /**
@@ -194,7 +180,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateActivity()
     {
-
     }
 
     /**
@@ -205,7 +190,6 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateActivityOccurrence()
     {
-
     }
 
     /**
@@ -216,7 +200,5 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateActivityTemplate()
     {
-
     }
-
 }

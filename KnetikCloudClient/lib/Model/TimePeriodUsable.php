@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -59,9 +59,24 @@ class TimePeriodUsable extends Behavior implements ArrayAccess
         'unit_of_time' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'max_use' => 'int32',
+        'time_length' => 'int32',
+        'unit_of_time' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes + parent::swaggerTypes();
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats + parent::swaggerFormats();
     }
 
     /**

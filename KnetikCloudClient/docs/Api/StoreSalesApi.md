@@ -40,7 +40,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **catalog_sale** | [**\KnetikCloud\Model\CatalogSale**](../Model/\KnetikCloud\Model\CatalogSale.md)| The catalog sale object | [optional]
+ **catalog_sale** | [**\KnetikCloud\Model\CatalogSale**](../Model/CatalogSale.md)| The catalog sale object | [optional]
 
 ### Return type
 
@@ -229,7 +229,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the sale |
- **catalog_sale** | [**\KnetikCloud\Model\CatalogSale**](../Model/\KnetikCloud\Model\CatalogSale.md)| The catalog sale object | [optional]
+ **catalog_sale** | [**\KnetikCloud\Model\CatalogSale**](../Model/CatalogSale.md)| The catalog sale object | [optional]
 
 ### Return type
 

@@ -46,7 +46,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tax_resource** | [**\KnetikCloud\Model\CountryTaxResource**](../Model/\KnetikCloud\Model\CountryTaxResource.md)| The tax object | [optional]
+ **tax_resource** | [**\KnetikCloud\Model\CountryTaxResource**](../Model/CountryTaxResource.md)| The tax object | [optional]
 
 ### Return type
 
@@ -94,7 +94,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **country_code_iso3** | **string**| The iso3 code of the country |
- **tax_resource** | [**\KnetikCloud\Model\StateTaxResource**](../Model/\KnetikCloud\Model\StateTaxResource.md)| The tax object | [optional]
+ **tax_resource** | [**\KnetikCloud\Model\StateTaxResource**](../Model/StateTaxResource.md)| The tax object | [optional]
 
 ### Return type
 
@@ -471,7 +471,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **country_code_iso3** | **string**| The iso3 code of the country |
- **tax_resource** | [**\KnetikCloud\Model\CountryTaxResource**](../Model/\KnetikCloud\Model\CountryTaxResource.md)| The tax object | [optional]
+ **tax_resource** | [**\KnetikCloud\Model\CountryTaxResource**](../Model/CountryTaxResource.md)| The tax object | [optional]
 
 ### Return type
 
@@ -521,7 +521,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **country_code_iso3** | **string**| The iso3 code of the country |
  **state_code** | **string**| The code of the state |
- **tax_resource** | [**\KnetikCloud\Model\StateTaxResource**](../Model/\KnetikCloud\Model\StateTaxResource.md)| The tax object | [optional]
+ **tax_resource** | [**\KnetikCloud\Model\StateTaxResource**](../Model/StateTaxResource.md)| The tax object | [optional]
 
 ### Return type
 

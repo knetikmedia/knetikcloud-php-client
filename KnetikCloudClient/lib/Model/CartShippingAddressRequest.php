@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -68,9 +68,33 @@ class CartShippingAddressRequest implements ArrayAccess
         'zip' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'city' => null,
+        'country_code_iso3' => null,
+        'email' => null,
+        'first_name' => null,
+        'last_name' => null,
+        'name_prefix' => null,
+        'order_notes' => null,
+        'phone_number' => null,
+        'postal_state_code' => null,
+        'shipping_address_line1' => null,
+        'shipping_address_line2' => null,
+        'zip' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**

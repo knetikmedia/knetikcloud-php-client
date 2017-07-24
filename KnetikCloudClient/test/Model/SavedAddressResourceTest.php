@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSavedAddressResource()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyAddress1()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyAddress2()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCity()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCountryCode()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyDefault()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyFirstName()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyId()
     {
-
     }
 
     /**
@@ -143,7 +131,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyLastName()
     {
-
     }
 
     /**
@@ -151,7 +138,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyName()
     {
-
     }
 
     /**
@@ -159,7 +145,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPhone1()
     {
-
     }
 
     /**
@@ -167,7 +152,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPhone2()
     {
-
     }
 
     /**
@@ -175,7 +159,6 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPostalCode()
     {
-
     }
 
     /**
@@ -183,7 +166,5 @@ class SavedAddressResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyStateCode()
     {
-
     }
-
 }

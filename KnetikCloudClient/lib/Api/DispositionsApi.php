@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -220,7 +220,7 @@ class DispositionsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -306,7 +306,7 @@ class DispositionsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -390,7 +390,7 @@ class DispositionsApi
         if ($filter_owner !== null) {
             $queryParams['filter_owner'] = $this->apiClient->getSerializer()->toQueryValue($filter_owner);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -439,7 +439,7 @@ class DispositionsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceDispositionResource_
      */
-    public function getDispositions($filter_context = null, $filter_owner = null, $size = null, $page = null, $order = null)
+    public function getDispositions($filter_context = null, $filter_owner = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getDispositionsWithHttpInfo($filter_context, $filter_owner, $size, $page, $order);
         return $response;
@@ -458,7 +458,7 @@ class DispositionsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceDispositionResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getDispositionsWithHttpInfo($filter_context = null, $filter_owner = null, $size = null, $page = null, $order = null)
+    public function getDispositionsWithHttpInfo($filter_context = null, $filter_owner = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/dispositions";
@@ -492,7 +492,7 @@ class DispositionsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

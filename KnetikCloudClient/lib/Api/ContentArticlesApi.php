@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -303,7 +303,7 @@ class ContentArticlesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -395,7 +395,7 @@ class ContentArticlesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -481,7 +481,7 @@ class ContentArticlesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -567,7 +567,7 @@ class ContentArticlesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -618,7 +618,7 @@ class ContentArticlesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceTemplateResource_
      */
-    public function getArticleTemplates($size = null, $page = null, $order = null)
+    public function getArticleTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getArticleTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -635,7 +635,7 @@ class ContentArticlesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getArticleTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getArticleTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/content/articles/templates";
@@ -661,7 +661,7 @@ class ContentArticlesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -707,7 +707,9 @@ class ContentArticlesApi
      * List and search articles
      *
      * @param string $filter_category Filter for articles from a specific category by id (optional)
-     * @param string $filter_tagset Filter for articles with specified tags (separated by comma) (optional)
+     * @param string $filter_tagset Filter for articles with at least one of a specified set of tags (separated by comma) (optional)
+     * @param string $filter_tag_intersection Filter for articles with all of a specified set of tags (separated by comma) (optional)
+     * @param string $filter_tag_exclusion Filter for articles with none of a specified set of tags (separated by comma) (optional)
      * @param string $filter_title Filter for articles whose title contains a string (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
@@ -715,9 +717,9 @@ class ContentArticlesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceArticleResource_
      */
-    public function getArticles($filter_category = null, $filter_tagset = null, $filter_title = null, $size = null, $page = null, $order = null)
+    public function getArticles($filter_category = null, $filter_tagset = null, $filter_tag_intersection = null, $filter_tag_exclusion = null, $filter_title = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
-        list($response) = $this->getArticlesWithHttpInfo($filter_category, $filter_tagset, $filter_title, $size, $page, $order);
+        list($response) = $this->getArticlesWithHttpInfo($filter_category, $filter_tagset, $filter_tag_intersection, $filter_tag_exclusion, $filter_title, $size, $page, $order);
         return $response;
     }
 
@@ -727,7 +729,9 @@ class ContentArticlesApi
      * List and search articles
      *
      * @param string $filter_category Filter for articles from a specific category by id (optional)
-     * @param string $filter_tagset Filter for articles with specified tags (separated by comma) (optional)
+     * @param string $filter_tagset Filter for articles with at least one of a specified set of tags (separated by comma) (optional)
+     * @param string $filter_tag_intersection Filter for articles with all of a specified set of tags (separated by comma) (optional)
+     * @param string $filter_tag_exclusion Filter for articles with none of a specified set of tags (separated by comma) (optional)
      * @param string $filter_title Filter for articles whose title contains a string (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
@@ -735,7 +739,7 @@ class ContentArticlesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceArticleResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getArticlesWithHttpInfo($filter_category = null, $filter_tagset = null, $filter_title = null, $size = null, $page = null, $order = null)
+    public function getArticlesWithHttpInfo($filter_category = null, $filter_tagset = null, $filter_tag_intersection = null, $filter_tag_exclusion = null, $filter_title = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/content/articles";
@@ -758,6 +762,14 @@ class ContentArticlesApi
             $queryParams['filter_tagset'] = $this->apiClient->getSerializer()->toQueryValue($filter_tagset);
         }
         // query params
+        if ($filter_tag_intersection !== null) {
+            $queryParams['filter_tag_intersection'] = $this->apiClient->getSerializer()->toQueryValue($filter_tag_intersection);
+        }
+        // query params
+        if ($filter_tag_exclusion !== null) {
+            $queryParams['filter_tag_exclusion'] = $this->apiClient->getSerializer()->toQueryValue($filter_tag_exclusion);
+        }
+        // query params
         if ($filter_title !== null) {
             $queryParams['filter_title'] = $this->apiClient->getSerializer()->toQueryValue($filter_title);
         }
@@ -773,7 +785,7 @@ class ContentArticlesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

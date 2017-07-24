@@ -1,6 +1,6 @@
 <?php
 /**
- * AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings
+ * ActivityOccurrenceResource
  *
  * PHP version 5
  *
@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -32,14 +32,15 @@ namespace KnetikCloud\Model;
 use \ArrayAccess;
 
 /**
- * AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings Class Doc Comment
+ * ActivityOccurrenceResource Class Doc Comment
  *
  * @category    Class
+ * @description A occurrence of an activity (the actual game for example). Used to track scores, participants, and provide settings
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings implements ArrayAccess
+class ActivityOccurrenceResource implements ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -47,7 +48,7 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
       * The original name of the model.
       * @var string
       */
-    protected static $swaggerModelName = 'A occurrence of an activity (the actual game for example). Used to track scores, participants, and provide settings';
+    protected static $swaggerModelName = 'ActivityOccurrenceResource';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -69,9 +70,34 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
         'users' => '\KnetikCloud\Model\ActivityUserResource[]'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'activity_id' => 'int64',
+        'challenge_activity_id' => 'int64',
+        'created_date' => 'int64',
+        'entitlement' => null,
+        'event_id' => 'int64',
+        'id' => 'int64',
+        'reward_status' => null,
+        'settings' => null,
+        'simulated' => null,
+        'start_date' => 'int64',
+        'status' => null,
+        'updated_date' => 'int64',
+        'users' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -232,14 +258,20 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
         if ($this->container['activity_id'] === null) {
             $invalid_properties[] = "'activity_id' can't be null";
         }
-        $allowed_values = ["pending", "failed", "complete", "partial"];
+        $allowed_values = $this->getRewardStatusAllowableValues();
         if (!in_array($this->container['reward_status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'reward_status', must be one of 'pending', 'failed', 'complete', 'partial'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'reward_status', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
-        $allowed_values = ["SETUP", "OPEN", "PLAYING", "FINISHED", "ABANDONED"];
+        $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'status', must be one of 'SETUP', 'OPEN', 'PLAYING', 'FINISHED', 'ABANDONED'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'status', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -257,11 +289,11 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
         if ($this->container['activity_id'] === null) {
             return false;
         }
-        $allowed_values = ["pending", "failed", "complete", "partial"];
+        $allowed_values = $this->getRewardStatusAllowableValues();
         if (!in_array($this->container['reward_status'], $allowed_values)) {
             return false;
         }
-        $allowed_values = ["SETUP", "OPEN", "PLAYING", "FINISHED", "ABANDONED"];
+        $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
             return false;
         }
@@ -411,9 +443,14 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function setRewardStatus($reward_status)
     {
-        $allowed_values = array('pending', 'failed', 'complete', 'partial');
-        if (!is_null($reward_status) && (!in_array($reward_status, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'reward_status', must be one of 'pending', 'failed', 'complete', 'partial'");
+        $allowed_values = $this->getRewardStatusAllowableValues();
+        if (!is_null($reward_status) && !in_array($reward_status, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'reward_status', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['reward_status'] = $reward_status;
 
@@ -499,9 +536,14 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function setStatus($status)
     {
-        $allowed_values = array('SETUP', 'OPEN', 'PLAYING', 'FINISHED', 'ABANDONED');
-        if (!is_null($status) && (!in_array($status, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'SETUP', 'OPEN', 'PLAYING', 'FINISHED', 'ABANDONED'");
+        $allowed_values = $this->getStatusAllowableValues();
+        if (!is_null($status) && !in_array($status, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'status', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['status'] = $status;
 

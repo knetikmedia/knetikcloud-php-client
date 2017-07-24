@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -54,12 +54,25 @@ class ActivityOccurrenceResults implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'users' => '\KnetikCloud\Model\UserActivityResultsResource[]'
+        'users' => '\KnetikCloud\Model\UserActivityResults[]'
+    ];
+
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'users' => null
     ];
 
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -155,7 +168,7 @@ class ActivityOccurrenceResults implements ArrayAccess
 
     /**
      * Gets users
-     * @return \KnetikCloud\Model\UserActivityResultsResource[]
+     * @return \KnetikCloud\Model\UserActivityResults[]
      */
     public function getUsers()
     {
@@ -164,7 +177,7 @@ class ActivityOccurrenceResults implements ArrayAccess
 
     /**
      * Sets users
-     * @param \KnetikCloud\Model\UserActivityResultsResource[] $users The game results for each user. Include all users that played (paid to get in) even if they were eliminated without a result. A null metric is allowed
+     * @param \KnetikCloud\Model\UserActivityResults[] $users The game results for each user. Include all users that played (paid to get in) even if they were eliminated without a result. A null metric is allowed
      * @return $this
      */
     public function setUsers($users)

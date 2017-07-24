@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -42,16 +42,18 @@ class ObjectSerializer
     /**
      * Serialize data
      *
-     * @param mixed $data the data to serialize
+     * @param mixed  $data   the data to serialize
+     * @param string $type   the SwaggerType of the data
+     * @param string $format the format of the Swagger type of the data
      *
      * @return string|object serialized form of $data
      */
-    public static function sanitizeForSerialization($data)
+    public static function sanitizeForSerialization($data, $type = null, $format = null)
     {
         if (is_scalar($data) || null === $data) {
             return $data;
         } elseif ($data instanceof \DateTime) {
-            return $data->format(\DateTime::ATOM);
+            return ($format === 'date') ? $data->format('Y-m-d') : $data->format(\DateTime::ATOM);
         } elseif (is_array($data)) {
             foreach ($data as $property => $value) {
                 $data[$property] = self::sanitizeForSerialization($value);
@@ -59,16 +61,17 @@ class ObjectSerializer
             return $data;
         } elseif (is_object($data)) {
             $values = [];
+            $formats = $data::swaggerFormats();
             foreach ($data::swaggerTypes() as $property => $swaggerType) {
                 $getter = $data::getters()[$property];
                 $value = $data->$getter();
-                if (method_exists($swaggerType, 'getAllowableEnumValues')
+                if ($value !== null && method_exists($swaggerType, 'getAllowableEnumValues')
                     && !in_array($value, $swaggerType::getAllowableEnumValues())) {
                     $imploded = implode("', '", $swaggerType::getAllowableEnumValues());
                     throw new \InvalidArgumentException("Invalid value for enum '$swaggerType', must be one of: '$imploded'");
                 }
                 if ($value !== null) {
-                    $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($value);
+                    $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($value, $swaggerType, $formats[$property]);
                 }
             }
             return (object)$values;
@@ -85,7 +88,7 @@ class ObjectSerializer
      *
      * @return string the sanitized filename
      */
-    public function sanitizeFilename($filename)
+    public static function sanitizeFilename($filename)
     {
         if (preg_match("/.*[\/\\\\](.*)$/", $filename, $match)) {
             return $match[1];
@@ -264,7 +267,7 @@ class ObjectSerializer
             // determine file name
             if (array_key_exists('Content-Disposition', $httpHeaders) &&
                 preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeaders['Content-Disposition'], $match)) {
-                $filename = Configuration::getDefaultConfiguration()->getTempFolderPath() . sanitizeFilename($match[1]);
+                $filename = Configuration::getDefaultConfiguration()->getTempFolderPath() . self::sanitizeFilename($match[1]);
             } else {
                 $filename = tempnam(Configuration::getDefaultConfiguration()->getTempFolderPath(), '');
             }

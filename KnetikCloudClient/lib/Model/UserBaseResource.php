@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -59,14 +59,36 @@ class UserBaseResource implements ArrayAccess
         'email' => 'string',
         'fullname' => 'string',
         'id' => 'int',
+        'last_activity' => 'int',
         'last_updated' => 'int',
         'member_since' => 'int',
         'username' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'avatar_url' => null,
+        'display_name' => null,
+        'email' => null,
+        'fullname' => null,
+        'id' => 'int32',
+        'last_activity' => 'int64',
+        'last_updated' => 'int64',
+        'member_since' => 'int64',
+        'username' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -79,6 +101,7 @@ class UserBaseResource implements ArrayAccess
         'email' => 'email',
         'fullname' => 'fullname',
         'id' => 'id',
+        'last_activity' => 'last_activity',
         'last_updated' => 'last_updated',
         'member_since' => 'member_since',
         'username' => 'username'
@@ -95,6 +118,7 @@ class UserBaseResource implements ArrayAccess
         'email' => 'setEmail',
         'fullname' => 'setFullname',
         'id' => 'setId',
+        'last_activity' => 'setLastActivity',
         'last_updated' => 'setLastUpdated',
         'member_since' => 'setMemberSince',
         'username' => 'setUsername'
@@ -111,6 +135,7 @@ class UserBaseResource implements ArrayAccess
         'email' => 'getEmail',
         'fullname' => 'getFullname',
         'id' => 'getId',
+        'last_activity' => 'getLastActivity',
         'last_updated' => 'getLastUpdated',
         'member_since' => 'getMemberSince',
         'username' => 'getUsername'
@@ -152,6 +177,7 @@ class UserBaseResource implements ArrayAccess
         $this->container['email'] = isset($data['email']) ? $data['email'] : null;
         $this->container['fullname'] = isset($data['fullname']) ? $data['fullname'] : null;
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
+        $this->container['last_activity'] = isset($data['last_activity']) ? $data['last_activity'] : null;
         $this->container['last_updated'] = isset($data['last_updated']) ? $data['last_updated'] : null;
         $this->container['member_since'] = isset($data['member_since']) ? $data['member_since'] : null;
         $this->container['username'] = isset($data['username']) ? $data['username'] : null;
@@ -295,6 +321,27 @@ class UserBaseResource implements ArrayAccess
     public function setId($id)
     {
         $this->container['id'] = $id;
+
+        return $this;
+    }
+
+    /**
+     * Gets last_activity
+     * @return int
+     */
+    public function getLastActivity()
+    {
+        return $this->container['last_activity'];
+    }
+
+    /**
+     * Sets last_activity
+     * @param int $last_activity The date the user last interacted with the API (private)
+     * @return $this
+     */
+    public function setLastActivity($last_activity)
+    {
+        $this->container['last_activity'] = $last_activity;
 
         return $this;
     }

@@ -42,7 +42,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **bre_global_resource** | [**\KnetikCloud\Model\BreGlobalResource**](../Model/\KnetikCloud\Model\BreGlobalResource.md)| The BRE global resource object | [optional]
+ **bre_global_resource** | [**\KnetikCloud\Model\BreGlobalResource**](../Model/BreGlobalResource.md)| The BRE global resource object | [optional]
 
 ### Return type
 
@@ -235,7 +235,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the global definition |
- **bre_global_resource** | [**\KnetikCloud\Model\BreGlobalResource**](../Model/\KnetikCloud\Model\BreGlobalResource.md)| The BRE global resource object | [optional]
+ **bre_global_resource** | [**\KnetikCloud\Model\BreGlobalResource**](../Model/BreGlobalResource.md)| The BRE global resource object | [optional]
 
 ### Return type
 

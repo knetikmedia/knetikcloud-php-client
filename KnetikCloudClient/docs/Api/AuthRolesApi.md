@@ -45,7 +45,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **role_resource** | [**\KnetikCloud\Model\RoleResource**](../Model/\KnetikCloud\Model\RoleResource.md)| The role resource object | [optional]
+ **role_resource** | [**\KnetikCloud\Model\RoleResource**](../Model/RoleResource.md)| The role resource object | [optional]
 
 ### Return type
 
@@ -312,7 +312,7 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 
 $api_instance = new KnetikCloud\Api\AuthRolesApi();
 $client_key = "client_key_example"; // string | The client key
-$roles_list = array(new string[]()); // string[] | The list of unique roles
+$roles_list = array(new \KnetikCloud\Model\string[]()); // string[] | The list of unique roles
 
 try {
     $result = $api_instance->setClientRoles($client_key, $roles_list);
@@ -360,7 +360,7 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 
 $api_instance = new KnetikCloud\Api\AuthRolesApi();
 $role = "role_example"; // string | The role value
-$permissions_list = array(new string[]()); // string[] | The list of unique permissions
+$permissions_list = array(new \KnetikCloud\Model\string[]()); // string[] | The list of unique permissions
 
 try {
     $result = $api_instance->setPermissionsForRole($role, $permissions_list);
@@ -408,7 +408,7 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 
 $api_instance = new KnetikCloud\Api\AuthRolesApi();
 $user_id = 56; // int | The user's id
-$roles_list = array(new string[]()); // string[] | The list of unique roles
+$roles_list = array(new \KnetikCloud\Model\string[]()); // string[] | The list of unique roles
 
 try {
     $result = $api_instance->setUserRoles($user_id, $roles_list);
@@ -472,7 +472,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **role** | **string**| The role value |
- **role_resource** | [**\KnetikCloud\Model\RoleResource**](../Model/\KnetikCloud\Model\RoleResource.md)| The role resource object | [optional]
+ **role_resource** | [**\KnetikCloud\Model\RoleResource**](../Model/RoleResource.md)| The role resource object | [optional]
 
 ### Return type
 

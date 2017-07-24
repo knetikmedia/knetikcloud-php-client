@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -123,7 +123,7 @@ class BRERuleEngineVariablesApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -175,7 +175,7 @@ class BRERuleEngineVariablesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceSimpleReferenceResourceObject_
      */
-    public function getBREVariableValues($name, $filter_name = null, $size = null, $page = null)
+    public function getBREVariableValues($name, $filter_name = null, $size = '25', $page = '1')
     {
         list($response) = $this->getBREVariableValuesWithHttpInfo($name, $filter_name, $size, $page);
         return $response;
@@ -193,7 +193,7 @@ class BRERuleEngineVariablesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceSimpleReferenceResourceObject_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getBREVariableValuesWithHttpInfo($name, $filter_name = null, $size = null, $page = null)
+    public function getBREVariableValuesWithHttpInfo($name, $filter_name = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'name' is set
         if ($name === null) {
@@ -231,7 +231,7 @@ class BRERuleEngineVariablesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

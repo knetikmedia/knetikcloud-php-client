@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -49,7 +49,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -57,7 +56,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -65,7 +63,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -73,7 +70,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -84,7 +80,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddUserTag()
     {
-
     }
 
     /**
@@ -95,7 +90,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateUserTemplate()
     {
-
     }
 
     /**
@@ -106,7 +100,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteUserTemplate()
     {
-
     }
 
     /**
@@ -117,7 +110,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUser()
     {
-
     }
 
     /**
@@ -128,7 +120,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUserTags()
     {
-
     }
 
     /**
@@ -139,7 +130,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUserTemplate()
     {
-
     }
 
     /**
@@ -150,7 +140,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUserTemplates()
     {
-
     }
 
     /**
@@ -161,7 +150,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUsers()
     {
-
     }
 
     /**
@@ -172,7 +160,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testPasswordReset()
     {
-
     }
 
     /**
@@ -183,7 +170,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisterUser()
     {
-
     }
 
     /**
@@ -194,7 +180,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoveUserTag()
     {
-
     }
 
     /**
@@ -205,7 +190,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetPassword()
     {
-
     }
 
     /**
@@ -216,7 +200,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testStartPasswordReset()
     {
-
     }
 
     /**
@@ -227,7 +210,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testSubmitPasswordReset()
     {
-
     }
 
     /**
@@ -238,7 +220,6 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateUser()
     {
-
     }
 
     /**
@@ -249,7 +230,5 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateUserTemplate()
     {
-
     }
-
 }

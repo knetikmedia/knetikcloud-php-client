@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvoiceResource()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyBillingAddress1()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyBillingAddress2()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyBillingCityName()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyBillingCountryName()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyBillingFullName()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyBillingPostalCode()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyBillingStateName()
     {
-
     }
 
     /**
@@ -143,7 +131,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCartId()
     {
-
     }
 
     /**
@@ -151,7 +138,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCreatedDate()
     {
-
     }
 
     /**
@@ -159,7 +145,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCurrency()
     {
-
     }
 
     /**
@@ -167,7 +152,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCurrentFulfillmentStatus()
     {
-
     }
 
     /**
@@ -175,7 +159,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCurrentPaymentStatus()
     {
-
     }
 
     /**
@@ -183,7 +166,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyDiscount()
     {
-
     }
 
     /**
@@ -191,7 +173,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyEmail()
     {
-
     }
 
     /**
@@ -199,7 +180,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyExternalRef()
     {
-
     }
 
     /**
@@ -207,7 +187,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyFedTax()
     {
-
     }
 
     /**
@@ -215,7 +194,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyGrandTotal()
     {
-
     }
 
     /**
@@ -223,7 +201,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyId()
     {
-
     }
 
     /**
@@ -231,7 +208,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyInvoiceNumber()
     {
-
     }
 
     /**
@@ -239,7 +215,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyItems()
     {
-
     }
 
     /**
@@ -247,7 +222,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyNamePrefix()
     {
-
     }
 
     /**
@@ -255,7 +229,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyOrderNotes()
     {
-
     }
 
     /**
@@ -263,7 +236,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyParentInvoiceId()
     {
-
     }
 
     /**
@@ -271,7 +243,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPaymentMethodId()
     {
-
     }
 
     /**
@@ -279,7 +250,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPhone()
     {
-
     }
 
     /**
@@ -287,7 +257,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPhoneNumber()
     {
-
     }
 
     /**
@@ -295,7 +264,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShipping()
     {
-
     }
 
     /**
@@ -303,7 +271,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShippingAddress1()
     {
-
     }
 
     /**
@@ -311,7 +278,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShippingAddress2()
     {
-
     }
 
     /**
@@ -319,7 +285,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShippingCityName()
     {
-
     }
 
     /**
@@ -327,7 +292,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShippingCountryName()
     {
-
     }
 
     /**
@@ -335,7 +299,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShippingFullName()
     {
-
     }
 
     /**
@@ -343,7 +306,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShippingPostalCode()
     {
-
     }
 
     /**
@@ -351,7 +313,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShippingStateName()
     {
-
     }
 
     /**
@@ -359,7 +320,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySort()
     {
-
     }
 
     /**
@@ -367,7 +327,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyStateTax()
     {
-
     }
 
     /**
@@ -375,7 +334,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySubtotal()
     {
-
     }
 
     /**
@@ -383,7 +341,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUpdatedDate()
     {
-
     }
 
     /**
@@ -391,7 +348,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUser()
     {
-
     }
 
     /**
@@ -399,7 +355,6 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyVendorId()
     {
-
     }
 
     /**
@@ -407,7 +362,5 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyVendorName()
     {
-
     }
-
 }

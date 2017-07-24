@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -57,9 +57,22 @@ class NewCustomerEvent extends BroadcastableEvent implements ArrayAccess
         'customer_config' => '\KnetikCloud\Model\CustomerConfig'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'customer_config' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes + parent::swaggerTypes();
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats + parent::swaggerFormats();
     }
 
     /**

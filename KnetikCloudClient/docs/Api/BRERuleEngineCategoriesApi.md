@@ -45,7 +45,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **template** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The category template to create | [optional]
+ **template** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The category template to create | [optional]
 
 ### Return type
 
@@ -332,7 +332,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **string**| The category name |
- **category** | [**\KnetikCloud\Model\BreCategoryResource**](../Model/\KnetikCloud\Model\BreCategoryResource.md)| The updated BRE category information | [optional]
+ **category** | [**\KnetikCloud\Model\BreCategoryResource**](../Model/BreCategoryResource.md)| The updated BRE category information | [optional]
 
 ### Return type
 
@@ -380,7 +380,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **template** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The updated category template definition | [optional]
+ **template** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The updated category template definition | [optional]
 
 ### Return type
 

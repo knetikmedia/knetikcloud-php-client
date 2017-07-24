@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -303,7 +303,7 @@ class StoreVendorsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -395,7 +395,7 @@ class StoreVendorsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -481,7 +481,7 @@ class StoreVendorsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -567,7 +567,7 @@ class StoreVendorsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -618,7 +618,7 @@ class StoreVendorsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceItemTemplateResource_
      */
-    public function getVendorTemplates($size = null, $page = null, $order = null)
+    public function getVendorTemplates($size = '25', $page = '1', $order = '1')
     {
         list($response) = $this->getVendorTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -635,7 +635,7 @@ class StoreVendorsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceItemTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getVendorTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getVendorTemplatesWithHttpInfo($size = '25', $page = '1', $order = '1')
     {
         // parse inputs
         $resourcePath = "/vendors/templates";
@@ -661,7 +661,7 @@ class StoreVendorsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -713,7 +713,7 @@ class StoreVendorsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceVendorResource_
      */
-    public function getVendors($filter_name = null, $size = null, $page = null, $order = null)
+    public function getVendors($filter_name = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getVendorsWithHttpInfo($filter_name, $size, $page, $order);
         return $response;
@@ -731,7 +731,7 @@ class StoreVendorsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceVendorResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getVendorsWithHttpInfo($filter_name = null, $size = null, $page = null, $order = null)
+    public function getVendorsWithHttpInfo($filter_name = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/vendors";
@@ -761,7 +761,7 @@ class StoreVendorsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

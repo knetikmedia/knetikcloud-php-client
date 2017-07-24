@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -99,7 +99,7 @@ class ReportingChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceChallengeEventParticipantResource_
      */
-    public function getChallengeEventLeaderboard($filter_event = null, $size = null, $page = null, $order = null)
+    public function getChallengeEventLeaderboard($filter_event = null, $size = '25', $page = '1', $order = null)
     {
         list($response) = $this->getChallengeEventLeaderboardWithHttpInfo($filter_event, $size, $page, $order);
         return $response;
@@ -117,7 +117,7 @@ class ReportingChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceChallengeEventParticipantResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getChallengeEventLeaderboardWithHttpInfo($filter_event = null, $size = null, $page = null, $order = null)
+    public function getChallengeEventLeaderboardWithHttpInfo($filter_event = null, $size = '25', $page = '1', $order = null)
     {
         // parse inputs
         $resourcePath = "/reporting/events/leaderboard";
@@ -147,7 +147,7 @@ class ReportingChallengesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -199,7 +199,7 @@ class ReportingChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceChallengeEventParticipantResource_
      */
-    public function getChallengeEventParticipants($filter_event = null, $size = null, $page = null, $order = null)
+    public function getChallengeEventParticipants($filter_event = null, $size = '25', $page = '1', $order = null)
     {
         list($response) = $this->getChallengeEventParticipantsWithHttpInfo($filter_event, $size, $page, $order);
         return $response;
@@ -217,7 +217,7 @@ class ReportingChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceChallengeEventParticipantResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getChallengeEventParticipantsWithHttpInfo($filter_event = null, $size = null, $page = null, $order = null)
+    public function getChallengeEventParticipantsWithHttpInfo($filter_event = null, $size = '25', $page = '1', $order = null)
     {
         // parse inputs
         $resourcePath = "/reporting/events/participants";
@@ -247,7 +247,7 @@ class ReportingChallengesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

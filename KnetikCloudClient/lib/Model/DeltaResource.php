@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -62,9 +62,27 @@ class DeltaResource implements ArrayAccess
         'updated_date' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'category_id' => null,
+        'media_type' => null,
+        'question_id' => null,
+        'state' => null,
+        'tags' => null,
+        'updated_date' => 'int64'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -170,9 +188,12 @@ class DeltaResource implements ArrayAccess
     {
         $invalid_properties = [];
 
-        $allowed_values = ["UPDATED", "REMOVED"];
+        $allowed_values = $this->getStateAllowableValues();
         if (!in_array($this->container['state'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'state', must be one of 'UPDATED', 'REMOVED'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'state', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -187,7 +208,7 @@ class DeltaResource implements ArrayAccess
     public function valid()
     {
 
-        $allowed_values = ["UPDATED", "REMOVED"];
+        $allowed_values = $this->getStateAllowableValues();
         if (!in_array($this->container['state'], $allowed_values)) {
             return false;
         }
@@ -274,9 +295,14 @@ class DeltaResource implements ArrayAccess
      */
     public function setState($state)
     {
-        $allowed_values = array('UPDATED', 'REMOVED');
-        if (!is_null($state) && (!in_array($state, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'state', must be one of 'UPDATED', 'REMOVED'");
+        $allowed_values = $this->getStateAllowableValues();
+        if (!is_null($state) && !in_array($state, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'state', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['state'] = $state;
 

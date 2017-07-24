@@ -9,13 +9,13 @@ Method | HTTP request | Description
 [**createChallengeActivityTemplate**](CampaignsChallengesApi.md#createChallengeActivityTemplate) | **POST** /challenge-activities/templates | Create a challenge activity template
 [**createChallengeTemplate**](CampaignsChallengesApi.md#createChallengeTemplate) | **POST** /challenges/templates | Create a challenge template
 [**deleteChallenge**](CampaignsChallengesApi.md#deleteChallenge) | **DELETE** /challenges/{id} | Delete a challenge
-[**deleteChallengeActivity**](CampaignsChallengesApi.md#deleteChallengeActivity) | **DELETE** /challenges/{challenge_id}/activities/{activity_id} | Delete a challenge activity
+[**deleteChallengeActivity**](CampaignsChallengesApi.md#deleteChallengeActivity) | **DELETE** /challenges/{challenge_id}/activities/{id} | Delete a challenge activity
 [**deleteChallengeActivityTemplate**](CampaignsChallengesApi.md#deleteChallengeActivityTemplate) | **DELETE** /challenge-activities/templates/{id} | Delete a challenge activity template
 [**deleteChallengeEvent**](CampaignsChallengesApi.md#deleteChallengeEvent) | **DELETE** /challenges/events/{id} | Delete a challenge event
 [**deleteChallengeTemplate**](CampaignsChallengesApi.md#deleteChallengeTemplate) | **DELETE** /challenges/templates/{id} | Delete a challenge template
 [**getChallenge**](CampaignsChallengesApi.md#getChallenge) | **GET** /challenges/{id} | Retrieve a challenge
 [**getChallengeActivities**](CampaignsChallengesApi.md#getChallengeActivities) | **GET** /challenges/{challenge_id}/activities | List and search challenge activities
-[**getChallengeActivity**](CampaignsChallengesApi.md#getChallengeActivity) | **GET** /challenges/{challenge_id}/activities/{activity_id} | Get a single challenge activity
+[**getChallengeActivity**](CampaignsChallengesApi.md#getChallengeActivity) | **GET** /challenges/{challenge_id}/activities/{id} | Get a single challenge activity
 [**getChallengeActivityTemplate**](CampaignsChallengesApi.md#getChallengeActivityTemplate) | **GET** /challenge-activities/templates/{id} | Get a single challenge activity template
 [**getChallengeActivityTemplates**](CampaignsChallengesApi.md#getChallengeActivityTemplates) | **GET** /challenge-activities/templates | List and search challenge activity templates
 [**getChallengeEvent**](CampaignsChallengesApi.md#getChallengeEvent) | **GET** /challenges/events/{id} | Retrieve a single challenge event details
@@ -24,7 +24,7 @@ Method | HTTP request | Description
 [**getChallengeTemplates**](CampaignsChallengesApi.md#getChallengeTemplates) | **GET** /challenges/templates | List and search challenge templates
 [**getChallenges**](CampaignsChallengesApi.md#getChallenges) | **GET** /challenges | Retrieve a list of challenges
 [**updateChallenge**](CampaignsChallengesApi.md#updateChallenge) | **PUT** /challenges/{id} | Update a challenge
-[**updateChallengeActivity**](CampaignsChallengesApi.md#updateChallengeActivity) | **PUT** /challenges/{challenge_id}/activities/{activity_id} | Update a challenge activity
+[**updateChallengeActivity**](CampaignsChallengesApi.md#updateChallengeActivity) | **PUT** /challenges/{challenge_id}/activities/{id} | Update a challenge activity
 [**updateChallengeActivityTemplate**](CampaignsChallengesApi.md#updateChallengeActivityTemplate) | **PUT** /challenge-activities/templates/{id} | Update an challenge activity template
 [**updateChallengeTemplate**](CampaignsChallengesApi.md#updateChallengeTemplate) | **PUT** /challenges/templates/{id} | Update a challenge template
 
@@ -60,7 +60,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **challenge_resource** | [**\KnetikCloud\Model\ChallengeResource**](../Model/\KnetikCloud\Model\ChallengeResource.md)| The challenge resource object | [optional]
+ **challenge_resource** | [**\KnetikCloud\Model\ChallengeResource**](../Model/ChallengeResource.md)| The challenge resource object | [optional]
 
 ### Return type
 
@@ -109,7 +109,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **challenge_id** | **int**| The challenge id |
- **challenge_activity_resource** | [**\KnetikCloud\Model\ChallengeActivityResource**](../Model/\KnetikCloud\Model\ChallengeActivityResource.md)| The challenge activity resource object | [optional]
+ **challenge_activity_resource** | [**\KnetikCloud\Model\ChallengeActivityResource**](../Model/ChallengeActivityResource.md)| The challenge activity resource object | [optional]
  **validate_settings** | **bool**| Whether to validate the settings being sent against the available settings on the base activity. | [optional] [default to false]
 
 ### Return type
@@ -158,7 +158,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **challenge_activity_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The challengeActivity template resource object | [optional]
+ **challenge_activity_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The challengeActivity template resource object | [optional]
 
 ### Return type
 
@@ -206,7 +206,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **challenge_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The challenge template resource object | [optional]
+ **challenge_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The challenge template resource object | [optional]
 
 ### Return type
 
@@ -269,9 +269,11 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **deleteChallengeActivity**
-> deleteChallengeActivity($activity_id, $challenge_id)
+> deleteChallengeActivity($id, $challenge_id)
 
 Delete a challenge activity
+
+A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge
 
 ### Example
 ```php
@@ -282,11 +284,11 @@ require_once(__DIR__ . '/vendor/autoload.php');
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
-$activity_id = 789; // int | The activity id
+$id = 789; // int | The challenge_activity id
 $challenge_id = 789; // int | The challenge id
 
 try {
-    $api_instance->deleteChallengeActivity($activity_id, $challenge_id);
+    $api_instance->deleteChallengeActivity($id, $challenge_id);
 } catch (Exception $e) {
     echo 'Exception when calling CampaignsChallengesApi->deleteChallengeActivity: ', $e->getMessage(), PHP_EOL;
 }
@@ -297,7 +299,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **activity_id** | **int**| The activity id |
+ **id** | **int**| The challenge_activity id |
  **challenge_id** | **int**| The challenge id |
 
 ### Return type
@@ -551,9 +553,11 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getChallengeActivity**
-> \KnetikCloud\Model\ChallengeActivityResource getChallengeActivity($activity_id)
+> \KnetikCloud\Model\ChallengeActivityResource getChallengeActivity($id, $challenge_id)
 
 Get a single challenge activity
+
+A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge
 
 ### Example
 ```php
@@ -561,10 +565,11 @@ Get a single challenge activity
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
-$activity_id = 789; // int | The activity id
+$id = 789; // int | The challenge_activity id
+$challenge_id = 789; // int | The challenge id
 
 try {
-    $result = $api_instance->getChallengeActivity($activity_id);
+    $result = $api_instance->getChallengeActivity($id, $challenge_id);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling CampaignsChallengesApi->getChallengeActivity: ', $e->getMessage(), PHP_EOL;
@@ -576,7 +581,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **activity_id** | **int**| The activity id |
+ **id** | **int**| The challenge_activity id |
+ **challenge_id** | **int**| The challenge id |
 
 ### Return type
 
@@ -971,7 +977,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The challenge id |
- **challenge_resource** | [**\KnetikCloud\Model\ChallengeResource**](../Model/\KnetikCloud\Model\ChallengeResource.md)| The challenge resource object | [optional]
+ **challenge_resource** | [**\KnetikCloud\Model\ChallengeResource**](../Model/ChallengeResource.md)| The challenge resource object | [optional]
 
 ### Return type
 
@@ -989,9 +995,11 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **updateChallengeActivity**
-> \KnetikCloud\Model\ChallengeActivityResource updateChallengeActivity($activity_id, $challenge_id, $challenge_activity_resource)
+> \KnetikCloud\Model\ChallengeActivityResource updateChallengeActivity($id, $challenge_id, $challenge_activity_resource)
 
 Update a challenge activity
+
+A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge
 
 ### Example
 ```php
@@ -1002,12 +1010,12 @@ require_once(__DIR__ . '/vendor/autoload.php');
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
-$activity_id = 789; // int | The activity id
+$id = 789; // int | The challenge_activity id
 $challenge_id = 789; // int | The challenge id
 $challenge_activity_resource = new \KnetikCloud\Model\ChallengeActivityResource(); // \KnetikCloud\Model\ChallengeActivityResource | The challenge activity resource object
 
 try {
-    $result = $api_instance->updateChallengeActivity($activity_id, $challenge_id, $challenge_activity_resource);
+    $result = $api_instance->updateChallengeActivity($id, $challenge_id, $challenge_activity_resource);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling CampaignsChallengesApi->updateChallengeActivity: ', $e->getMessage(), PHP_EOL;
@@ -1019,9 +1027,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **activity_id** | **int**| The activity id |
+ **id** | **int**| The challenge_activity id |
  **challenge_id** | **int**| The challenge id |
- **challenge_activity_resource** | [**\KnetikCloud\Model\ChallengeActivityResource**](../Model/\KnetikCloud\Model\ChallengeActivityResource.md)| The challenge activity resource object | [optional]
+ **challenge_activity_resource** | [**\KnetikCloud\Model\ChallengeActivityResource**](../Model/ChallengeActivityResource.md)| The challenge activity resource object | [optional]
 
 ### Return type
 
@@ -1069,7 +1077,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **challenge_activity_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The challengeActivity template resource object | [optional]
+ **challenge_activity_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The challengeActivity template resource object | [optional]
 
 ### Return type
 
@@ -1117,7 +1125,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **challenge_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The challenge template resource object | [optional]
+ **challenge_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The challenge template resource object | [optional]
 
 ### Return type
 

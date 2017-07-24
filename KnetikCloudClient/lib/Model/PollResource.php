@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -67,9 +67,32 @@ class PollResource implements ArrayAccess
         'updated_date' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'active' => null,
+        'additional_properties' => null,
+        'answers' => null,
+        'category' => null,
+        'created_date' => 'int64',
+        'id' => null,
+        'tags' => null,
+        'template' => null,
+        'text' => null,
+        'type' => null,
+        'updated_date' => 'int64'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -214,9 +237,12 @@ class PollResource implements ArrayAccess
         if ($this->container['type'] === null) {
             $invalid_properties[] = "'type' can't be null";
         }
-        $allowed_values = ["TEXT", "IMAGE", "VIDEO", "AUDIO"];
+        $allowed_values = $this->getTypeAllowableValues();
         if (!in_array($this->container['type'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'type', must be one of 'TEXT', 'IMAGE', 'VIDEO', 'AUDIO'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'type', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -246,7 +272,7 @@ class PollResource implements ArrayAccess
         if ($this->container['type'] === null) {
             return false;
         }
-        $allowed_values = ["TEXT", "IMAGE", "VIDEO", "AUDIO"];
+        $allowed_values = $this->getTypeAllowableValues();
         if (!in_array($this->container['type'], $allowed_values)) {
             return false;
         }
@@ -459,9 +485,14 @@ class PollResource implements ArrayAccess
      */
     public function setType($type)
     {
-        $allowed_values = array('TEXT', 'IMAGE', 'VIDEO', 'AUDIO');
-        if ((!in_array($type, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'type', must be one of 'TEXT', 'IMAGE', 'VIDEO', 'AUDIO'");
+        $allowed_values = $this->getTypeAllowableValues();
+        if (!in_array($type, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'type', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['type'] = $type;
 

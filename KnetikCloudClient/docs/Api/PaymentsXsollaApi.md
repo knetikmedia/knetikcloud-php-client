@@ -37,7 +37,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**\KnetikCloud\Model\XsollaPaymentRequest**](../Model/\KnetikCloud\Model\XsollaPaymentRequest.md)| The payment request to be sent to XSolla | [optional]
+ **request** | [**\KnetikCloud\Model\XsollaPaymentRequest**](../Model/XsollaPaymentRequest.md)| The payment request to be sent to XSolla | [optional]
 
 ### Return type
 

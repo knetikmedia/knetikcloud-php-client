@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testCouponDefinition()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCode()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyDescription()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyDiscountType()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyExclusive()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyMaxDiscount()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyMaxQuantity()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyMinCartTotal()
     {
-
     }
 
     /**
@@ -143,7 +131,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyName()
     {
-
     }
 
     /**
@@ -151,7 +138,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySelfExclusive()
     {
-
     }
 
     /**
@@ -159,7 +145,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyTargetItemId()
     {
-
     }
 
     /**
@@ -167,7 +152,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyType()
     {
-
     }
 
     /**
@@ -175,7 +159,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUniqueKey()
     {
-
     }
 
     /**
@@ -183,7 +166,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyValidForTags()
     {
-
     }
 
     /**
@@ -191,7 +173,6 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyValue()
     {
-
     }
 
     /**
@@ -199,7 +180,5 @@ class CouponDefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyVendorId()
     {
-
     }
-
 }

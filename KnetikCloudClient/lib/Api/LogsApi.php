@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -216,7 +216,7 @@ class LogsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -270,7 +270,7 @@ class LogsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceBreEventLog_
      */
-    public function getBREEventLogs($filter_start_date = null, $filter_event_name = null, $filter_event_id = null, $size = null, $page = null, $order = null)
+    public function getBREEventLogs($filter_start_date = null, $filter_event_name = null, $filter_event_id = null, $size = '25', $page = '1', $order = 'id:DESC')
     {
         list($response) = $this->getBREEventLogsWithHttpInfo($filter_start_date, $filter_event_name, $filter_event_id, $size, $page, $order);
         return $response;
@@ -290,7 +290,7 @@ class LogsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceBreEventLog_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getBREEventLogsWithHttpInfo($filter_start_date = null, $filter_event_name = null, $filter_event_id = null, $size = null, $page = null, $order = null)
+    public function getBREEventLogsWithHttpInfo($filter_start_date = null, $filter_event_name = null, $filter_event_id = null, $size = '25', $page = '1', $order = 'id:DESC')
     {
         // parse inputs
         $resourcePath = "/bre/logs/event-log";
@@ -328,7 +328,7 @@ class LogsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -418,7 +418,7 @@ class LogsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -472,7 +472,7 @@ class LogsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceForwardLog_
      */
-    public function getBREForwardLogs($filter_start_date = null, $filter_end_date = null, $filter_status_code = null, $size = null, $page = null, $order = null)
+    public function getBREForwardLogs($filter_start_date = null, $filter_end_date = null, $filter_status_code = null, $size = '25', $page = '1', $order = 'id:DESC')
     {
         list($response) = $this->getBREForwardLogsWithHttpInfo($filter_start_date, $filter_end_date, $filter_status_code, $size, $page, $order);
         return $response;
@@ -492,7 +492,7 @@ class LogsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceForwardLog_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getBREForwardLogsWithHttpInfo($filter_start_date = null, $filter_end_date = null, $filter_status_code = null, $size = null, $page = null, $order = null)
+    public function getBREForwardLogsWithHttpInfo($filter_start_date = null, $filter_end_date = null, $filter_status_code = null, $size = '25', $page = '1', $order = 'id:DESC')
     {
         // parse inputs
         $resourcePath = "/bre/logs/forward-log";
@@ -530,7 +530,7 @@ class LogsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -620,7 +620,7 @@ class LogsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -673,7 +673,7 @@ class LogsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceUserActionLog_
      */
-    public function getUserLogs($filter_user = null, $filter_action_name = null, $size = null, $page = null, $order = null)
+    public function getUserLogs($filter_user = null, $filter_action_name = null, $size = '25', $page = '1', $order = 'timestamp:DESC')
     {
         list($response) = $this->getUserLogsWithHttpInfo($filter_user, $filter_action_name, $size, $page, $order);
         return $response;
@@ -692,7 +692,7 @@ class LogsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceUserActionLog_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUserLogsWithHttpInfo($filter_user = null, $filter_action_name = null, $size = null, $page = null, $order = null)
+    public function getUserLogsWithHttpInfo($filter_user = null, $filter_action_name = null, $size = '25', $page = '1', $order = 'timestamp:DESC')
     {
         // parse inputs
         $resourcePath = "/audit/logs";
@@ -726,7 +726,7 @@ class LogsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

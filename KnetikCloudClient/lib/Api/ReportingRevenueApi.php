@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -149,7 +149,7 @@ class ReportingRevenueApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -251,7 +251,7 @@ class ReportingRevenueApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -304,7 +304,7 @@ class ReportingRevenueApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceRevenueCountryReportResource_
      */
-    public function getRevenueByCountry($currency_code, $start_date = null, $end_date = null, $size = null, $page = null)
+    public function getRevenueByCountry($currency_code, $start_date = null, $end_date = null, $size = '25', $page = '1')
     {
         list($response) = $this->getRevenueByCountryWithHttpInfo($currency_code, $start_date, $end_date, $size, $page);
         return $response;
@@ -323,7 +323,7 @@ class ReportingRevenueApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceRevenueCountryReportResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getRevenueByCountryWithHttpInfo($currency_code, $start_date = null, $end_date = null, $size = null, $page = null)
+    public function getRevenueByCountryWithHttpInfo($currency_code, $start_date = null, $end_date = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'currency_code' is set
         if ($currency_code === null) {
@@ -365,7 +365,7 @@ class ReportingRevenueApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -418,7 +418,7 @@ class ReportingRevenueApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceRevenueProductReportResource_
      */
-    public function getRevenueByItem($currency_code, $start_date = null, $end_date = null, $size = null, $page = null)
+    public function getRevenueByItem($currency_code, $start_date = null, $end_date = null, $size = '25', $page = '1')
     {
         list($response) = $this->getRevenueByItemWithHttpInfo($currency_code, $start_date, $end_date, $size, $page);
         return $response;
@@ -437,7 +437,7 @@ class ReportingRevenueApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceRevenueProductReportResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getRevenueByItemWithHttpInfo($currency_code, $start_date = null, $end_date = null, $size = null, $page = null)
+    public function getRevenueByItemWithHttpInfo($currency_code, $start_date = null, $end_date = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'currency_code' is set
         if ($currency_code === null) {
@@ -479,7 +479,7 @@ class ReportingRevenueApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -581,7 +581,7 @@ class ReportingRevenueApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testCartShippingAddressRequest()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCity()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCountryCodeIso3()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyEmail()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyFirstName()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyLastName()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyNamePrefix()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyOrderNotes()
     {
-
     }
 
     /**
@@ -143,7 +131,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPhoneNumber()
     {
-
     }
 
     /**
@@ -151,7 +138,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPostalStateCode()
     {
-
     }
 
     /**
@@ -159,7 +145,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShippingAddressLine1()
     {
-
     }
 
     /**
@@ -167,7 +152,6 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShippingAddressLine2()
     {
-
     }
 
     /**
@@ -175,7 +159,5 @@ class CartShippingAddressRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyZip()
     {
-
     }
-
 }

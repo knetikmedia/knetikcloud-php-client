@@ -35,7 +35,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**\KnetikCloud\Model\GooglePaymentRequest**](../Model/\KnetikCloud\Model\GooglePaymentRequest.md)| The request for paying an invoice through a Google in-app payment | [optional]
+ **request** | [**\KnetikCloud\Model\GooglePaymentRequest**](../Model/GooglePaymentRequest.md)| The request for paying an invoice through a Google in-app payment | [optional]
 
 ### Return type
 

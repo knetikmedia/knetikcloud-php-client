@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -181,7 +181,7 @@ class CampaignsChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\ChallengeActivityResource
      */
-    public function createChallengeActivity($challenge_id, $challenge_activity_resource = null, $validate_settings = null)
+    public function createChallengeActivity($challenge_id, $challenge_activity_resource = null, $validate_settings = 'false')
     {
         list($response) = $this->createChallengeActivityWithHttpInfo($challenge_id, $challenge_activity_resource, $validate_settings);
         return $response;
@@ -198,7 +198,7 @@ class CampaignsChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\ChallengeActivityResource, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createChallengeActivityWithHttpInfo($challenge_id, $challenge_activity_resource = null, $validate_settings = null)
+    public function createChallengeActivityWithHttpInfo($challenge_id, $challenge_activity_resource = null, $validate_settings = 'false')
     {
         // verify the required parameter 'challenge_id' is set
         if ($challenge_id === null) {
@@ -489,7 +489,7 @@ class CampaignsChallengesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -530,14 +530,14 @@ class CampaignsChallengesApi
      *
      * Delete a challenge activity
      *
-     * @param int $activity_id The activity id (required)
+     * @param int $id The challenge_activity id (required)
      * @param int $challenge_id The challenge id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return void
      */
-    public function deleteChallengeActivity($activity_id, $challenge_id)
+    public function deleteChallengeActivity($id, $challenge_id)
     {
-        list($response) = $this->deleteChallengeActivityWithHttpInfo($activity_id, $challenge_id);
+        list($response) = $this->deleteChallengeActivityWithHttpInfo($id, $challenge_id);
         return $response;
     }
 
@@ -546,23 +546,23 @@ class CampaignsChallengesApi
      *
      * Delete a challenge activity
      *
-     * @param int $activity_id The activity id (required)
+     * @param int $id The challenge_activity id (required)
      * @param int $challenge_id The challenge id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function deleteChallengeActivityWithHttpInfo($activity_id, $challenge_id)
+    public function deleteChallengeActivityWithHttpInfo($id, $challenge_id)
     {
-        // verify the required parameter 'activity_id' is set
-        if ($activity_id === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $activity_id when calling deleteChallengeActivity');
+        // verify the required parameter 'id' is set
+        if ($id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $id when calling deleteChallengeActivity');
         }
         // verify the required parameter 'challenge_id' is set
         if ($challenge_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $challenge_id when calling deleteChallengeActivity');
         }
         // parse inputs
-        $resourcePath = "/challenges/{challenge_id}/activities/{activity_id}";
+        $resourcePath = "/challenges/{challenge_id}/activities/{id}";
         $httpBody = '';
         $queryParams = [];
         $headerParams = [];
@@ -574,10 +574,10 @@ class CampaignsChallengesApi
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
         // path params
-        if ($activity_id !== null) {
+        if ($id !== null) {
             $resourcePath = str_replace(
-                "{" . "activity_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($activity_id),
+                "{" . "id" . "}",
+                $this->apiClient->getSerializer()->toPathValue($id),
                 $resourcePath
             );
         }
@@ -589,7 +589,7 @@ class CampaignsChallengesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -609,7 +609,7 @@ class CampaignsChallengesApi
                 $httpBody,
                 $headerParams,
                 null,
-                '/challenges/{challenge_id}/activities/{activity_id}'
+                '/challenges/{challenge_id}/activities/{id}'
             );
 
             return [null, $statusCode, $httpHeader];
@@ -681,7 +681,7 @@ class CampaignsChallengesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -767,7 +767,7 @@ class CampaignsChallengesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -859,7 +859,7 @@ class CampaignsChallengesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -945,7 +945,7 @@ class CampaignsChallengesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -993,7 +993,7 @@ class CampaignsChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceBareChallengeActivityResource_
      */
-    public function getChallengeActivities($challenge_id, $size = null, $page = null, $order = null)
+    public function getChallengeActivities($challenge_id, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getChallengeActivitiesWithHttpInfo($challenge_id, $size, $page, $order);
         return $response;
@@ -1011,7 +1011,7 @@ class CampaignsChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceBareChallengeActivityResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getChallengeActivitiesWithHttpInfo($challenge_id, $size = null, $page = null, $order = null)
+    public function getChallengeActivitiesWithHttpInfo($challenge_id, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // verify the required parameter 'challenge_id' is set
         if ($challenge_id === null) {
@@ -1049,7 +1049,7 @@ class CampaignsChallengesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1090,13 +1090,14 @@ class CampaignsChallengesApi
      *
      * Get a single challenge activity
      *
-     * @param int $activity_id The activity id (required)
+     * @param int $id The challenge_activity id (required)
+     * @param int $challenge_id The challenge id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\ChallengeActivityResource
      */
-    public function getChallengeActivity($activity_id)
+    public function getChallengeActivity($id, $challenge_id)
     {
-        list($response) = $this->getChallengeActivityWithHttpInfo($activity_id);
+        list($response) = $this->getChallengeActivityWithHttpInfo($id, $challenge_id);
         return $response;
     }
 
@@ -1105,18 +1106,23 @@ class CampaignsChallengesApi
      *
      * Get a single challenge activity
      *
-     * @param int $activity_id The activity id (required)
+     * @param int $id The challenge_activity id (required)
+     * @param int $challenge_id The challenge id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\ChallengeActivityResource, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getChallengeActivityWithHttpInfo($activity_id)
+    public function getChallengeActivityWithHttpInfo($id, $challenge_id)
     {
-        // verify the required parameter 'activity_id' is set
-        if ($activity_id === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $activity_id when calling getChallengeActivity');
+        // verify the required parameter 'id' is set
+        if ($id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $id when calling getChallengeActivity');
+        }
+        // verify the required parameter 'challenge_id' is set
+        if ($challenge_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $challenge_id when calling getChallengeActivity');
         }
         // parse inputs
-        $resourcePath = "/challenges/{challenge_id}/activities/{activity_id}";
+        $resourcePath = "/challenges/{challenge_id}/activities/{id}";
         $httpBody = '';
         $queryParams = [];
         $headerParams = [];
@@ -1128,14 +1134,22 @@ class CampaignsChallengesApi
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
         // path params
-        if ($activity_id !== null) {
+        if ($id !== null) {
             $resourcePath = str_replace(
-                "{" . "activity_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($activity_id),
+                "{" . "id" . "}",
+                $this->apiClient->getSerializer()->toPathValue($id),
                 $resourcePath
             );
         }
-        
+        // path params
+        if ($challenge_id !== null) {
+            $resourcePath = str_replace(
+                "{" . "challenge_id" . "}",
+                $this->apiClient->getSerializer()->toPathValue($challenge_id),
+                $resourcePath
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1151,7 +1165,7 @@ class CampaignsChallengesApi
                 $httpBody,
                 $headerParams,
                 '\KnetikCloud\Model\ChallengeActivityResource',
-                '/challenges/{challenge_id}/activities/{activity_id}'
+                '/challenges/{challenge_id}/activities/{id}'
             );
 
             return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ChallengeActivityResource', $httpHeader), $statusCode, $httpHeader];
@@ -1221,7 +1235,7 @@ class CampaignsChallengesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1272,7 +1286,7 @@ class CampaignsChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceTemplateResource_
      */
-    public function getChallengeActivityTemplates($size = null, $page = null, $order = null)
+    public function getChallengeActivityTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getChallengeActivityTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -1289,7 +1303,7 @@ class CampaignsChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getChallengeActivityTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getChallengeActivityTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/challenge-activities/templates";
@@ -1315,7 +1329,7 @@ class CampaignsChallengesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1405,7 +1419,7 @@ class CampaignsChallengesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1456,7 +1470,7 @@ class CampaignsChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceChallengeEventResource_
      */
-    public function getChallengeEvents($filter_start_date = null, $filter_end_date = null, $filter_campaigns = null, $filter_challenge = null, $size = null, $page = null, $order = null)
+    public function getChallengeEvents($filter_start_date = null, $filter_end_date = null, $filter_campaigns = null, $filter_challenge = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getChallengeEventsWithHttpInfo($filter_start_date, $filter_end_date, $filter_campaigns, $filter_challenge, $size, $page, $order);
         return $response;
@@ -1477,7 +1491,7 @@ class CampaignsChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceChallengeEventResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getChallengeEventsWithHttpInfo($filter_start_date = null, $filter_end_date = null, $filter_campaigns = null, $filter_challenge = null, $size = null, $page = null, $order = null)
+    public function getChallengeEventsWithHttpInfo($filter_start_date = null, $filter_end_date = null, $filter_campaigns = null, $filter_challenge = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/challenges/events";
@@ -1519,7 +1533,7 @@ class CampaignsChallengesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1605,7 +1619,7 @@ class CampaignsChallengesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1656,7 +1670,7 @@ class CampaignsChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceTemplateResource_
      */
-    public function getChallengeTemplates($size = null, $page = null, $order = null)
+    public function getChallengeTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getChallengeTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -1673,7 +1687,7 @@ class CampaignsChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getChallengeTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getChallengeTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/challenges/templates";
@@ -1699,7 +1713,7 @@ class CampaignsChallengesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1754,7 +1768,7 @@ class CampaignsChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceChallengeResource_
      */
-    public function getChallenges($filter_template = null, $filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = null, $page = null, $order = null)
+    public function getChallenges($filter_template = null, $filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getChallengesWithHttpInfo($filter_template, $filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order);
         return $response;
@@ -1775,7 +1789,7 @@ class CampaignsChallengesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceChallengeResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getChallengesWithHttpInfo($filter_template = null, $filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = null, $page = null, $order = null)
+    public function getChallengesWithHttpInfo($filter_template = null, $filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/challenges";
@@ -1817,7 +1831,7 @@ class CampaignsChallengesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1955,15 +1969,15 @@ class CampaignsChallengesApi
      *
      * Update a challenge activity
      *
-     * @param int $activity_id The activity id (required)
+     * @param int $id The challenge_activity id (required)
      * @param int $challenge_id The challenge id (required)
      * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\ChallengeActivityResource
      */
-    public function updateChallengeActivity($activity_id, $challenge_id, $challenge_activity_resource = null)
+    public function updateChallengeActivity($id, $challenge_id, $challenge_activity_resource = null)
     {
-        list($response) = $this->updateChallengeActivityWithHttpInfo($activity_id, $challenge_id, $challenge_activity_resource);
+        list($response) = $this->updateChallengeActivityWithHttpInfo($id, $challenge_id, $challenge_activity_resource);
         return $response;
     }
 
@@ -1972,24 +1986,24 @@ class CampaignsChallengesApi
      *
      * Update a challenge activity
      *
-     * @param int $activity_id The activity id (required)
+     * @param int $id The challenge_activity id (required)
      * @param int $challenge_id The challenge id (required)
      * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\ChallengeActivityResource, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateChallengeActivityWithHttpInfo($activity_id, $challenge_id, $challenge_activity_resource = null)
+    public function updateChallengeActivityWithHttpInfo($id, $challenge_id, $challenge_activity_resource = null)
     {
-        // verify the required parameter 'activity_id' is set
-        if ($activity_id === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $activity_id when calling updateChallengeActivity');
+        // verify the required parameter 'id' is set
+        if ($id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $id when calling updateChallengeActivity');
         }
         // verify the required parameter 'challenge_id' is set
         if ($challenge_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $challenge_id when calling updateChallengeActivity');
         }
         // parse inputs
-        $resourcePath = "/challenges/{challenge_id}/activities/{activity_id}";
+        $resourcePath = "/challenges/{challenge_id}/activities/{id}";
         $httpBody = '';
         $queryParams = [];
         $headerParams = [];
@@ -2001,10 +2015,10 @@ class CampaignsChallengesApi
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
         // path params
-        if ($activity_id !== null) {
+        if ($id !== null) {
             $resourcePath = str_replace(
-                "{" . "activity_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($activity_id),
+                "{" . "id" . "}",
+                $this->apiClient->getSerializer()->toPathValue($id),
                 $resourcePath
             );
         }
@@ -2041,7 +2055,7 @@ class CampaignsChallengesApi
                 $httpBody,
                 $headerParams,
                 '\KnetikCloud\Model\ChallengeActivityResource',
-                '/challenges/{challenge_id}/activities/{activity_id}'
+                '/challenges/{challenge_id}/activities/{id}'
             );
 
             return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ChallengeActivityResource', $httpHeader), $statusCode, $httpHeader];

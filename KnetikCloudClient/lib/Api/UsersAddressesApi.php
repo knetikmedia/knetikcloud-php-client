@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -248,7 +248,7 @@ class UsersAddressesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -348,7 +348,7 @@ class UsersAddressesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -400,7 +400,7 @@ class UsersAddressesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceSavedAddressResource_
      */
-    public function getAddresses($user_id, $size = null, $page = null, $order = null)
+    public function getAddresses($user_id, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getAddressesWithHttpInfo($user_id, $size, $page, $order);
         return $response;
@@ -418,7 +418,7 @@ class UsersAddressesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceSavedAddressResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getAddressesWithHttpInfo($user_id, $size = null, $page = null, $order = null)
+    public function getAddressesWithHttpInfo($user_id, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -456,7 +456,7 @@ class UsersAddressesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

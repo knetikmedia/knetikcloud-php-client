@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -66,9 +66,31 @@ class GroupResource implements ArrayAccess
         'unique_name' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'additional_properties' => null,
+        'description' => null,
+        'member_count' => 'int32',
+        'message_of_the_day' => null,
+        'name' => null,
+        'parent' => null,
+        'status' => null,
+        'sub_member_count' => 'int32',
+        'template' => null,
+        'unique_name' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -196,9 +218,12 @@ class GroupResource implements ArrayAccess
         if ($this->container['status'] === null) {
             $invalid_properties[] = "'status' can't be null";
         }
-        $allowed_values = ["open", "closed"];
+        $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'status', must be one of 'open', 'closed'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'status', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         if ($this->container['unique_name'] === null) {
@@ -222,7 +247,7 @@ class GroupResource implements ArrayAccess
         if ($this->container['status'] === null) {
             return false;
         }
-        $allowed_values = ["open", "closed"];
+        $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
             return false;
         }
@@ -375,9 +400,14 @@ class GroupResource implements ArrayAccess
      */
     public function setStatus($status)
     {
-        $allowed_values = array('open', 'closed');
-        if ((!in_array($status, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'open', 'closed'");
+        $allowed_values = $this->getStatusAllowableValues();
+        if (!in_array($status, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'status', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['status'] = $status;
 

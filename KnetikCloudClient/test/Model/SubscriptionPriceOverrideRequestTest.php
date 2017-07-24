@@ -1,6 +1,6 @@
 <?php
 /**
- * ARequestToResetAUserSPasswordByUsingAKnownUserPropertyTest
+ * SubscriptionPriceOverrideRequestTest
  *
  * PHP version 5
  *
@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -30,16 +30,16 @@
 namespace KnetikCloud;
 
 /**
- * ARequestToResetAUserSPasswordByUsingAKnownUserPropertyTest Class Doc Comment
+ * SubscriptionPriceOverrideRequestTest Class Doc Comment
  *
  * @category    Class */
-// * @description ARequestToResetAUserSPasswordByUsingAKnownUserProperty
+// * @description SubscriptionPriceOverrideRequest
 /**
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class ARequestToResetAUserSPasswordByUsingAKnownUserPropertyTest extends \PHPUnit_Framework_TestCase
+class SubscriptionPriceOverrideRequestTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -47,7 +47,6 @@ class ARequestToResetAUserSPasswordByUsingAKnownUserPropertyTest extends \PHPUni
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class ARequestToResetAUserSPasswordByUsingAKnownUserPropertyTest extends \PHPUni
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class ARequestToResetAUserSPasswordByUsingAKnownUserPropertyTest extends \PHPUni
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,39 +68,26 @@ class ARequestToResetAUserSPasswordByUsingAKnownUserPropertyTest extends \PHPUni
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
-     * Test "ARequestToResetAUserSPasswordByUsingAKnownUserProperty"
+     * Test "SubscriptionPriceOverrideRequest"
      */
-    public function testARequestToResetAUserSPasswordByUsingAKnownUserProperty()
+    public function testSubscriptionPriceOverrideRequest()
     {
-
     }
 
     /**
-     * Test attribute "email"
+     * Test attribute "new_price"
      */
-    public function testPropertyEmail()
+    public function testPropertyNewPrice()
     {
-
     }
 
     /**
-     * Test attribute "mobile_number"
+     * Test attribute "reason"
      */
-    public function testPropertyMobileNumber()
+    public function testPropertyReason()
     {
-
     }
-
-    /**
-     * Test attribute "username"
-     */
-    public function testPropertyUsername()
-    {
-
-    }
-
 }

@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -103,7 +103,7 @@ class ReportingOrdersApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceAggregateInvoiceReportResource_
      */
-    public function getInvoiceReports($currency_code, $granularity = null, $filter_payment_status = null, $filter_fulfillment_status = null, $start_date = null, $end_date = null, $size = null, $page = null)
+    public function getInvoiceReports($currency_code, $granularity = 'day', $filter_payment_status = null, $filter_fulfillment_status = null, $start_date = null, $end_date = null, $size = '25', $page = '1')
     {
         list($response) = $this->getInvoiceReportsWithHttpInfo($currency_code, $granularity, $filter_payment_status, $filter_fulfillment_status, $start_date, $end_date, $size, $page);
         return $response;
@@ -125,7 +125,7 @@ class ReportingOrdersApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceAggregateInvoiceReportResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getInvoiceReportsWithHttpInfo($currency_code, $granularity = null, $filter_payment_status = null, $filter_fulfillment_status = null, $start_date = null, $end_date = null, $size = null, $page = null)
+    public function getInvoiceReportsWithHttpInfo($currency_code, $granularity = 'day', $filter_payment_status = null, $filter_fulfillment_status = null, $start_date = null, $end_date = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'currency_code' is set
         if ($currency_code === null) {
@@ -179,7 +179,7 @@ class ReportingOrdersApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

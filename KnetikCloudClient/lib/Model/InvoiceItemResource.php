@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -54,7 +54,6 @@ class InvoiceItemResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'affiliate_id' => 'int',
         'bundle_sku' => 'string',
         'current_fulfillment_status' => 'string',
         'id' => 'int',
@@ -73,9 +72,37 @@ class InvoiceItemResource implements ArrayAccess
         'unit_price' => 'double'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'bundle_sku' => null,
+        'current_fulfillment_status' => null,
+        'id' => 'int32',
+        'invoice_id' => 'int32',
+        'item_id' => 'int32',
+        'item_name' => null,
+        'original_total_price' => 'double',
+        'original_unit_price' => 'double',
+        'qty' => 'int32',
+        'sale_name' => null,
+        'sku' => null,
+        'sku_description' => null,
+        'system_price' => 'double',
+        'total_price' => 'double',
+        'type_hint' => null,
+        'unit_price' => 'double'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -83,7 +110,6 @@ class InvoiceItemResource implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'affiliate_id' => 'affiliate_id',
         'bundle_sku' => 'bundle_sku',
         'current_fulfillment_status' => 'current_fulfillment_status',
         'id' => 'id',
@@ -108,7 +134,6 @@ class InvoiceItemResource implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'affiliate_id' => 'setAffiliateId',
         'bundle_sku' => 'setBundleSku',
         'current_fulfillment_status' => 'setCurrentFulfillmentStatus',
         'id' => 'setId',
@@ -133,7 +158,6 @@ class InvoiceItemResource implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'affiliate_id' => 'getAffiliateId',
         'bundle_sku' => 'getBundleSku',
         'current_fulfillment_status' => 'getCurrentFulfillmentStatus',
         'id' => 'getId',
@@ -183,7 +207,6 @@ class InvoiceItemResource implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['affiliate_id'] = isset($data['affiliate_id']) ? $data['affiliate_id'] : null;
         $this->container['bundle_sku'] = isset($data['bundle_sku']) ? $data['bundle_sku'] : null;
         $this->container['current_fulfillment_status'] = isset($data['current_fulfillment_status']) ? $data['current_fulfillment_status'] : null;
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
@@ -226,27 +249,6 @@ class InvoiceItemResource implements ArrayAccess
         return true;
     }
 
-
-    /**
-     * Gets affiliate_id
-     * @return int
-     */
-    public function getAffiliateId()
-    {
-        return $this->container['affiliate_id'];
-    }
-
-    /**
-     * Sets affiliate_id
-     * @param int $affiliate_id
-     * @return $this
-     */
-    public function setAffiliateId($affiliate_id)
-    {
-        $this->container['affiliate_id'] = $affiliate_id;
-
-        return $this;
-    }
 
     /**
      * Gets bundle_sku

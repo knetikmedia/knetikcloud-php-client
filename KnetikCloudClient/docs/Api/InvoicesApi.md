@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**getInvoices**](InvoicesApi.md#getInvoices) | **GET** /invoices | Retrieve invoices
 [**getPaymentStatuses**](InvoicesApi.md#getPaymentStatuses) | **GET** /invoices/payment-statuses | Lists available payment statuses
 [**payInvoice**](InvoicesApi.md#payInvoice) | **POST** /invoices/{id}/payments | Trigger payment of an invoice
+[**setBundledInvoiceItemFulfillmentStatus**](InvoicesApi.md#setBundledInvoiceItemFulfillmentStatus) | **PUT** /invoices/{id}/items/{bundleSku}/bundled-skus/{sku}/fulfillment-status | Set the fulfillment status of a bundled invoice item
 [**setExternalRef**](InvoicesApi.md#setExternalRef) | **PUT** /invoices/{id}/external-ref | Set the external reference of an invoice
 [**setInvoiceItemFulfillmentStatus**](InvoicesApi.md#setInvoiceItemFulfillmentStatus) | **PUT** /invoices/{id}/items/{sku}/fulfillment-status | Set the fulfillment status of an invoice item
 [**setOrderNotes**](InvoicesApi.md#setOrderNotes) | **PUT** /invoices/{id}/order-notes | Set the order notes of an invoice
@@ -49,7 +50,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | [**\KnetikCloud\Model\InvoiceCreateRequest**](../Model/\KnetikCloud\Model\InvoiceCreateRequest.md)| Invoice to be created | [optional]
+ **req** | [**\KnetikCloud\Model\InvoiceCreateRequest**](../Model/InvoiceCreateRequest.md)| Invoice to be created | [optional]
 
 ### Return type
 
@@ -224,7 +225,7 @@ $filter_payment_status = "filter_payment_status_example"; // string | Filters in
 $filter_item_name = "filter_item_name_example"; // string | Filters invoices by item name containing the given string
 $filter_external_ref = "filter_external_ref_example"; // string | Filters invoices by external reference.
 $filter_created_date = "filter_created_date_example"; // string | Filters invoices by creation date. Multiple values possible for range search. Format: filter_created_date=OP,ts&... where OP in (GT, LT, GOE, LOE, EQ) and ts is a unix timestamp in seconds. Ex: filter_created_date=GT,1452154258,LT,1554254874
-$filter_vendor_ids = new \KnetikCloud\Model\Object(); // \KnetikCloud\Model\Object | Filters invoices for ones from one of the vendors whose id is in the given comma separated list
+$filter_vendor_ids = "filter_vendor_ids_example"; // string | Filters invoices for ones from one of the vendors whose id is in the given comma separated list
 $filter_currency = "filter_currency_example"; // string | Filters invoices by currency. ISO3 currency code
 $filter_shipping_state_name = "filter_shipping_state_name_example"; // string | Filters invoices by shipping address: Exact match state name
 $filter_shipping_country_name = "filter_shipping_country_name_example"; // string | Filters invoices by shipping address: Exact match country name
@@ -255,7 +256,7 @@ Name | Type | Description  | Notes
  **filter_item_name** | **string**| Filters invoices by item name containing the given string | [optional]
  **filter_external_ref** | **string**| Filters invoices by external reference. | [optional]
  **filter_created_date** | **string**| Filters invoices by creation date. Multiple values possible for range search. Format: filter_created_date&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ) and ts is a unix timestamp in seconds. Ex: filter_created_date&#x3D;GT,1452154258,LT,1554254874 | [optional]
- **filter_vendor_ids** | [**\KnetikCloud\Model\Object**](../Model/.md)| Filters invoices for ones from one of the vendors whose id is in the given comma separated list | [optional]
+ **filter_vendor_ids** | **string**| Filters invoices for ones from one of the vendors whose id is in the given comma separated list | [optional]
  **filter_currency** | **string**| Filters invoices by currency. ISO3 currency code | [optional]
  **filter_shipping_state_name** | **string**| Filters invoices by shipping address: Exact match state name | [optional]
  **filter_shipping_country_name** | **string**| Filters invoices by shipping address: Exact match country name | [optional]
@@ -350,7 +351,60 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the invoice |
- **request** | [**\KnetikCloud\Model\PayBySavedMethodRequest**](../Model/\KnetikCloud\Model\PayBySavedMethodRequest.md)| Payment info | [optional]
+ **request** | [**\KnetikCloud\Model\PayBySavedMethodRequest**](../Model/PayBySavedMethodRequest.md)| Payment info | [optional]
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[OAuth2](../../README.md#OAuth2)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **setBundledInvoiceItemFulfillmentStatus**
+> setBundledInvoiceItemFulfillmentStatus($id, $bundle_sku, $sku, $status)
+
+Set the fulfillment status of a bundled invoice item
+
+This allows external fulfillment systems to report success or failure. Fulfillment status changes are restricted by a specific flow determining which status can lead to which.
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: OAuth2
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\InvoicesApi();
+$id = 56; // int | The id of the invoice
+$bundle_sku = "bundle_sku_example"; // string | The sku of the bundle in the invoice that contains the given target
+$sku = "sku_example"; // string | The sku of an item in the bundle in the invoice
+$status = "status_example"; // string | The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  'unfulfilled', 'fulfilled', 'not fulfillable', 'failed', 'processing', 'failed_permanent', 'delayed'
+
+try {
+    $api_instance->setBundledInvoiceItemFulfillmentStatus($id, $bundle_sku, $sku, $status);
+} catch (Exception $e) {
+    echo 'Exception when calling InvoicesApi->setBundledInvoiceItemFulfillmentStatus: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **int**| The id of the invoice |
+ **bundle_sku** | **string**| The sku of the bundle in the invoice that contains the given target |
+ **sku** | **string**| The sku of an item in the bundle in the invoice |
+ **status** | **string**| The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; |
 
 ### Return type
 
@@ -544,7 +598,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the invoice |
- **request** | [**\KnetikCloud\Model\InvoicePaymentStatusRequest**](../Model/\KnetikCloud\Model\InvoicePaymentStatusRequest.md)| Payment status info | [optional]
+ **request** | [**\KnetikCloud\Model\InvoicePaymentStatusRequest**](../Model/InvoicePaymentStatusRequest.md)| Payment status info | [optional]
 
 ### Return type
 
@@ -591,7 +645,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the invoice |
- **billing_info_request** | [**\KnetikCloud\Model\AddressResource**](../Model/\KnetikCloud\Model\AddressResource.md)| Address info | [optional]
+ **billing_info_request** | [**\KnetikCloud\Model\AddressResource**](../Model/AddressResource.md)| Address info | [optional]
 
 ### Return type
 

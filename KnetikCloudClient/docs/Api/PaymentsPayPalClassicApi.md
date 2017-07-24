@@ -41,7 +41,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**\KnetikCloud\Model\CreateBillingAgreementRequest**](../Model/\KnetikCloud\Model\CreateBillingAgreementRequest.md)| The request to create a PayPal billing agreement | [optional]
+ **request** | [**\KnetikCloud\Model\CreateBillingAgreementRequest**](../Model/CreateBillingAgreementRequest.md)| The request to create a PayPal billing agreement | [optional]
 
 ### Return type
 
@@ -89,7 +89,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**\KnetikCloud\Model\CreatePayPalPaymentRequest**](../Model/\KnetikCloud\Model\CreatePayPalPaymentRequest.md)| The request to create a PayPal payment token | [optional]
+ **request** | [**\KnetikCloud\Model\CreatePayPalPaymentRequest**](../Model/CreatePayPalPaymentRequest.md)| The request to create a PayPal payment token | [optional]
 
 ### Return type
 
@@ -137,7 +137,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**\KnetikCloud\Model\FinalizeBillingAgreementRequest**](../Model/\KnetikCloud\Model\FinalizeBillingAgreementRequest.md)| The request to finalize a PayPal billing agreement | [optional]
+ **request** | [**\KnetikCloud\Model\FinalizeBillingAgreementRequest**](../Model/FinalizeBillingAgreementRequest.md)| The request to finalize a PayPal billing agreement | [optional]
 
 ### Return type
 
@@ -184,7 +184,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**\KnetikCloud\Model\FinalizePayPalPaymentRequest**](../Model/\KnetikCloud\Model\FinalizePayPalPaymentRequest.md)| The request to finalize the payment | [optional]
+ **request** | [**\KnetikCloud\Model\FinalizePayPalPaymentRequest**](../Model/FinalizePayPalPaymentRequest.md)| The request to finalize the payment | [optional]
 
 ### Return type
 

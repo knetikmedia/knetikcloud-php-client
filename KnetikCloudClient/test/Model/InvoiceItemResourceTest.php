@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,15 +75,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvoiceItemResource()
     {
-
-    }
-
-    /**
-     * Test attribute "affiliate_id"
-     */
-    public function testPropertyAffiliateId()
-    {
-
     }
 
     /**
@@ -95,7 +82,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyBundleSku()
     {
-
     }
 
     /**
@@ -103,7 +89,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCurrentFulfillmentStatus()
     {
-
     }
 
     /**
@@ -111,7 +96,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyId()
     {
-
     }
 
     /**
@@ -119,7 +103,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyInvoiceId()
     {
-
     }
 
     /**
@@ -127,7 +110,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyItemId()
     {
-
     }
 
     /**
@@ -135,7 +117,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyItemName()
     {
-
     }
 
     /**
@@ -143,7 +124,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyOriginalTotalPrice()
     {
-
     }
 
     /**
@@ -151,7 +131,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyOriginalUnitPrice()
     {
-
     }
 
     /**
@@ -159,7 +138,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyQty()
     {
-
     }
 
     /**
@@ -167,7 +145,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySaleName()
     {
-
     }
 
     /**
@@ -175,7 +152,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySku()
     {
-
     }
 
     /**
@@ -183,7 +159,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySkuDescription()
     {
-
     }
 
     /**
@@ -191,7 +166,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySystemPrice()
     {
-
     }
 
     /**
@@ -199,7 +173,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyTotalPrice()
     {
-
     }
 
     /**
@@ -207,7 +180,6 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyTypeHint()
     {
-
     }
 
     /**
@@ -215,7 +187,5 @@ class InvoiceItemResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUnitPrice()
     {
-
     }
-
 }

@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testUserResource()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyAdditionalProperties()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyAddress()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyAddress2()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyAvatarUrl()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyChildren()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCity()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCountryCode()
     {
-
     }
 
     /**
@@ -143,7 +131,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCurrencyCode()
     {
-
     }
 
     /**
@@ -151,7 +138,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyDateOfBirth()
     {
-
     }
 
     /**
@@ -159,7 +145,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyDescription()
     {
-
     }
 
     /**
@@ -167,7 +152,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyDisplayName()
     {
-
     }
 
     /**
@@ -175,7 +159,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyEmail()
     {
-
     }
 
     /**
@@ -183,7 +166,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyFirstName()
     {
-
     }
 
     /**
@@ -191,7 +173,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyFullname()
     {
-
     }
 
     /**
@@ -199,7 +180,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyGender()
     {
-
     }
 
     /**
@@ -207,7 +187,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyId()
     {
-
     }
 
     /**
@@ -215,7 +194,13 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyLanguageCode()
     {
+    }
 
+    /**
+     * Test attribute "last_activity"
+     */
+    public function testPropertyLastActivity()
+    {
     }
 
     /**
@@ -223,7 +208,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyLastName()
     {
-
     }
 
     /**
@@ -231,7 +215,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyLastUpdated()
     {
-
     }
 
     /**
@@ -239,7 +222,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyMemberSince()
     {
-
     }
 
     /**
@@ -247,7 +229,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyMobileNumber()
     {
-
     }
 
     /**
@@ -255,7 +236,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyParents()
     {
-
     }
 
     /**
@@ -263,7 +243,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPassword()
     {
-
     }
 
     /**
@@ -271,7 +250,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPostalCode()
     {
-
     }
 
     /**
@@ -279,7 +257,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyState()
     {
-
     }
 
     /**
@@ -287,7 +264,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyTags()
     {
-
     }
 
     /**
@@ -295,7 +271,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyTemplate()
     {
-
     }
 
     /**
@@ -303,7 +278,6 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyTimezoneCode()
     {
-
     }
 
     /**
@@ -311,7 +285,5 @@ class UserResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUsername()
     {
-
     }
-
 }

@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -67,9 +67,32 @@ class UserInventoryResource implements ArrayAccess
         'user' => '\KnetikCloud\Model\SimpleUserResource'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'behavior_data' => null,
+        'created_date' => 'int64',
+        'expires' => 'int64',
+        'id' => 'int32',
+        'invoice_id' => 'int32',
+        'item_id' => 'int32',
+        'item_name' => null,
+        'item_type_hint' => null,
+        'status' => null,
+        'updated_date' => 'int64',
+        'user' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -197,9 +220,12 @@ class UserInventoryResource implements ArrayAccess
     {
         $invalid_properties = [];
 
-        $allowed_values = ["pending", "active", "inactive"];
+        $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'status', must be one of 'pending', 'active', 'inactive'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'status', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -214,7 +240,7 @@ class UserInventoryResource implements ArrayAccess
     public function valid()
     {
 
-        $allowed_values = ["pending", "active", "inactive"];
+        $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
             return false;
         }
@@ -406,9 +432,14 @@ class UserInventoryResource implements ArrayAccess
      */
     public function setStatus($status)
     {
-        $allowed_values = array('pending', 'active', 'inactive');
-        if (!is_null($status) && (!in_array($status, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'pending', 'active', 'inactive'");
+        $allowed_values = $this->getStatusAllowableValues();
+        if (!is_null($status) && !in_array($status, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'status', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['status'] = $status;
 

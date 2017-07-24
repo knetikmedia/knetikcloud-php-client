@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -76,9 +76,41 @@ class SubscriptionPlan implements ArrayAccess
         'subscription_id' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'additional_properties' => null,
+        'availability' => null,
+        'bill_grace_days' => 'int32',
+        'consolidated' => null,
+        'first_bill' => 'int32',
+        'first_bill_unit_of_time' => null,
+        'id' => null,
+        'late_payment_sku' => null,
+        'locked' => null,
+        'max_auto_renew' => 'int32',
+        'max_bill_attempts' => 'int32',
+        'migration_plan' => null,
+        'minimum_term' => 'int32',
+        'name' => null,
+        'primary_sku' => null,
+        'reactivation_sku' => null,
+        'recurring_sku' => null,
+        'renew_period' => 'int32',
+        'renew_period_unit_of_time' => null,
+        'subscription_id' => 'int32'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -292,19 +324,28 @@ class SubscriptionPlan implements ArrayAccess
     {
         $invalid_properties = [];
 
-        $allowed_values = ["all", "new_subscribers"];
+        $allowed_values = $this->getAvailabilityAllowableValues();
         if (!in_array($this->container['availability'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'availability', must be one of 'all', 'new_subscribers'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'availability', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
-        $allowed_values = ["millisecond", "second", "minute", "hour", "day", "week", "month", "year"];
+        $allowed_values = $this->getFirstBillUnitOfTimeAllowableValues();
         if (!in_array($this->container['first_bill_unit_of_time'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'first_bill_unit_of_time', must be one of 'millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'first_bill_unit_of_time', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
-        $allowed_values = ["millisecond", "second", "minute", "hour", "day", "week", "month", "year"];
+        $allowed_values = $this->getRenewPeriodUnitOfTimeAllowableValues();
         if (!in_array($this->container['renew_period_unit_of_time'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'renew_period_unit_of_time', must be one of 'millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'renew_period_unit_of_time', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -319,15 +360,15 @@ class SubscriptionPlan implements ArrayAccess
     public function valid()
     {
 
-        $allowed_values = ["all", "new_subscribers"];
+        $allowed_values = $this->getAvailabilityAllowableValues();
         if (!in_array($this->container['availability'], $allowed_values)) {
             return false;
         }
-        $allowed_values = ["millisecond", "second", "minute", "hour", "day", "week", "month", "year"];
+        $allowed_values = $this->getFirstBillUnitOfTimeAllowableValues();
         if (!in_array($this->container['first_bill_unit_of_time'], $allowed_values)) {
             return false;
         }
-        $allowed_values = ["millisecond", "second", "minute", "hour", "day", "week", "month", "year"];
+        $allowed_values = $this->getRenewPeriodUnitOfTimeAllowableValues();
         if (!in_array($this->container['renew_period_unit_of_time'], $allowed_values)) {
             return false;
         }
@@ -372,9 +413,14 @@ class SubscriptionPlan implements ArrayAccess
      */
     public function setAvailability($availability)
     {
-        $allowed_values = array('all', 'new_subscribers');
-        if (!is_null($availability) && (!in_array($availability, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'availability', must be one of 'all', 'new_subscribers'");
+        $allowed_values = $this->getAvailabilityAllowableValues();
+        if (!is_null($availability) && !in_array($availability, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'availability', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['availability'] = $availability;
 
@@ -460,9 +506,14 @@ class SubscriptionPlan implements ArrayAccess
      */
     public function setFirstBillUnitOfTime($first_bill_unit_of_time)
     {
-        $allowed_values = array('millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year');
-        if (!is_null($first_bill_unit_of_time) && (!in_array($first_bill_unit_of_time, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'first_bill_unit_of_time', must be one of 'millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year'");
+        $allowed_values = $this->getFirstBillUnitOfTimeAllowableValues();
+        if (!is_null($first_bill_unit_of_time) && !in_array($first_bill_unit_of_time, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'first_bill_unit_of_time', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['first_bill_unit_of_time'] = $first_bill_unit_of_time;
 
@@ -737,9 +788,14 @@ class SubscriptionPlan implements ArrayAccess
      */
     public function setRenewPeriodUnitOfTime($renew_period_unit_of_time)
     {
-        $allowed_values = array('millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year');
-        if (!is_null($renew_period_unit_of_time) && (!in_array($renew_period_unit_of_time, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'renew_period_unit_of_time', must be one of 'millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year'");
+        $allowed_values = $this->getRenewPeriodUnitOfTimeAllowableValues();
+        if (!is_null($renew_period_unit_of_time) && !in_array($renew_period_unit_of_time, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'renew_period_unit_of_time', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['renew_period_unit_of_time'] = $renew_period_unit_of_time;
 

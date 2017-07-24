@@ -81,7 +81,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **batch** | [**\KnetikCloud\Model\Batch**](../Model/\KnetikCloud\Model\Batch.md)| The batch object | [optional]
+ **batch** | [**\KnetikCloud\Model\Batch**](../Model/Batch.md)| The batch object | [optional]
 
 ### Return type
 

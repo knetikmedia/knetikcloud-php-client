@@ -95,7 +95,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **campaign_resource** | [**\KnetikCloud\Model\CampaignResource**](../Model/\KnetikCloud\Model\CampaignResource.md)| The campaign resource object | [optional]
+ **campaign_resource** | [**\KnetikCloud\Model\CampaignResource**](../Model/CampaignResource.md)| The campaign resource object | [optional]
 
 ### Return type
 
@@ -143,7 +143,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **campaign_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The campaign template resource object | [optional]
+ **campaign_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The campaign template resource object | [optional]
 
 ### Return type
 
@@ -573,7 +573,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The campaign id |
- **campaign_resource** | [**\KnetikCloud\Model\CampaignResource**](../Model/\KnetikCloud\Model\CampaignResource.md)| The campaign resource object | [optional]
+ **campaign_resource** | [**\KnetikCloud\Model\CampaignResource**](../Model/CampaignResource.md)| The campaign resource object | [optional]
 
 ### Return type
 
@@ -621,7 +621,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **campaign_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The campaign template resource object | [optional]
+ **campaign_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The campaign template resource object | [optional]
 
 ### Return type
 

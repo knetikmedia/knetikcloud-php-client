@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -62,6 +62,8 @@ class InventorySubscriptionResource implements ArrayAccess
         'inventory_status' => 'string',
         'item_id' => 'int',
         'payment_method' => '\KnetikCloud\Model\PaymentMethodResource',
+        'price_override' => 'double',
+        'price_override_reason' => 'string',
         'recurring_price' => 'double',
         'sku' => 'string',
         'start_date' => 'int',
@@ -69,9 +71,36 @@ class InventorySubscriptionResource implements ArrayAccess
         'user' => '\KnetikCloud\Model\SimpleUserResource'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'bill_date' => 'int64',
+        'credit' => 'double',
+        'credit_log' => null,
+        'grace_end' => 'int64',
+        'inventory_id' => 'int32',
+        'inventory_status' => null,
+        'item_id' => 'int32',
+        'payment_method' => null,
+        'price_override' => 'double',
+        'price_override_reason' => null,
+        'recurring_price' => 'double',
+        'sku' => null,
+        'start_date' => 'int64',
+        'subscription_status' => 'int32',
+        'user' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -87,6 +116,8 @@ class InventorySubscriptionResource implements ArrayAccess
         'inventory_status' => 'inventory_status',
         'item_id' => 'item_id',
         'payment_method' => 'payment_method',
+        'price_override' => 'price_override',
+        'price_override_reason' => 'price_override_reason',
         'recurring_price' => 'recurring_price',
         'sku' => 'sku',
         'start_date' => 'start_date',
@@ -108,6 +139,8 @@ class InventorySubscriptionResource implements ArrayAccess
         'inventory_status' => 'setInventoryStatus',
         'item_id' => 'setItemId',
         'payment_method' => 'setPaymentMethod',
+        'price_override' => 'setPriceOverride',
+        'price_override_reason' => 'setPriceOverrideReason',
         'recurring_price' => 'setRecurringPrice',
         'sku' => 'setSku',
         'start_date' => 'setStartDate',
@@ -129,6 +162,8 @@ class InventorySubscriptionResource implements ArrayAccess
         'inventory_status' => 'getInventoryStatus',
         'item_id' => 'getItemId',
         'payment_method' => 'getPaymentMethod',
+        'price_override' => 'getPriceOverride',
+        'price_override_reason' => 'getPriceOverrideReason',
         'recurring_price' => 'getRecurringPrice',
         'sku' => 'getSku',
         'start_date' => 'getStartDate',
@@ -191,6 +226,8 @@ class InventorySubscriptionResource implements ArrayAccess
         $this->container['inventory_status'] = isset($data['inventory_status']) ? $data['inventory_status'] : null;
         $this->container['item_id'] = isset($data['item_id']) ? $data['item_id'] : null;
         $this->container['payment_method'] = isset($data['payment_method']) ? $data['payment_method'] : null;
+        $this->container['price_override'] = isset($data['price_override']) ? $data['price_override'] : null;
+        $this->container['price_override_reason'] = isset($data['price_override_reason']) ? $data['price_override_reason'] : null;
         $this->container['recurring_price'] = isset($data['recurring_price']) ? $data['recurring_price'] : null;
         $this->container['sku'] = isset($data['sku']) ? $data['sku'] : null;
         $this->container['start_date'] = isset($data['start_date']) ? $data['start_date'] : null;
@@ -207,9 +244,12 @@ class InventorySubscriptionResource implements ArrayAccess
     {
         $invalid_properties = [];
 
-        $allowed_values = ["pending", "active", "inactive"];
+        $allowed_values = $this->getInventoryStatusAllowableValues();
         if (!in_array($this->container['inventory_status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'inventory_status', must be one of 'pending', 'active', 'inactive'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'inventory_status', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -224,7 +264,7 @@ class InventorySubscriptionResource implements ArrayAccess
     public function valid()
     {
 
-        $allowed_values = ["pending", "active", "inactive"];
+        $allowed_values = $this->getInventoryStatusAllowableValues();
         if (!in_array($this->container['inventory_status'], $allowed_values)) {
             return false;
         }
@@ -353,9 +393,14 @@ class InventorySubscriptionResource implements ArrayAccess
      */
     public function setInventoryStatus($inventory_status)
     {
-        $allowed_values = array('pending', 'active', 'inactive');
-        if (!is_null($inventory_status) && (!in_array($inventory_status, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'inventory_status', must be one of 'pending', 'active', 'inactive'");
+        $allowed_values = $this->getInventoryStatusAllowableValues();
+        if (!is_null($inventory_status) && !in_array($inventory_status, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'inventory_status', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['inventory_status'] = $inventory_status;
 
@@ -405,6 +450,48 @@ class InventorySubscriptionResource implements ArrayAccess
     }
 
     /**
+     * Gets price_override
+     * @return double
+     */
+    public function getPriceOverride()
+    {
+        return $this->container['price_override'];
+    }
+
+    /**
+     * Sets price_override
+     * @param double $price_override The recurring price that has been set to override the base price. Null if not overriding
+     * @return $this
+     */
+    public function setPriceOverride($price_override)
+    {
+        $this->container['price_override'] = $price_override;
+
+        return $this;
+    }
+
+    /**
+     * Gets price_override_reason
+     * @return string
+     */
+    public function getPriceOverrideReason()
+    {
+        return $this->container['price_override_reason'];
+    }
+
+    /**
+     * Sets price_override_reason
+     * @param string $price_override_reason An explanation for the reason the price is being overridden
+     * @return $this
+     */
+    public function setPriceOverrideReason($price_override_reason)
+    {
+        $this->container['price_override_reason'] = $price_override_reason;
+
+        return $this;
+    }
+
+    /**
      * Gets recurring_price
      * @return double
      */
@@ -415,7 +502,7 @@ class InventorySubscriptionResource implements ArrayAccess
 
     /**
      * Sets recurring_price
-     * @param double $recurring_price The recurring price
+     * @param double $recurring_price The default recurring price
      * @return $this
      */
     public function setRecurringPrice($recurring_price)
@@ -436,7 +523,7 @@ class InventorySubscriptionResource implements ArrayAccess
 
     /**
      * Sets sku
-     * @param string $sku The sku of the subscription
+     * @param string $sku The recurring sku of the subscription
      * @return $this
      */
     public function setSku($sku)

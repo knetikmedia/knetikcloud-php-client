@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -151,7 +151,7 @@ class UsersFriendshipsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -198,7 +198,7 @@ class UsersFriendshipsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceSimpleUserResource_
      */
-    public function getFriends($user_id, $size = null, $page = null)
+    public function getFriends($user_id, $size = '25', $page = '1')
     {
         list($response) = $this->getFriendsWithHttpInfo($user_id, $size, $page);
         return $response;
@@ -215,7 +215,7 @@ class UsersFriendshipsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceSimpleUserResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getFriendsWithHttpInfo($user_id, $size = null, $page = null)
+    public function getFriendsWithHttpInfo($user_id, $size = '25', $page = '1')
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -249,7 +249,7 @@ class UsersFriendshipsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -339,7 +339,7 @@ class UsersFriendshipsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -390,7 +390,7 @@ class UsersFriendshipsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceSimpleUserResource_
      */
-    public function getInvites($user_id, $size = null, $page = null)
+    public function getInvites($user_id, $size = '25', $page = '1')
     {
         list($response) = $this->getInvitesWithHttpInfo($user_id, $size, $page);
         return $response;
@@ -407,7 +407,7 @@ class UsersFriendshipsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceSimpleUserResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getInvitesWithHttpInfo($user_id, $size = null, $page = null)
+    public function getInvitesWithHttpInfo($user_id, $size = '25', $page = '1')
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -441,7 +441,7 @@ class UsersFriendshipsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -638,7 +638,7 @@ class UsersFriendshipsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -49,7 +49,6 @@ class UsersFriendshipsApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -57,7 +56,6 @@ class UsersFriendshipsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -65,7 +63,6 @@ class UsersFriendshipsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -73,7 +70,6 @@ class UsersFriendshipsApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -84,7 +80,6 @@ class UsersFriendshipsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddFriend()
     {
-
     }
 
     /**
@@ -95,7 +90,6 @@ class UsersFriendshipsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFriends()
     {
-
     }
 
     /**
@@ -106,7 +100,6 @@ class UsersFriendshipsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetInviteToken()
     {
-
     }
 
     /**
@@ -117,7 +110,6 @@ class UsersFriendshipsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetInvites()
     {
-
     }
 
     /**
@@ -128,7 +120,6 @@ class UsersFriendshipsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testRedeemFriendshipToken()
     {
-
     }
 
     /**
@@ -139,7 +130,5 @@ class UsersFriendshipsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoveOrDeclineFriend()
     {
-
     }
-
 }

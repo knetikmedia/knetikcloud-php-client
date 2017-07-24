@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class RewardSetResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class RewardSetResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class RewardSetResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class RewardSetResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class RewardSetResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testRewardSetResource()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class RewardSetResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCreatedDate()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class RewardSetResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCurrencyRewards()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class RewardSetResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyId()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class RewardSetResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyItemRewards()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class RewardSetResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyLongDescription()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class RewardSetResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyMaxPlacing()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class RewardSetResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyName()
     {
-
     }
 
     /**
@@ -143,7 +131,6 @@ class RewardSetResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShortDescription()
     {
-
     }
 
     /**
@@ -151,7 +138,6 @@ class RewardSetResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUniqueKey()
     {
-
     }
 
     /**
@@ -159,7 +145,5 @@ class RewardSetResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUpdatedDate()
     {
-
     }
-
 }

@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -56,13 +56,29 @@ class BehaviorDefinitionResource implements ArrayAccess
     protected static $swaggerTypes = [
         'description' => 'string',
         'prerequisite_behaviors' => '\KnetikCloud\Model\Behavior[]',
-        'properties' => '\KnetikCloud\Model\PropertyDefinitionResource[]',
+        'properties' => '\KnetikCloud\Model\PropertyFieldResource[]',
         'type_hint' => 'string'
+    ];
+
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'description' => null,
+        'prerequisite_behaviors' => null,
+        'properties' => null,
+        'type_hint' => null
     ];
 
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -218,7 +234,7 @@ class BehaviorDefinitionResource implements ArrayAccess
 
     /**
      * Gets properties
-     * @return \KnetikCloud\Model\PropertyDefinitionResource[]
+     * @return \KnetikCloud\Model\PropertyFieldResource[]
      */
     public function getProperties()
     {
@@ -227,7 +243,7 @@ class BehaviorDefinitionResource implements ArrayAccess
 
     /**
      * Sets properties
-     * @param \KnetikCloud\Model\PropertyDefinitionResource[] $properties Configurable properties of the behavior
+     * @param \KnetikCloud\Model\PropertyFieldResource[] $properties Configurable properties of the behavior
      * @return $this
      */
     public function setProperties($properties)

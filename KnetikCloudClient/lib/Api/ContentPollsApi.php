@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -400,7 +400,7 @@ class ContentPollsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -492,7 +492,7 @@ class ContentPollsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -578,7 +578,7 @@ class ContentPollsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -664,7 +664,7 @@ class ContentPollsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -754,7 +754,7 @@ class ContentPollsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -805,7 +805,7 @@ class ContentPollsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceTemplateResource_
      */
-    public function getPollTemplates($size = null, $page = null, $order = null)
+    public function getPollTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getPollTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -822,7 +822,7 @@ class ContentPollsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getPollTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getPollTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/media/polls/templates";
@@ -848,7 +848,7 @@ class ContentPollsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -902,7 +902,7 @@ class ContentPollsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourcePollResource_
      */
-    public function getPolls($filter_category = null, $filter_tagset = null, $filter_text = null, $size = null, $page = null, $order = null)
+    public function getPolls($filter_category = null, $filter_tagset = null, $filter_text = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getPollsWithHttpInfo($filter_category, $filter_tagset, $filter_text, $size, $page, $order);
         return $response;
@@ -922,7 +922,7 @@ class ContentPollsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourcePollResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getPollsWithHttpInfo($filter_category = null, $filter_tagset = null, $filter_text = null, $size = null, $page = null, $order = null)
+    public function getPollsWithHttpInfo($filter_category = null, $filter_tagset = null, $filter_text = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/media/polls";
@@ -960,7 +960,7 @@ class ContentPollsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

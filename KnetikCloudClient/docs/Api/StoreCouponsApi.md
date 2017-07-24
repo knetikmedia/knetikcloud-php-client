@@ -48,7 +48,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **cascade** | **bool**| Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. | [optional] [default to false]
- **coupon_item** | [**\KnetikCloud\Model\CouponItem**](../Model/\KnetikCloud\Model\CouponItem.md)| The coupon item object | [optional]
+ **coupon_item** | [**\KnetikCloud\Model\CouponItem**](../Model/CouponItem.md)| The coupon item object | [optional]
 
 ### Return type
 
@@ -96,7 +96,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **coupon_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/\KnetikCloud\Model\ItemTemplateResource.md)| The new coupon template | [optional]
+ **coupon_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/ItemTemplateResource.md)| The new coupon template | [optional]
 
 ### Return type
 
@@ -382,7 +382,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the coupon |
  **cascade** | **bool**| Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. | [optional] [default to false]
- **coupon_item** | [**\KnetikCloud\Model\CouponItem**](../Model/\KnetikCloud\Model\CouponItem.md)| The coupon item object | [optional]
+ **coupon_item** | [**\KnetikCloud\Model\CouponItem**](../Model/CouponItem.md)| The coupon item object | [optional]
 
 ### Return type
 
@@ -430,7 +430,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **coupon_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/\KnetikCloud\Model\ItemTemplateResource.md)| The coupon template resource object | [optional]
+ **coupon_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/ItemTemplateResource.md)| The coupon template resource object | [optional]
 
 ### Return type
 

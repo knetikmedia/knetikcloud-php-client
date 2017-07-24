@@ -39,7 +39,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**\KnetikCloud\Model\StripeCreatePaymentMethod**](../Model/\KnetikCloud\Model\StripeCreatePaymentMethod.md)| The request to create a Stripe customer with payment info | [optional]
+ **request** | [**\KnetikCloud\Model\StripeCreatePaymentMethod**](../Model/StripeCreatePaymentMethod.md)| The request to create a Stripe customer with payment info | [optional]
 
 ### Return type
 
@@ -81,7 +81,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**\KnetikCloud\Model\StripePaymentRequest**](../Model/\KnetikCloud\Model\StripePaymentRequest.md)| The request to pay an invoice | [optional]
+ **request** | [**\KnetikCloud\Model\StripePaymentRequest**](../Model/StripePaymentRequest.md)| The request to pay an invoice | [optional]
 
 ### Return type
 

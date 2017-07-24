@@ -108,7 +108,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **video_resource** | [**\KnetikCloud\Model\VideoResource**](../Model/\KnetikCloud\Model\VideoResource.md)| The video object | [optional]
+ **video_resource** | [**\KnetikCloud\Model\VideoResource**](../Model/VideoResource.md)| The video object | [optional]
 
 ### Return type
 
@@ -156,7 +156,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **video_id** | **int**| The video id |
- **comment_resource** | [**\KnetikCloud\Model\CommentResource**](../Model/\KnetikCloud\Model\CommentResource.md)| The comment object | [optional]
+ **comment_resource** | [**\KnetikCloud\Model\CommentResource**](../Model/CommentResource.md)| The comment object | [optional]
 
 ### Return type
 
@@ -203,7 +203,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **video_id** | **int**| The video id |
- **contribution_resource** | [**\KnetikCloud\Model\ContributionResource**](../Model/\KnetikCloud\Model\ContributionResource.md)| The contribution object | [optional]
+ **contribution_resource** | [**\KnetikCloud\Model\ContributionResource**](../Model/ContributionResource.md)| The contribution object | [optional]
 
 ### Return type
 
@@ -299,7 +299,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **video_id** | **int**| The video id |
- **video_relationship_resource** | [**\KnetikCloud\Model\VideoRelationshipResource**](../Model/\KnetikCloud\Model\VideoRelationshipResource.md)| The video relationship object | [optional]
+ **video_relationship_resource** | [**\KnetikCloud\Model\VideoRelationshipResource**](../Model/VideoRelationshipResource.md)| The video relationship object | [optional]
 
 ### Return type
 
@@ -347,7 +347,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **video_id** | **int**| The video id |
- **disposition_resource** | [**\KnetikCloud\Model\DispositionResource**](../Model/\KnetikCloud\Model\DispositionResource.md)| The disposition object | [optional]
+ **disposition_resource** | [**\KnetikCloud\Model\DispositionResource**](../Model/DispositionResource.md)| The disposition object | [optional]
 
 ### Return type
 
@@ -844,12 +844,12 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new KnetikCloud\Api\MediaVideosApi();
 $exclude_flagged = true; // bool | Skip videos that have been flagged by the current user
-$filter_videos_by_uploader = new \KnetikCloud\Model\Object(); // \KnetikCloud\Model\Object | Filter for videos by uploader id
+$filter_videos_by_uploader = 56; // int | Filter for videos by uploader id
 $filter_category = "filter_category_example"; // string | Filter for videos from a specific category by id
 $filter_tagset = "filter_tagset_example"; // string | Filter for videos with specified tags (separated by comma)
 $filter_videos_by_name = "filter_videos_by_name_example"; // string | Filter for videos which name *STARTS* with the given string
-$filter_videos_by_contributor = new \KnetikCloud\Model\Object(); // \KnetikCloud\Model\Object | Filter for videos with contribution from the artist specified by ID
-$filter_videos_by_author = new \KnetikCloud\Model\Object(); // \KnetikCloud\Model\Object | Filter for videos with an artist as author specified by ID
+$filter_videos_by_contributor = 56; // int | Filter for videos with contribution from the artist specified by ID
+$filter_videos_by_author = 56; // int | Filter for videos with an artist as author specified by ID
 $filter_has_author = true; // bool | Filter for videos that have an author set if true, or that have no author if false
 $filter_has_uploader = true; // bool | Filter for videos that have an uploader set if true, or that have no uploader if false
 $filter_related_to = "filter_related_to_example"; // string | Filter for videos that have designated a particular video as the TO of a relationship. Pattern should match VIDEO_ID or VIDEO_ID:DETAILS to match with a specific details string as well
@@ -873,12 +873,12 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **exclude_flagged** | **bool**| Skip videos that have been flagged by the current user | [optional] [default to true]
- **filter_videos_by_uploader** | [**\KnetikCloud\Model\Object**](../Model/.md)| Filter for videos by uploader id | [optional]
+ **filter_videos_by_uploader** | **int**| Filter for videos by uploader id | [optional]
  **filter_category** | **string**| Filter for videos from a specific category by id | [optional]
  **filter_tagset** | **string**| Filter for videos with specified tags (separated by comma) | [optional]
  **filter_videos_by_name** | **string**| Filter for videos which name *STARTS* with the given string | [optional]
- **filter_videos_by_contributor** | [**\KnetikCloud\Model\Object**](../Model/.md)| Filter for videos with contribution from the artist specified by ID | [optional]
- **filter_videos_by_author** | [**\KnetikCloud\Model\Object**](../Model/.md)| Filter for videos with an artist as author specified by ID | [optional]
+ **filter_videos_by_contributor** | **int**| Filter for videos with contribution from the artist specified by ID | [optional]
+ **filter_videos_by_author** | **int**| Filter for videos with an artist as author specified by ID | [optional]
  **filter_has_author** | **bool**| Filter for videos that have an author set if true, or that have no author if false | [optional]
  **filter_has_uploader** | **bool**| Filter for videos that have an uploader set if true, or that have no uploader if false | [optional]
  **filter_related_to** | **string**| Filter for videos that have designated a particular video as the TO of a relationship. Pattern should match VIDEO_ID or VIDEO_ID:DETAILS to match with a specific details string as well | [optional]
@@ -1029,7 +1029,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The video id |
- **video_resource** | [**\KnetikCloud\Model\VideoResource**](../Model/\KnetikCloud\Model\VideoResource.md)| The video object | [optional]
+ **video_resource** | [**\KnetikCloud\Model\VideoResource**](../Model/VideoResource.md)| The video object | [optional]
 
 ### Return type
 

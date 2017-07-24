@@ -100,7 +100,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The user template resource object | [optional]
+ **user_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The user template resource object | [optional]
 
 ### Return type
 
@@ -457,7 +457,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the user |
- **new_password_request** | [**\KnetikCloud\Model\NewPasswordRequest**](../Model/\KnetikCloud\Model\NewPasswordRequest.md)| The new password request object | [optional]
+ **new_password_request** | [**\KnetikCloud\Model\NewPasswordRequest**](../Model/NewPasswordRequest.md)| The new password request object | [optional]
 
 ### Return type
 
@@ -502,7 +502,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user_resource** | [**\KnetikCloud\Model\UserResource**](../Model/\KnetikCloud\Model\UserResource.md)| The user resource object | [optional]
+ **user_resource** | [**\KnetikCloud\Model\UserResource**](../Model/UserResource.md)| The user resource object | [optional]
 
 ### Return type
 
@@ -672,7 +672,7 @@ A reset code will be generated and a 'forgot_password' BRE event will be fired w
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new KnetikCloud\Api\UsersApi();
-$password_reset = new \KnetikCloud\Model\ARequestToResetAUserSPasswordByUsingAKnownUserProperty(); // \KnetikCloud\Model\ARequestToResetAUserSPasswordByUsingAKnownUserProperty | An object containing one of three methods to look up a user
+$password_reset = new \KnetikCloud\Model\PasswordResetRequest(); // \KnetikCloud\Model\PasswordResetRequest | An object containing one of three methods to look up a user
 
 try {
     $api_instance->submitPasswordReset($password_reset);
@@ -686,7 +686,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **password_reset** | [**\KnetikCloud\Model\ARequestToResetAUserSPasswordByUsingAKnownUserProperty**](../Model/\KnetikCloud\Model\ARequestToResetAUserSPasswordByUsingAKnownUserProperty.md)| An object containing one of three methods to look up a user | [optional]
+ **password_reset** | [**\KnetikCloud\Model\PasswordResetRequest**](../Model/PasswordResetRequest.md)| An object containing one of three methods to look up a user | [optional]
 
 ### Return type
 
@@ -735,7 +735,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the user or &#39;me&#39; |
- **user_resource** | [**\KnetikCloud\Model\UserResource**](../Model/\KnetikCloud\Model\UserResource.md)| The user resource object | [optional]
+ **user_resource** | [**\KnetikCloud\Model\UserResource**](../Model/UserResource.md)| The user resource object | [optional]
 
 ### Return type
 
@@ -783,7 +783,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **user_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The user template resource object | [optional]
+ **user_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The user template resource object | [optional]
 
 ### Return type
 

@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -90,28 +90,28 @@ class SocialGoogleApi
     /**
      * Operation linkAccounts1
      *
-     * Link facebook account
+     * Link google account
      *
-     * @param \KnetikCloud\Model\GoogleToken $facebook_token The token from facebook (optional)
+     * @param \KnetikCloud\Model\GoogleToken $google_token The token from google (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return void
      */
-    public function linkAccounts1($facebook_token = null)
+    public function linkAccounts1($google_token = null)
     {
-        list($response) = $this->linkAccounts1WithHttpInfo($facebook_token);
+        list($response) = $this->linkAccounts1WithHttpInfo($google_token);
         return $response;
     }
 
     /**
      * Operation linkAccounts1WithHttpInfo
      *
-     * Link facebook account
+     * Link google account
      *
-     * @param \KnetikCloud\Model\GoogleToken $facebook_token The token from facebook (optional)
+     * @param \KnetikCloud\Model\GoogleToken $google_token The token from google (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function linkAccounts1WithHttpInfo($facebook_token = null)
+    public function linkAccounts1WithHttpInfo($google_token = null)
     {
         // parse inputs
         $resourcePath = "/social/google/users";
@@ -127,8 +127,8 @@ class SocialGoogleApi
 
         // body params
         $_tempBody = null;
-        if (isset($facebook_token)) {
-            $_tempBody = $facebook_token;
+        if (isset($google_token)) {
+            $_tempBody = $google_token;
         }
 
         // for model (json/xml)

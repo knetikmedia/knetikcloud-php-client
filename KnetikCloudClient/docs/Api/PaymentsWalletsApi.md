@@ -360,7 +360,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **int**| The ID of the user for whom wallet is being modified |
  **currency_code** | **string**| Currency code of the user&#39;s wallet |
- **request** | [**\KnetikCloud\Model\WalletAlterRequest**](../Model/\KnetikCloud\Model\WalletAlterRequest.md)| The requested balance modification to be made to the user&#39;s wallet | [optional]
+ **request** | [**\KnetikCloud\Model\WalletAlterRequest**](../Model/WalletAlterRequest.md)| The requested balance modification to be made to the user&#39;s wallet | [optional]
 
 ### Return type
 

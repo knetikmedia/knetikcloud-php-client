@@ -47,7 +47,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **article_resource** | [**\KnetikCloud\Model\ArticleResource**](../Model/\KnetikCloud\Model\ArticleResource.md)| The new article | [optional]
+ **article_resource** | [**\KnetikCloud\Model\ArticleResource**](../Model/ArticleResource.md)| The new article | [optional]
 
 ### Return type
 
@@ -95,7 +95,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **article_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The article template resource object | [optional]
+ **article_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The article template resource object | [optional]
 
 ### Return type
 
@@ -346,7 +346,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getArticles**
-> \KnetikCloud\Model\PageResourceArticleResource_ getArticles($filter_category, $filter_tagset, $filter_title, $size, $page, $order)
+> \KnetikCloud\Model\PageResourceArticleResource_ getArticles($filter_category, $filter_tagset, $filter_tag_intersection, $filter_tag_exclusion, $filter_title, $size, $page, $order)
 
 List and search articles
 
@@ -359,14 +359,16 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new KnetikCloud\Api\ContentArticlesApi();
 $filter_category = "filter_category_example"; // string | Filter for articles from a specific category by id
-$filter_tagset = "filter_tagset_example"; // string | Filter for articles with specified tags (separated by comma)
+$filter_tagset = "filter_tagset_example"; // string | Filter for articles with at least one of a specified set of tags (separated by comma)
+$filter_tag_intersection = "filter_tag_intersection_example"; // string | Filter for articles with all of a specified set of tags (separated by comma)
+$filter_tag_exclusion = "filter_tag_exclusion_example"; // string | Filter for articles with none of a specified set of tags (separated by comma)
 $filter_title = "filter_title_example"; // string | Filter for articles whose title contains a string
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
 
 try {
-    $result = $api_instance->getArticles($filter_category, $filter_tagset, $filter_title, $size, $page, $order);
+    $result = $api_instance->getArticles($filter_category, $filter_tagset, $filter_tag_intersection, $filter_tag_exclusion, $filter_title, $size, $page, $order);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ContentArticlesApi->getArticles: ', $e->getMessage(), PHP_EOL;
@@ -379,7 +381,9 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **filter_category** | **string**| Filter for articles from a specific category by id | [optional]
- **filter_tagset** | **string**| Filter for articles with specified tags (separated by comma) | [optional]
+ **filter_tagset** | **string**| Filter for articles with at least one of a specified set of tags (separated by comma) | [optional]
+ **filter_tag_intersection** | **string**| Filter for articles with all of a specified set of tags (separated by comma) | [optional]
+ **filter_tag_exclusion** | **string**| Filter for articles with none of a specified set of tags (separated by comma) | [optional]
  **filter_title** | **string**| Filter for articles whose title contains a string | [optional]
  **size** | **int**| The number of objects returned per page | [optional] [default to 25]
  **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]
@@ -431,7 +435,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The article id |
- **article_resource** | [**\KnetikCloud\Model\ArticleResource**](../Model/\KnetikCloud\Model\ArticleResource.md)| The article object | [optional]
+ **article_resource** | [**\KnetikCloud\Model\ArticleResource**](../Model/ArticleResource.md)| The article object | [optional]
 
 ### Return type
 
@@ -479,7 +483,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **article_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The article template resource object | [optional]
+ **article_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The article template resource object | [optional]
 
 ### Return type
 

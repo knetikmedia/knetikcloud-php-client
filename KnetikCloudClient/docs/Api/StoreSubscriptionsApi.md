@@ -46,7 +46,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **subscription_resource** | [**\KnetikCloud\Model\SubscriptionResource**](../Model/\KnetikCloud\Model\SubscriptionResource.md)| The subscription to be created | [optional]
+ **subscription_resource** | [**\KnetikCloud\Model\SubscriptionResource**](../Model/SubscriptionResource.md)| The subscription to be created | [optional]
 
 ### Return type
 
@@ -94,7 +94,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **subscription_template_resource** | [**\KnetikCloud\Model\SubscriptionTemplateResource**](../Model/\KnetikCloud\Model\SubscriptionTemplateResource.md)| The new subscription template | [optional]
+ **subscription_template_resource** | [**\KnetikCloud\Model\SubscriptionTemplateResource**](../Model/SubscriptionTemplateResource.md)| The new subscription template | [optional]
 
 ### Return type
 
@@ -468,7 +468,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the subscription |
- **subscription_resource** | [**\KnetikCloud\Model\SubscriptionResource**](../Model/\KnetikCloud\Model\SubscriptionResource.md)| The subscription resource object | [optional]
+ **subscription_resource** | [**\KnetikCloud\Model\SubscriptionResource**](../Model/SubscriptionResource.md)| The subscription resource object | [optional]
 
 ### Return type
 
@@ -516,7 +516,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **subscription_template_resource** | [**\KnetikCloud\Model\SubscriptionTemplateResource**](../Model/\KnetikCloud\Model\SubscriptionTemplateResource.md)| The subscription template resource object | [optional]
+ **subscription_template_resource** | [**\KnetikCloud\Model\SubscriptionTemplateResource**](../Model/SubscriptionTemplateResource.md)| The subscription template resource object | [optional]
 
 ### Return type
 

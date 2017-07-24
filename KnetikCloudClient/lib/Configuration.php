@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -109,7 +109,7 @@ class Configuration
      *
      * @var string
      */
-    protected $userAgent = 'Swagger-Codegen/3.0.6/php';
+    protected $userAgent = 'Swagger-Codegen/3.0.7/php';
 
     /**
      * Debug switch (default set to false)
@@ -176,6 +176,13 @@ class Configuration
      * @var string
      */
     protected $proxyPassword;
+
+    /**
+     * Allow Curl encoding header
+     *
+     * @var bool
+     */
+    protected $allowEncoding = false;
 
     /**
      * Constructor
@@ -446,6 +453,18 @@ class Configuration
     }
 
     /**
+     * Set whether to accept encoding
+     * @param bool $allowEncoding
+     *
+     * @return $this
+     */
+    public function setAllowEncoding($allowEncoding)
+    {
+        $this->allowEncoding = $allowEncoding;
+        return $this;
+    }
+
+    /**
      * Gets the HTTP connect timeout value
      *
      * @return string HTTP connect timeout value
@@ -455,6 +474,15 @@ class Configuration
         return $this->curlConnectTimeout;
     }
 
+    /**
+     * Get whether to allow encoding
+     *
+     * @return bool
+     */
+    public function getAllowEncoding()
+    {
+        return $this->allowEncoding;
+    }
 
     /**
      * Sets the HTTP Proxy Host
@@ -700,7 +728,7 @@ class Configuration
         $report .= '    OS: ' . php_uname() . PHP_EOL;
         $report .= '    PHP Version: ' . PHP_VERSION . PHP_EOL;
         $report .= '    OpenAPI Spec Version: latest' . PHP_EOL;
-        $report .= '    SDK Package Version: 3.0.6' . PHP_EOL;
+        $report .= '    SDK Package Version: 3.0.7' . PHP_EOL;
         $report .= '    Temp Folder Path: ' . self::getDefaultConfiguration()->getTempFolderPath() . PHP_EOL;
 
         return $report;

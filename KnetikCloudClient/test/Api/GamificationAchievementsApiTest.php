@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -49,7 +49,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -57,7 +56,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -65,7 +63,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -73,7 +70,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -84,7 +80,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateAchievement()
     {
-
     }
 
     /**
@@ -95,7 +90,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateAchievementTemplate()
     {
-
     }
 
     /**
@@ -106,7 +100,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteAchievement()
     {
-
     }
 
     /**
@@ -117,7 +110,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteAchievementTemplate()
     {
-
     }
 
     /**
@@ -128,7 +120,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAchievement()
     {
-
     }
 
     /**
@@ -139,7 +130,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAchievementTemplate()
     {
-
     }
 
     /**
@@ -150,7 +140,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAchievementTemplates()
     {
-
     }
 
     /**
@@ -161,7 +150,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAchievementTriggers()
     {
-
     }
 
     /**
@@ -172,7 +160,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAchievements()
     {
-
     }
 
     /**
@@ -183,7 +170,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDerivedAchievements()
     {
-
     }
 
     /**
@@ -194,7 +180,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUserAchievementProgress()
     {
-
     }
 
     /**
@@ -205,7 +190,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUserAchievementsProgress()
     {
-
     }
 
     /**
@@ -216,7 +200,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUsersAchievementProgress()
     {
-
     }
 
     /**
@@ -227,7 +210,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUsersAchievementsProgress()
     {
-
     }
 
     /**
@@ -238,7 +220,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testIncrementAchievementProgress()
     {
-
     }
 
     /**
@@ -249,7 +230,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetAchievementProgress()
     {
-
     }
 
     /**
@@ -260,7 +240,6 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateAchievement()
     {
-
     }
 
     /**
@@ -271,7 +250,5 @@ class GamificationAchievementsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateAchievementTemplate()
     {
-
     }
-
 }

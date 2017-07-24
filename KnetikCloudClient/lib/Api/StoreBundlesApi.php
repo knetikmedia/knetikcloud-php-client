@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -97,7 +97,7 @@ class StoreBundlesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\BundleItem
      */
-    public function createBundleItem($cascade = null, $bundle_item = null)
+    public function createBundleItem($cascade = 'false', $bundle_item = null)
     {
         list($response) = $this->createBundleItemWithHttpInfo($cascade, $bundle_item);
         return $response;
@@ -113,7 +113,7 @@ class StoreBundlesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\BundleItem, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createBundleItemWithHttpInfo($cascade = null, $bundle_item = null)
+    public function createBundleItemWithHttpInfo($cascade = 'false', $bundle_item = null)
     {
         // parse inputs
         $resourcePath = "/store/bundles";
@@ -309,7 +309,7 @@ class StoreBundlesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -401,7 +401,7 @@ class StoreBundlesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -487,7 +487,7 @@ class StoreBundlesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -573,7 +573,7 @@ class StoreBundlesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -620,7 +620,7 @@ class StoreBundlesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceItemTemplateResource_
      */
-    public function getBundleTemplates($size = null, $page = null, $order = null)
+    public function getBundleTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getBundleTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -637,7 +637,7 @@ class StoreBundlesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceItemTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getBundleTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getBundleTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/store/bundles/templates";
@@ -663,7 +663,7 @@ class StoreBundlesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -710,7 +710,7 @@ class StoreBundlesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\BundleItem
      */
-    public function updateBundleItem($id, $cascade = null, $bundle_item = null)
+    public function updateBundleItem($id, $cascade = 'false', $bundle_item = null)
     {
         list($response) = $this->updateBundleItemWithHttpInfo($id, $cascade, $bundle_item);
         return $response;
@@ -727,7 +727,7 @@ class StoreBundlesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\BundleItem, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateBundleItemWithHttpInfo($id, $cascade = null, $bundle_item = null)
+    public function updateBundleItemWithHttpInfo($id, $cascade = 'false', $bundle_item = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {

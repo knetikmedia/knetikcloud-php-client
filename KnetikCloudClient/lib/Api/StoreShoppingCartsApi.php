@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -414,7 +414,7 @@ class StoreShoppingCartsApi
         if ($currency_code !== null) {
             $queryParams['currency_code'] = $this->apiClient->getSerializer()->toQueryValue($currency_code);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -504,7 +504,7 @@ class StoreShoppingCartsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -556,7 +556,7 @@ class StoreShoppingCartsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceCartSummary_
      */
-    public function getCarts($filter_owner_id = null, $size = null, $page = null, $order = null)
+    public function getCarts($filter_owner_id = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getCartsWithHttpInfo($filter_owner_id, $size, $page, $order);
         return $response;
@@ -574,7 +574,7 @@ class StoreShoppingCartsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceCartSummary_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getCartsWithHttpInfo($filter_owner_id = null, $size = null, $page = null, $order = null)
+    public function getCartsWithHttpInfo($filter_owner_id = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/carts";
@@ -604,7 +604,7 @@ class StoreShoppingCartsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -694,7 +694,7 @@ class StoreShoppingCartsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -784,7 +784,7 @@ class StoreShoppingCartsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -888,7 +888,7 @@ class StoreShoppingCartsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

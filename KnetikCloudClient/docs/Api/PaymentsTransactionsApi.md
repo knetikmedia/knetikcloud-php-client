@@ -140,7 +140,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the transaction to refund |
- **request** | [**\KnetikCloud\Model\RefundRequest**](../Model/\KnetikCloud\Model\RefundRequest.md)| Request containing refund details | [optional]
+ **request** | [**\KnetikCloud\Model\RefundRequest**](../Model/RefundRequest.md)| Request containing refund details | [optional]
 
 ### Return type
 

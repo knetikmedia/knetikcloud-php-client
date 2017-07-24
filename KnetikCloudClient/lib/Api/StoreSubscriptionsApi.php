@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -317,7 +317,7 @@ class StoreSubscriptionsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -409,7 +409,7 @@ class StoreSubscriptionsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -495,7 +495,7 @@ class StoreSubscriptionsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -581,7 +581,7 @@ class StoreSubscriptionsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -632,7 +632,7 @@ class StoreSubscriptionsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceSubscriptionTemplateResource_
      */
-    public function getSubscriptionTemplates($size = null, $page = null, $order = null)
+    public function getSubscriptionTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getSubscriptionTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -649,7 +649,7 @@ class StoreSubscriptionsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceSubscriptionTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getSubscriptionTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getSubscriptionTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/subscriptions/templates";
@@ -675,7 +675,7 @@ class StoreSubscriptionsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -726,7 +726,7 @@ class StoreSubscriptionsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceSubscriptionResource_
      */
-    public function getSubscriptions($size = null, $page = null, $order = null)
+    public function getSubscriptions($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getSubscriptionsWithHttpInfo($size, $page, $order);
         return $response;
@@ -743,7 +743,7 @@ class StoreSubscriptionsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceSubscriptionResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getSubscriptionsWithHttpInfo($size = null, $page = null, $order = null)
+    public function getSubscriptionsWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/subscriptions";
@@ -769,7 +769,7 @@ class StoreSubscriptionsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -841,7 +841,7 @@ class StoreSubscriptionsApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

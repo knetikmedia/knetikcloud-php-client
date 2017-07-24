@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -49,7 +49,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -57,7 +56,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -65,7 +63,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -73,7 +70,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -84,7 +80,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddUserToVideoWhitelist()
     {
-
     }
 
     /**
@@ -95,7 +90,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddVideo()
     {
-
     }
 
     /**
@@ -106,7 +100,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddVideoComment()
     {
-
     }
 
     /**
@@ -117,7 +110,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddVideoContributor()
     {
-
     }
 
     /**
@@ -128,7 +120,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddVideoFlag()
     {
-
     }
 
     /**
@@ -139,7 +130,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddVideoRelationships()
     {
-
     }
 
     /**
@@ -150,7 +140,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateVideoDisposition()
     {
-
     }
 
     /**
@@ -161,7 +150,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteVideo()
     {
-
     }
 
     /**
@@ -172,7 +160,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteVideoComment()
     {
-
     }
 
     /**
@@ -183,7 +170,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteVideoDisposition()
     {
-
     }
 
     /**
@@ -194,7 +180,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteVideoFlag()
     {
-
     }
 
     /**
@@ -205,7 +190,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteVideoRelationship()
     {
-
     }
 
     /**
@@ -216,7 +200,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUserVideos()
     {
-
     }
 
     /**
@@ -227,7 +210,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetVideo()
     {
-
     }
 
     /**
@@ -238,7 +220,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetVideoComments()
     {
-
     }
 
     /**
@@ -249,7 +230,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetVideoDispositions()
     {
-
     }
 
     /**
@@ -260,7 +240,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetVideoRelationships()
     {
-
     }
 
     /**
@@ -271,7 +250,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetVideos()
     {
-
     }
 
     /**
@@ -282,7 +260,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoveUserFromVideoWhitelist()
     {
-
     }
 
     /**
@@ -293,7 +270,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoveVideoContributor()
     {
-
     }
 
     /**
@@ -304,7 +280,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateVideo()
     {
-
     }
 
     /**
@@ -315,7 +290,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateVideoComment()
     {
-
     }
 
     /**
@@ -326,7 +300,6 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateVideoRelationship()
     {
-
     }
 
     /**
@@ -337,7 +310,5 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testViewVideo()
     {
-
     }
-
 }

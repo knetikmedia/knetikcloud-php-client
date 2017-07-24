@@ -40,7 +40,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | [**\KnetikCloud\Model\CurrencyResource**](../Model/\KnetikCloud\Model\CurrencyResource.md)| The currency object | [optional]
+ **currency** | [**\KnetikCloud\Model\CurrencyResource**](../Model/CurrencyResource.md)| The currency object | [optional]
 
 ### Return type
 
@@ -226,7 +226,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **code** | **string**| The currency code |
- **currency** | [**\KnetikCloud\Model\CurrencyResource**](../Model/\KnetikCloud\Model\CurrencyResource.md)| The currency object | [optional]
+ **currency** | [**\KnetikCloud\Model\CurrencyResource**](../Model/CurrencyResource.md)| The currency object | [optional]
 
 ### Return type
 

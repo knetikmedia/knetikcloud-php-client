@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -66,9 +66,31 @@ class ClientResource implements ArrayAccess
         'secret' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'access_token_validity_seconds' => 'int32',
+        'client_key' => null,
+        'grant_types' => null,
+        'id' => 'int32',
+        'is_public' => null,
+        'locked' => null,
+        'name' => null,
+        'redirect_uris' => null,
+        'refresh_token_validity_seconds' => 'int32',
+        'secret' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -263,7 +285,7 @@ class ClientResource implements ArrayAccess
 
     /**
      * Sets grant_types
-     * @param string[] $grant_types The oauth grant type as in: password (username/password auth), client_credentials (server-to-server, private clients), refresh_token (to allow clients to refresh their initial token), facebook, google, etc) See documentation for a complete list. use dedicated endpoint PUT /grant-types to edit this list
+     * @param string[] $grant_types The oauth grant type as in: password (username/password auth), client_credentials (server-to-server, private clients), refresh_token (to allow clients to refresh their initial token), facebook, google, etc) See documentation for a complete list. Use dedicated endpoint PUT /grant-types to edit this list
      * @return $this
      */
     public function setGrantTypes($grant_types)

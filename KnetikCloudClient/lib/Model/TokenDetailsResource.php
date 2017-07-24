@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -54,8 +54,19 @@ class TokenDetailsResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
+        'client_id' => 'string',
         'roles' => 'string[]',
         'user_id' => 'int'
+    ];
+
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'client_id' => null,
+        'roles' => null,
+        'user_id' => 'int32'
     ];
 
     public static function swaggerTypes()
@@ -63,11 +74,17 @@ class TokenDetailsResource implements ArrayAccess
         return self::$swaggerTypes;
     }
 
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
+    }
+
     /**
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
     protected static $attributeMap = [
+        'client_id' => 'client_id',
         'roles' => 'roles',
         'user_id' => 'user_id'
     ];
@@ -78,6 +95,7 @@ class TokenDetailsResource implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
+        'client_id' => 'setClientId',
         'roles' => 'setRoles',
         'user_id' => 'setUserId'
     ];
@@ -88,6 +106,7 @@ class TokenDetailsResource implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
+        'client_id' => 'getClientId',
         'roles' => 'getRoles',
         'user_id' => 'getUserId'
     ];
@@ -123,6 +142,7 @@ class TokenDetailsResource implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['client_id'] = isset($data['client_id']) ? $data['client_id'] : null;
         $this->container['roles'] = isset($data['roles']) ? $data['roles'] : null;
         $this->container['user_id'] = isset($data['user_id']) ? $data['user_id'] : null;
     }
@@ -151,6 +171,27 @@ class TokenDetailsResource implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets client_id
+     * @return string
+     */
+    public function getClientId()
+    {
+        return $this->container['client_id'];
+    }
+
+    /**
+     * Sets client_id
+     * @param string $client_id
+     * @return $this
+     */
+    public function setClientId($client_id)
+    {
+        $this->container['client_id'] = $client_id;
+
+        return $this;
+    }
 
     /**
      * Gets roles

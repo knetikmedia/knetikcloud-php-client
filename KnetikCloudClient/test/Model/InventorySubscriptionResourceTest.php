@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testInventorySubscriptionResource()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyBillDate()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCredit()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCreditLog()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyGraceEnd()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyInventoryId()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyInventoryStatus()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyItemId()
     {
-
     }
 
     /**
@@ -143,7 +131,20 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPaymentMethod()
     {
+    }
 
+    /**
+     * Test attribute "price_override"
+     */
+    public function testPropertyPriceOverride()
+    {
+    }
+
+    /**
+     * Test attribute "price_override_reason"
+     */
+    public function testPropertyPriceOverrideReason()
+    {
     }
 
     /**
@@ -151,7 +152,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyRecurringPrice()
     {
-
     }
 
     /**
@@ -159,7 +159,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySku()
     {
-
     }
 
     /**
@@ -167,7 +166,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyStartDate()
     {
-
     }
 
     /**
@@ -175,7 +173,6 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySubscriptionStatus()
     {
-
     }
 
     /**
@@ -183,7 +180,5 @@ class InventorySubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUser()
     {
-
     }
-
 }

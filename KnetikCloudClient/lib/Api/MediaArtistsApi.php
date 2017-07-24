@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -303,7 +303,7 @@ class MediaArtistsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -395,7 +395,7 @@ class MediaArtistsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -487,7 +487,7 @@ class MediaArtistsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -573,7 +573,7 @@ class MediaArtistsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -624,7 +624,7 @@ class MediaArtistsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceTemplateResource_
      */
-    public function getArtistTemplates($size = null, $page = null, $order = null)
+    public function getArtistTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getArtistTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -641,7 +641,7 @@ class MediaArtistsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getArtistTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getArtistTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/media/artists/templates";
@@ -667,7 +667,7 @@ class MediaArtistsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -719,7 +719,7 @@ class MediaArtistsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceArtistResource_
      */
-    public function getArtists($filter_artists_by_name = null, $size = null, $page = null, $order = null)
+    public function getArtists($filter_artists_by_name = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getArtistsWithHttpInfo($filter_artists_by_name, $size, $page, $order);
         return $response;
@@ -737,7 +737,7 @@ class MediaArtistsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceArtistResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getArtistsWithHttpInfo($filter_artists_by_name = null, $size = null, $page = null, $order = null)
+    public function getArtistsWithHttpInfo($filter_artists_by_name = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/media/artists";
@@ -767,7 +767,7 @@ class MediaArtistsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

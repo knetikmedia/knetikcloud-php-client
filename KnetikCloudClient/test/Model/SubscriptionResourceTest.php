@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSubscriptionResource()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyAdditionalProperties()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyAvailability()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCategory()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyConsolidationDayOfMonth()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCreatedDate()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyGeoCountryList()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyGeoPolicyType()
     {
-
     }
 
     /**
@@ -143,7 +131,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyId()
     {
-
     }
 
     /**
@@ -151,7 +138,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyLongDescription()
     {
-
     }
 
     /**
@@ -159,7 +145,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyName()
     {
-
     }
 
     /**
@@ -167,7 +152,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPlans()
     {
-
     }
 
     /**
@@ -175,7 +159,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShortDescription()
     {
-
     }
 
     /**
@@ -183,7 +166,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySort()
     {
-
     }
 
     /**
@@ -191,7 +173,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyStoreEnd()
     {
-
     }
 
     /**
@@ -199,7 +180,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyStoreStart()
     {
-
     }
 
     /**
@@ -207,7 +187,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyTags()
     {
-
     }
 
     /**
@@ -215,7 +194,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyTemplate()
     {
-
     }
 
     /**
@@ -223,7 +201,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUniqueKey()
     {
-
     }
 
     /**
@@ -231,7 +208,6 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUpdatedDate()
     {
-
     }
 
     /**
@@ -239,7 +215,5 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyVendorId()
     {
-
     }
-
 }

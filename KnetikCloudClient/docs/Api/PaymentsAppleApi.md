@@ -35,7 +35,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**\KnetikCloud\Model\ApplyPaymentRequest**](../Model/\KnetikCloud\Model\ApplyPaymentRequest.md)| The request for paying an invoice through an Apple receipt | [optional]
+ **request** | [**\KnetikCloud\Model\ApplyPaymentRequest**](../Model/ApplyPaymentRequest.md)| The request for paying an invoice through an Apple receipt | [optional]
 
 ### Return type
 

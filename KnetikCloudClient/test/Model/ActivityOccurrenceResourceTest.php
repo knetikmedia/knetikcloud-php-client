@@ -1,6 +1,6 @@
 <?php
 /**
- * AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettingsTest
+ * ActivityOccurrenceResourceTest
  *
  * PHP version 5
  *
@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -30,16 +30,16 @@
 namespace KnetikCloud;
 
 /**
- * AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettingsTest Class Doc Comment
+ * ActivityOccurrenceResourceTest Class Doc Comment
  *
  * @category    Class */
-// * @description AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings
+// * @description A occurrence of an activity (the actual game for example). Used to track scores, participants, and provide settings
 /**
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettingsTest extends \PHPUnit_Framework_TestCase
+class ActivityOccurrenceResourceTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -47,7 +47,6 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,15 +68,13 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
-     * Test "AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings"
+     * Test "ActivityOccurrenceResource"
      */
-    public function testAOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings()
+    public function testActivityOccurrenceResource()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function testPropertyActivityId()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function testPropertyChallengeActivityId()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function testPropertyCreatedDate()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function testPropertyEntitlement()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function testPropertyEventId()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function testPropertyId()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function testPropertyRewardStatus()
     {
-
     }
 
     /**
@@ -143,7 +131,6 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function testPropertySettings()
     {
-
     }
 
     /**
@@ -151,7 +138,6 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function testPropertySimulated()
     {
-
     }
 
     /**
@@ -159,7 +145,6 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function testPropertyStartDate()
     {
-
     }
 
     /**
@@ -167,7 +152,6 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function testPropertyStatus()
     {
-
     }
 
     /**
@@ -175,7 +159,6 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function testPropertyUpdatedDate()
     {
-
     }
 
     /**
@@ -183,7 +166,5 @@ class AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipant
      */
     public function testPropertyUsers()
     {
-
     }
-
 }

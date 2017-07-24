@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -794,7 +794,7 @@ class MediaVideosApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -894,7 +894,7 @@ class MediaVideosApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -980,7 +980,7 @@ class MediaVideosApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1066,7 +1066,7 @@ class MediaVideosApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1166,7 +1166,7 @@ class MediaVideosApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1214,7 +1214,7 @@ class MediaVideosApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceVideoResource_
      */
-    public function getUserVideos($user_id, $exclude_flagged = null, $size = null, $page = null)
+    public function getUserVideos($user_id, $exclude_flagged = 'true', $size = '25', $page = '1')
     {
         list($response) = $this->getUserVideosWithHttpInfo($user_id, $exclude_flagged, $size, $page);
         return $response;
@@ -1232,7 +1232,7 @@ class MediaVideosApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceVideoResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUserVideosWithHttpInfo($user_id, $exclude_flagged = null, $size = null, $page = null)
+    public function getUserVideosWithHttpInfo($user_id, $exclude_flagged = 'true', $size = '25', $page = '1')
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -1270,7 +1270,7 @@ class MediaVideosApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1360,7 +1360,7 @@ class MediaVideosApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1411,7 +1411,7 @@ class MediaVideosApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceCommentResource_
      */
-    public function getVideoComments($video_id, $size = null, $page = null)
+    public function getVideoComments($video_id, $size = '25', $page = '1')
     {
         list($response) = $this->getVideoCommentsWithHttpInfo($video_id, $size, $page);
         return $response;
@@ -1428,7 +1428,7 @@ class MediaVideosApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceCommentResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getVideoCommentsWithHttpInfo($video_id, $size = null, $page = null)
+    public function getVideoCommentsWithHttpInfo($video_id, $size = '25', $page = '1')
     {
         // verify the required parameter 'video_id' is set
         if ($video_id === null) {
@@ -1462,7 +1462,7 @@ class MediaVideosApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1509,7 +1509,7 @@ class MediaVideosApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceDispositionResource_
      */
-    public function getVideoDispositions($video_id, $size = null, $page = null)
+    public function getVideoDispositions($video_id, $size = '25', $page = '1')
     {
         list($response) = $this->getVideoDispositionsWithHttpInfo($video_id, $size, $page);
         return $response;
@@ -1526,7 +1526,7 @@ class MediaVideosApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceDispositionResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getVideoDispositionsWithHttpInfo($video_id, $size = null, $page = null)
+    public function getVideoDispositionsWithHttpInfo($video_id, $size = '25', $page = '1')
     {
         // verify the required parameter 'video_id' is set
         if ($video_id === null) {
@@ -1560,7 +1560,7 @@ class MediaVideosApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1607,7 +1607,7 @@ class MediaVideosApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceVideoRelationshipResource_
      */
-    public function getVideoRelationships($video_id, $size = null, $page = null)
+    public function getVideoRelationships($video_id, $size = '25', $page = '1')
     {
         list($response) = $this->getVideoRelationshipsWithHttpInfo($video_id, $size, $page);
         return $response;
@@ -1624,7 +1624,7 @@ class MediaVideosApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceVideoRelationshipResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getVideoRelationshipsWithHttpInfo($video_id, $size = null, $page = null)
+    public function getVideoRelationshipsWithHttpInfo($video_id, $size = '25', $page = '1')
     {
         // verify the required parameter 'video_id' is set
         if ($video_id === null) {
@@ -1658,7 +1658,7 @@ class MediaVideosApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1700,12 +1700,12 @@ class MediaVideosApi
      * Search videos using the documented filters
      *
      * @param bool $exclude_flagged Skip videos that have been flagged by the current user (optional, default to true)
-     * @param \KnetikCloud\Model\Object $filter_videos_by_uploader Filter for videos by uploader id (optional)
+     * @param int $filter_videos_by_uploader Filter for videos by uploader id (optional)
      * @param string $filter_category Filter for videos from a specific category by id (optional)
      * @param string $filter_tagset Filter for videos with specified tags (separated by comma) (optional)
      * @param string $filter_videos_by_name Filter for videos which name *STARTS* with the given string (optional)
-     * @param \KnetikCloud\Model\Object $filter_videos_by_contributor Filter for videos with contribution from the artist specified by ID (optional)
-     * @param \KnetikCloud\Model\Object $filter_videos_by_author Filter for videos with an artist as author specified by ID (optional)
+     * @param int $filter_videos_by_contributor Filter for videos with contribution from the artist specified by ID (optional)
+     * @param int $filter_videos_by_author Filter for videos with an artist as author specified by ID (optional)
      * @param bool $filter_has_author Filter for videos that have an author set if true, or that have no author if false (optional)
      * @param bool $filter_has_uploader Filter for videos that have an uploader set if true, or that have no uploader if false (optional)
      * @param string $filter_related_to Filter for videos that have designated a particular video as the TO of a relationship. Pattern should match VIDEO_ID or VIDEO_ID:DETAILS to match with a specific details string as well (optional)
@@ -1717,7 +1717,7 @@ class MediaVideosApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceVideoResource_
      */
-    public function getVideos($exclude_flagged = null, $filter_videos_by_uploader = null, $filter_category = null, $filter_tagset = null, $filter_videos_by_name = null, $filter_videos_by_contributor = null, $filter_videos_by_author = null, $filter_has_author = null, $filter_has_uploader = null, $filter_related_to = null, $filter_friends = null, $filter_disposition = null, $size = null, $page = null, $order = null)
+    public function getVideos($exclude_flagged = 'true', $filter_videos_by_uploader = null, $filter_category = null, $filter_tagset = null, $filter_videos_by_name = null, $filter_videos_by_contributor = null, $filter_videos_by_author = null, $filter_has_author = null, $filter_has_uploader = null, $filter_related_to = null, $filter_friends = null, $filter_disposition = null, $size = '25', $page = '1', $order = 'author:ASC')
     {
         list($response) = $this->getVideosWithHttpInfo($exclude_flagged, $filter_videos_by_uploader, $filter_category, $filter_tagset, $filter_videos_by_name, $filter_videos_by_contributor, $filter_videos_by_author, $filter_has_author, $filter_has_uploader, $filter_related_to, $filter_friends, $filter_disposition, $size, $page, $order);
         return $response;
@@ -1729,12 +1729,12 @@ class MediaVideosApi
      * Search videos using the documented filters
      *
      * @param bool $exclude_flagged Skip videos that have been flagged by the current user (optional, default to true)
-     * @param \KnetikCloud\Model\Object $filter_videos_by_uploader Filter for videos by uploader id (optional)
+     * @param int $filter_videos_by_uploader Filter for videos by uploader id (optional)
      * @param string $filter_category Filter for videos from a specific category by id (optional)
      * @param string $filter_tagset Filter for videos with specified tags (separated by comma) (optional)
      * @param string $filter_videos_by_name Filter for videos which name *STARTS* with the given string (optional)
-     * @param \KnetikCloud\Model\Object $filter_videos_by_contributor Filter for videos with contribution from the artist specified by ID (optional)
-     * @param \KnetikCloud\Model\Object $filter_videos_by_author Filter for videos with an artist as author specified by ID (optional)
+     * @param int $filter_videos_by_contributor Filter for videos with contribution from the artist specified by ID (optional)
+     * @param int $filter_videos_by_author Filter for videos with an artist as author specified by ID (optional)
      * @param bool $filter_has_author Filter for videos that have an author set if true, or that have no author if false (optional)
      * @param bool $filter_has_uploader Filter for videos that have an uploader set if true, or that have no uploader if false (optional)
      * @param string $filter_related_to Filter for videos that have designated a particular video as the TO of a relationship. Pattern should match VIDEO_ID or VIDEO_ID:DETAILS to match with a specific details string as well (optional)
@@ -1746,7 +1746,7 @@ class MediaVideosApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceVideoResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getVideosWithHttpInfo($exclude_flagged = null, $filter_videos_by_uploader = null, $filter_category = null, $filter_tagset = null, $filter_videos_by_name = null, $filter_videos_by_contributor = null, $filter_videos_by_author = null, $filter_has_author = null, $filter_has_uploader = null, $filter_related_to = null, $filter_friends = null, $filter_disposition = null, $size = null, $page = null, $order = null)
+    public function getVideosWithHttpInfo($exclude_flagged = 'true', $filter_videos_by_uploader = null, $filter_category = null, $filter_tagset = null, $filter_videos_by_name = null, $filter_videos_by_contributor = null, $filter_videos_by_author = null, $filter_has_author = null, $filter_has_uploader = null, $filter_related_to = null, $filter_friends = null, $filter_disposition = null, $size = '25', $page = '1', $order = 'author:ASC')
     {
         // parse inputs
         $resourcePath = "/media/videos";
@@ -1820,7 +1820,7 @@ class MediaVideosApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1920,7 +1920,7 @@ class MediaVideosApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -2020,7 +2020,7 @@ class MediaVideosApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -2413,7 +2413,7 @@ class MediaVideosApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

@@ -49,7 +49,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the cart |
- **custom_discount** | [**\KnetikCloud\Model\CouponDefinition**](../Model/\KnetikCloud\Model\CouponDefinition.md)| The details of the discount to add | [optional]
+ **custom_discount** | [**\KnetikCloud\Model\CouponDefinition**](../Model/CouponDefinition.md)| The details of the discount to add | [optional]
 
 ### Return type
 
@@ -96,7 +96,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the cart |
- **sku_request** | [**\KnetikCloud\Model\SkuRequest**](../Model/\KnetikCloud\Model\SkuRequest.md)| The request of the sku | [optional]
+ **sku_request** | [**\KnetikCloud\Model\SkuRequest**](../Model/SkuRequest.md)| The request of the sku | [optional]
 
 ### Return type
 
@@ -145,7 +145,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the cart |
- **cart_item_request** | [**\KnetikCloud\Model\CartItemRequest**](../Model/\KnetikCloud\Model\CartItemRequest.md)| The cart item request object | [optional]
+ **cart_item_request** | [**\KnetikCloud\Model\CartItemRequest**](../Model/CartItemRequest.md)| The cart item request object | [optional]
 
 ### Return type
 
@@ -579,7 +579,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the cart |
- **cart_item_request** | [**\KnetikCloud\Model\CartItemRequest**](../Model/\KnetikCloud\Model\CartItemRequest.md)| The cart item request object | [optional]
+ **cart_item_request** | [**\KnetikCloud\Model\CartItemRequest**](../Model/CartItemRequest.md)| The cart item request object | [optional]
 
 ### Return type
 
@@ -626,7 +626,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the cart |
- **cart_shipping_address_request** | [**\KnetikCloud\Model\CartShippingAddressRequest**](../Model/\KnetikCloud\Model\CartShippingAddressRequest.md)| The cart shipping address request object | [optional]
+ **cart_shipping_address_request** | [**\KnetikCloud\Model\CartShippingAddressRequest**](../Model/CartShippingAddressRequest.md)| The cart shipping address request object | [optional]
 
 ### Return type
 

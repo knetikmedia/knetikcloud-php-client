@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -505,7 +505,7 @@ class UsersGroupsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -597,7 +597,7 @@ class UsersGroupsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -683,7 +683,7 @@ class UsersGroupsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -783,7 +783,7 @@ class UsersGroupsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -831,7 +831,7 @@ class UsersGroupsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceGroupMemberResource_
      */
-    public function getGroupMembers($unique_name, $size = null, $page = null, $order = null)
+    public function getGroupMembers($unique_name, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getGroupMembersWithHttpInfo($unique_name, $size, $page, $order);
         return $response;
@@ -849,7 +849,7 @@ class UsersGroupsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceGroupMemberResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getGroupMembersWithHttpInfo($unique_name, $size = null, $page = null, $order = null)
+    public function getGroupMembersWithHttpInfo($unique_name, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // verify the required parameter 'unique_name' is set
         if ($unique_name === null) {
@@ -887,7 +887,7 @@ class UsersGroupsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -973,7 +973,7 @@ class UsersGroupsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1024,7 +1024,7 @@ class UsersGroupsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceTemplateResource_
      */
-    public function getGroupTemplates($size = null, $page = null, $order = null)
+    public function getGroupTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getGroupTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -1041,7 +1041,7 @@ class UsersGroupsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getGroupTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getGroupTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/users/groups/templates";
@@ -1067,7 +1067,7 @@ class UsersGroupsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1157,7 +1157,7 @@ class UsersGroupsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1257,7 +1257,7 @@ class UsersGroupsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1611,7 +1611,7 @@ class UsersGroupsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceGroupResource_
      */
-    public function updateGroups($filter_template = null, $filter_member_count = null, $filter_name = null, $filter_unique_name = null, $filter_parent = null, $filter_status = null, $size = null, $page = null, $order = null)
+    public function updateGroups($filter_template = null, $filter_member_count = null, $filter_name = null, $filter_unique_name = null, $filter_parent = null, $filter_status = null, $size = '25', $page = '1', $order = 'name:ASC')
     {
         list($response) = $this->updateGroupsWithHttpInfo($filter_template, $filter_member_count, $filter_name, $filter_unique_name, $filter_parent, $filter_status, $size, $page, $order);
         return $response;
@@ -1634,7 +1634,7 @@ class UsersGroupsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceGroupResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateGroupsWithHttpInfo($filter_template = null, $filter_member_count = null, $filter_name = null, $filter_unique_name = null, $filter_parent = null, $filter_status = null, $size = null, $page = null, $order = null)
+    public function updateGroupsWithHttpInfo($filter_template = null, $filter_member_count = null, $filter_name = null, $filter_unique_name = null, $filter_parent = null, $filter_status = null, $size = '25', $page = '1', $order = 'name:ASC')
     {
         // parse inputs
         $resourcePath = "/users/groups";
@@ -1684,7 +1684,7 @@ class UsersGroupsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

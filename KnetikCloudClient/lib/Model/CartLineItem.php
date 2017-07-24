@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -74,9 +74,39 @@ class CartLineItem implements ArrayAccess
         'vendor_name' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'currency_code' => null,
+        'description' => null,
+        'discount' => null,
+        'line_total' => 'double',
+        'name' => null,
+        'original_line_total' => 'double',
+        'original_unit_price' => 'double',
+        'qty' => 'int32',
+        'sale_name' => null,
+        'sku' => null,
+        'sku_description' => null,
+        'store_item_id' => 'int32',
+        'tags' => null,
+        'thumb_url' => null,
+        'unique_key' => null,
+        'unit_price' => 'double',
+        'vendor_id' => 'int32',
+        'vendor_name' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**

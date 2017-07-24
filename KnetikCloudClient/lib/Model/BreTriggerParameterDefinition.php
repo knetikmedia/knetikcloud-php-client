@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -55,12 +55,28 @@ class BreTriggerParameterDefinition implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'name' => 'string',
+        'optional' => 'bool',
         'type' => 'string'
+    ];
+
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'name' => null,
+        'optional' => null,
+        'type' => null
     ];
 
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -69,6 +85,7 @@ class BreTriggerParameterDefinition implements ArrayAccess
      */
     protected static $attributeMap = [
         'name' => 'name',
+        'optional' => 'optional',
         'type' => 'type'
     ];
 
@@ -79,6 +96,7 @@ class BreTriggerParameterDefinition implements ArrayAccess
      */
     protected static $setters = [
         'name' => 'setName',
+        'optional' => 'setOptional',
         'type' => 'setType'
     ];
 
@@ -89,6 +107,7 @@ class BreTriggerParameterDefinition implements ArrayAccess
      */
     protected static $getters = [
         'name' => 'getName',
+        'optional' => 'getOptional',
         'type' => 'getType'
     ];
 
@@ -124,6 +143,7 @@ class BreTriggerParameterDefinition implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
+        $this->container['optional'] = isset($data['optional']) ? $data['optional'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
     }
 
@@ -181,6 +201,27 @@ class BreTriggerParameterDefinition implements ArrayAccess
     public function setName($name)
     {
         $this->container['name'] = $name;
+
+        return $this;
+    }
+
+    /**
+     * Gets optional
+     * @return bool
+     */
+    public function getOptional()
+    {
+        return $this->container['optional'];
+    }
+
+    /**
+     * Sets optional
+     * @param bool $optional Whether this parameter can be left off when firing the event. Default false
+     * @return $this
+     */
+    public function setOptional($optional)
+    {
+        $this->container['optional'] = $optional;
 
         return $this;
     }

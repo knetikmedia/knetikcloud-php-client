@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -100,7 +100,7 @@ class ReportingUsersApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceAggregateCountResource_
      */
-    public function getUserRegistrations($granularity = null, $start_date = null, $end_date = null, $size = null, $page = null)
+    public function getUserRegistrations($granularity = 'day', $start_date = null, $end_date = null, $size = '25', $page = '1')
     {
         list($response) = $this->getUserRegistrationsWithHttpInfo($granularity, $start_date, $end_date, $size, $page);
         return $response;
@@ -119,7 +119,7 @@ class ReportingUsersApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceAggregateCountResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUserRegistrationsWithHttpInfo($granularity = null, $start_date = null, $end_date = null, $size = null, $page = null)
+    public function getUserRegistrationsWithHttpInfo($granularity = 'day', $start_date = null, $end_date = null, $size = '25', $page = '1')
     {
         // parse inputs
         $resourcePath = "/reporting/users/registrations";
@@ -153,7 +153,7 @@ class ReportingUsersApi
         if ($page !== null) {
             $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

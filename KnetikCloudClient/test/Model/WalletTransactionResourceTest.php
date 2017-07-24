@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testWalletTransactionResource()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyBalance()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCreateDate()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCurrencyCode()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyDetails()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyId()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyInvoiceId()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyIsRefunded()
     {
-
     }
 
     /**
@@ -143,7 +131,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyResponse()
     {
-
     }
 
     /**
@@ -151,7 +138,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySource()
     {
-
     }
 
     /**
@@ -159,7 +145,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySuccessful()
     {
-
     }
 
     /**
@@ -167,7 +152,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyTransactionId()
     {
-
     }
 
     /**
@@ -175,7 +159,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyType()
     {
-
     }
 
     /**
@@ -183,7 +166,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyTypeHint()
     {
-
     }
 
     /**
@@ -191,7 +173,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUser()
     {
-
     }
 
     /**
@@ -199,7 +180,6 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyValue()
     {
-
     }
 
     /**
@@ -207,7 +187,5 @@ class WalletTransactionResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyWalletId()
     {
-
     }
-
 }

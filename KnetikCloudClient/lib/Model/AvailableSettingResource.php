@@ -1,6 +1,6 @@
 <?php
 /**
- * TheDefinitionOfAnActivityParametersExDifficultyLevel
+ * AvailableSettingResource
  *
  * PHP version 5
  *
@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -32,14 +32,15 @@ namespace KnetikCloud\Model;
 use \ArrayAccess;
 
 /**
- * TheDefinitionOfAnActivityParametersExDifficultyLevel Class Doc Comment
+ * AvailableSettingResource Class Doc Comment
  *
  * @category    Class
+ * @description The definition of an activity parameters: ex: difficulty level
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class TheDefinitionOfAnActivityParametersExDifficultyLevel implements ArrayAccess
+class AvailableSettingResource implements ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -47,7 +48,7 @@ class TheDefinitionOfAnActivityParametersExDifficultyLevel implements ArrayAcces
       * The original name of the model.
       * @var string
       */
-    protected static $swaggerModelName = 'The definition of an activity parameters: ex: difficulty level';
+    protected static $swaggerModelName = 'AvailableSettingResource';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -62,9 +63,27 @@ class TheDefinitionOfAnActivityParametersExDifficultyLevel implements ArrayAcces
         'options' => '\KnetikCloud\Model\SettingOption[]'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'advanced_option' => null,
+        'default_value' => null,
+        'description' => null,
+        'key' => null,
+        'name' => null,
+        'options' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**

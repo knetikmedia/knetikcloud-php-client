@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -70,9 +70,35 @@ class CampaignResource implements ArrayAccess
         'updated_date' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'active' => null,
+        'additional_properties' => null,
+        'created_date' => 'int64',
+        'id' => 'int64',
+        'leaderboard_strategy' => null,
+        'long_description' => null,
+        'name' => null,
+        'next_challenge' => null,
+        'next_challenge_date' => 'int64',
+        'reward_set' => null,
+        'reward_status' => null,
+        'short_description' => null,
+        'template' => null,
+        'updated_date' => 'int64'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -217,9 +243,12 @@ class CampaignResource implements ArrayAccess
         if ($this->container['name'] === null) {
             $invalid_properties[] = "'name' can't be null";
         }
-        $allowed_values = ["pending", "failed", "complete", "partial"];
+        $allowed_values = $this->getRewardStatusAllowableValues();
         if (!in_array($this->container['reward_status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'reward_status', must be one of 'pending', 'failed', 'complete', 'partial'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'reward_status', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -237,7 +266,7 @@ class CampaignResource implements ArrayAccess
         if ($this->container['name'] === null) {
             return false;
         }
-        $allowed_values = ["pending", "failed", "complete", "partial"];
+        $allowed_values = $this->getRewardStatusAllowableValues();
         if (!in_array($this->container['reward_status'], $allowed_values)) {
             return false;
         }
@@ -471,9 +500,14 @@ class CampaignResource implements ArrayAccess
      */
     public function setRewardStatus($reward_status)
     {
-        $allowed_values = array('pending', 'failed', 'complete', 'partial');
-        if (!is_null($reward_status) && (!in_array($reward_status, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'reward_status', must be one of 'pending', 'failed', 'complete', 'partial'");
+        $allowed_values = $this->getRewardStatusAllowableValues();
+        if (!is_null($reward_status) && !in_array($reward_status, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'reward_status', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['reward_status'] = $reward_status;
 

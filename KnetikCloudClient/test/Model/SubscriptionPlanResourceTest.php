@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSubscriptionPlanResource()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyAdditionalProperties()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyBillingCycleLength()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyBillingCycleUnit()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyConsolidated()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCurrencyCode()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyEndDate()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyFirstBillingCycleLength()
     {
-
     }
 
     /**
@@ -143,7 +131,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyFirstBillingCycleUnit()
     {
-
     }
 
     /**
@@ -151,7 +138,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyGracePeriod()
     {
-
     }
 
     /**
@@ -159,7 +145,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyId()
     {
-
     }
 
     /**
@@ -167,7 +152,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyInitialFee()
     {
-
     }
 
     /**
@@ -175,7 +159,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyInitialSku()
     {
-
     }
 
     /**
@@ -183,7 +166,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyLatePaymentFee()
     {
-
     }
 
     /**
@@ -191,7 +173,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyLatePaymentSku()
     {
-
     }
 
     /**
@@ -199,7 +180,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyLocked()
     {
-
     }
 
     /**
@@ -207,7 +187,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyMaxBillAttempts()
     {
-
     }
 
     /**
@@ -215,7 +194,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyMaxCycles()
     {
-
     }
 
     /**
@@ -223,7 +201,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyMigrateToPlan()
     {
-
     }
 
     /**
@@ -231,7 +208,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyMinCycles()
     {
-
     }
 
     /**
@@ -239,7 +215,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyName()
     {
-
     }
 
     /**
@@ -247,7 +222,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPublished()
     {
-
     }
 
     /**
@@ -255,7 +229,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyReactivationFee()
     {
-
     }
 
     /**
@@ -263,7 +236,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyReactivationSku()
     {
-
     }
 
     /**
@@ -271,7 +243,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyRecurringFee()
     {
-
     }
 
     /**
@@ -279,7 +250,6 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyRecurringSku()
     {
-
     }
 
     /**
@@ -287,7 +257,5 @@ class SubscriptionPlanResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyStartDate()
     {
-
     }
-
 }

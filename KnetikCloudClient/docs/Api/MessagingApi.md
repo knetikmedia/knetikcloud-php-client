@@ -38,7 +38,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **raw_email_resource** | [**\KnetikCloud\Model\RawEmailResource**](../Model/\KnetikCloud\Model\RawEmailResource.md)| The new raw email to be sent | [optional]
+ **raw_email_resource** | [**\KnetikCloud\Model\RawEmailResource**](../Model/RawEmailResource.md)| The new raw email to be sent | [optional]
 
 ### Return type
 
@@ -85,7 +85,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **raw_sms_resource** | [**\KnetikCloud\Model\RawSMSResource**](../Model/\KnetikCloud\Model\RawSMSResource.md)| The new raw SMS to be sent | [optional]
+ **raw_sms_resource** | [**\KnetikCloud\Model\RawSMSResource**](../Model/RawSMSResource.md)| The new raw SMS to be sent | [optional]
 
 ### Return type
 
@@ -130,7 +130,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **message_resource** | [**\KnetikCloud\Model\TemplateEmailResource**](../Model/\KnetikCloud\Model\TemplateEmailResource.md)| The new template email to be sent | [optional]
+ **message_resource** | [**\KnetikCloud\Model\TemplateEmailResource**](../Model/TemplateEmailResource.md)| The new template email to be sent | [optional]
 
 ### Return type
 
@@ -177,7 +177,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **template_sms_resource** | [**\KnetikCloud\Model\TemplateSMSResource**](../Model/\KnetikCloud\Model\TemplateSMSResource.md)| The new template SMS to be sent | [optional]
+ **template_sms_resource** | [**\KnetikCloud\Model\TemplateSMSResource**](../Model/TemplateSMSResource.md)| The new template SMS to be sent | [optional]
 
 ### Return type
 

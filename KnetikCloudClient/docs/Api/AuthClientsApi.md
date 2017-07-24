@@ -43,7 +43,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client_resource** | [**\KnetikCloud\Model\ClientResource**](../Model/\KnetikCloud\Model\ClientResource.md)| The client resource object | [optional]
+ **client_resource** | [**\KnetikCloud\Model\ClientResource**](../Model/ClientResource.md)| The client resource object | [optional]
 
 ### Return type
 
@@ -258,7 +258,7 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 
 $api_instance = new KnetikCloud\Api\AuthClientsApi();
 $client_key = "client_key_example"; // string | The key of the client
-$grant_list = array(new string[]()); // string[] | A list of unique grant types
+$grant_list = array(new \KnetikCloud\Model\string[]()); // string[] | A list of unique grant types
 
 try {
     $api_instance->setClientGrantTypes($client_key, $grant_list);
@@ -305,7 +305,7 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 
 $api_instance = new KnetikCloud\Api\AuthClientsApi();
 $client_key = "client_key_example"; // string | The key of the client
-$redirect_list = array(new string[]()); // string[] | A list of unique redirect uris
+$redirect_list = array(new \KnetikCloud\Model\string[]()); // string[] | A list of unique redirect uris
 
 try {
     $api_instance->setClientRedirectUris($client_key, $redirect_list);
@@ -368,7 +368,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **client_key** | **string**| The key of the client |
- **client_resource** | [**\KnetikCloud\Model\ClientResource**](../Model/\KnetikCloud\Model\ClientResource.md)| The client resource object | [optional]
+ **client_resource** | [**\KnetikCloud\Model\ClientResource**](../Model/ClientResource.md)| The client resource object | [optional]
 
 ### Return type
 

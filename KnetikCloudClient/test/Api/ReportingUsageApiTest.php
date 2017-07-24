@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -49,7 +49,6 @@ class ReportingUsageApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -57,7 +56,6 @@ class ReportingUsageApiTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -65,7 +63,6 @@ class ReportingUsageApiTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -73,7 +70,6 @@ class ReportingUsageApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -84,7 +80,6 @@ class ReportingUsageApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUsageByDay()
     {
-
     }
 
     /**
@@ -95,7 +90,6 @@ class ReportingUsageApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUsageByHour()
     {
-
     }
 
     /**
@@ -106,7 +100,6 @@ class ReportingUsageApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUsageByMinute()
     {
-
     }
 
     /**
@@ -117,7 +110,6 @@ class ReportingUsageApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUsageByMonth()
     {
-
     }
 
     /**
@@ -128,7 +120,6 @@ class ReportingUsageApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUsageByYear()
     {
-
     }
 
     /**
@@ -139,7 +130,5 @@ class ReportingUsageApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUsageEndpoints()
     {
-
     }
-
 }

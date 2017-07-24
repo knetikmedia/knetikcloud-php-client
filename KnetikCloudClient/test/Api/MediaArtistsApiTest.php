@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -49,7 +49,6 @@ class MediaArtistsApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -57,7 +56,6 @@ class MediaArtistsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -65,7 +63,6 @@ class MediaArtistsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -73,7 +70,6 @@ class MediaArtistsApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -84,7 +80,6 @@ class MediaArtistsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddArtist()
     {
-
     }
 
     /**
@@ -95,7 +90,6 @@ class MediaArtistsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateArtistTemplate()
     {
-
     }
 
     /**
@@ -106,7 +100,6 @@ class MediaArtistsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteArtist()
     {
-
     }
 
     /**
@@ -117,7 +110,6 @@ class MediaArtistsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteArtistTemplate()
     {
-
     }
 
     /**
@@ -128,7 +120,6 @@ class MediaArtistsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetArtist()
     {
-
     }
 
     /**
@@ -139,7 +130,6 @@ class MediaArtistsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetArtistTemplate()
     {
-
     }
 
     /**
@@ -150,7 +140,6 @@ class MediaArtistsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetArtistTemplates()
     {
-
     }
 
     /**
@@ -161,7 +150,6 @@ class MediaArtistsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetArtists()
     {
-
     }
 
     /**
@@ -172,7 +160,6 @@ class MediaArtistsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateArtist()
     {
-
     }
 
     /**
@@ -183,7 +170,5 @@ class MediaArtistsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateArtistTemplate()
     {
-
     }
-
 }

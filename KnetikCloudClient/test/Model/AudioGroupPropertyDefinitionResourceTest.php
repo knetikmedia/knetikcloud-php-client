@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class AudioGroupPropertyDefinitionResourceTest extends \PHPUnit_Framework_TestCa
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class AudioGroupPropertyDefinitionResourceTest extends \PHPUnit_Framework_TestCa
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class AudioGroupPropertyDefinitionResourceTest extends \PHPUnit_Framework_TestCa
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class AudioGroupPropertyDefinitionResourceTest extends \PHPUnit_Framework_TestCa
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class AudioGroupPropertyDefinitionResourceTest extends \PHPUnit_Framework_TestCa
      */
     public function testAudioGroupPropertyDefinitionResource()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class AudioGroupPropertyDefinitionResourceTest extends \PHPUnit_Framework_TestCa
      */
     public function testPropertyMaxLength()
     {
-
     }
 
     /**
@@ -95,7 +89,5 @@ class AudioGroupPropertyDefinitionResourceTest extends \PHPUnit_Framework_TestCa
      */
     public function testPropertyMinLength()
     {
-
     }
-
 }

@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -317,7 +317,7 @@ class TaxesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -417,7 +417,7 @@ class TaxesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -503,7 +503,7 @@ class TaxesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -550,7 +550,7 @@ class TaxesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceCountryTaxResource_
      */
-    public function getCountryTaxes($size = null, $page = null, $order = null)
+    public function getCountryTaxes($size = '25', $page = '1', $order = 'name:ASC')
     {
         list($response) = $this->getCountryTaxesWithHttpInfo($size, $page, $order);
         return $response;
@@ -567,7 +567,7 @@ class TaxesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceCountryTaxResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getCountryTaxesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getCountryTaxesWithHttpInfo($size = '25', $page = '1', $order = 'name:ASC')
     {
         // parse inputs
         $resourcePath = "/tax/countries";
@@ -593,7 +593,7 @@ class TaxesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -693,7 +693,7 @@ class TaxesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -740,7 +740,7 @@ class TaxesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceStateTaxResource_
      */
-    public function getStateTaxesForCountries($size = null, $page = null, $order = null)
+    public function getStateTaxesForCountries($size = '25', $page = '1', $order = null)
     {
         list($response) = $this->getStateTaxesForCountriesWithHttpInfo($size, $page, $order);
         return $response;
@@ -757,7 +757,7 @@ class TaxesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceStateTaxResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getStateTaxesForCountriesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getStateTaxesForCountriesWithHttpInfo($size = '25', $page = '1', $order = null)
     {
         // parse inputs
         $resourcePath = "/tax/states";
@@ -783,7 +783,7 @@ class TaxesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -831,7 +831,7 @@ class TaxesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceStateTaxResource_
      */
-    public function getStateTaxesForCountry($country_code_iso3, $size = null, $page = null, $order = null)
+    public function getStateTaxesForCountry($country_code_iso3, $size = '25', $page = '1', $order = null)
     {
         list($response) = $this->getStateTaxesForCountryWithHttpInfo($country_code_iso3, $size, $page, $order);
         return $response;
@@ -849,7 +849,7 @@ class TaxesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceStateTaxResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getStateTaxesForCountryWithHttpInfo($country_code_iso3, $size = null, $page = null, $order = null)
+    public function getStateTaxesForCountryWithHttpInfo($country_code_iso3, $size = '25', $page = '1', $order = null)
     {
         // verify the required parameter 'country_code_iso3' is set
         if ($country_code_iso3 === null) {
@@ -887,7 +887,7 @@ class TaxesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

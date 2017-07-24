@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -68,9 +68,33 @@ class BreRule implements ArrayAccess
         'system_rule' => 'bool'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'actions' => null,
+        'condition' => null,
+        'condition_text' => null,
+        'description' => null,
+        'enabled' => null,
+        'end_date' => 'int64',
+        'event_name' => null,
+        'id' => null,
+        'name' => null,
+        'sort' => 'int32',
+        'start_date' => 'int64',
+        'system_rule' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**

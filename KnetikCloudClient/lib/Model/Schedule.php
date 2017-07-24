@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -59,9 +59,24 @@ class Schedule implements ArrayAccess
         'repeat' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'duration' => 'int32',
+        'duration_unit' => null,
+        'repeat' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -187,17 +202,23 @@ class Schedule implements ArrayAccess
         if ($this->container['duration_unit'] === null) {
             $invalid_properties[] = "'duration_unit' can't be null";
         }
-        $allowed_values = ["millisecond", "second", "minute", "hour", "day", "week", "month", "year"];
+        $allowed_values = $this->getDurationUnitAllowableValues();
         if (!in_array($this->container['duration_unit'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'duration_unit', must be one of 'millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'duration_unit', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         if ($this->container['repeat'] === null) {
             $invalid_properties[] = "'repeat' can't be null";
         }
-        $allowed_values = ["DAILY", "WEEKLY"];
+        $allowed_values = $this->getRepeatAllowableValues();
         if (!in_array($this->container['repeat'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'repeat', must be one of 'DAILY', 'WEEKLY'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'repeat', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -218,14 +239,14 @@ class Schedule implements ArrayAccess
         if ($this->container['duration_unit'] === null) {
             return false;
         }
-        $allowed_values = ["millisecond", "second", "minute", "hour", "day", "week", "month", "year"];
+        $allowed_values = $this->getDurationUnitAllowableValues();
         if (!in_array($this->container['duration_unit'], $allowed_values)) {
             return false;
         }
         if ($this->container['repeat'] === null) {
             return false;
         }
-        $allowed_values = ["DAILY", "WEEKLY"];
+        $allowed_values = $this->getRepeatAllowableValues();
         if (!in_array($this->container['repeat'], $allowed_values)) {
             return false;
         }
@@ -270,9 +291,14 @@ class Schedule implements ArrayAccess
      */
     public function setDurationUnit($duration_unit)
     {
-        $allowed_values = array('millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year');
-        if ((!in_array($duration_unit, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'duration_unit', must be one of 'millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year'");
+        $allowed_values = $this->getDurationUnitAllowableValues();
+        if (!in_array($duration_unit, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'duration_unit', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['duration_unit'] = $duration_unit;
 
@@ -295,9 +321,14 @@ class Schedule implements ArrayAccess
      */
     public function setRepeat($repeat)
     {
-        $allowed_values = array('DAILY', 'WEEKLY');
-        if ((!in_array($repeat, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'repeat', must be one of 'DAILY', 'WEEKLY'");
+        $allowed_values = $this->getRepeatAllowableValues();
+        if (!in_array($repeat, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'repeat', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['repeat'] = $repeat;
 

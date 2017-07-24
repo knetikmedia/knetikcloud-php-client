@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -49,7 +49,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -57,7 +56,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -65,7 +63,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -73,7 +70,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -84,7 +80,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddItemToUserInventory()
     {
-
     }
 
     /**
@@ -95,7 +90,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckUserEntitlementItem()
     {
-
     }
 
     /**
@@ -106,7 +100,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateEntitlementItem()
     {
-
     }
 
     /**
@@ -117,7 +110,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateEntitlementTemplate()
     {
-
     }
 
     /**
@@ -128,7 +120,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteEntitlementItem()
     {
-
     }
 
     /**
@@ -139,7 +130,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteEntitlementTemplate()
     {
-
     }
 
     /**
@@ -150,7 +140,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEntitlementItem()
     {
-
     }
 
     /**
@@ -161,7 +150,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEntitlementItems()
     {
-
     }
 
     /**
@@ -172,7 +160,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEntitlementTemplate()
     {
-
     }
 
     /**
@@ -183,7 +170,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEntitlementTemplates()
     {
-
     }
 
     /**
@@ -194,7 +180,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUserInventories()
     {
-
     }
 
     /**
@@ -205,7 +190,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUserInventory()
     {
-
     }
 
     /**
@@ -216,7 +200,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUserInventoryLog()
     {
-
     }
 
     /**
@@ -227,7 +210,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUsersInventory()
     {
-
     }
 
     /**
@@ -238,7 +220,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGrantUserEntitlement()
     {
-
     }
 
     /**
@@ -249,7 +230,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateEntitlementItem()
     {
-
     }
 
     /**
@@ -260,7 +240,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateEntitlementTemplate()
     {
-
     }
 
     /**
@@ -271,7 +250,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateUserInventoryBehaviorData()
     {
-
     }
 
     /**
@@ -282,7 +260,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateUserInventoryExpires()
     {
-
     }
 
     /**
@@ -293,7 +270,6 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateUserInventoryStatus()
     {
-
     }
 
     /**
@@ -304,7 +280,5 @@ class UsersInventoryApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUseUserEntitlementItem()
     {
-
     }
-
 }

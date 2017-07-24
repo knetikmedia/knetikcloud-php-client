@@ -44,7 +44,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **int**| ID of the user for whom the payment method is being created |
- **payment_method** | [**\KnetikCloud\Model\PaymentMethodResource**](../Model/\KnetikCloud\Model\PaymentMethodResource.md)| Payment method being created | [optional]
+ **payment_method** | [**\KnetikCloud\Model\PaymentMethodResource**](../Model/PaymentMethodResource.md)| Payment method being created | [optional]
 
 ### Return type
 
@@ -157,7 +157,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getPaymentMethods**
-> \KnetikCloud\Model\PaymentMethodResource[] getPaymentMethods($user_id, $size, $page, $order)
+> \KnetikCloud\Model\PaymentMethodResource[] getPaymentMethods($user_id, $filter_name, $filter_payment_type, $filter_payment_method_type_id, $filter_payment_method_type_name, $size, $page, $order)
 
 Get all payment methods for a user
 
@@ -171,12 +171,16 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 
 $api_instance = new KnetikCloud\Api\PaymentsApi();
 $user_id = 56; // int | ID of the user for whom the payment methods are being retrieved
+$filter_name = "filter_name_example"; // string | Filter for payment methods whose name starts with a given string
+$filter_payment_type = "filter_payment_type_example"; // string | Filter for payment methods with a specific payment type
+$filter_payment_method_type_id = 56; // int | Filter for payment methods with a specific payment method type by id
+$filter_payment_method_type_name = "filter_payment_method_type_name_example"; // string | Filter for payment methods whose payment method type name starts with a given string
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | a comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
 
 try {
-    $result = $api_instance->getPaymentMethods($user_id, $size, $page, $order);
+    $result = $api_instance->getPaymentMethods($user_id, $filter_name, $filter_payment_type, $filter_payment_method_type_id, $filter_payment_method_type_name, $size, $page, $order);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling PaymentsApi->getPaymentMethods: ', $e->getMessage(), PHP_EOL;
@@ -189,6 +193,10 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **int**| ID of the user for whom the payment methods are being retrieved |
+ **filter_name** | **string**| Filter for payment methods whose name starts with a given string | [optional]
+ **filter_payment_type** | **string**| Filter for payment methods with a specific payment type | [optional]
+ **filter_payment_method_type_id** | **int**| Filter for payment methods with a specific payment method type by id | [optional]
+ **filter_payment_method_type_name** | **string**| Filter for payment methods whose payment method type name starts with a given string | [optional]
  **size** | **int**| The number of objects returned per page | [optional] [default to 25]
  **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]
  **order** | **string**| a comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] | [optional] [default to id:ASC]
@@ -237,7 +245,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**\KnetikCloud\Model\PaymentAuthorizationResource**](../Model/\KnetikCloud\Model\PaymentAuthorizationResource.md)| Payment authorization request | [optional]
+ **request** | [**\KnetikCloud\Model\PaymentAuthorizationResource**](../Model/PaymentAuthorizationResource.md)| Payment authorization request | [optional]
 
 ### Return type
 
@@ -332,7 +340,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **int**| ID of the user for whom the payment method is being updated |
  **id** | **int**| ID of the payment method being updated |
- **payment_method** | [**\KnetikCloud\Model\PaymentMethodResource**](../Model/\KnetikCloud\Model\PaymentMethodResource.md)| The updated payment method data | [optional]
+ **payment_method** | [**\KnetikCloud\Model\PaymentMethodResource**](../Model/PaymentMethodResource.md)| The updated payment method data | [optional]
 
 ### Return type
 

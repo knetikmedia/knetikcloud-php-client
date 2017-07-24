@@ -1,4 +1,4 @@
-# AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings
+# ActivityOccurrenceResource
 
 ## Properties
 Name | Type | Description | Notes

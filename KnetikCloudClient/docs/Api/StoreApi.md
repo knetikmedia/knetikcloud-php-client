@@ -49,7 +49,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **item_template_resource** | [**\KnetikCloud\Model\StoreItemTemplateResource**](../Model/\KnetikCloud\Model\StoreItemTemplateResource.md)| The new item template | [optional]
+ **item_template_resource** | [**\KnetikCloud\Model\StoreItemTemplateResource**](../Model/StoreItemTemplateResource.md)| The new item template | [optional]
 
 ### Return type
 
@@ -99,7 +99,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **cascade** | **bool**| Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. | [optional] [default to false]
- **store_item** | [**\KnetikCloud\Model\StoreItem**](../Model/\KnetikCloud\Model\StoreItem.md)| The store item object | [optional]
+ **store_item** | [**\KnetikCloud\Model\StoreItem**](../Model/StoreItem.md)| The store item object | [optional]
 
 ### Return type
 
@@ -550,7 +550,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **item_template_resource** | [**\KnetikCloud\Model\StoreItemTemplateResource**](../Model/\KnetikCloud\Model\StoreItemTemplateResource.md)| The item template resource object | [optional]
+ **item_template_resource** | [**\KnetikCloud\Model\StoreItemTemplateResource**](../Model/StoreItemTemplateResource.md)| The item template resource object | [optional]
 
 ### Return type
 
@@ -600,7 +600,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the item |
  **cascade** | **bool**| Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. | [optional] [default to false]
- **store_item** | [**\KnetikCloud\Model\StoreItem**](../Model/\KnetikCloud\Model\StoreItem.md)| The store item object | [optional]
+ **store_item** | [**\KnetikCloud\Model\StoreItem**](../Model/StoreItem.md)| The store item object | [optional]
 
 ### Return type
 

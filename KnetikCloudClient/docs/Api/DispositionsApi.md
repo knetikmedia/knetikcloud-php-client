@@ -40,7 +40,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **disposition** | [**\KnetikCloud\Model\DispositionResource**](../Model/\KnetikCloud\Model\DispositionResource.md)| The new disposition record | [optional]
+ **disposition** | [**\KnetikCloud\Model\DispositionResource**](../Model/DispositionResource.md)| The new disposition record | [optional]
 
 ### Return type
 

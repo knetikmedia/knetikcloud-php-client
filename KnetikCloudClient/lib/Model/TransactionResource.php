@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -69,9 +69,34 @@ class TransactionResource implements ArrayAccess
         'value' => 'double'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'create_date' => 'int64',
+        'currency_code' => null,
+        'details' => null,
+        'id' => 'int32',
+        'invoice_id' => 'int32',
+        'is_refunded' => null,
+        'response' => null,
+        'source' => null,
+        'successful' => null,
+        'transaction_id' => null,
+        'type' => null,
+        'type_hint' => null,
+        'value' => 'double'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -205,9 +230,12 @@ class TransactionResource implements ArrayAccess
     {
         $invalid_properties = [];
 
-        $allowed_values = ["digital", "physical"];
+        $allowed_values = $this->getSourceAllowableValues();
         if (!in_array($this->container['source'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'source', must be one of 'digital', 'physical'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'source', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -222,7 +250,7 @@ class TransactionResource implements ArrayAccess
     public function valid()
     {
 
-        $allowed_values = ["digital", "physical"];
+        $allowed_values = $this->getSourceAllowableValues();
         if (!in_array($this->container['source'], $allowed_values)) {
             return false;
         }
@@ -393,9 +421,14 @@ class TransactionResource implements ArrayAccess
      */
     public function setSource($source)
     {
-        $allowed_values = array('digital', 'physical');
-        if (!is_null($source) && (!in_array($source, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'source', must be one of 'digital', 'physical'");
+        $allowed_values = $this->getSourceAllowableValues();
+        if (!is_null($source) && !in_array($source, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'source', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['source'] = $source;
 

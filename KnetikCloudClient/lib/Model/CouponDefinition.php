@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -71,9 +71,36 @@ class CouponDefinition implements ArrayAccess
         'vendor_id' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'code' => null,
+        'description' => null,
+        'discount_type' => null,
+        'exclusive' => null,
+        'max_discount' => 'double',
+        'max_quantity' => 'int32',
+        'min_cart_total' => 'double',
+        'name' => null,
+        'self_exclusive' => null,
+        'target_item_id' => 'int32',
+        'type' => null,
+        'unique_key' => null,
+        'valid_for_tags' => null,
+        'value' => 'double',
+        'vendor_id' => 'int32'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -241,9 +268,12 @@ class CouponDefinition implements ArrayAccess
         if ($this->container['discount_type'] === null) {
             $invalid_properties[] = "'discount_type' can't be null";
         }
-        $allowed_values = ["value", "percentage"];
+        $allowed_values = $this->getDiscountTypeAllowableValues();
         if (!in_array($this->container['discount_type'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'discount_type', must be one of 'value', 'percentage'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'discount_type', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         if ($this->container['name'] === null) {
@@ -252,9 +282,12 @@ class CouponDefinition implements ArrayAccess
         if ($this->container['type'] === null) {
             $invalid_properties[] = "'type' can't be null";
         }
-        $allowed_values = ["coupon_cart", "coupon_single_item", "coupon_voucher", "coupon_vendor", "coupon_tag"];
+        $allowed_values = $this->getTypeAllowableValues();
         if (!in_array($this->container['type'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'type', must be one of 'coupon_cart', 'coupon_single_item', 'coupon_voucher', 'coupon_vendor', 'coupon_tag'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'type', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         if ($this->container['unique_key'] === null) {
@@ -281,7 +314,7 @@ class CouponDefinition implements ArrayAccess
         if ($this->container['discount_type'] === null) {
             return false;
         }
-        $allowed_values = ["value", "percentage"];
+        $allowed_values = $this->getDiscountTypeAllowableValues();
         if (!in_array($this->container['discount_type'], $allowed_values)) {
             return false;
         }
@@ -291,7 +324,7 @@ class CouponDefinition implements ArrayAccess
         if ($this->container['type'] === null) {
             return false;
         }
-        $allowed_values = ["coupon_cart", "coupon_single_item", "coupon_voucher", "coupon_vendor", "coupon_tag"];
+        $allowed_values = $this->getTypeAllowableValues();
         if (!in_array($this->container['type'], $allowed_values)) {
             return false;
         }
@@ -363,9 +396,14 @@ class CouponDefinition implements ArrayAccess
      */
     public function setDiscountType($discount_type)
     {
-        $allowed_values = array('value', 'percentage');
-        if ((!in_array($discount_type, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'discount_type', must be one of 'value', 'percentage'");
+        $allowed_values = $this->getDiscountTypeAllowableValues();
+        if (!in_array($discount_type, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'discount_type', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['discount_type'] = $discount_type;
 
@@ -535,9 +573,14 @@ class CouponDefinition implements ArrayAccess
      */
     public function setType($type)
     {
-        $allowed_values = array('coupon_cart', 'coupon_single_item', 'coupon_voucher', 'coupon_vendor', 'coupon_tag');
-        if ((!in_array($type, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'type', must be one of 'coupon_cart', 'coupon_single_item', 'coupon_voucher', 'coupon_vendor', 'coupon_tag'");
+        $allowed_values = $this->getTypeAllowableValues();
+        if (!in_array($type, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'type', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['type'] = $type;
 

@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -220,7 +220,7 @@ class CurrenciesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -269,7 +269,7 @@ class CurrenciesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceCurrencyResource_
      */
-    public function getCurrencies($filter_enabled_currencies = null, $filter_type = null, $size = null, $page = null, $order = null)
+    public function getCurrencies($filter_enabled_currencies = null, $filter_type = null, $size = '25', $page = '1', $order = 'name:ASC')
     {
         list($response) = $this->getCurrenciesWithHttpInfo($filter_enabled_currencies, $filter_type, $size, $page, $order);
         return $response;
@@ -288,7 +288,7 @@ class CurrenciesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceCurrencyResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getCurrenciesWithHttpInfo($filter_enabled_currencies = null, $filter_type = null, $size = null, $page = null, $order = null)
+    public function getCurrenciesWithHttpInfo($filter_enabled_currencies = null, $filter_type = null, $size = '25', $page = '1', $order = 'name:ASC')
     {
         // parse inputs
         $resourcePath = "/currencies";
@@ -322,7 +322,7 @@ class CurrenciesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -408,7 +408,7 @@ class CurrenciesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

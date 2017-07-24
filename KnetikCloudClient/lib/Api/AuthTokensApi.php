@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -135,7 +135,7 @@ class AuthTokensApi
         if ($client_id !== null) {
             $queryParams['client_id'] = $this->apiClient->getSerializer()->toQueryValue($client_id);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -235,7 +235,7 @@ class AuthTokensApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -288,7 +288,7 @@ class AuthTokensApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceOauthAccessTokenResource_
      */
-    public function getTokens($filter_client_id = null, $filter_username = null, $size = null, $page = null, $order = null)
+    public function getTokens($filter_client_id = null, $filter_username = null, $size = '25', $page = '1', $order = null)
     {
         list($response) = $this->getTokensWithHttpInfo($filter_client_id, $filter_username, $size, $page, $order);
         return $response;
@@ -307,7 +307,7 @@ class AuthTokensApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceOauthAccessTokenResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getTokensWithHttpInfo($filter_client_id = null, $filter_username = null, $size = null, $page = null, $order = null)
+    public function getTokensWithHttpInfo($filter_client_id = null, $filter_username = null, $size = '25', $page = '1', $order = null)
     {
         // parse inputs
         $resourcePath = "/auth/tokens";
@@ -341,7 +341,7 @@ class AuthTokensApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

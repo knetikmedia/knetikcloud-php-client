@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -82,9 +82,47 @@ class SubscriptionPlanResource implements ArrayAccess
         'start_date' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'additional_properties' => null,
+        'billing_cycle_length' => 'int32',
+        'billing_cycle_unit' => null,
+        'consolidated' => null,
+        'currency_code' => null,
+        'end_date' => 'int64',
+        'first_billing_cycle_length' => 'int32',
+        'first_billing_cycle_unit' => null,
+        'grace_period' => 'int32',
+        'id' => null,
+        'initial_fee' => 'double',
+        'initial_sku' => null,
+        'late_payment_fee' => 'double',
+        'late_payment_sku' => null,
+        'locked' => null,
+        'max_bill_attempts' => 'int32',
+        'max_cycles' => 'int32',
+        'migrate_to_plan' => null,
+        'min_cycles' => 'int32',
+        'name' => null,
+        'published' => null,
+        'reactivation_fee' => 'double',
+        'reactivation_sku' => null,
+        'recurring_fee' => 'double',
+        'recurring_sku' => null,
+        'start_date' => 'int64'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -314,9 +352,12 @@ class SubscriptionPlanResource implements ArrayAccess
         if ($this->container['billing_cycle_unit'] === null) {
             $invalid_properties[] = "'billing_cycle_unit' can't be null";
         }
-        $allowed_values = ["millisecond", "second", "minute", "hour", "day", "week", "month", "year"];
+        $allowed_values = $this->getBillingCycleUnitAllowableValues();
         if (!in_array($this->container['billing_cycle_unit'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'billing_cycle_unit', must be one of 'millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'billing_cycle_unit', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         if ($this->container['consolidated'] === null) {
@@ -325,9 +366,12 @@ class SubscriptionPlanResource implements ArrayAccess
         if ($this->container['currency_code'] === null) {
             $invalid_properties[] = "'currency_code' can't be null";
         }
-        $allowed_values = ["millisecond", "second", "minute", "hour", "day", "week", "month", "year"];
+        $allowed_values = $this->getFirstBillingCycleUnitAllowableValues();
         if (!in_array($this->container['first_billing_cycle_unit'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'first_billing_cycle_unit', must be one of 'millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'first_billing_cycle_unit', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         if ($this->container['grace_period'] === null) {
@@ -372,7 +416,7 @@ class SubscriptionPlanResource implements ArrayAccess
         if ($this->container['billing_cycle_unit'] === null) {
             return false;
         }
-        $allowed_values = ["millisecond", "second", "minute", "hour", "day", "week", "month", "year"];
+        $allowed_values = $this->getBillingCycleUnitAllowableValues();
         if (!in_array($this->container['billing_cycle_unit'], $allowed_values)) {
             return false;
         }
@@ -382,7 +426,7 @@ class SubscriptionPlanResource implements ArrayAccess
         if ($this->container['currency_code'] === null) {
             return false;
         }
-        $allowed_values = ["millisecond", "second", "minute", "hour", "day", "week", "month", "year"];
+        $allowed_values = $this->getFirstBillingCycleUnitAllowableValues();
         if (!in_array($this->container['first_billing_cycle_unit'], $allowed_values)) {
             return false;
         }
@@ -472,9 +516,14 @@ class SubscriptionPlanResource implements ArrayAccess
      */
     public function setBillingCycleUnit($billing_cycle_unit)
     {
-        $allowed_values = array('millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year');
-        if ((!in_array($billing_cycle_unit, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'billing_cycle_unit', must be one of 'millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year'");
+        $allowed_values = $this->getBillingCycleUnitAllowableValues();
+        if (!in_array($billing_cycle_unit, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'billing_cycle_unit', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['billing_cycle_unit'] = $billing_cycle_unit;
 
@@ -581,9 +630,14 @@ class SubscriptionPlanResource implements ArrayAccess
      */
     public function setFirstBillingCycleUnit($first_billing_cycle_unit)
     {
-        $allowed_values = array('millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year');
-        if (!is_null($first_billing_cycle_unit) && (!in_array($first_billing_cycle_unit, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'first_billing_cycle_unit', must be one of 'millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year'");
+        $allowed_values = $this->getFirstBillingCycleUnitAllowableValues();
+        if (!is_null($first_billing_cycle_unit) && !in_array($first_billing_cycle_unit, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'first_billing_cycle_unit', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['first_billing_cycle_unit'] = $first_billing_cycle_unit;
 

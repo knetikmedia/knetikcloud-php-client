@@ -40,7 +40,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **config** | [**\KnetikCloud\Model\Config**](../Model/\KnetikCloud\Model\Config.md)| The config object | [optional]
+ **config** | [**\KnetikCloud\Model\Config**](../Model/Config.md)| The config object | [optional]
 
 ### Return type
 
@@ -232,7 +232,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **string**| The config name |
- **config** | [**\KnetikCloud\Model\Config**](../Model/\KnetikCloud\Model\Config.md)| The config object | [optional]
+ **config** | [**\KnetikCloud\Model\Config**](../Model/Config.md)| The config object | [optional]
 
 ### Return type
 

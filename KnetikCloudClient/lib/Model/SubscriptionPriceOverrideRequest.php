@@ -1,6 +1,6 @@
 <?php
 /**
- * ARequestToResetAUserSPasswordByUsingAKnownUserProperty
+ * SubscriptionPriceOverrideRequest
  *
  * PHP version 5
  *
@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -32,14 +32,14 @@ namespace KnetikCloud\Model;
 use \ArrayAccess;
 
 /**
- * ARequestToResetAUserSPasswordByUsingAKnownUserProperty Class Doc Comment
+ * SubscriptionPriceOverrideRequest Class Doc Comment
  *
  * @category    Class
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class ARequestToResetAUserSPasswordByUsingAKnownUserProperty implements ArrayAccess
+class SubscriptionPriceOverrideRequest implements ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -47,16 +47,24 @@ class ARequestToResetAUserSPasswordByUsingAKnownUserProperty implements ArrayAcc
       * The original name of the model.
       * @var string
       */
-    protected static $swaggerModelName = 'A request to reset a user&#39;s password by using a known user property';
+    protected static $swaggerModelName = 'SubscriptionPriceOverrideRequest';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'email' => 'string',
-        'mobile_number' => 'string',
-        'username' => 'string'
+        'new_price' => 'double',
+        'reason' => 'string'
+    ];
+
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'new_price' => 'double',
+        'reason' => null
     ];
 
     public static function swaggerTypes()
@@ -64,14 +72,18 @@ class ARequestToResetAUserSPasswordByUsingAKnownUserProperty implements ArrayAcc
         return self::$swaggerTypes;
     }
 
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
+    }
+
     /**
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
     protected static $attributeMap = [
-        'email' => 'email',
-        'mobile_number' => 'mobile_number',
-        'username' => 'username'
+        'new_price' => 'new_price',
+        'reason' => 'reason'
     ];
 
 
@@ -80,9 +92,8 @@ class ARequestToResetAUserSPasswordByUsingAKnownUserProperty implements ArrayAcc
      * @var string[]
      */
     protected static $setters = [
-        'email' => 'setEmail',
-        'mobile_number' => 'setMobileNumber',
-        'username' => 'setUsername'
+        'new_price' => 'setNewPrice',
+        'reason' => 'setReason'
     ];
 
 
@@ -91,9 +102,8 @@ class ARequestToResetAUserSPasswordByUsingAKnownUserProperty implements ArrayAcc
      * @var string[]
      */
     protected static $getters = [
-        'email' => 'getEmail',
-        'mobile_number' => 'getMobileNumber',
-        'username' => 'getUsername'
+        'new_price' => 'getNewPrice',
+        'reason' => 'getReason'
     ];
 
     public static function attributeMap()
@@ -127,9 +137,8 @@ class ARequestToResetAUserSPasswordByUsingAKnownUserProperty implements ArrayAcc
      */
     public function __construct(array $data = null)
     {
-        $this->container['email'] = isset($data['email']) ? $data['email'] : null;
-        $this->container['mobile_number'] = isset($data['mobile_number']) ? $data['mobile_number'] : null;
-        $this->container['username'] = isset($data['username']) ? $data['username'] : null;
+        $this->container['new_price'] = isset($data['new_price']) ? $data['new_price'] : null;
+        $this->container['reason'] = isset($data['reason']) ? $data['reason'] : null;
     }
 
     /**
@@ -158,64 +167,43 @@ class ARequestToResetAUserSPasswordByUsingAKnownUserProperty implements ArrayAcc
 
 
     /**
-     * Gets email
-     * @return string
+     * Gets new_price
+     * @return double
      */
-    public function getEmail()
+    public function getNewPrice()
     {
-        return $this->container['email'];
+        return $this->container['new_price'];
     }
 
     /**
-     * Sets email
-     * @param string $email The user's email address
+     * Sets new_price
+     * @param double $new_price The recurring price that has been set to override the base price. Null if not overriding
      * @return $this
      */
-    public function setEmail($email)
+    public function setNewPrice($new_price)
     {
-        $this->container['email'] = $email;
+        $this->container['new_price'] = $new_price;
 
         return $this;
     }
 
     /**
-     * Gets mobile_number
+     * Gets reason
      * @return string
      */
-    public function getMobileNumber()
+    public function getReason()
     {
-        return $this->container['mobile_number'];
+        return $this->container['reason'];
     }
 
     /**
-     * Sets mobile_number
-     * @param string $mobile_number The user's mobile phone number
+     * Sets reason
+     * @param string $reason An explanation for the reason the price is being overridden
      * @return $this
      */
-    public function setMobileNumber($mobile_number)
+    public function setReason($reason)
     {
-        $this->container['mobile_number'] = $mobile_number;
-
-        return $this;
-    }
-
-    /**
-     * Gets username
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->container['username'];
-    }
-
-    /**
-     * Sets username
-     * @param string $username The user's username
-     * @return $this
-     */
-    public function setUsername($username)
-    {
-        $this->container['username'] = $username;
+        $this->container['reason'] = $reason;
 
         return $this;
     }

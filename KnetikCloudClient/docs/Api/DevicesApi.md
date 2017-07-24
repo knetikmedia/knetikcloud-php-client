@@ -28,7 +28,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\DevicesApi();
-$user_resources = array(new SimpleUserResource()); // \KnetikCloud\Model\SimpleUserResource[] | userResources
+$user_resources = array(new \KnetikCloud\Model\SimpleUserResource()); // \KnetikCloud\Model\SimpleUserResource[] | userResources
 $id = 56; // int | id
 
 try {
@@ -91,7 +91,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **device** | [**\KnetikCloud\Model\DeviceResource**](../Model/\KnetikCloud\Model\DeviceResource.md)| device |
+ **device** | [**\KnetikCloud\Model\DeviceResource**](../Model/DeviceResource.md)| device |
 
 ### Return type
 
@@ -379,7 +379,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **device** | [**\KnetikCloud\Model\DeviceResource**](../Model/\KnetikCloud\Model\DeviceResource.md)| device |
+ **device** | [**\KnetikCloud\Model\DeviceResource**](../Model/DeviceResource.md)| device |
  **id** | **int**| id |
 
 ### Return type

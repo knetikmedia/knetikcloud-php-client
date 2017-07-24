@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -61,9 +61,26 @@ class GroupMemberResource implements ArrayAccess
         'username' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'avatar_url' => null,
+        'display_name' => null,
+        'id' => 'int32',
+        'status' => null,
+        'username' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -168,12 +185,12 @@ class GroupMemberResource implements ArrayAccess
         if ($this->container['id'] === null) {
             $invalid_properties[] = "'id' can't be null";
         }
-        if ($this->container['status'] === null) {
-            $invalid_properties[] = "'status' can't be null";
-        }
-        $allowed_values = ["moderator", "member"];
+        $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'status', must be one of 'moderator', 'member'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'status', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -191,10 +208,7 @@ class GroupMemberResource implements ArrayAccess
         if ($this->container['id'] === null) {
             return false;
         }
-        if ($this->container['status'] === null) {
-            return false;
-        }
-        $allowed_values = ["moderator", "member"];
+        $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
             return false;
         }
@@ -281,9 +295,14 @@ class GroupMemberResource implements ArrayAccess
      */
     public function setStatus($status)
     {
-        $allowed_values = array('moderator', 'member');
-        if ((!in_array($status, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'moderator', 'member'");
+        $allowed_values = $this->getStatusAllowableValues();
+        if (!is_null($status) && !in_array($status, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'status', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['status'] = $status;
 

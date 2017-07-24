@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -56,12 +56,29 @@ class LeaderboardEntryResource implements ArrayAccess
     protected static $swaggerTypes = [
         'rank' => 'int',
         'score' => 'int',
+        'updated_date' => 'int',
         'user' => '\KnetikCloud\Model\SimpleUserResource'
+    ];
+
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'rank' => 'int64',
+        'score' => 'int64',
+        'updated_date' => 'int64',
+        'user' => null
     ];
 
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -71,6 +88,7 @@ class LeaderboardEntryResource implements ArrayAccess
     protected static $attributeMap = [
         'rank' => 'rank',
         'score' => 'score',
+        'updated_date' => 'updated_date',
         'user' => 'user'
     ];
 
@@ -82,6 +100,7 @@ class LeaderboardEntryResource implements ArrayAccess
     protected static $setters = [
         'rank' => 'setRank',
         'score' => 'setScore',
+        'updated_date' => 'setUpdatedDate',
         'user' => 'setUser'
     ];
 
@@ -93,6 +112,7 @@ class LeaderboardEntryResource implements ArrayAccess
     protected static $getters = [
         'rank' => 'getRank',
         'score' => 'getScore',
+        'updated_date' => 'getUpdatedDate',
         'user' => 'getUser'
     ];
 
@@ -129,6 +149,7 @@ class LeaderboardEntryResource implements ArrayAccess
     {
         $this->container['rank'] = isset($data['rank']) ? $data['rank'] : null;
         $this->container['score'] = isset($data['score']) ? $data['score'] : null;
+        $this->container['updated_date'] = isset($data['updated_date']) ? $data['updated_date'] : null;
         $this->container['user'] = isset($data['user']) ? $data['user'] : null;
     }
 
@@ -201,6 +222,27 @@ class LeaderboardEntryResource implements ArrayAccess
     public function setScore($score)
     {
         $this->container['score'] = $score;
+
+        return $this;
+    }
+
+    /**
+     * Gets updated_date
+     * @return int
+     */
+    public function getUpdatedDate()
+    {
+        return $this->container['updated_date'];
+    }
+
+    /**
+     * Sets updated_date
+     * @param int $updated_date The date this score was recorded or updated. Unix timestamp in seconds
+     * @return $this
+     */
+    public function setUpdatedDate($updated_date)
+    {
+        $this->container['updated_date'] = $updated_date;
 
         return $this;
     }

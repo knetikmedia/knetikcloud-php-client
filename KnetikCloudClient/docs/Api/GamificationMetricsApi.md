@@ -37,7 +37,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **metric** | [**\KnetikCloud\Model\MetricResource**](../Model/\KnetikCloud\Model\MetricResource.md)| The new metric | [optional]
+ **metric** | [**\KnetikCloud\Model\MetricResource**](../Model/MetricResource.md)| The new metric | [optional]
 
 ### Return type
 

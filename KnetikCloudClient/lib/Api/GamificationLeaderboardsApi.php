@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -100,7 +100,7 @@ class GamificationLeaderboardsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\LeaderboardResource
      */
-    public function getLeaderboard($context_type, $context_id, $size = null, $page = null, $order = null)
+    public function getLeaderboard($context_type, $context_id, $size = '25', $page = '1', $order = 'score:DESC,updated:ASC,user_id:ASC')
     {
         list($response) = $this->getLeaderboardWithHttpInfo($context_type, $context_id, $size, $page, $order);
         return $response;
@@ -119,7 +119,7 @@ class GamificationLeaderboardsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\LeaderboardResource, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getLeaderboardWithHttpInfo($context_type, $context_id, $size = null, $page = null, $order = null)
+    public function getLeaderboardWithHttpInfo($context_type, $context_id, $size = '25', $page = '1', $order = 'score:DESC,updated:ASC,user_id:ASC')
     {
         // verify the required parameter 'context_type' is set
         if ($context_type === null) {
@@ -169,7 +169,7 @@ class GamificationLeaderboardsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -283,7 +283,7 @@ class GamificationLeaderboardsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -359,7 +359,7 @@ class GamificationLeaderboardsApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

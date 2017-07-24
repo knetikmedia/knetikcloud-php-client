@@ -38,7 +38,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**\KnetikCloud\Model\OptimalPaymentRequest**](../Model/\KnetikCloud\Model\OptimalPaymentRequest.md)| The payment request to initiate | [optional]
+ **request** | [**\KnetikCloud\Model\OptimalPaymentRequest**](../Model/OptimalPaymentRequest.md)| The payment request to initiate | [optional]
 
 ### Return type
 

@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -71,6 +71,7 @@ class UserResource implements ArrayAccess
         'gender' => 'string',
         'id' => 'int',
         'language_code' => 'string',
+        'last_activity' => 'int',
         'last_name' => 'string',
         'last_updated' => 'int',
         'member_since' => 'int',
@@ -85,9 +86,51 @@ class UserResource implements ArrayAccess
         'username' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'additional_properties' => null,
+        'address' => null,
+        'address2' => null,
+        'avatar_url' => null,
+        'children' => null,
+        'city' => null,
+        'country_code' => null,
+        'currency_code' => null,
+        'date_of_birth' => 'int64',
+        'description' => null,
+        'display_name' => null,
+        'email' => null,
+        'first_name' => null,
+        'fullname' => null,
+        'gender' => null,
+        'id' => 'int32',
+        'language_code' => null,
+        'last_activity' => 'int64',
+        'last_name' => null,
+        'last_updated' => 'int64',
+        'member_since' => 'int64',
+        'mobile_number' => null,
+        'parents' => null,
+        'password' => null,
+        'postal_code' => null,
+        'state' => null,
+        'tags' => null,
+        'template' => null,
+        'timezone_code' => null,
+        'username' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -112,6 +155,7 @@ class UserResource implements ArrayAccess
         'gender' => 'gender',
         'id' => 'id',
         'language_code' => 'language_code',
+        'last_activity' => 'last_activity',
         'last_name' => 'last_name',
         'last_updated' => 'last_updated',
         'member_since' => 'member_since',
@@ -149,6 +193,7 @@ class UserResource implements ArrayAccess
         'gender' => 'setGender',
         'id' => 'setId',
         'language_code' => 'setLanguageCode',
+        'last_activity' => 'setLastActivity',
         'last_name' => 'setLastName',
         'last_updated' => 'setLastUpdated',
         'member_since' => 'setMemberSince',
@@ -186,6 +231,7 @@ class UserResource implements ArrayAccess
         'gender' => 'getGender',
         'id' => 'getId',
         'language_code' => 'getLanguageCode',
+        'last_activity' => 'getLastActivity',
         'last_name' => 'getLastName',
         'last_updated' => 'getLastUpdated',
         'member_since' => 'getMemberSince',
@@ -248,6 +294,7 @@ class UserResource implements ArrayAccess
         $this->container['gender'] = isset($data['gender']) ? $data['gender'] : null;
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
         $this->container['language_code'] = isset($data['language_code']) ? $data['language_code'] : null;
+        $this->container['last_activity'] = isset($data['last_activity']) ? $data['last_activity'] : null;
         $this->container['last_name'] = isset($data['last_name']) ? $data['last_name'] : null;
         $this->container['last_updated'] = isset($data['last_updated']) ? $data['last_updated'] : null;
         $this->container['member_since'] = isset($data['member_since']) ? $data['member_since'] : null;
@@ -652,6 +699,27 @@ class UserResource implements ArrayAccess
     public function setLanguageCode($language_code)
     {
         $this->container['language_code'] = $language_code;
+
+        return $this;
+    }
+
+    /**
+     * Gets last_activity
+     * @return int
+     */
+    public function getLastActivity()
+    {
+        return $this->container['last_activity'];
+    }
+
+    /**
+     * Sets last_activity
+     * @param int $last_activity The date the user last interacted with the API (private)
+     * @return $this
+     */
+    public function setLastActivity($last_activity)
+    {
+        $this->container['last_activity'] = $last_activity;
 
         return $this;
     }

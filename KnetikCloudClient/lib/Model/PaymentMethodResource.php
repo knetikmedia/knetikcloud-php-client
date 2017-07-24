@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -62,11 +62,9 @@ class PaymentMethodResource implements ArrayAccess
         'expiration_year' => 'int',
         'id' => 'int',
         'last4' => 'string',
-        'long_description' => 'string',
         'name' => 'string',
         'payment_method_type' => '\KnetikCloud\Model\PaymentMethodTypeResource',
         'payment_type' => 'string',
-        'short_description' => 'string',
         'sort' => 'int',
         'token' => 'string',
         'unique_key' => 'string',
@@ -75,9 +73,38 @@ class PaymentMethodResource implements ArrayAccess
         'verified' => 'bool'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'created_date' => 'int64',
+        'default' => null,
+        'disabled' => null,
+        'expiration_date' => 'int64',
+        'expiration_month' => 'int32',
+        'expiration_year' => 'int32',
+        'id' => 'int64',
+        'last4' => null,
+        'name' => null,
+        'payment_method_type' => null,
+        'payment_type' => null,
+        'sort' => 'int32',
+        'token' => null,
+        'unique_key' => null,
+        'updated_date' => 'int64',
+        'user_id' => 'int32',
+        'verified' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -93,11 +120,9 @@ class PaymentMethodResource implements ArrayAccess
         'expiration_year' => 'expiration_year',
         'id' => 'id',
         'last4' => 'last4',
-        'long_description' => 'long_description',
         'name' => 'name',
         'payment_method_type' => 'payment_method_type',
         'payment_type' => 'payment_type',
-        'short_description' => 'short_description',
         'sort' => 'sort',
         'token' => 'token',
         'unique_key' => 'unique_key',
@@ -120,11 +145,9 @@ class PaymentMethodResource implements ArrayAccess
         'expiration_year' => 'setExpirationYear',
         'id' => 'setId',
         'last4' => 'setLast4',
-        'long_description' => 'setLongDescription',
         'name' => 'setName',
         'payment_method_type' => 'setPaymentMethodType',
         'payment_type' => 'setPaymentType',
-        'short_description' => 'setShortDescription',
         'sort' => 'setSort',
         'token' => 'setToken',
         'unique_key' => 'setUniqueKey',
@@ -147,11 +170,9 @@ class PaymentMethodResource implements ArrayAccess
         'expiration_year' => 'getExpirationYear',
         'id' => 'getId',
         'last4' => 'getLast4',
-        'long_description' => 'getLongDescription',
         'name' => 'getName',
         'payment_method_type' => 'getPaymentMethodType',
         'payment_type' => 'getPaymentType',
-        'short_description' => 'getShortDescription',
         'sort' => 'getSort',
         'token' => 'getToken',
         'unique_key' => 'getUniqueKey',
@@ -213,11 +234,9 @@ class PaymentMethodResource implements ArrayAccess
         $this->container['expiration_year'] = isset($data['expiration_year']) ? $data['expiration_year'] : null;
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
         $this->container['last4'] = isset($data['last4']) ? $data['last4'] : null;
-        $this->container['long_description'] = isset($data['long_description']) ? $data['long_description'] : null;
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
         $this->container['payment_method_type'] = isset($data['payment_method_type']) ? $data['payment_method_type'] : null;
         $this->container['payment_type'] = isset($data['payment_type']) ? $data['payment_type'] : null;
-        $this->container['short_description'] = isset($data['short_description']) ? $data['short_description'] : null;
         $this->container['sort'] = isset($data['sort']) ? $data['sort'] : null;
         $this->container['token'] = isset($data['token']) ? $data['token'] : null;
         $this->container['unique_key'] = isset($data['unique_key']) ? $data['unique_key'] : null;
@@ -241,9 +260,12 @@ class PaymentMethodResource implements ArrayAccess
         if ($this->container['payment_method_type'] === null) {
             $invalid_properties[] = "'payment_method_type' can't be null";
         }
-        $allowed_values = ["card", "bank_account"];
+        $allowed_values = $this->getPaymentTypeAllowableValues();
         if (!in_array($this->container['payment_type'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'payment_type', must be one of 'card', 'bank_account'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'payment_type', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -264,7 +286,7 @@ class PaymentMethodResource implements ArrayAccess
         if ($this->container['payment_method_type'] === null) {
             return false;
         }
-        $allowed_values = ["card", "bank_account"];
+        $allowed_values = $this->getPaymentTypeAllowableValues();
         if (!in_array($this->container['payment_type'], $allowed_values)) {
             return false;
         }
@@ -409,7 +431,7 @@ class PaymentMethodResource implements ArrayAccess
 
     /**
      * Sets id
-     * @param int $id The unique ID for that resource
+     * @param int $id The unique ID of the resource
      * @return $this
      */
     public function setId($id)
@@ -441,27 +463,6 @@ class PaymentMethodResource implements ArrayAccess
     }
 
     /**
-     * Gets long_description
-     * @return string
-     */
-    public function getLongDescription()
-    {
-        return $this->container['long_description'];
-    }
-
-    /**
-     * Sets long_description
-     * @param string $long_description The user friendly name of that resource. Defaults to blank string
-     * @return $this
-     */
-    public function setLongDescription($long_description)
-    {
-        $this->container['long_description'] = $long_description;
-
-        return $this;
-    }
-
-    /**
      * Gets name
      * @return string
      */
@@ -472,7 +473,7 @@ class PaymentMethodResource implements ArrayAccess
 
     /**
      * Sets name
-     * @param string $name The user friendly name of that resource
+     * @param string $name The user friendly name of the resource
      * @return $this
      */
     public function setName($name)
@@ -519,32 +520,16 @@ class PaymentMethodResource implements ArrayAccess
      */
     public function setPaymentType($payment_type)
     {
-        $allowed_values = array('card', 'bank_account');
-        if (!is_null($payment_type) && (!in_array($payment_type, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'payment_type', must be one of 'card', 'bank_account'");
+        $allowed_values = $this->getPaymentTypeAllowableValues();
+        if (!is_null($payment_type) && !in_array($payment_type, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'payment_type', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['payment_type'] = $payment_type;
-
-        return $this;
-    }
-
-    /**
-     * Gets short_description
-     * @return string
-     */
-    public function getShortDescription()
-    {
-        return $this->container['short_description'];
-    }
-
-    /**
-     * Sets short_description
-     * @param string $short_description The user friendly name of that resource. Defaults to blank string
-     * @return $this
-     */
-    public function setShortDescription($short_description)
-    {
-        $this->container['short_description'] = $short_description;
 
         return $this;
     }

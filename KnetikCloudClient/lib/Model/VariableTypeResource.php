@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -59,9 +59,24 @@ class VariableTypeResource implements ArrayAccess
         'name' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'base' => null,
+        'enumerable' => null,
+        'name' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -164,9 +179,12 @@ class VariableTypeResource implements ArrayAccess
         if ($this->container['base'] === null) {
             $invalid_properties[] = "'base' can't be null";
         }
-        $allowed_values = ["NUMBER", "INTEGER", "STRING", "DATE", "BOOLEAN"];
+        $allowed_values = $this->getBaseAllowableValues();
         if (!in_array($this->container['base'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'base', must be one of 'NUMBER', 'INTEGER', 'STRING', 'DATE', 'BOOLEAN'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'base', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         if ($this->container['name'] === null) {
@@ -187,7 +205,7 @@ class VariableTypeResource implements ArrayAccess
         if ($this->container['base'] === null) {
             return false;
         }
-        $allowed_values = ["NUMBER", "INTEGER", "STRING", "DATE", "BOOLEAN"];
+        $allowed_values = $this->getBaseAllowableValues();
         if (!in_array($this->container['base'], $allowed_values)) {
             return false;
         }
@@ -214,9 +232,14 @@ class VariableTypeResource implements ArrayAccess
      */
     public function setBase($base)
     {
-        $allowed_values = array('NUMBER', 'INTEGER', 'STRING', 'DATE', 'BOOLEAN');
-        if ((!in_array($base, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'base', must be one of 'NUMBER', 'INTEGER', 'STRING', 'DATE', 'BOOLEAN'");
+        $allowed_values = $this->getBaseAllowableValues();
+        if (!in_array($base, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'base', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['base'] = $base;
 

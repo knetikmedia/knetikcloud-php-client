@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -74,9 +74,39 @@ class ChallengeResource implements ArrayAccess
         'updated_date' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'activities' => 'int32',
+        'additional_properties' => null,
+        'campaign_id' => 'int64',
+        'copy_of' => 'int64',
+        'created_date' => 'int64',
+        'end_date' => 'int64',
+        'id' => 'int64',
+        'leaderboard_strategy' => null,
+        'long_description' => null,
+        'name' => null,
+        'next_event_date' => 'int64',
+        'reward_lag_minutes' => 'int32',
+        'reward_set' => null,
+        'schedule' => null,
+        'short_description' => null,
+        'start_date' => 'int64',
+        'template' => null,
+        'updated_date' => 'int64'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**

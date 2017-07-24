@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -68,9 +68,33 @@ class CatalogSale implements ArrayAccess
         'vendor' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'currency_code' => null,
+        'discount_type' => null,
+        'discount_value' => 'double',
+        'id' => 'int32',
+        'item' => 'int32',
+        'long_description' => null,
+        'name' => null,
+        'sale_end_date' => 'int64',
+        'sale_start_date' => 'int64',
+        'short_description' => null,
+        'tag' => null,
+        'vendor' => 'int32'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -206,9 +230,12 @@ class CatalogSale implements ArrayAccess
         if ($this->container['discount_type'] === null) {
             $invalid_properties[] = "'discount_type' can't be null";
         }
-        $allowed_values = ["value", "percentage"];
+        $allowed_values = $this->getDiscountTypeAllowableValues();
         if (!in_array($this->container['discount_type'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'discount_type', must be one of 'value', 'percentage'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'discount_type', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         if ($this->container['name'] === null) {
@@ -235,7 +262,7 @@ class CatalogSale implements ArrayAccess
         if ($this->container['discount_type'] === null) {
             return false;
         }
-        $allowed_values = ["value", "percentage"];
+        $allowed_values = $this->getDiscountTypeAllowableValues();
         if (!in_array($this->container['discount_type'], $allowed_values)) {
             return false;
         }
@@ -286,9 +313,14 @@ class CatalogSale implements ArrayAccess
      */
     public function setDiscountType($discount_type)
     {
-        $allowed_values = array('value', 'percentage');
-        if ((!in_array($discount_type, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'discount_type', must be one of 'value', 'percentage'");
+        $allowed_values = $this->getDiscountTypeAllowableValues();
+        if (!in_array($discount_type, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'discount_type', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['discount_type'] = $discount_type;
 

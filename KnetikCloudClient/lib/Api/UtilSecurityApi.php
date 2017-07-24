@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -99,7 +99,7 @@ class UtilSecurityApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceLocationLogResource_
      */
-    public function getUserLocationLog($user_id = null, $size = null, $page = null, $order = null)
+    public function getUserLocationLog($user_id = null, $size = '25', $page = '1', $order = null)
     {
         list($response) = $this->getUserLocationLogWithHttpInfo($user_id, $size, $page, $order);
         return $response;
@@ -117,7 +117,7 @@ class UtilSecurityApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceLocationLogResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUserLocationLogWithHttpInfo($user_id = null, $size = null, $page = null, $order = null)
+    public function getUserLocationLogWithHttpInfo($user_id = null, $size = '25', $page = '1', $order = null)
     {
         // parse inputs
         $resourcePath = "/security/country-log";
@@ -147,7 +147,7 @@ class UtilSecurityApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -223,7 +223,7 @@ class UtilSecurityApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

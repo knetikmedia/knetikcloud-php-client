@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testBreRule()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyActions()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCondition()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyConditionText()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyDescription()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyEnabled()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyEndDate()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyEventName()
     {
-
     }
 
     /**
@@ -143,7 +131,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyId()
     {
-
     }
 
     /**
@@ -151,7 +138,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyName()
     {
-
     }
 
     /**
@@ -159,7 +145,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySort()
     {
-
     }
 
     /**
@@ -167,7 +152,6 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyStartDate()
     {
-
     }
 
     /**
@@ -175,7 +159,5 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySystemRule()
     {
-
     }
-
 }

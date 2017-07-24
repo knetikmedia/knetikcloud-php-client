@@ -42,7 +42,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **string**| The id of the user |
- **saved_address_resource** | [**\KnetikCloud\Model\SavedAddressResource**](../Model/\KnetikCloud\Model\SavedAddressResource.md)| The new address | [optional]
+ **saved_address_resource** | [**\KnetikCloud\Model\SavedAddressResource**](../Model/SavedAddressResource.md)| The new address | [optional]
 
 ### Return type
 
@@ -239,7 +239,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **string**| The id of the user |
  **id** | **int**| The id of the address |
- **saved_address_resource** | [**\KnetikCloud\Model\SavedAddressResource**](../Model/\KnetikCloud\Model\SavedAddressResource.md)| The saved address resource object | [optional]
+ **saved_address_resource** | [**\KnetikCloud\Model\SavedAddressResource**](../Model/SavedAddressResource.md)| The saved address resource object | [optional]
 
 ### Return type
 

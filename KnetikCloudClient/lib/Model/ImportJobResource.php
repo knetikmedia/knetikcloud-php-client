@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -66,9 +66,31 @@ class ImportJobResource implements ArrayAccess
         'vendor' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'category_id' => null,
+        'created_date' => 'int64',
+        'id' => 'int64',
+        'name' => null,
+        'output' => null,
+        'record_count' => 'int64',
+        'status' => null,
+        'updated_date' => 'int64',
+        'url' => null,
+        'vendor' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -208,9 +230,12 @@ class ImportJobResource implements ArrayAccess
         if ($this->container['name'] === null) {
             $invalid_properties[] = "'name' can't be null";
         }
-        $allowed_values = ["PENDING_VALIDATION", "VALIDATING", "VALID", "INVALID", "PENDING_PROCESS", "PROCESSING", "PROCESSED", "FAILED"];
+        $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'status', must be one of 'PENDING_VALIDATION', 'VALIDATING', 'VALID', 'INVALID', 'PENDING_PROCESS', 'PROCESSING', 'PROCESSED', 'FAILED'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'status', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         if ($this->container['url'] === null) {
@@ -237,7 +262,7 @@ class ImportJobResource implements ArrayAccess
         if ($this->container['name'] === null) {
             return false;
         }
-        $allowed_values = ["PENDING_VALIDATION", "VALIDATING", "VALID", "INVALID", "PENDING_PROCESS", "PROCESSING", "PROCESSED", "FAILED"];
+        $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
             return false;
         }
@@ -393,9 +418,14 @@ class ImportJobResource implements ArrayAccess
      */
     public function setStatus($status)
     {
-        $allowed_values = array('PENDING_VALIDATION', 'VALIDATING', 'VALID', 'INVALID', 'PENDING_PROCESS', 'PROCESSING', 'PROCESSED', 'FAILED');
-        if (!is_null($status) && (!in_array($status, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'PENDING_VALIDATION', 'VALIDATING', 'VALID', 'INVALID', 'PENDING_PROCESS', 'PROCESSING', 'PROCESSED', 'FAILED'");
+        $allowed_values = $this->getStatusAllowableValues();
+        if (!is_null($status) && !in_array($status, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'status', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['status'] = $status;
 

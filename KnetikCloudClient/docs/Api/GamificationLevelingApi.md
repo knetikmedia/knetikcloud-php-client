@@ -45,7 +45,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **level** | [**\KnetikCloud\Model\LevelingResource**](../Model/\KnetikCloud\Model\LevelingResource.md)| The level schema definition | [optional]
+ **level** | [**\KnetikCloud\Model\LevelingResource**](../Model/LevelingResource.md)| The level schema definition | [optional]
 
 ### Return type
 
@@ -486,7 +486,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **string**| The level schema name |
- **new_level** | [**\KnetikCloud\Model\LevelingResource**](../Model/\KnetikCloud\Model\LevelingResource.md)| The level schema definition | [optional]
+ **new_level** | [**\KnetikCloud\Model\LevelingResource**](../Model/LevelingResource.md)| The level schema definition | [optional]
 
 ### Return type
 

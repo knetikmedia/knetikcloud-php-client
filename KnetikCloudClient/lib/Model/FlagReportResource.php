@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -64,9 +64,29 @@ class FlagReportResource implements ArrayAccess
         'updated_date' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'context' => null,
+        'context_id' => null,
+        'created_date' => 'int64',
+        'id' => 'int64',
+        'reason' => null,
+        'resolution' => null,
+        'resolved' => 'int64',
+        'updated_date' => 'int64'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -183,9 +203,12 @@ class FlagReportResource implements ArrayAccess
         if ($this->container['resolution'] === null) {
             $invalid_properties[] = "'resolution' can't be null";
         }
-        $allowed_values = ["banned", "ignored"];
+        $allowed_values = $this->getResolutionAllowableValues();
         if (!in_array($this->container['resolution'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'resolution', must be one of 'banned', 'ignored'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'resolution', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -203,7 +226,7 @@ class FlagReportResource implements ArrayAccess
         if ($this->container['resolution'] === null) {
             return false;
         }
-        $allowed_values = ["banned", "ignored"];
+        $allowed_values = $this->getResolutionAllowableValues();
         if (!in_array($this->container['resolution'], $allowed_values)) {
             return false;
         }
@@ -332,9 +355,14 @@ class FlagReportResource implements ArrayAccess
      */
     public function setResolution($resolution)
     {
-        $allowed_values = array('banned', 'ignored');
-        if ((!in_array($resolution, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'resolution', must be one of 'banned', 'ignored'");
+        $allowed_values = $this->getResolutionAllowableValues();
+        if (!in_array($resolution, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'resolution', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['resolution'] = $resolution;
 

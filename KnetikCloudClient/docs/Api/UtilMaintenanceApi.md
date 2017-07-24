@@ -120,7 +120,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **maintenance** | [**\KnetikCloud\Model\Maintenance**](../Model/\KnetikCloud\Model\Maintenance.md)| The maintenance object | [optional]
+ **maintenance** | [**\KnetikCloud\Model\Maintenance**](../Model/Maintenance.md)| The maintenance object | [optional]
 
 ### Return type
 
@@ -165,7 +165,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **maintenance** | [**\KnetikCloud\Model\Maintenance**](../Model/\KnetikCloud\Model\Maintenance.md)| The maintenance object | [optional]
+ **maintenance** | [**\KnetikCloud\Model\Maintenance**](../Model/Maintenance.md)| The maintenance object | [optional]
 
 ### Return type
 

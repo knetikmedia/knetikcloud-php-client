@@ -67,7 +67,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **question_id** | **string**| The id of the question |
- **answer** | [**\KnetikCloud\Model\AnswerResource**](../Model/\KnetikCloud\Model\AnswerResource.md)| The new answer | [optional]
+ **answer** | [**\KnetikCloud\Model\AnswerResource**](../Model/AnswerResource.md)| The new answer | [optional]
 
 ### Return type
 
@@ -226,7 +226,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**\KnetikCloud\Model\ImportJobResource**](../Model/\KnetikCloud\Model\ImportJobResource.md)| The new import job | [optional]
+ **request** | [**\KnetikCloud\Model\ImportJobResource**](../Model/ImportJobResource.md)| The new import job | [optional]
 
 ### Return type
 
@@ -272,7 +272,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **question** | [**\KnetikCloud\Model\QuestionResource**](../Model/\KnetikCloud\Model\QuestionResource.md)| The new question | [optional]
+ **question** | [**\KnetikCloud\Model\QuestionResource**](../Model/QuestionResource.md)| The new question | [optional]
 
 ### Return type
 
@@ -320,7 +320,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **question_template_resource** | [**\KnetikCloud\Model\QuestionTemplateResource**](../Model/\KnetikCloud\Model\QuestionTemplateResource.md)| The question template resource object | [optional]
+ **question_template_resource** | [**\KnetikCloud\Model\QuestionTemplateResource**](../Model/QuestionTemplateResource.md)| The question template resource object | [optional]
 
 ### Return type
 
@@ -1331,7 +1331,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the job |
- **request** | [**\KnetikCloud\Model\ImportJobResource**](../Model/\KnetikCloud\Model\ImportJobResource.md)| The updated job | [optional]
+ **request** | [**\KnetikCloud\Model\ImportJobResource**](../Model/ImportJobResource.md)| The updated job | [optional]
 
 ### Return type
 
@@ -1379,7 +1379,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the question |
- **question** | [**\KnetikCloud\Model\QuestionResource**](../Model/\KnetikCloud\Model\QuestionResource.md)| The updated question | [optional]
+ **question** | [**\KnetikCloud\Model\QuestionResource**](../Model/QuestionResource.md)| The updated question | [optional]
 
 ### Return type
 
@@ -1428,7 +1428,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **question_id** | **string**| The id of the question |
  **id** | **string**| The id of the answer |
- **answer** | [**\KnetikCloud\Model\AnswerResource**](../Model/\KnetikCloud\Model\AnswerResource.md)| The updated answer | [optional]
+ **answer** | [**\KnetikCloud\Model\AnswerResource**](../Model/AnswerResource.md)| The updated answer | [optional]
 
 ### Return type
 
@@ -1476,7 +1476,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **question_template_resource** | [**\KnetikCloud\Model\QuestionTemplateResource**](../Model/\KnetikCloud\Model\QuestionTemplateResource.md)| The question template resource object | [optional]
+ **question_template_resource** | [**\KnetikCloud\Model\QuestionTemplateResource**](../Model/QuestionTemplateResource.md)| The question template resource object | [optional]
 
 ### Return type
 
@@ -1531,7 +1531,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **question** | [**\KnetikCloud\Model\QuestionResource**](../Model/\KnetikCloud\Model\QuestionResource.md)| New values for a set of question fields | [optional]
+ **question** | [**\KnetikCloud\Model\QuestionResource**](../Model/QuestionResource.md)| New values for a set of question fields | [optional]
  **filter_search** | **string**| Filter for documents whose question, answers or tags contains provided string | [optional]
  **filter_idset** | **string**| Filter for documents whose id is in the comma separated list provided | [optional]
  **filter_category** | **string**| Filter for questions with specified category, by id | [optional]

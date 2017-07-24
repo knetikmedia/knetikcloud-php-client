@@ -141,7 +141,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The flag report id |
- **flag_report_resource** | [**\KnetikCloud\Model\FlagReportResource**](../Model/\KnetikCloud\Model\FlagReportResource.md)| The new flag report | [optional]
+ **flag_report_resource** | [**\KnetikCloud\Model\FlagReportResource**](../Model/FlagReportResource.md)| The new flag report | [optional]
 
 ### Return type
 

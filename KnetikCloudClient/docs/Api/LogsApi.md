@@ -41,7 +41,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **log_entry** | [**\KnetikCloud\Model\UserActionLog**](../Model/\KnetikCloud\Model\UserActionLog.md)| The user log entry to be added | [optional]
+ **log_entry** | [**\KnetikCloud\Model\UserActionLog**](../Model/UserActionLog.md)| The user log entry to be added | [optional]
 
 ### Return type
 

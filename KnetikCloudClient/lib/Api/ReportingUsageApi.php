@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -102,7 +102,7 @@ class ReportingUsageApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceUsageInfo_
      */
-    public function getUsageByDay($start_date, $end_date, $combine_endpoints = null, $method = null, $url = null, $size = null, $page = null)
+    public function getUsageByDay($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
     {
         list($response) = $this->getUsageByDayWithHttpInfo($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page);
         return $response;
@@ -123,7 +123,7 @@ class ReportingUsageApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceUsageInfo_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUsageByDayWithHttpInfo($start_date, $end_date, $combine_endpoints = null, $method = null, $url = null, $size = null, $page = null)
+    public function getUsageByDayWithHttpInfo($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'start_date' is set
         if ($start_date === null) {
@@ -173,7 +173,7 @@ class ReportingUsageApi
         if ($page !== null) {
             $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -228,7 +228,7 @@ class ReportingUsageApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceUsageInfo_
      */
-    public function getUsageByHour($start_date, $end_date, $combine_endpoints = null, $method = null, $url = null, $size = null, $page = null)
+    public function getUsageByHour($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
     {
         list($response) = $this->getUsageByHourWithHttpInfo($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page);
         return $response;
@@ -249,7 +249,7 @@ class ReportingUsageApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceUsageInfo_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUsageByHourWithHttpInfo($start_date, $end_date, $combine_endpoints = null, $method = null, $url = null, $size = null, $page = null)
+    public function getUsageByHourWithHttpInfo($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'start_date' is set
         if ($start_date === null) {
@@ -299,7 +299,7 @@ class ReportingUsageApi
         if ($page !== null) {
             $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -354,7 +354,7 @@ class ReportingUsageApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceUsageInfo_
      */
-    public function getUsageByMinute($start_date, $end_date, $combine_endpoints = null, $method = null, $url = null, $size = null, $page = null)
+    public function getUsageByMinute($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
     {
         list($response) = $this->getUsageByMinuteWithHttpInfo($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page);
         return $response;
@@ -375,7 +375,7 @@ class ReportingUsageApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceUsageInfo_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUsageByMinuteWithHttpInfo($start_date, $end_date, $combine_endpoints = null, $method = null, $url = null, $size = null, $page = null)
+    public function getUsageByMinuteWithHttpInfo($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'start_date' is set
         if ($start_date === null) {
@@ -425,7 +425,7 @@ class ReportingUsageApi
         if ($page !== null) {
             $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -480,7 +480,7 @@ class ReportingUsageApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceUsageInfo_
      */
-    public function getUsageByMonth($start_date, $end_date, $combine_endpoints = null, $method = null, $url = null, $size = null, $page = null)
+    public function getUsageByMonth($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
     {
         list($response) = $this->getUsageByMonthWithHttpInfo($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page);
         return $response;
@@ -501,7 +501,7 @@ class ReportingUsageApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceUsageInfo_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUsageByMonthWithHttpInfo($start_date, $end_date, $combine_endpoints = null, $method = null, $url = null, $size = null, $page = null)
+    public function getUsageByMonthWithHttpInfo($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'start_date' is set
         if ($start_date === null) {
@@ -551,7 +551,7 @@ class ReportingUsageApi
         if ($page !== null) {
             $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -606,7 +606,7 @@ class ReportingUsageApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceUsageInfo_
      */
-    public function getUsageByYear($start_date, $end_date, $combine_endpoints = null, $method = null, $url = null, $size = null, $page = null)
+    public function getUsageByYear($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
     {
         list($response) = $this->getUsageByYearWithHttpInfo($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page);
         return $response;
@@ -627,7 +627,7 @@ class ReportingUsageApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceUsageInfo_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUsageByYearWithHttpInfo($start_date, $end_date, $combine_endpoints = null, $method = null, $url = null, $size = null, $page = null)
+    public function getUsageByYearWithHttpInfo($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'start_date' is set
         if ($start_date === null) {
@@ -677,7 +677,7 @@ class ReportingUsageApi
         if ($page !== null) {
             $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -773,7 +773,7 @@ class ReportingUsageApi
         if ($end_date !== null) {
             $queryParams['end_date'] = $this->apiClient->getSerializer()->toQueryValue($end_date);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

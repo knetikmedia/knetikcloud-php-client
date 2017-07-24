@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -49,7 +49,6 @@ class StoreCouponsApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -57,7 +56,6 @@ class StoreCouponsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -65,7 +63,6 @@ class StoreCouponsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -73,7 +70,6 @@ class StoreCouponsApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -84,7 +80,6 @@ class StoreCouponsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateCouponItem()
     {
-
     }
 
     /**
@@ -95,7 +90,6 @@ class StoreCouponsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateCouponTemplate()
     {
-
     }
 
     /**
@@ -106,7 +100,6 @@ class StoreCouponsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteCouponItem()
     {
-
     }
 
     /**
@@ -117,7 +110,6 @@ class StoreCouponsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteCouponTemplate()
     {
-
     }
 
     /**
@@ -128,7 +120,6 @@ class StoreCouponsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCouponItem()
     {
-
     }
 
     /**
@@ -139,7 +130,6 @@ class StoreCouponsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCouponTemplate()
     {
-
     }
 
     /**
@@ -150,7 +140,6 @@ class StoreCouponsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCouponTemplates()
     {
-
     }
 
     /**
@@ -161,7 +150,6 @@ class StoreCouponsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateCouponItem()
     {
-
     }
 
     /**
@@ -172,7 +160,5 @@ class StoreCouponsApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateCouponTemplate()
     {
-
     }
-
 }

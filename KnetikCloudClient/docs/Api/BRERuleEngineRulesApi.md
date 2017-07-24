@@ -44,7 +44,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **bre_rule** | [**\KnetikCloud\Model\BreRule**](../Model/\KnetikCloud\Model\BreRule.md)| The BRE rule object | [optional]
+ **bre_rule** | [**\KnetikCloud\Model\BreRule**](../Model/BreRule.md)| The BRE rule object | [optional]
 
 ### Return type
 
@@ -137,7 +137,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **expression** | [**\KnetikCloud\Model\ExpressionObject_**](../Model/\KnetikCloud\Model\ExpressionObject_.md)| The expression | [optional]
+ **expression** | [**\KnetikCloud\Model\ExpressionObject_**](../Model/ExpressionObject_.md)| The expression | [optional]
 
 ### Return type
 
@@ -292,7 +292,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the rule |
- **enabled** | [**\KnetikCloud\Model\BooleanResource**](../Model/\KnetikCloud\Model\BooleanResource.md)| The boolean value | [optional]
+ **enabled** | [**\KnetikCloud\Model\BooleanResource**](../Model/BooleanResource.md)| The boolean value | [optional]
 
 ### Return type
 
@@ -342,7 +342,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the rule |
- **bre_rule** | [**\KnetikCloud\Model\BreRule**](../Model/\KnetikCloud\Model\BreRule.md)| The BRE rule object | [optional]
+ **bre_rule** | [**\KnetikCloud\Model\BreRule**](../Model/BreRule.md)| The BRE rule object | [optional]
 
 ### Return type
 

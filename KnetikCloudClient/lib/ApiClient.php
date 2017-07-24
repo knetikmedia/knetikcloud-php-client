@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -167,7 +167,7 @@ class ApiClient
         if ($this->config->getCurlConnectTimeout() != 0) {
             curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->config->getCurlConnectTimeout());
         }
-        
+
         // return the result on success, rather than just true
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
@@ -197,6 +197,10 @@ class ApiClient
 
         if (!empty($queryParams)) {
             $url = ($url . '?' . http_build_query($queryParams));
+        }
+
+        if ($this->config->getAllowEncoding()) {
+            curl_setopt($curl, CURLOPT_ENCODING, '');
         }
 
         if ($method === self::$POST) {

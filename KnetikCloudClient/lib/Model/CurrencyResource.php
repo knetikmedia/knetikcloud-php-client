@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -64,9 +64,29 @@ class CurrencyResource implements ArrayAccess
         'updated_date' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'active' => null,
+        'code' => null,
+        'created_date' => 'int64',
+        'factor' => 'double',
+        'icon' => null,
+        'name' => null,
+        'type' => null,
+        'updated_date' => 'int64'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -189,9 +209,12 @@ class CurrencyResource implements ArrayAccess
         if ($this->container['name'] === null) {
             $invalid_properties[] = "'name' can't be null";
         }
-        $allowed_values = ["real", "virtual"];
+        $allowed_values = $this->getTypeAllowableValues();
         if (!in_array($this->container['type'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'type', must be one of 'real', 'virtual'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'type', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -215,7 +238,7 @@ class CurrencyResource implements ArrayAccess
         if ($this->container['name'] === null) {
             return false;
         }
-        $allowed_values = ["real", "virtual"];
+        $allowed_values = $this->getTypeAllowableValues();
         if (!in_array($this->container['type'], $allowed_values)) {
             return false;
         }
@@ -365,9 +388,14 @@ class CurrencyResource implements ArrayAccess
      */
     public function setType($type)
     {
-        $allowed_values = array('real', 'virtual');
-        if (!is_null($type) && (!in_array($type, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'type', must be one of 'real', 'virtual'");
+        $allowed_values = $this->getTypeAllowableValues();
+        if (!is_null($type) && !in_array($type, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'type', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['type'] = $type;
 

@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testVideoResource()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyActive()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyAuthor()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyAuthored()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyBanned()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCategory()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyComments()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyContributors()
     {
-
     }
 
     /**
@@ -143,7 +131,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCreatedDate()
     {
-
     }
 
     /**
@@ -151,7 +138,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyEmbed()
     {
-
     }
 
     /**
@@ -159,7 +145,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyExtension()
     {
-
     }
 
     /**
@@ -167,7 +152,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyHeight()
     {
-
     }
 
     /**
@@ -175,7 +159,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyId()
     {
-
     }
 
     /**
@@ -183,7 +166,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyLength()
     {
-
     }
 
     /**
@@ -191,7 +173,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyLocation()
     {
-
     }
 
     /**
@@ -199,7 +180,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyLongDescription()
     {
-
     }
 
     /**
@@ -207,7 +187,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyMimeType()
     {
-
     }
 
     /**
@@ -215,7 +194,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyName()
     {
-
     }
 
     /**
@@ -223,7 +201,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPriority()
     {
-
     }
 
     /**
@@ -231,7 +208,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPrivacy()
     {
-
     }
 
     /**
@@ -239,7 +215,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPublished()
     {
-
     }
 
     /**
@@ -247,7 +222,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShortDescription()
     {
-
     }
 
     /**
@@ -255,7 +229,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySize()
     {
-
     }
 
     /**
@@ -263,7 +236,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyTags()
     {
-
     }
 
     /**
@@ -271,7 +243,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyThumbnail()
     {
-
     }
 
     /**
@@ -279,7 +250,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUpdatedDate()
     {
-
     }
 
     /**
@@ -287,7 +257,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUploader()
     {
-
     }
 
     /**
@@ -295,7 +264,6 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyViews()
     {
-
     }
 
     /**
@@ -303,7 +271,5 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyWidth()
     {
-
     }
-
 }

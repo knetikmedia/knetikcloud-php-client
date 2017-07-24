@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -206,7 +206,7 @@ class InvoicesApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -292,7 +292,7 @@ class InvoicesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -343,7 +343,7 @@ class InvoicesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceInvoiceLogEntry_
      */
-    public function getInvoiceLogs($id, $size = null, $page = null)
+    public function getInvoiceLogs($id, $size = '25', $page = '1')
     {
         list($response) = $this->getInvoiceLogsWithHttpInfo($id, $size, $page);
         return $response;
@@ -360,7 +360,7 @@ class InvoicesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceInvoiceLogEntry_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getInvoiceLogsWithHttpInfo($id, $size = null, $page = null)
+    public function getInvoiceLogsWithHttpInfo($id, $size = '25', $page = '1')
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
@@ -394,7 +394,7 @@ class InvoicesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -446,7 +446,7 @@ class InvoicesApi
      * @param string $filter_item_name Filters invoices by item name containing the given string (optional)
      * @param string $filter_external_ref Filters invoices by external reference. (optional)
      * @param string $filter_created_date Filters invoices by creation date. Multiple values possible for range search. Format: filter_created_date&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ) and ts is a unix timestamp in seconds. Ex: filter_created_date&#x3D;GT,1452154258,LT,1554254874 (optional)
-     * @param \KnetikCloud\Model\Object $filter_vendor_ids Filters invoices for ones from one of the vendors whose id is in the given comma separated list (optional)
+     * @param string $filter_vendor_ids Filters invoices for ones from one of the vendors whose id is in the given comma separated list (optional)
      * @param string $filter_currency Filters invoices by currency. ISO3 currency code (optional)
      * @param string $filter_shipping_state_name Filters invoices by shipping address: Exact match state name (optional)
      * @param string $filter_shipping_country_name Filters invoices by shipping address: Exact match country name (optional)
@@ -459,7 +459,7 @@ class InvoicesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceInvoiceResource_
      */
-    public function getInvoices($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = null, $page = null, $order = null)
+    public function getInvoices($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = '1')
     {
         list($response) = $this->getInvoicesWithHttpInfo($filter_user, $filter_email, $filter_fulfillment_status, $filter_payment_status, $filter_item_name, $filter_external_ref, $filter_created_date, $filter_vendor_ids, $filter_currency, $filter_shipping_state_name, $filter_shipping_country_name, $filter_shipping, $filter_vendor_name, $filter_sku, $size, $page, $order);
         return $response;
@@ -477,7 +477,7 @@ class InvoicesApi
      * @param string $filter_item_name Filters invoices by item name containing the given string (optional)
      * @param string $filter_external_ref Filters invoices by external reference. (optional)
      * @param string $filter_created_date Filters invoices by creation date. Multiple values possible for range search. Format: filter_created_date&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ) and ts is a unix timestamp in seconds. Ex: filter_created_date&#x3D;GT,1452154258,LT,1554254874 (optional)
-     * @param \KnetikCloud\Model\Object $filter_vendor_ids Filters invoices for ones from one of the vendors whose id is in the given comma separated list (optional)
+     * @param string $filter_vendor_ids Filters invoices for ones from one of the vendors whose id is in the given comma separated list (optional)
      * @param string $filter_currency Filters invoices by currency. ISO3 currency code (optional)
      * @param string $filter_shipping_state_name Filters invoices by shipping address: Exact match state name (optional)
      * @param string $filter_shipping_country_name Filters invoices by shipping address: Exact match country name (optional)
@@ -490,7 +490,7 @@ class InvoicesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceInvoiceResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getInvoicesWithHttpInfo($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = null, $page = null, $order = null)
+    public function getInvoicesWithHttpInfo($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = '1')
     {
         // parse inputs
         $resourcePath = "/invoices";
@@ -572,7 +572,7 @@ class InvoicesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -648,7 +648,7 @@ class InvoicesApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -762,6 +762,131 @@ class InvoicesApi
                 $headerParams,
                 null,
                 '/invoices/{id}/payments'
+            );
+
+            return [null, $statusCode, $httpHeader];
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setBundledInvoiceItemFulfillmentStatus
+     *
+     * Set the fulfillment status of a bundled invoice item
+     *
+     * @param int $id The id of the invoice (required)
+     * @param string $bundle_sku The sku of the bundle in the invoice that contains the given target (required)
+     * @param string $sku The sku of an item in the bundle in the invoice (required)
+     * @param string $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @return void
+     */
+    public function setBundledInvoiceItemFulfillmentStatus($id, $bundle_sku, $sku, $status)
+    {
+        list($response) = $this->setBundledInvoiceItemFulfillmentStatusWithHttpInfo($id, $bundle_sku, $sku, $status);
+        return $response;
+    }
+
+    /**
+     * Operation setBundledInvoiceItemFulfillmentStatusWithHttpInfo
+     *
+     * Set the fulfillment status of a bundled invoice item
+     *
+     * @param int $id The id of the invoice (required)
+     * @param string $bundle_sku The sku of the bundle in the invoice that contains the given target (required)
+     * @param string $sku The sku of an item in the bundle in the invoice (required)
+     * @param string $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function setBundledInvoiceItemFulfillmentStatusWithHttpInfo($id, $bundle_sku, $sku, $status)
+    {
+        // verify the required parameter 'id' is set
+        if ($id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $id when calling setBundledInvoiceItemFulfillmentStatus');
+        }
+        // verify the required parameter 'bundle_sku' is set
+        if ($bundle_sku === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $bundle_sku when calling setBundledInvoiceItemFulfillmentStatus');
+        }
+        // verify the required parameter 'sku' is set
+        if ($sku === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $sku when calling setBundledInvoiceItemFulfillmentStatus');
+        }
+        // verify the required parameter 'status' is set
+        if ($status === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $status when calling setBundledInvoiceItemFulfillmentStatus');
+        }
+        // parse inputs
+        $resourcePath = "/invoices/{id}/items/{bundleSku}/bundled-skus/{sku}/fulfillment-status";
+        $httpBody = '';
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+
+        // path params
+        if ($id !== null) {
+            $resourcePath = str_replace(
+                "{" . "id" . "}",
+                $this->apiClient->getSerializer()->toPathValue($id),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($bundle_sku !== null) {
+            $resourcePath = str_replace(
+                "{" . "bundleSku" . "}",
+                $this->apiClient->getSerializer()->toPathValue($bundle_sku),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($sku !== null) {
+            $resourcePath = str_replace(
+                "{" . "sku" . "}",
+                $this->apiClient->getSerializer()->toPathValue($sku),
+                $resourcePath
+            );
+        }
+        // body params
+        $_tempBody = null;
+        if (isset($status)) {
+            $_tempBody = $status;
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        // this endpoint requires OAuth (access token)
+        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
+            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath,
+                'PUT',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                null,
+                '/invoices/{id}/items/{bundleSku}/bundled-skus/{sku}/fulfillment-status'
             );
 
             return [null, $statusCode, $httpHeader];

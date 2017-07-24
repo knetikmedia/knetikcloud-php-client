@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -84,9 +84,49 @@ class VideoResource implements ArrayAccess
         'width' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'active' => null,
+        'author' => null,
+        'authored' => 'int64',
+        'banned' => null,
+        'category' => null,
+        'comments' => null,
+        'contributors' => null,
+        'created_date' => 'int64',
+        'embed' => null,
+        'extension' => null,
+        'height' => 'int32',
+        'id' => 'int64',
+        'length' => 'int32',
+        'location' => null,
+        'long_description' => null,
+        'mime_type' => null,
+        'name' => null,
+        'priority' => 'int32',
+        'privacy' => null,
+        'published' => null,
+        'short_description' => null,
+        'size' => 'int64',
+        'tags' => null,
+        'thumbnail' => null,
+        'updated_date' => 'int64',
+        'uploader' => null,
+        'views' => 'int64',
+        'width' => 'int32'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -211,9 +251,9 @@ class VideoResource implements ArrayAccess
         return self::$getters;
     }
 
-    const PRIVACY_PRIVATE = 'private';
+    const PRIVACY__PRIVATE = 'private';
     const PRIVACY_FRIENDS = 'friends';
-    const PRIVACY_PUBLIC = 'public';
+    const PRIVACY__PUBLIC = 'public';
     
 
     
@@ -224,9 +264,9 @@ class VideoResource implements ArrayAccess
     public function getPrivacyAllowableValues()
     {
         return [
-            self::PRIVACY_PRIVATE,
+            self::PRIVACY__PRIVATE,
             self::PRIVACY_FRIENDS,
-            self::PRIVACY_PUBLIC,
+            self::PRIVACY__PUBLIC,
         ];
     }
     
@@ -300,9 +340,12 @@ class VideoResource implements ArrayAccess
         if ($this->container['name'] === null) {
             $invalid_properties[] = "'name' can't be null";
         }
-        $allowed_values = ["private", "friends", "public"];
+        $allowed_values = $this->getPrivacyAllowableValues();
         if (!in_array($this->container['privacy'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'privacy', must be one of 'private', 'friends', 'public'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'privacy', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         if ($this->container['width'] === null) {
@@ -338,7 +381,7 @@ class VideoResource implements ArrayAccess
         if ($this->container['name'] === null) {
             return false;
         }
-        $allowed_values = ["private", "friends", "public"];
+        $allowed_values = $this->getPrivacyAllowableValues();
         if (!in_array($this->container['privacy'], $allowed_values)) {
             return false;
         }
@@ -743,9 +786,14 @@ class VideoResource implements ArrayAccess
      */
     public function setPrivacy($privacy)
     {
-        $allowed_values = array('private', 'friends', 'public');
-        if (!is_null($privacy) && (!in_array($privacy, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'privacy', must be one of 'private', 'friends', 'public'");
+        $allowed_values = $this->getPrivacyAllowableValues();
+        if (!is_null($privacy) && !in_array($privacy, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'privacy', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['privacy'] = $privacy;
 

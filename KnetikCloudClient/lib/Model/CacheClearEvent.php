@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -54,7 +54,17 @@ class CacheClearEvent extends BroadcastableEvent implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        
+        'customer_setup' => 'bool',
+        'customer_teardown' => 'bool'
+    ];
+
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'customer_setup' => null,
+        'customer_teardown' => null
     ];
 
     public static function swaggerTypes()
@@ -62,12 +72,18 @@ class CacheClearEvent extends BroadcastableEvent implements ArrayAccess
         return self::$swaggerTypes + parent::swaggerTypes();
     }
 
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats + parent::swaggerFormats();
+    }
+
     /**
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
     protected static $attributeMap = [
-        
+        'customer_setup' => 'customer_setup',
+        'customer_teardown' => 'customer_teardown'
     ];
 
 
@@ -76,7 +92,8 @@ class CacheClearEvent extends BroadcastableEvent implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        
+        'customer_setup' => 'setCustomerSetup',
+        'customer_teardown' => 'setCustomerTeardown'
     ];
 
 
@@ -85,7 +102,8 @@ class CacheClearEvent extends BroadcastableEvent implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        
+        'customer_setup' => 'getCustomerSetup',
+        'customer_teardown' => 'getCustomerTeardown'
     ];
 
     public static function attributeMap()
@@ -121,6 +139,8 @@ class CacheClearEvent extends BroadcastableEvent implements ArrayAccess
     {
         parent::__construct($data);
 
+        $this->container['customer_setup'] = isset($data['customer_setup']) ? $data['customer_setup'] : null;
+        $this->container['customer_teardown'] = isset($data['customer_teardown']) ? $data['customer_teardown'] : null;
     }
 
     /**
@@ -150,6 +170,48 @@ class CacheClearEvent extends BroadcastableEvent implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets customer_setup
+     * @return bool
+     */
+    public function getCustomerSetup()
+    {
+        return $this->container['customer_setup'];
+    }
+
+    /**
+     * Sets customer_setup
+     * @param bool $customer_setup
+     * @return $this
+     */
+    public function setCustomerSetup($customer_setup)
+    {
+        $this->container['customer_setup'] = $customer_setup;
+
+        return $this;
+    }
+
+    /**
+     * Gets customer_teardown
+     * @return bool
+     */
+    public function getCustomerTeardown()
+    {
+        return $this->container['customer_teardown'];
+    }
+
+    /**
+     * Sets customer_teardown
+     * @param bool $customer_teardown
+     * @return $this
+     */
+    public function setCustomerTeardown($customer_teardown)
+    {
+        $this->container['customer_teardown'] = $customer_teardown;
+
+        return $this;
+    }
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset

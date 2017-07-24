@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -49,7 +49,6 @@ class StoreShippingApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -57,7 +56,6 @@ class StoreShippingApiTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -65,7 +63,6 @@ class StoreShippingApiTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -73,7 +70,6 @@ class StoreShippingApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -84,7 +80,6 @@ class StoreShippingApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateShippingItem()
     {
-
     }
 
     /**
@@ -95,7 +90,6 @@ class StoreShippingApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateShippingTemplate()
     {
-
     }
 
     /**
@@ -106,7 +100,6 @@ class StoreShippingApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteShippingItem()
     {
-
     }
 
     /**
@@ -117,7 +110,6 @@ class StoreShippingApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteShippingTemplate()
     {
-
     }
 
     /**
@@ -128,7 +120,6 @@ class StoreShippingApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetShippingItem()
     {
-
     }
 
     /**
@@ -139,7 +130,6 @@ class StoreShippingApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetShippingTemplate()
     {
-
     }
 
     /**
@@ -150,7 +140,6 @@ class StoreShippingApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetShippingTemplates()
     {
-
     }
 
     /**
@@ -161,7 +150,6 @@ class StoreShippingApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateShippingItem()
     {
-
     }
 
     /**
@@ -172,7 +160,5 @@ class StoreShippingApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateShippingTemplate()
     {
-
     }
-
 }

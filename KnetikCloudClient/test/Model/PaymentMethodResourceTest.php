@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPaymentMethodResource()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCreatedDate()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyDefault()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyDisabled()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyExpirationDate()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyExpirationMonth()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyExpirationYear()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyId()
     {
-
     }
 
     /**
@@ -143,15 +131,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyLast4()
     {
-
-    }
-
-    /**
-     * Test attribute "long_description"
-     */
-    public function testPropertyLongDescription()
-    {
-
     }
 
     /**
@@ -159,7 +138,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyName()
     {
-
     }
 
     /**
@@ -167,7 +145,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPaymentMethodType()
     {
-
     }
 
     /**
@@ -175,15 +152,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyPaymentType()
     {
-
-    }
-
-    /**
-     * Test attribute "short_description"
-     */
-    public function testPropertyShortDescription()
-    {
-
     }
 
     /**
@@ -191,7 +159,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySort()
     {
-
     }
 
     /**
@@ -199,7 +166,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyToken()
     {
-
     }
 
     /**
@@ -207,7 +173,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUniqueKey()
     {
-
     }
 
     /**
@@ -215,7 +180,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUpdatedDate()
     {
-
     }
 
     /**
@@ -223,7 +187,6 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUserId()
     {
-
     }
 
     /**
@@ -231,7 +194,5 @@ class PaymentMethodResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyVerified()
     {
-
     }
-
 }

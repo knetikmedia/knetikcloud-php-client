@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -47,7 +47,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,7 +68,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -79,7 +75,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testCart()
     {
-
     }
 
     /**
@@ -87,7 +82,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyAvailableShippingOptions()
     {
-
     }
 
     /**
@@ -95,7 +89,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCountryTax()
     {
-
     }
 
     /**
@@ -103,7 +96,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCoupons()
     {
-
     }
 
     /**
@@ -111,7 +103,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCreated()
     {
-
     }
 
     /**
@@ -119,7 +110,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyCurrencyCode()
     {
-
     }
 
     /**
@@ -127,7 +117,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyDiscountTotal()
     {
-
     }
 
     /**
@@ -135,7 +124,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyErrorCode()
     {
-
     }
 
     /**
@@ -143,7 +131,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyErrorMessage()
     {
-
     }
 
     /**
@@ -151,7 +138,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyGrandTotal()
     {
-
     }
 
     /**
@@ -159,7 +145,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyId()
     {
-
     }
 
     /**
@@ -167,7 +152,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyInvoiceId()
     {
-
     }
 
     /**
@@ -175,7 +159,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyItems()
     {
-
     }
 
     /**
@@ -183,7 +166,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyOwner()
     {
-
     }
 
     /**
@@ -191,7 +173,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySelectedShippingOptions()
     {
-
     }
 
     /**
@@ -199,7 +180,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShippable()
     {
-
     }
 
     /**
@@ -207,7 +187,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShippingAddress()
     {
-
     }
 
     /**
@@ -215,7 +194,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyShippingCost()
     {
-
     }
 
     /**
@@ -223,7 +201,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyStateTax()
     {
-
     }
 
     /**
@@ -231,7 +208,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyStatus()
     {
-
     }
 
     /**
@@ -239,7 +215,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertySubtotal()
     {
-
     }
 
     /**
@@ -247,7 +222,5 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testPropertyUpdated()
     {
-
     }
-
 }

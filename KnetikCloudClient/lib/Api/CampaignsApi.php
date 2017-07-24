@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -396,7 +396,7 @@ class CampaignsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -488,7 +488,7 @@ class CampaignsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -574,7 +574,7 @@ class CampaignsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -624,7 +624,7 @@ class CampaignsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceChallengeResource_
      */
-    public function getCampaignChallenges($id, $filter_start_date = null, $filter_end_date = null, $size = null, $page = null, $order = null)
+    public function getCampaignChallenges($id, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getCampaignChallengesWithHttpInfo($id, $filter_start_date, $filter_end_date, $size, $page, $order);
         return $response;
@@ -644,7 +644,7 @@ class CampaignsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceChallengeResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getCampaignChallengesWithHttpInfo($id, $filter_start_date = null, $filter_end_date = null, $size = null, $page = null, $order = null)
+    public function getCampaignChallengesWithHttpInfo($id, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
@@ -690,7 +690,7 @@ class CampaignsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -776,7 +776,7 @@ class CampaignsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -827,7 +827,7 @@ class CampaignsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceTemplateResource_
      */
-    public function getCampaignTemplates($size = null, $page = null, $order = null)
+    public function getCampaignTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getCampaignTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -844,7 +844,7 @@ class CampaignsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getCampaignTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getCampaignTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/campaigns/templates";
@@ -870,7 +870,7 @@ class CampaignsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -922,7 +922,7 @@ class CampaignsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceCampaignResource_
      */
-    public function getCampaigns($filter_active = null, $size = null, $page = null, $order = null)
+    public function getCampaigns($filter_active = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getCampaignsWithHttpInfo($filter_active, $size, $page, $order);
         return $response;
@@ -940,7 +940,7 @@ class CampaignsApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceCampaignResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getCampaignsWithHttpInfo($filter_active = null, $size = null, $page = null, $order = null)
+    public function getCampaignsWithHttpInfo($filter_active = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/campaigns";
@@ -970,7 +970,7 @@ class CampaignsApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1070,7 +1070,7 @@ class CampaignsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

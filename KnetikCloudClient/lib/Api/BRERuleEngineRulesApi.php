@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -220,7 +220,7 @@ class BRERuleEngineRulesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -389,7 +389,7 @@ class BRERuleEngineRulesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -445,7 +445,7 @@ class BRERuleEngineRulesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceBreRule_
      */
-    public function getBRERules($filter_name = null, $filter_enabled = null, $filter_system = null, $filter_trigger = null, $filter_action = null, $filter_condition = null, $size = null, $page = null)
+    public function getBRERules($filter_name = null, $filter_enabled = 'null', $filter_system = null, $filter_trigger = null, $filter_action = null, $filter_condition = null, $size = '25', $page = '1')
     {
         list($response) = $this->getBRERulesWithHttpInfo($filter_name, $filter_enabled, $filter_system, $filter_trigger, $filter_action, $filter_condition, $size, $page);
         return $response;
@@ -467,7 +467,7 @@ class BRERuleEngineRulesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceBreRule_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getBRERulesWithHttpInfo($filter_name = null, $filter_enabled = null, $filter_system = null, $filter_trigger = null, $filter_action = null, $filter_condition = null, $size = null, $page = null)
+    public function getBRERulesWithHttpInfo($filter_name = null, $filter_enabled = 'null', $filter_system = null, $filter_trigger = null, $filter_action = null, $filter_condition = null, $size = '25', $page = '1')
     {
         // parse inputs
         $resourcePath = "/bre/rules";
@@ -513,7 +513,7 @@ class BRERuleEngineRulesApi
         if ($page !== null) {
             $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

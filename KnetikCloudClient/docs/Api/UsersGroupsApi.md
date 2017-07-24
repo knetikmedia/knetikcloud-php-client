@@ -54,7 +54,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **unique_name** | **string**| The group unique name |
- **user** | [**\KnetikCloud\Model\GroupMemberResource**](../Model/\KnetikCloud\Model\GroupMemberResource.md)| The id and status for a user to add to the group |
+ **user** | [**\KnetikCloud\Model\GroupMemberResource**](../Model/GroupMemberResource.md)| The id and status for a user to add to the group |
 
 ### Return type
 
@@ -86,7 +86,7 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 
 $api_instance = new KnetikCloud\Api\UsersGroupsApi();
 $unique_name = "unique_name_example"; // string | The group unique name
-$users = array(new GroupMemberResource()); // \KnetikCloud\Model\GroupMemberResource[] | The id and status for a list of users to add to the group
+$users = array(new \KnetikCloud\Model\GroupMemberResource()); // \KnetikCloud\Model\GroupMemberResource[] | The id and status for a list of users to add to the group
 
 try {
     $result = $api_instance->addMembersToGroup($unique_name, $users);
@@ -148,7 +148,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **group_resource** | [**\KnetikCloud\Model\GroupResource**](../Model/\KnetikCloud\Model\GroupResource.md)| The new group | [optional]
+ **group_resource** | [**\KnetikCloud\Model\GroupResource**](../Model/GroupResource.md)| The new group | [optional]
 
 ### Return type
 
@@ -196,7 +196,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **group_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The group template resource object | [optional]
+ **group_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The group template resource object | [optional]
 
 ### Return type
 
@@ -660,7 +660,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **unique_name** | **string**| The group unique name |
- **group_resource** | [**\KnetikCloud\Model\GroupResource**](../Model/\KnetikCloud\Model\GroupResource.md)| The updated group | [optional]
+ **group_resource** | [**\KnetikCloud\Model\GroupResource**](../Model/GroupResource.md)| The updated group | [optional]
 
 ### Return type
 
@@ -757,7 +757,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **group_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The group template resource object | [optional]
+ **group_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The group template resource object | [optional]
 
 ### Return type
 

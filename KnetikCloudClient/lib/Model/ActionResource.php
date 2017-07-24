@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -61,9 +61,26 @@ class ActionResource implements ArrayAccess
         'variables' => '\KnetikCloud\Model\ActionVariableResource[]'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'category' => null,
+        'description' => null,
+        'name' => null,
+        'tags' => null,
+        'variables' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -205,9 +222,12 @@ class ActionResource implements ArrayAccess
     {
         $invalid_properties = [];
 
-        $allowed_values = ["achievement", "behavior", "comment", "disposition", "device", "entitlement", "friends", "fulfillment", "gamification", "inventory", "invoice", "media", "scheduler", "store", "subscription", "user", "wallet", "custom", "challenge", "activity", "campaign", "event"];
+        $allowed_values = $this->getCategoryAllowableValues();
         if (!in_array($this->container['category'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'category', must be one of 'achievement', 'behavior', 'comment', 'disposition', 'device', 'entitlement', 'friends', 'fulfillment', 'gamification', 'inventory', 'invoice', 'media', 'scheduler', 'store', 'subscription', 'user', 'wallet', 'custom', 'challenge', 'activity', 'campaign', 'event'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'category', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         if ($this->container['description'] === null) {
@@ -231,7 +251,7 @@ class ActionResource implements ArrayAccess
     public function valid()
     {
 
-        $allowed_values = ["achievement", "behavior", "comment", "disposition", "device", "entitlement", "friends", "fulfillment", "gamification", "inventory", "invoice", "media", "scheduler", "store", "subscription", "user", "wallet", "custom", "challenge", "activity", "campaign", "event"];
+        $allowed_values = $this->getCategoryAllowableValues();
         if (!in_array($this->container['category'], $allowed_values)) {
             return false;
         }
@@ -264,9 +284,14 @@ class ActionResource implements ArrayAccess
      */
     public function setCategory($category)
     {
-        $allowed_values = array('achievement', 'behavior', 'comment', 'disposition', 'device', 'entitlement', 'friends', 'fulfillment', 'gamification', 'inventory', 'invoice', 'media', 'scheduler', 'store', 'subscription', 'user', 'wallet', 'custom', 'challenge', 'activity', 'campaign', 'event');
-        if (!is_null($category) && (!in_array($category, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'category', must be one of 'achievement', 'behavior', 'comment', 'disposition', 'device', 'entitlement', 'friends', 'fulfillment', 'gamification', 'inventory', 'invoice', 'media', 'scheduler', 'store', 'subscription', 'user', 'wallet', 'custom', 'challenge', 'activity', 'campaign', 'event'");
+        $allowed_values = $this->getCategoryAllowableValues();
+        if (!is_null($category) && !in_array($category, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'category', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['category'] = $category;
 

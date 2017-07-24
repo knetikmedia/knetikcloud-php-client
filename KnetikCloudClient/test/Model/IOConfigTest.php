@@ -1,6 +1,6 @@
 <?php
 /**
- * TheDefinitionOfAnActivityParametersExDifficultyLevelTest
+ * IOConfigTest
  *
  * PHP version 5
  *
@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -30,16 +30,16 @@
 namespace KnetikCloud;
 
 /**
- * TheDefinitionOfAnActivityParametersExDifficultyLevelTest Class Doc Comment
+ * IOConfigTest Class Doc Comment
  *
  * @category    Class */
-// * @description TheDefinitionOfAnActivityParametersExDifficultyLevel
+// * @description IOConfig
 /**
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class TheDefinitionOfAnActivityParametersExDifficultyLevelTest extends \PHPUnit_Framework_TestCase
+class IOConfigTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -47,7 +47,6 @@ class TheDefinitionOfAnActivityParametersExDifficultyLevelTest extends \PHPUnit_
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -55,7 +54,6 @@ class TheDefinitionOfAnActivityParametersExDifficultyLevelTest extends \PHPUnit_
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -63,7 +61,6 @@ class TheDefinitionOfAnActivityParametersExDifficultyLevelTest extends \PHPUnit_
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -71,63 +68,40 @@ class TheDefinitionOfAnActivityParametersExDifficultyLevelTest extends \PHPUnit_
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
-     * Test "TheDefinitionOfAnActivityParametersExDifficultyLevel"
+     * Test "IOConfig"
      */
-    public function testTheDefinitionOfAnActivityParametersExDifficultyLevel()
+    public function testIOConfig()
     {
-
     }
 
     /**
-     * Test attribute "advanced_option"
+     * Test attribute "customer"
      */
-    public function testPropertyAdvancedOption()
+    public function testPropertyCustomer()
     {
-
     }
 
     /**
-     * Test attribute "default_value"
+     * Test attribute "enabled"
      */
-    public function testPropertyDefaultValue()
+    public function testPropertyEnabled()
     {
-
     }
 
     /**
-     * Test attribute "description"
+     * Test attribute "environment"
      */
-    public function testPropertyDescription()
+    public function testPropertyEnvironment()
     {
-
     }
 
     /**
-     * Test attribute "key"
+     * Test attribute "product"
      */
-    public function testPropertyKey()
+    public function testPropertyProduct()
     {
-
     }
-
-    /**
-     * Test attribute "name"
-     */
-    public function testPropertyName()
-    {
-
-    }
-
-    /**
-     * Test attribute "options"
-     */
-    public function testPropertyOptions()
-    {
-
-    }
-
 }

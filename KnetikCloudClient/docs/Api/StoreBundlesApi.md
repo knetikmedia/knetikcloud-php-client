@@ -48,7 +48,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **cascade** | **bool**| Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. | [optional] [default to false]
- **bundle_item** | [**\KnetikCloud\Model\BundleItem**](../Model/\KnetikCloud\Model\BundleItem.md)| The bundle item object | [optional]
+ **bundle_item** | [**\KnetikCloud\Model\BundleItem**](../Model/BundleItem.md)| The bundle item object | [optional]
 
 ### Return type
 
@@ -96,7 +96,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **bundle_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/\KnetikCloud\Model\ItemTemplateResource.md)| The new bundle template | [optional]
+ **bundle_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/ItemTemplateResource.md)| The new bundle template | [optional]
 
 ### Return type
 
@@ -373,7 +373,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the bundle |
  **cascade** | **bool**| Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. | [optional] [default to false]
- **bundle_item** | [**\KnetikCloud\Model\BundleItem**](../Model/\KnetikCloud\Model\BundleItem.md)| The bundle item object | [optional]
+ **bundle_item** | [**\KnetikCloud\Model\BundleItem**](../Model/BundleItem.md)| The bundle item object | [optional]
 
 ### Return type
 
@@ -421,7 +421,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **bundle_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/\KnetikCloud\Model\ItemTemplateResource.md)| The bundle template resource object | [optional]
+ **bundle_template_resource** | [**\KnetikCloud\Model\ItemTemplateResource**](../Model/ItemTemplateResource.md)| The bundle template resource object | [optional]
 
 ### Return type
 

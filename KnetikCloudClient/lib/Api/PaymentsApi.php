@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -248,7 +248,7 @@ class PaymentsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -348,7 +348,7 @@ class PaymentsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -394,15 +394,19 @@ class PaymentsApi
      * Get all payment methods for a user
      *
      * @param int $user_id ID of the user for whom the payment methods are being retrieved (required)
+     * @param string $filter_name Filter for payment methods whose name starts with a given string (optional)
+     * @param string $filter_payment_type Filter for payment methods with a specific payment type (optional)
+     * @param int $filter_payment_method_type_id Filter for payment methods with a specific payment method type by id (optional)
+     * @param string $filter_payment_method_type_name Filter for payment methods whose payment method type name starts with a given string (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order a comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PaymentMethodResource[]
      */
-    public function getPaymentMethods($user_id, $size = null, $page = null, $order = null)
+    public function getPaymentMethods($user_id, $filter_name = null, $filter_payment_type = null, $filter_payment_method_type_id = null, $filter_payment_method_type_name = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
-        list($response) = $this->getPaymentMethodsWithHttpInfo($user_id, $size, $page, $order);
+        list($response) = $this->getPaymentMethodsWithHttpInfo($user_id, $filter_name, $filter_payment_type, $filter_payment_method_type_id, $filter_payment_method_type_name, $size, $page, $order);
         return $response;
     }
 
@@ -412,13 +416,17 @@ class PaymentsApi
      * Get all payment methods for a user
      *
      * @param int $user_id ID of the user for whom the payment methods are being retrieved (required)
+     * @param string $filter_name Filter for payment methods whose name starts with a given string (optional)
+     * @param string $filter_payment_type Filter for payment methods with a specific payment type (optional)
+     * @param int $filter_payment_method_type_id Filter for payment methods with a specific payment method type by id (optional)
+     * @param string $filter_payment_method_type_name Filter for payment methods whose payment method type name starts with a given string (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order a comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PaymentMethodResource[], HTTP status code, HTTP response headers (array of strings)
      */
-    public function getPaymentMethodsWithHttpInfo($user_id, $size = null, $page = null, $order = null)
+    public function getPaymentMethodsWithHttpInfo($user_id, $filter_name = null, $filter_payment_type = null, $filter_payment_method_type_id = null, $filter_payment_method_type_name = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -436,6 +444,22 @@ class PaymentsApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
+        // query params
+        if ($filter_name !== null) {
+            $queryParams['filter_name'] = $this->apiClient->getSerializer()->toQueryValue($filter_name);
+        }
+        // query params
+        if ($filter_payment_type !== null) {
+            $queryParams['filter_payment_type'] = $this->apiClient->getSerializer()->toQueryValue($filter_payment_type);
+        }
+        // query params
+        if ($filter_payment_method_type_id !== null) {
+            $queryParams['filter_payment_method_type_id'] = $this->apiClient->getSerializer()->toQueryValue($filter_payment_method_type_id);
+        }
+        // query params
+        if ($filter_payment_method_type_name !== null) {
+            $queryParams['filter_payment_method_type_name'] = $this->apiClient->getSerializer()->toQueryValue($filter_payment_method_type_name);
+        }
         // query params
         if ($size !== null) {
             $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
@@ -456,7 +480,7 @@ class PaymentsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -629,7 +653,7 @@ class PaymentsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

@@ -47,7 +47,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **artist_resource** | [**\KnetikCloud\Model\ArtistResource**](../Model/\KnetikCloud\Model\ArtistResource.md)| The new artist | [optional]
+ **artist_resource** | [**\KnetikCloud\Model\ArtistResource**](../Model/ArtistResource.md)| The new artist | [optional]
 
 ### Return type
 
@@ -95,7 +95,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **artist_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The artist template resource object | [optional]
+ **artist_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The artist template resource object | [optional]
 
 ### Return type
 
@@ -426,7 +426,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The artist id |
- **artist_resource** | [**\KnetikCloud\Model\ArtistResource**](../Model/\KnetikCloud\Model\ArtistResource.md)| The new artist | [optional]
+ **artist_resource** | [**\KnetikCloud\Model\ArtistResource**](../Model/ArtistResource.md)| The new artist | [optional]
 
 ### Return type
 
@@ -474,7 +474,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the template |
- **artist_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/\KnetikCloud\Model\TemplateResource.md)| The artist template resource object | [optional]
+ **artist_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The artist template resource object | [optional]
 
 ### Return type
 

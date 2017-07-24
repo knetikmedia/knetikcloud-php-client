@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -92,9 +92,9 @@ class ActivitiesApi
      *
      * Create an activity
      *
-     * @param \KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_ $activity_resource The activity resource object (optional)
+     * @param \KnetikCloud\Model\ActivityResource $activity_resource The activity resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
-     * @return \KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_
+     * @return \KnetikCloud\Model\ActivityResource
      */
     public function createActivity($activity_resource = null)
     {
@@ -107,9 +107,9 @@ class ActivitiesApi
      *
      * Create an activity
      *
-     * @param \KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_ $activity_resource The activity resource object (optional)
+     * @param \KnetikCloud\Model\ActivityResource $activity_resource The activity resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
-     * @return array of \KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \KnetikCloud\Model\ActivityResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function createActivityWithHttpInfo($activity_resource = null)
     {
@@ -149,15 +149,15 @@ class ActivitiesApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                '\KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_',
+                '\KnetikCloud\Model\ActivityResource',
                 '/activities'
             );
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_', $httpHeader), $statusCode, $httpHeader];
+            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ActivityResource', $httpHeader), $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_', $e->getResponseHeaders());
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ActivityResource', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
@@ -176,11 +176,11 @@ class ActivitiesApi
      * Create a new activity occurrence. Ex: start a game
      *
      * @param bool $test if true, indicates that the occurrence should NOT be created. This can be used to test for eligibility and valid settings (optional, default to false)
-     * @param \KnetikCloud\Model\AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings $activity_occurrence_resource The activity occurrence object (optional)
+     * @param \KnetikCloud\Model\ActivityOccurrenceResource $activity_occurrence_resource The activity occurrence object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
-     * @return \KnetikCloud\Model\AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings
+     * @return \KnetikCloud\Model\ActivityOccurrenceResource
      */
-    public function createActivityOccurrence($test = null, $activity_occurrence_resource = null)
+    public function createActivityOccurrence($test = 'false', $activity_occurrence_resource = null)
     {
         list($response) = $this->createActivityOccurrenceWithHttpInfo($test, $activity_occurrence_resource);
         return $response;
@@ -192,11 +192,11 @@ class ActivitiesApi
      * Create a new activity occurrence. Ex: start a game
      *
      * @param bool $test if true, indicates that the occurrence should NOT be created. This can be used to test for eligibility and valid settings (optional, default to false)
-     * @param \KnetikCloud\Model\AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings $activity_occurrence_resource The activity occurrence object (optional)
+     * @param \KnetikCloud\Model\ActivityOccurrenceResource $activity_occurrence_resource The activity occurrence object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
-     * @return array of \KnetikCloud\Model\AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \KnetikCloud\Model\ActivityOccurrenceResource, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createActivityOccurrenceWithHttpInfo($test = null, $activity_occurrence_resource = null)
+    public function createActivityOccurrenceWithHttpInfo($test = 'false', $activity_occurrence_resource = null)
     {
         // parse inputs
         $resourcePath = "/activity-occurrences";
@@ -238,15 +238,15 @@ class ActivitiesApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                '\KnetikCloud\Model\AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings',
+                '\KnetikCloud\Model\ActivityOccurrenceResource',
                 '/activity-occurrences'
             );
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings', $httpHeader), $statusCode, $httpHeader];
+            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ActivityOccurrenceResource', $httpHeader), $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\AOccurrenceOfAnActivityTheActualGameForExampleUsedToTrackScoresParticipantsAndProvideSettings', $e->getResponseHeaders());
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ActivityOccurrenceResource', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
@@ -396,7 +396,7 @@ class ActivitiesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -488,7 +488,7 @@ class ActivitiesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -531,14 +531,14 @@ class ActivitiesApi
      *
      * @param bool $filter_template Filter for activities that are templates, or specifically not if false (optional)
      * @param string $filter_name Filter for activities that have a name starting with specified string (optional)
-     * @param \KnetikCloud\Model\Object $filter_id Filter for activities with an id in the given comma separated list of ids (optional)
+     * @param string $filter_id Filter for activities with an id in the given comma separated list of ids (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceBareActivityResource_
      */
-    public function getActivities($filter_template = null, $filter_name = null, $filter_id = null, $size = null, $page = null, $order = null)
+    public function getActivities($filter_template = null, $filter_name = null, $filter_id = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getActivitiesWithHttpInfo($filter_template, $filter_name, $filter_id, $size, $page, $order);
         return $response;
@@ -551,14 +551,14 @@ class ActivitiesApi
      *
      * @param bool $filter_template Filter for activities that are templates, or specifically not if false (optional)
      * @param string $filter_name Filter for activities that have a name starting with specified string (optional)
-     * @param \KnetikCloud\Model\Object $filter_id Filter for activities with an id in the given comma separated list of ids (optional)
+     * @param string $filter_id Filter for activities with an id in the given comma separated list of ids (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceBareActivityResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getActivitiesWithHttpInfo($filter_template = null, $filter_name = null, $filter_id = null, $size = null, $page = null, $order = null)
+    public function getActivitiesWithHttpInfo($filter_template = null, $filter_name = null, $filter_id = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/activities";
@@ -596,7 +596,7 @@ class ActivitiesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -639,7 +639,7 @@ class ActivitiesApi
      *
      * @param int $id The id of the activity (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
-     * @return \KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_
+     * @return \KnetikCloud\Model\ActivityResource
      */
     public function getActivity($id)
     {
@@ -654,7 +654,7 @@ class ActivitiesApi
      *
      * @param int $id The id of the activity (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
-     * @return array of \KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \KnetikCloud\Model\ActivityResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function getActivityWithHttpInfo($id)
     {
@@ -682,7 +682,7 @@ class ActivitiesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -697,15 +697,15 @@ class ActivitiesApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                '\KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_',
+                '\KnetikCloud\Model\ActivityResource',
                 '/activities/{id}'
             );
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_', $httpHeader), $statusCode, $httpHeader];
+            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ActivityResource', $httpHeader), $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_', $e->getResponseHeaders());
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ActivityResource', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
@@ -768,7 +768,7 @@ class ActivitiesApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -819,7 +819,7 @@ class ActivitiesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceTemplateResource_
      */
-    public function getActivityTemplates($size = null, $page = null, $order = null)
+    public function getActivityTemplates($size = '25', $page = '1', $order = 'id:ASC')
     {
         list($response) = $this->getActivityTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -836,7 +836,7 @@ class ActivitiesApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getActivityTemplatesWithHttpInfo($size = null, $page = null, $order = null)
+    public function getActivityTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
         // parse inputs
         $resourcePath = "/activities/templates";
@@ -862,7 +862,7 @@ class ActivitiesApi
         if ($order !== null) {
             $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -908,7 +908,7 @@ class ActivitiesApi
      * Sets the status of an activity occurrence to FINISHED and logs metrics
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
-     * @param \KnetikCloud\Model\ActivityOccurrenceResults $activity_occurrence_results The activity occurrence object (optional)
+     * @param \KnetikCloud\Model\ActivityOccurrenceResultsResource $activity_occurrence_results The activity occurrence object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\ActivityOccurrenceResults
      */
@@ -924,7 +924,7 @@ class ActivitiesApi
      * Sets the status of an activity occurrence to FINISHED and logs metrics
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
-     * @param \KnetikCloud\Model\ActivityOccurrenceResults $activity_occurrence_results The activity occurrence object (optional)
+     * @param \KnetikCloud\Model\ActivityOccurrenceResultsResource $activity_occurrence_results The activity occurrence object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\ActivityOccurrenceResults, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1005,9 +1005,9 @@ class ActivitiesApi
      * Update an activity
      *
      * @param int $id The id of the activity (required)
-     * @param \KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_ $activity_resource The activity resource object (optional)
+     * @param \KnetikCloud\Model\ActivityResource $activity_resource The activity resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
-     * @return \KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_
+     * @return \KnetikCloud\Model\ActivityResource
      */
     public function updateActivity($id, $activity_resource = null)
     {
@@ -1021,9 +1021,9 @@ class ActivitiesApi
      * Update an activity
      *
      * @param int $id The id of the activity (required)
-     * @param \KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_ $activity_resource The activity resource object (optional)
+     * @param \KnetikCloud\Model\ActivityResource $activity_resource The activity resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
-     * @return array of \KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \KnetikCloud\Model\ActivityResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateActivityWithHttpInfo($id, $activity_resource = null)
     {
@@ -1075,15 +1075,15 @@ class ActivitiesApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                '\KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_',
+                '\KnetikCloud\Model\ActivityResource',
                 '/activities/{id}'
             );
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_', $httpHeader), $statusCode, $httpHeader];
+            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ActivityResource', $httpHeader), $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 204:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\RepresentsAnActivityThatCanBeParameterizedAndTrackedThroughMetricsScoresEtc_', $e->getResponseHeaders());
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ActivityResource', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:

@@ -41,7 +41,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **comment_resource** | [**\KnetikCloud\Model\CommentResource**](../Model/\KnetikCloud\Model\CommentResource.md)| The comment to be added | [optional]
+ **comment_resource** | [**\KnetikCloud\Model\CommentResource**](../Model/CommentResource.md)| The comment to be added | [optional]
 
 ### Return type
 

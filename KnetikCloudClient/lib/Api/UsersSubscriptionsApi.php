@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -151,7 +151,7 @@ class UsersSubscriptionsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -241,7 +241,7 @@ class UsersSubscriptionsApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -813,6 +813,113 @@ class UsersSubscriptionsApi
                 $headerParams,
                 null,
                 '/users/{user_id}/subscriptions/{inventory_id}/plan'
+            );
+
+            return [null, $statusCode, $httpHeader];
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setUserSubscriptionPrice
+     *
+     * Set a new subscription price for a user
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\SubscriptionPriceOverrideRequest $the_override_details override (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @return void
+     */
+    public function setUserSubscriptionPrice($user_id, $inventory_id, $the_override_details = null)
+    {
+        list($response) = $this->setUserSubscriptionPriceWithHttpInfo($user_id, $inventory_id, $the_override_details);
+        return $response;
+    }
+
+    /**
+     * Operation setUserSubscriptionPriceWithHttpInfo
+     *
+     * Set a new subscription price for a user
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\SubscriptionPriceOverrideRequest $the_override_details override (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function setUserSubscriptionPriceWithHttpInfo($user_id, $inventory_id, $the_override_details = null)
+    {
+        // verify the required parameter 'user_id' is set
+        if ($user_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $user_id when calling setUserSubscriptionPrice');
+        }
+        // verify the required parameter 'inventory_id' is set
+        if ($inventory_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $inventory_id when calling setUserSubscriptionPrice');
+        }
+        // parse inputs
+        $resourcePath = "/users/{user_id}/subscriptions/{inventory_id}/price-override";
+        $httpBody = '';
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+
+        // path params
+        if ($user_id !== null) {
+            $resourcePath = str_replace(
+                "{" . "user_id" . "}",
+                $this->apiClient->getSerializer()->toPathValue($user_id),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($inventory_id !== null) {
+            $resourcePath = str_replace(
+                "{" . "inventory_id" . "}",
+                $this->apiClient->getSerializer()->toPathValue($inventory_id),
+                $resourcePath
+            );
+        }
+        // body params
+        $_tempBody = null;
+        if (isset($the_override_details)) {
+            $_tempBody = $the_override_details;
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        // this endpoint requires OAuth (access token)
+        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
+            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath,
+                'PUT',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                null,
+                '/users/{user_id}/subscriptions/{inventory_id}/price-override'
             );
 
             return [null, $statusCode, $httpHeader];

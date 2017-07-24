@@ -40,7 +40,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **reward_set_resource** | [**\KnetikCloud\Model\RewardSetResource**](../Model/\KnetikCloud\Model\RewardSetResource.md)| The reward set resource object | [optional]
+ **reward_set_resource** | [**\KnetikCloud\Model\RewardSetResource**](../Model/RewardSetResource.md)| The reward set resource object | [optional]
 
 ### Return type
 
@@ -223,7 +223,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The reward id |
- **reward_set_resource** | [**\KnetikCloud\Model\RewardSetResource**](../Model/\KnetikCloud\Model\RewardSetResource.md)| The reward set resource object | [optional]
+ **reward_set_resource** | [**\KnetikCloud\Model\RewardSetResource**](../Model/RewardSetResource.md)| The reward set resource object | [optional]
 
 ### Return type
 

@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -49,7 +49,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -57,7 +56,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -65,7 +63,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -73,7 +70,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -84,7 +80,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddQuestionAnswers()
     {
-
     }
 
     /**
@@ -95,7 +90,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddQuestionTag()
     {
-
     }
 
     /**
@@ -106,7 +100,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddTagToQuestionsBatch()
     {
-
     }
 
     /**
@@ -117,7 +110,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateImportJob()
     {
-
     }
 
     /**
@@ -128,7 +120,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateQuestion()
     {
-
     }
 
     /**
@@ -139,7 +130,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateQuestionTemplate()
     {
-
     }
 
     /**
@@ -150,7 +140,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteImportJob()
     {
-
     }
 
     /**
@@ -161,7 +150,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteQuestion()
     {
-
     }
 
     /**
@@ -172,7 +160,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteQuestionAnswers()
     {
-
     }
 
     /**
@@ -183,7 +170,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteQuestionTemplate()
     {
-
     }
 
     /**
@@ -194,7 +180,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetImportJob()
     {
-
     }
 
     /**
@@ -205,7 +190,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetImportJobs()
     {
-
     }
 
     /**
@@ -216,7 +200,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQuestion()
     {
-
     }
 
     /**
@@ -227,7 +210,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQuestionAnswer()
     {
-
     }
 
     /**
@@ -238,7 +220,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQuestionAnswers()
     {
-
     }
 
     /**
@@ -249,7 +230,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQuestionDeltas()
     {
-
     }
 
     /**
@@ -260,7 +240,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQuestionTags()
     {
-
     }
 
     /**
@@ -271,7 +250,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQuestionTemplate()
     {
-
     }
 
     /**
@@ -282,7 +260,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQuestionTemplates()
     {
-
     }
 
     /**
@@ -293,7 +270,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQuestions()
     {
-
     }
 
     /**
@@ -304,7 +280,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQuestionsCount()
     {
-
     }
 
     /**
@@ -315,7 +290,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessImportJob()
     {
-
     }
 
     /**
@@ -326,7 +300,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoveQuestionTag()
     {
-
     }
 
     /**
@@ -337,7 +310,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoveTagToQuestionsBatch()
     {
-
     }
 
     /**
@@ -348,7 +320,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchQuestionTags()
     {
-
     }
 
     /**
@@ -359,7 +330,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateImportJob()
     {
-
     }
 
     /**
@@ -370,7 +340,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateQuestion()
     {
-
     }
 
     /**
@@ -381,7 +350,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateQuestionAnswer()
     {
-
     }
 
     /**
@@ -392,7 +360,6 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateQuestionTemplate()
     {
-
     }
 
     /**
@@ -403,7 +370,5 @@ class GamificationTriviaApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateQuestionsInBulk()
     {
-
     }
-
 }

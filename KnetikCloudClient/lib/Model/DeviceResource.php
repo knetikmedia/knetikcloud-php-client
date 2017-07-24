@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -74,9 +74,39 @@ class DeviceResource implements ArrayAccess
         'users' => '\KnetikCloud\Model\SimpleUserResource[]'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'authorization' => null,
+        'condition' => null,
+        'created_date' => 'int64',
+        'data' => null,
+        'description' => null,
+        'device_type' => null,
+        'id' => 'int32',
+        'location' => null,
+        'mac_address' => null,
+        'make' => null,
+        'model' => null,
+        'name' => null,
+        'os' => null,
+        'serial' => null,
+        'status' => null,
+        'updated_date' => 'int64',
+        'user' => null,
+        'users' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**
@@ -171,7 +201,7 @@ class DeviceResource implements ArrayAccess
         return self::$getters;
     }
 
-    const CONDITION_NEW = 'New';
+    const CONDITION__NEW = 'New';
     const CONDITION_DEFECTIVE = 'Defective';
     const CONDITION_RECONDITIONED = 'Reconditioned';
     const STATUS_ACTIVE = 'Active';
@@ -188,7 +218,7 @@ class DeviceResource implements ArrayAccess
     public function getConditionAllowableValues()
     {
         return [
-            self::CONDITION_NEW,
+            self::CONDITION__NEW,
             self::CONDITION_DEFECTIVE,
             self::CONDITION_RECONDITIONED,
         ];
@@ -250,17 +280,23 @@ class DeviceResource implements ArrayAccess
     {
         $invalid_properties = [];
 
-        $allowed_values = ["New", "Defective", "Reconditioned"];
+        $allowed_values = $this->getConditionAllowableValues();
         if (!in_array($this->container['condition'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'condition', must be one of 'New', 'Defective', 'Reconditioned'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'condition', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         if ($this->container['id'] === null) {
             $invalid_properties[] = "'id' can't be null";
         }
-        $allowed_values = ["Active", "PendingActive", "Inactive", "Repair"];
+        $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'status', must be one of 'Active', 'PendingActive', 'Inactive', 'Repair'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'status', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -275,14 +311,14 @@ class DeviceResource implements ArrayAccess
     public function valid()
     {
 
-        $allowed_values = ["New", "Defective", "Reconditioned"];
+        $allowed_values = $this->getConditionAllowableValues();
         if (!in_array($this->container['condition'], $allowed_values)) {
             return false;
         }
         if ($this->container['id'] === null) {
             return false;
         }
-        $allowed_values = ["Active", "PendingActive", "Inactive", "Repair"];
+        $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
             return false;
         }
@@ -327,9 +363,14 @@ class DeviceResource implements ArrayAccess
      */
     public function setCondition($condition)
     {
-        $allowed_values = array('New', 'Defective', 'Reconditioned');
-        if (!is_null($condition) && (!in_array($condition, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'condition', must be one of 'New', 'Defective', 'Reconditioned'");
+        $allowed_values = $this->getConditionAllowableValues();
+        if (!is_null($condition) && !in_array($condition, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'condition', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['condition'] = $condition;
 
@@ -604,9 +645,14 @@ class DeviceResource implements ArrayAccess
      */
     public function setStatus($status)
     {
-        $allowed_values = array('Active', 'PendingActive', 'Inactive', 'Repair');
-        if (!is_null($status) && (!in_array($status, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'Active', 'PendingActive', 'Inactive', 'Repair'");
+        $allowed_values = $this->getStatusAllowableValues();
+        if (!is_null($status) && !in_array($status, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'status', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['status'] = $status;
 

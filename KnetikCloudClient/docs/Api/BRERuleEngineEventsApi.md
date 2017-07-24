@@ -38,7 +38,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **bre_event** | [**\KnetikCloud\Model\BreEvent**](../Model/\KnetikCloud\Model\BreEvent.md)| The BRE event object | [optional]
+ **bre_event** | [**\KnetikCloud\Model\BreEvent**](../Model/BreEvent.md)| The BRE event object | [optional]
 
 ### Return type
 

@@ -12,7 +12,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -337,7 +337,7 @@ class SearchApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -423,7 +423,7 @@ class SearchApi
                 $resourcePath
             );
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -471,7 +471,7 @@ class SearchApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return \KnetikCloud\Model\PageResourceMapStringObject_
      */
-    public function searchIndex($type, $query = null, $size = null, $page = null)
+    public function searchIndex($type, $query = null, $size = '25', $page = '1')
     {
         list($response) = $this->searchIndexWithHttpInfo($type, $query, $size, $page);
         return $response;
@@ -489,7 +489,7 @@ class SearchApi
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @return array of \KnetikCloud\Model\PageResourceMapStringObject_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function searchIndexWithHttpInfo($type, $query = null, $size = null, $page = null)
+    public function searchIndexWithHttpInfo($type, $query = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'type' is set
         if ($type === null) {

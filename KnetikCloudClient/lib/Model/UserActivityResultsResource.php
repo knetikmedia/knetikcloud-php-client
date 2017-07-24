@@ -13,7 +13,7 @@
 /**
  * Knetik Platform API Documentation latest
  *
- * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com
+ * This is the spec for the Knetik API.  Use this in conjunction with the documentation found at https://knetikcloud.com.
  *
  * OpenAPI spec version: latest
  * Contact: support@knetik.com
@@ -54,13 +54,19 @@ class UserActivityResultsResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'currency_rewards' => '\KnetikCloud\Model\RewardCurrencyResource[]',
-        'item_rewards' => '\KnetikCloud\Model\RewardItemResource[]',
-        'rank' => 'int',
         'score' => 'int',
         'tags' => 'string[]',
-        'ties' => 'int',
-        'user' => '\KnetikCloud\Model\SimpleUserResource'
+        'user_id' => 'int'
+    ];
+
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'score' => 'int64',
+        'tags' => null,
+        'user_id' => 'int32'
     ];
 
     public static function swaggerTypes()
@@ -68,18 +74,19 @@ class UserActivityResultsResource implements ArrayAccess
         return self::$swaggerTypes;
     }
 
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
+    }
+
     /**
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
     protected static $attributeMap = [
-        'currency_rewards' => 'currency_rewards',
-        'item_rewards' => 'item_rewards',
-        'rank' => 'rank',
         'score' => 'score',
         'tags' => 'tags',
-        'ties' => 'ties',
-        'user' => 'user'
+        'user_id' => 'user_id'
     ];
 
 
@@ -88,13 +95,9 @@ class UserActivityResultsResource implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'currency_rewards' => 'setCurrencyRewards',
-        'item_rewards' => 'setItemRewards',
-        'rank' => 'setRank',
         'score' => 'setScore',
         'tags' => 'setTags',
-        'ties' => 'setTies',
-        'user' => 'setUser'
+        'user_id' => 'setUserId'
     ];
 
 
@@ -103,13 +106,9 @@ class UserActivityResultsResource implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'currency_rewards' => 'getCurrencyRewards',
-        'item_rewards' => 'getItemRewards',
-        'rank' => 'getRank',
         'score' => 'getScore',
         'tags' => 'getTags',
-        'ties' => 'getTies',
-        'user' => 'getUser'
+        'user_id' => 'getUserId'
     ];
 
     public static function attributeMap()
@@ -143,13 +142,9 @@ class UserActivityResultsResource implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['currency_rewards'] = isset($data['currency_rewards']) ? $data['currency_rewards'] : null;
-        $this->container['item_rewards'] = isset($data['item_rewards']) ? $data['item_rewards'] : null;
-        $this->container['rank'] = isset($data['rank']) ? $data['rank'] : null;
         $this->container['score'] = isset($data['score']) ? $data['score'] : null;
         $this->container['tags'] = isset($data['tags']) ? $data['tags'] : null;
-        $this->container['ties'] = isset($data['ties']) ? $data['ties'] : null;
-        $this->container['user'] = isset($data['user']) ? $data['user'] : null;
+        $this->container['user_id'] = isset($data['user_id']) ? $data['user_id'] : null;
     }
 
     /**
@@ -161,8 +156,8 @@ class UserActivityResultsResource implements ArrayAccess
     {
         $invalid_properties = [];
 
-        if ($this->container['user'] === null) {
-            $invalid_properties[] = "'user' can't be null";
+        if ($this->container['user_id'] === null) {
+            $invalid_properties[] = "'user_id' can't be null";
         }
         return $invalid_properties;
     }
@@ -176,75 +171,12 @@ class UserActivityResultsResource implements ArrayAccess
     public function valid()
     {
 
-        if ($this->container['user'] === null) {
+        if ($this->container['user_id'] === null) {
             return false;
         }
         return true;
     }
 
-
-    /**
-     * Gets currency_rewards
-     * @return \KnetikCloud\Model\RewardCurrencyResource[]
-     */
-    public function getCurrencyRewards()
-    {
-        return $this->container['currency_rewards'];
-    }
-
-    /**
-     * Sets currency_rewards
-     * @param \KnetikCloud\Model\RewardCurrencyResource[] $currency_rewards Any currency rewarded to this user
-     * @return $this
-     */
-    public function setCurrencyRewards($currency_rewards)
-    {
-        $this->container['currency_rewards'] = $currency_rewards;
-
-        return $this;
-    }
-
-    /**
-     * Gets item_rewards
-     * @return \KnetikCloud\Model\RewardItemResource[]
-     */
-    public function getItemRewards()
-    {
-        return $this->container['item_rewards'];
-    }
-
-    /**
-     * Sets item_rewards
-     * @param \KnetikCloud\Model\RewardItemResource[] $item_rewards Any items rewarded to this user
-     * @return $this
-     */
-    public function setItemRewards($item_rewards)
-    {
-        $this->container['item_rewards'] = $item_rewards;
-
-        return $this;
-    }
-
-    /**
-     * Gets rank
-     * @return int
-     */
-    public function getRank()
-    {
-        return $this->container['rank'];
-    }
-
-    /**
-     * Sets rank
-     * @param int $rank The position of the user in the leaderboard. Null means non-compete or disqualification
-     * @return $this
-     */
-    public function setRank($rank)
-    {
-        $this->container['rank'] = $rank;
-
-        return $this;
-    }
 
     /**
      * Gets score
@@ -257,7 +189,7 @@ class UserActivityResultsResource implements ArrayAccess
 
     /**
      * Sets score
-     * @param int $score The raw score in this leaderboard. Null means non-compete or disqualification
+     * @param int $score The raw score. Null means non-compete or disqualification
      * @return $this
      */
     public function setScore($score)
@@ -289,43 +221,22 @@ class UserActivityResultsResource implements ArrayAccess
     }
 
     /**
-     * Gets ties
+     * Gets user_id
      * @return int
      */
-    public function getTies()
+    public function getUserId()
     {
-        return $this->container['ties'];
+        return $this->container['user_id'];
     }
 
     /**
-     * Sets ties
-     * @param int $ties The number of users tied at this rank, including this user. 1 means no tie
+     * Sets user_id
+     * @param int $user_id The id of the player
      * @return $this
      */
-    public function setTies($ties)
+    public function setUserId($user_id)
     {
-        $this->container['ties'] = $ties;
-
-        return $this;
-    }
-
-    /**
-     * Gets user
-     * @return \KnetikCloud\Model\SimpleUserResource
-     */
-    public function getUser()
-    {
-        return $this->container['user'];
-    }
-
-    /**
-     * Sets user
-     * @param \KnetikCloud\Model\SimpleUserResource $user The player for this entry
-     * @return $this
-     */
-    public function setUser($user)
-    {
-        $this->container['user'] = $user;
+        $this->container['user_id'] = $user_id;
 
         return $this;
     }
