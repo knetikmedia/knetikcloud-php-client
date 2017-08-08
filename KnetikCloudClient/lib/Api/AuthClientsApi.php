@@ -28,10 +28,15 @@
 
 namespace KnetikCloud\Api;
 
-use \KnetikCloud\ApiClient;
-use \KnetikCloud\ApiException;
-use \KnetikCloud\Configuration;
-use \KnetikCloud\ObjectSerializer;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\MultipartStream;
+use GuzzleHttp\Psr7\Request;
+use KnetikCloud\ApiException;
+use KnetikCloud\Configuration;
+use KnetikCloud\HeaderSelector;
+use KnetikCloud\ObjectSerializer;
 
 /**
  * AuthClientsApi Class Doc Comment
@@ -44,47 +49,36 @@ use \KnetikCloud\ObjectSerializer;
 class AuthClientsApi
 {
     /**
-     * API Client
-     *
-     * @var \KnetikCloud\ApiClient instance of the ApiClient
+     * @var ClientInterface
      */
-    protected $apiClient;
+    protected $client;
 
     /**
-     * Constructor
-     *
-     * @param \KnetikCloud\ApiClient|null $apiClient The api client to use
+     * @var Configuration
      */
-    public function __construct(\KnetikCloud\ApiClient $apiClient = null)
-    {
-        if ($apiClient === null) {
-            $apiClient = new ApiClient();
-        }
+    protected $config;
 
-        $this->apiClient = $apiClient;
+    /**
+     * @param ClientInterface $client
+     * @param Configuration $config
+     * @param HeaderSelector $selector
+     */
+    public function __construct(
+        ClientInterface $client = null,
+        Configuration $config = null,
+        HeaderSelector $selector = null
+    ) {
+        $this->client = $client ?: new Client();
+        $this->config = $config ?: new Configuration();
+        $this->headerSelector = $selector ?: new HeaderSelector();
     }
 
     /**
-     * Get API client
-     *
-     * @return \KnetikCloud\ApiClient get the API client
+     * @return Configuration
      */
-    public function getApiClient()
+    public function getConfig()
     {
-        return $this->apiClient;
-    }
-
-    /**
-     * Set the API client
-     *
-     * @param \KnetikCloud\ApiClient $apiClient set the API client
-     *
-     * @return AuthClientsApi
-     */
-    public function setApiClient(\KnetikCloud\ApiClient $apiClient)
-    {
-        $this->apiClient = $apiClient;
-        return $this;
+        return $this->config;
     }
 
     /**
@@ -94,6 +88,7 @@ class AuthClientsApi
      *
      * @param \KnetikCloud\Model\ClientResource $client_resource The client resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ClientResource
      */
     public function createClient($client_resource = null)
@@ -109,21 +104,144 @@ class AuthClientsApi
      *
      * @param \KnetikCloud\Model\ClientResource $client_resource The client resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ClientResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function createClientWithHttpInfo($client_resource = null)
     {
-        // parse inputs
-        $resourcePath = "/auth/clients";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\ClientResource';
+        $request = $this->createClientRequest($client_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ClientResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createClientAsync
+     *
+     * Create a new client
+     *
+     * @param \KnetikCloud\Model\ClientResource $client_resource The client resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createClientAsync($client_resource = null)
+    {
+        return $this->createClientAsyncWithHttpInfo($client_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation createClientAsyncWithHttpInfo
+     *
+     * Create a new client
+     *
+     * @param \KnetikCloud\Model\ClientResource $client_resource The client resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createClientAsyncWithHttpInfo($client_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\ClientResource';
+        $request = $this->createClientRequest($client_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'createClient'
+     *
+     * @param \KnetikCloud\Model\ClientResource $client_resource The client resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function createClientRequest($client_resource = null)
+    {
+
+        $resourcePath = '/auth/clients';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
+
 
         // body params
         $_tempBody = null;
@@ -131,43 +249,65 @@ class AuthClientsApi
             $_tempBody = $client_resource;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ClientResource',
-                '/auth/clients'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ClientResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ClientResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -177,12 +317,12 @@ class AuthClientsApi
      *
      * @param string $client_key The key of the client (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function deleteClient($client_key)
     {
-        list($response) = $this->deleteClientWithHttpInfo($client_key);
-        return $response;
+        $this->deleteClientWithHttpInfo($client_key);
     }
 
     /**
@@ -192,68 +332,181 @@ class AuthClientsApi
      *
      * @param string $client_key The key of the client (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteClientWithHttpInfo($client_key)
+    {
+        $returnType = '';
+        $request = $this->deleteClientRequest($client_key);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteClientAsync
+     *
+     * Delete a client
+     *
+     * @param string $client_key The key of the client (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteClientAsync($client_key)
+    {
+        return $this->deleteClientAsyncWithHttpInfo($client_key)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation deleteClientAsyncWithHttpInfo
+     *
+     * Delete a client
+     *
+     * @param string $client_key The key of the client (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteClientAsyncWithHttpInfo($client_key)
+    {
+        $returnType = '';
+        $request = $this->deleteClientRequest($client_key);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'deleteClient'
+     *
+     * @param string $client_key The key of the client (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function deleteClientRequest($client_key)
     {
         // verify the required parameter 'client_key' is set
         if ($client_key === null) {
             throw new \InvalidArgumentException('Missing the required parameter $client_key when calling deleteClient');
         }
-        // parse inputs
-        $resourcePath = "/auth/clients/{client_key}";
-        $httpBody = '';
+
+        $resourcePath = '/auth/clients/{client_key}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($client_key !== null) {
-            $resourcePath = str_replace(
-                "{" . "client_key" . "}",
-                $this->apiClient->getSerializer()->toPathValue($client_key),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'client_key' . '}', ObjectSerializer::toPathValue($client_key), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'DELETE',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/auth/clients/{client_key}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'DELETE',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -263,6 +516,7 @@ class AuthClientsApi
      *
      * @param string $client_key The key of the client (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ClientResource
      */
     public function getClient($client_key)
@@ -278,72 +532,213 @@ class AuthClientsApi
      *
      * @param string $client_key The key of the client (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ClientResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function getClientWithHttpInfo($client_key)
+    {
+        $returnType = '\KnetikCloud\Model\ClientResource';
+        $request = $this->getClientRequest($client_key);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ClientResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getClientAsync
+     *
+     * Get a single client
+     *
+     * @param string $client_key The key of the client (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getClientAsync($client_key)
+    {
+        return $this->getClientAsyncWithHttpInfo($client_key)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getClientAsyncWithHttpInfo
+     *
+     * Get a single client
+     *
+     * @param string $client_key The key of the client (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getClientAsyncWithHttpInfo($client_key)
+    {
+        $returnType = '\KnetikCloud\Model\ClientResource';
+        $request = $this->getClientRequest($client_key);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getClient'
+     *
+     * @param string $client_key The key of the client (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getClientRequest($client_key)
     {
         // verify the required parameter 'client_key' is set
         if ($client_key === null) {
             throw new \InvalidArgumentException('Missing the required parameter $client_key when calling getClient');
         }
-        // parse inputs
-        $resourcePath = "/auth/clients/{client_key}";
-        $httpBody = '';
+
+        $resourcePath = '/auth/clients/{client_key}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($client_key !== null) {
-            $resourcePath = str_replace(
-                "{" . "client_key" . "}",
-                $this->apiClient->getSerializer()->toPathValue($client_key),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'client_key' . '}', ObjectSerializer::toPathValue($client_key), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ClientResource',
-                '/auth/clients/{client_key}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ClientResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ClientResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -352,6 +747,7 @@ class AuthClientsApi
      * List available client grant types
      *
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\GrantTypeResource[]
      */
     public function getClientGrantTypes()
@@ -366,60 +762,202 @@ class AuthClientsApi
      * List available client grant types
      *
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\GrantTypeResource[], HTTP status code, HTTP response headers (array of strings)
      */
     public function getClientGrantTypesWithHttpInfo()
     {
-        // parse inputs
-        $resourcePath = "/auth/clients/grant-types";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\GrantTypeResource[]';
+        $request = $this->getClientGrantTypesRequest();
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\GrantTypeResource[]', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getClientGrantTypesAsync
+     *
+     * List available client grant types
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getClientGrantTypesAsync()
+    {
+        return $this->getClientGrantTypesAsyncWithHttpInfo()->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getClientGrantTypesAsyncWithHttpInfo
+     *
+     * List available client grant types
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getClientGrantTypesAsyncWithHttpInfo()
+    {
+        $returnType = '\KnetikCloud\Model\GrantTypeResource[]';
+        $request = $this->getClientGrantTypesRequest();
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getClientGrantTypes'
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getClientGrantTypesRequest()
+    {
+
+        $resourcePath = '/auth/clients/grant-types';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\GrantTypeResource[]',
-                '/auth/clients/grant-types'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\GrantTypeResource[]', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\GrantTypeResource[]', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -431,6 +969,7 @@ class AuthClientsApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceClientResource_
      */
     public function getClients($size = '25', $page = '1', $order = 'id:ASC')
@@ -448,72 +987,223 @@ class AuthClientsApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceClientResource_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getClientsWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
-        // parse inputs
-        $resourcePath = "/auth/clients";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\PageResourceClientResource_';
+        $request = $this->getClientsRequest($size, $page, $order);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceClientResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getClientsAsync
+     *
+     * List and search clients
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getClientsAsync($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        return $this->getClientsAsyncWithHttpInfo($size, $page, $order)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getClientsAsyncWithHttpInfo
+     *
+     * List and search clients
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getClientsAsyncWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceClientResource_';
+        $request = $this->getClientsRequest($size, $page, $order);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getClients'
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getClientsRequest($size = '25', $page = '1', $order = 'id:ASC')
+    {
+
+        $resourcePath = '/auth/clients';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
         // query params
         if ($order !== null) {
-            $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
+            $queryParams['order'] = ObjectSerializer::toQueryValue($order);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceClientResource_',
-                '/auth/clients'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceClientResource_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceClientResource_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -524,12 +1214,12 @@ class AuthClientsApi
      * @param string $client_key The key of the client (required)
      * @param string[] $grant_list A list of unique grant types (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function setClientGrantTypes($client_key, $grant_list = null)
     {
-        list($response) = $this->setClientGrantTypesWithHttpInfo($client_key, $grant_list);
-        return $response;
+        $this->setClientGrantTypesWithHttpInfo($client_key, $grant_list);
     }
 
     /**
@@ -540,73 +1230,189 @@ class AuthClientsApi
      * @param string $client_key The key of the client (required)
      * @param string[] $grant_list A list of unique grant types (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function setClientGrantTypesWithHttpInfo($client_key, $grant_list = null)
+    {
+        $returnType = '';
+        $request = $this->setClientGrantTypesRequest($client_key, $grant_list);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setClientGrantTypesAsync
+     *
+     * Set grant types for a client
+     *
+     * @param string $client_key The key of the client (required)
+     * @param string[] $grant_list A list of unique grant types (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setClientGrantTypesAsync($client_key, $grant_list = null)
+    {
+        return $this->setClientGrantTypesAsyncWithHttpInfo($client_key, $grant_list)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation setClientGrantTypesAsyncWithHttpInfo
+     *
+     * Set grant types for a client
+     *
+     * @param string $client_key The key of the client (required)
+     * @param string[] $grant_list A list of unique grant types (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setClientGrantTypesAsyncWithHttpInfo($client_key, $grant_list = null)
+    {
+        $returnType = '';
+        $request = $this->setClientGrantTypesRequest($client_key, $grant_list);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'setClientGrantTypes'
+     *
+     * @param string $client_key The key of the client (required)
+     * @param string[] $grant_list A list of unique grant types (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function setClientGrantTypesRequest($client_key, $grant_list = null)
     {
         // verify the required parameter 'client_key' is set
         if ($client_key === null) {
             throw new \InvalidArgumentException('Missing the required parameter $client_key when calling setClientGrantTypes');
         }
-        // parse inputs
-        $resourcePath = "/auth/clients/{client_key}/grant-types";
-        $httpBody = '';
+
+        $resourcePath = '/auth/clients/{client_key}/grant-types';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($client_key !== null) {
-            $resourcePath = str_replace(
-                "{" . "client_key" . "}",
-                $this->apiClient->getSerializer()->toPathValue($client_key),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'client_key' . '}', ObjectSerializer::toPathValue($client_key), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($grant_list)) {
             $_tempBody = $grant_list;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/auth/clients/{client_key}/grant-types'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -617,12 +1423,12 @@ class AuthClientsApi
      * @param string $client_key The key of the client (required)
      * @param string[] $redirect_list A list of unique redirect uris (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function setClientRedirectUris($client_key, $redirect_list = null)
     {
-        list($response) = $this->setClientRedirectUrisWithHttpInfo($client_key, $redirect_list);
-        return $response;
+        $this->setClientRedirectUrisWithHttpInfo($client_key, $redirect_list);
     }
 
     /**
@@ -633,73 +1439,189 @@ class AuthClientsApi
      * @param string $client_key The key of the client (required)
      * @param string[] $redirect_list A list of unique redirect uris (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function setClientRedirectUrisWithHttpInfo($client_key, $redirect_list = null)
+    {
+        $returnType = '';
+        $request = $this->setClientRedirectUrisRequest($client_key, $redirect_list);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setClientRedirectUrisAsync
+     *
+     * Set redirect uris for a client
+     *
+     * @param string $client_key The key of the client (required)
+     * @param string[] $redirect_list A list of unique redirect uris (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setClientRedirectUrisAsync($client_key, $redirect_list = null)
+    {
+        return $this->setClientRedirectUrisAsyncWithHttpInfo($client_key, $redirect_list)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation setClientRedirectUrisAsyncWithHttpInfo
+     *
+     * Set redirect uris for a client
+     *
+     * @param string $client_key The key of the client (required)
+     * @param string[] $redirect_list A list of unique redirect uris (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setClientRedirectUrisAsyncWithHttpInfo($client_key, $redirect_list = null)
+    {
+        $returnType = '';
+        $request = $this->setClientRedirectUrisRequest($client_key, $redirect_list);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'setClientRedirectUris'
+     *
+     * @param string $client_key The key of the client (required)
+     * @param string[] $redirect_list A list of unique redirect uris (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function setClientRedirectUrisRequest($client_key, $redirect_list = null)
     {
         // verify the required parameter 'client_key' is set
         if ($client_key === null) {
             throw new \InvalidArgumentException('Missing the required parameter $client_key when calling setClientRedirectUris');
         }
-        // parse inputs
-        $resourcePath = "/auth/clients/{client_key}/redirect-uris";
-        $httpBody = '';
+
+        $resourcePath = '/auth/clients/{client_key}/redirect-uris';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($client_key !== null) {
-            $resourcePath = str_replace(
-                "{" . "client_key" . "}",
-                $this->apiClient->getSerializer()->toPathValue($client_key),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'client_key' . '}', ObjectSerializer::toPathValue($client_key), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($redirect_list)) {
             $_tempBody = $redirect_list;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/auth/clients/{client_key}/redirect-uris'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -710,6 +1632,7 @@ class AuthClientsApi
      * @param string $client_key The key of the client (required)
      * @param \KnetikCloud\Model\ClientResource $client_resource The client resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ClientResource
      */
     public function updateClient($client_key, $client_resource = null)
@@ -726,76 +1649,221 @@ class AuthClientsApi
      * @param string $client_key The key of the client (required)
      * @param \KnetikCloud\Model\ClientResource $client_resource The client resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ClientResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateClientWithHttpInfo($client_key, $client_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\ClientResource';
+        $request = $this->updateClientRequest($client_key, $client_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 204:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ClientResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateClientAsync
+     *
+     * Update a client
+     *
+     * @param string $client_key The key of the client (required)
+     * @param \KnetikCloud\Model\ClientResource $client_resource The client resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateClientAsync($client_key, $client_resource = null)
+    {
+        return $this->updateClientAsyncWithHttpInfo($client_key, $client_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateClientAsyncWithHttpInfo
+     *
+     * Update a client
+     *
+     * @param string $client_key The key of the client (required)
+     * @param \KnetikCloud\Model\ClientResource $client_resource The client resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateClientAsyncWithHttpInfo($client_key, $client_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\ClientResource';
+        $request = $this->updateClientRequest($client_key, $client_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateClient'
+     *
+     * @param string $client_key The key of the client (required)
+     * @param \KnetikCloud\Model\ClientResource $client_resource The client resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateClientRequest($client_key, $client_resource = null)
     {
         // verify the required parameter 'client_key' is set
         if ($client_key === null) {
             throw new \InvalidArgumentException('Missing the required parameter $client_key when calling updateClient');
         }
-        // parse inputs
-        $resourcePath = "/auth/clients/{client_key}";
-        $httpBody = '';
+
+        $resourcePath = '/auth/clients/{client_key}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($client_key !== null) {
-            $resourcePath = str_replace(
-                "{" . "client_key" . "}",
-                $this->apiClient->getSerializer()->toPathValue($client_key),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'client_key' . '}', ObjectSerializer::toPathValue($client_key), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($client_resource)) {
             $_tempBody = $client_resource;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ClientResource',
-                '/auth/clients/{client_key}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ClientResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 204:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ClientResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
+
 }

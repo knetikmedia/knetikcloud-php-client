@@ -20,7 +20,7 @@ Get a list of countries
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\LocationsApi();
+$api_instance = new KnetikCloud\Api\LocationsApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getCountries();
@@ -61,7 +61,7 @@ Determined by geo ip location
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\LocationsApi();
+$api_instance = new KnetikCloud\Api\LocationsApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getCountryByGeoLocation();
@@ -100,7 +100,7 @@ Get a list of a country's states
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\LocationsApi();
+$api_instance = new KnetikCloud\Api\LocationsApi(new \Http\Adapter\Guzzle6\Client());
 $country_code_iso3 = "country_code_iso3_example"; // string | The iso3 code of the country
 
 try {
@@ -145,7 +145,7 @@ Determined by geo ip location, currency to country mapping and a fallback settin
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\LocationsApi();
+$api_instance = new KnetikCloud\Api\LocationsApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getCurrencyByGeoLocation();

@@ -54,6 +54,7 @@ class StripeCreatePaymentMethod implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
+        'details' => '\KnetikCloud\Model\PaymentMethodDetails',
         'token' => 'string',
         'user_id' => 'int'
     ];
@@ -63,6 +64,7 @@ class StripeCreatePaymentMethod implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
+        'details' => null,
         'token' => null,
         'user_id' => 'int32'
     ];
@@ -82,6 +84,7 @@ class StripeCreatePaymentMethod implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
+        'details' => 'details',
         'token' => 'token',
         'user_id' => 'user_id'
     ];
@@ -92,6 +95,7 @@ class StripeCreatePaymentMethod implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
+        'details' => 'setDetails',
         'token' => 'setToken',
         'user_id' => 'setUserId'
     ];
@@ -102,6 +106,7 @@ class StripeCreatePaymentMethod implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
+        'details' => 'getDetails',
         'token' => 'getToken',
         'user_id' => 'getUserId'
     ];
@@ -137,6 +142,7 @@ class StripeCreatePaymentMethod implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['details'] = isset($data['details']) ? $data['details'] : null;
         $this->container['token'] = isset($data['token']) ? $data['token'] : null;
         $this->container['user_id'] = isset($data['user_id']) ? $data['user_id'] : null;
     }
@@ -171,6 +177,27 @@ class StripeCreatePaymentMethod implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets details
+     * @return \KnetikCloud\Model\PaymentMethodDetails
+     */
+    public function getDetails()
+    {
+        return $this->container['details'];
+    }
+
+    /**
+     * Sets details
+     * @param \KnetikCloud\Model\PaymentMethodDetails $details Additional optional details to store on the payment method. If included, all fields in the details will override any defaults
+     * @return $this
+     */
+    public function setDetails($details)
+    {
+        $this->container['details'] = $details;
+
+        return $this;
+    }
 
     /**
      * Gets token

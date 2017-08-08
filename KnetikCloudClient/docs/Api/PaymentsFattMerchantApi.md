@@ -1,0 +1,57 @@
+# KnetikCloud\PaymentsFattMerchantApi
+
+All URIs are relative to *https://sandbox.knetikcloud.com*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**createOrUpdateFattMerchantPaymentMethod**](PaymentsFattMerchantApi.md#createOrUpdateFattMerchantPaymentMethod) | **PUT** /payment/provider/fattmerchant/payment-methods | Create or update a FattMerchant payment method for a user
+
+
+# **createOrUpdateFattMerchantPaymentMethod**
+> \KnetikCloud\Model\PaymentMethodResource createOrUpdateFattMerchantPaymentMethod($request)
+
+Create or update a FattMerchant payment method for a user
+
+Stores customer information and creates a payment method that can be used to pay invoices through the payments endpoints.
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: OAuth2
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\PaymentsFattMerchantApi(new \Http\Adapter\Guzzle6\Client());
+$request = new \KnetikCloud\Model\FattMerchantPaymentMethodRequest(); // \KnetikCloud\Model\FattMerchantPaymentMethodRequest | Request containing payment method information for user
+
+try {
+    $result = $api_instance->createOrUpdateFattMerchantPaymentMethod($request);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling PaymentsFattMerchantApi->createOrUpdateFattMerchantPaymentMethod: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**\KnetikCloud\Model\FattMerchantPaymentMethodRequest**](../Model/FattMerchantPaymentMethodRequest.md)| Request containing payment method information for user | [optional]
+
+### Return type
+
+[**\KnetikCloud\Model\PaymentMethodResource**](../Model/PaymentMethodResource.md)
+
+### Authorization
+
+[OAuth2](../../README.md#OAuth2)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+

@@ -28,10 +28,15 @@
 
 namespace KnetikCloud\Api;
 
-use \KnetikCloud\ApiClient;
-use \KnetikCloud\ApiException;
-use \KnetikCloud\Configuration;
-use \KnetikCloud\ObjectSerializer;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\MultipartStream;
+use GuzzleHttp\Psr7\Request;
+use KnetikCloud\ApiException;
+use KnetikCloud\Configuration;
+use KnetikCloud\HeaderSelector;
+use KnetikCloud\ObjectSerializer;
 
 /**
  * StoreShippingApi Class Doc Comment
@@ -44,47 +49,36 @@ use \KnetikCloud\ObjectSerializer;
 class StoreShippingApi
 {
     /**
-     * API Client
-     *
-     * @var \KnetikCloud\ApiClient instance of the ApiClient
+     * @var ClientInterface
      */
-    protected $apiClient;
+    protected $client;
 
     /**
-     * Constructor
-     *
-     * @param \KnetikCloud\ApiClient|null $apiClient The api client to use
+     * @var Configuration
      */
-    public function __construct(\KnetikCloud\ApiClient $apiClient = null)
-    {
-        if ($apiClient === null) {
-            $apiClient = new ApiClient();
-        }
+    protected $config;
 
-        $this->apiClient = $apiClient;
+    /**
+     * @param ClientInterface $client
+     * @param Configuration $config
+     * @param HeaderSelector $selector
+     */
+    public function __construct(
+        ClientInterface $client = null,
+        Configuration $config = null,
+        HeaderSelector $selector = null
+    ) {
+        $this->client = $client ?: new Client();
+        $this->config = $config ?: new Configuration();
+        $this->headerSelector = $selector ?: new HeaderSelector();
     }
 
     /**
-     * Get API client
-     *
-     * @return \KnetikCloud\ApiClient get the API client
+     * @return Configuration
      */
-    public function getApiClient()
+    public function getConfig()
     {
-        return $this->apiClient;
-    }
-
-    /**
-     * Set the API client
-     *
-     * @param \KnetikCloud\ApiClient $apiClient set the API client
-     *
-     * @return StoreShippingApi
-     */
-    public function setApiClient(\KnetikCloud\ApiClient $apiClient)
-    {
-        $this->apiClient = $apiClient;
-        return $this;
+        return $this->config;
     }
 
     /**
@@ -95,6 +89,7 @@ class StoreShippingApi
      * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      * @param \KnetikCloud\Model\ShippingItem $shipping_item The shipping item object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ShippingItem
      */
     public function createShippingItem($cascade = 'false', $shipping_item = null)
@@ -111,69 +106,217 @@ class StoreShippingApi
      * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      * @param \KnetikCloud\Model\ShippingItem $shipping_item The shipping item object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ShippingItem, HTTP status code, HTTP response headers (array of strings)
      */
     public function createShippingItemWithHttpInfo($cascade = 'false', $shipping_item = null)
     {
-        // parse inputs
-        $resourcePath = "/store/shipping";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\ShippingItem';
+        $request = $this->createShippingItemRequest($cascade, $shipping_item);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ShippingItem', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createShippingItemAsync
+     *
+     * Create a shipping item
+     *
+     * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
+     * @param \KnetikCloud\Model\ShippingItem $shipping_item The shipping item object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createShippingItemAsync($cascade = 'false', $shipping_item = null)
+    {
+        return $this->createShippingItemAsyncWithHttpInfo($cascade, $shipping_item)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation createShippingItemAsyncWithHttpInfo
+     *
+     * Create a shipping item
+     *
+     * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
+     * @param \KnetikCloud\Model\ShippingItem $shipping_item The shipping item object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createShippingItemAsyncWithHttpInfo($cascade = 'false', $shipping_item = null)
+    {
+        $returnType = '\KnetikCloud\Model\ShippingItem';
+        $request = $this->createShippingItemRequest($cascade, $shipping_item);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'createShippingItem'
+     *
+     * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
+     * @param \KnetikCloud\Model\ShippingItem $shipping_item The shipping item object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function createShippingItemRequest($cascade = 'false', $shipping_item = null)
+    {
+
+        $resourcePath = '/store/shipping';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($cascade !== null) {
-            $queryParams['cascade'] = $this->apiClient->getSerializer()->toQueryValue($cascade);
+            $queryParams['cascade'] = ObjectSerializer::toQueryValue($cascade);
         }
+
+
         // body params
         $_tempBody = null;
         if (isset($shipping_item)) {
             $_tempBody = $shipping_item;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ShippingItem',
-                '/store/shipping'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ShippingItem', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 201:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ShippingItem', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -183,6 +326,7 @@ class StoreShippingApi
      *
      * @param \KnetikCloud\Model\ItemTemplateResource $shipping_template_resource The new shipping template (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ItemTemplateResource
      */
     public function createShippingTemplate($shipping_template_resource = null)
@@ -198,21 +342,144 @@ class StoreShippingApi
      *
      * @param \KnetikCloud\Model\ItemTemplateResource $shipping_template_resource The new shipping template (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ItemTemplateResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function createShippingTemplateWithHttpInfo($shipping_template_resource = null)
     {
-        // parse inputs
-        $resourcePath = "/store/shipping/templates";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\ItemTemplateResource';
+        $request = $this->createShippingTemplateRequest($shipping_template_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ItemTemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createShippingTemplateAsync
+     *
+     * Create a shipping template
+     *
+     * @param \KnetikCloud\Model\ItemTemplateResource $shipping_template_resource The new shipping template (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createShippingTemplateAsync($shipping_template_resource = null)
+    {
+        return $this->createShippingTemplateAsyncWithHttpInfo($shipping_template_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation createShippingTemplateAsyncWithHttpInfo
+     *
+     * Create a shipping template
+     *
+     * @param \KnetikCloud\Model\ItemTemplateResource $shipping_template_resource The new shipping template (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createShippingTemplateAsyncWithHttpInfo($shipping_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\ItemTemplateResource';
+        $request = $this->createShippingTemplateRequest($shipping_template_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'createShippingTemplate'
+     *
+     * @param \KnetikCloud\Model\ItemTemplateResource $shipping_template_resource The new shipping template (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function createShippingTemplateRequest($shipping_template_resource = null)
+    {
+
+        $resourcePath = '/store/shipping/templates';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
+
 
         // body params
         $_tempBody = null;
@@ -220,43 +487,65 @@ class StoreShippingApi
             $_tempBody = $shipping_template_resource;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ItemTemplateResource',
-                '/store/shipping/templates'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ItemTemplateResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 201:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ItemTemplateResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -266,12 +555,12 @@ class StoreShippingApi
      *
      * @param int $id The id of the shipping item (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function deleteShippingItem($id)
     {
-        list($response) = $this->deleteShippingItemWithHttpInfo($id);
-        return $response;
+        $this->deleteShippingItemWithHttpInfo($id);
     }
 
     /**
@@ -281,68 +570,181 @@ class StoreShippingApi
      *
      * @param int $id The id of the shipping item (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteShippingItemWithHttpInfo($id)
+    {
+        $returnType = '';
+        $request = $this->deleteShippingItemRequest($id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteShippingItemAsync
+     *
+     * Delete a shipping item
+     *
+     * @param int $id The id of the shipping item (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteShippingItemAsync($id)
+    {
+        return $this->deleteShippingItemAsyncWithHttpInfo($id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation deleteShippingItemAsyncWithHttpInfo
+     *
+     * Delete a shipping item
+     *
+     * @param int $id The id of the shipping item (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteShippingItemAsyncWithHttpInfo($id)
+    {
+        $returnType = '';
+        $request = $this->deleteShippingItemRequest($id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'deleteShippingItem'
+     *
+     * @param int $id The id of the shipping item (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function deleteShippingItemRequest($id)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling deleteShippingItem');
         }
-        // parse inputs
-        $resourcePath = "/store/shipping/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/store/shipping/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'DELETE',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/store/shipping/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'DELETE',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -353,12 +755,12 @@ class StoreShippingApi
      * @param string $id The id of the template (required)
      * @param string $cascade force deleting the template if it&#39;s attached to other objects, cascade &#x3D; detach (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function deleteShippingTemplate($id, $cascade = null)
     {
-        list($response) = $this->deleteShippingTemplateWithHttpInfo($id, $cascade);
-        return $response;
+        $this->deleteShippingTemplateWithHttpInfo($id, $cascade);
     }
 
     /**
@@ -369,72 +771,188 @@ class StoreShippingApi
      * @param string $id The id of the template (required)
      * @param string $cascade force deleting the template if it&#39;s attached to other objects, cascade &#x3D; detach (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteShippingTemplateWithHttpInfo($id, $cascade = null)
+    {
+        $returnType = '';
+        $request = $this->deleteShippingTemplateRequest($id, $cascade);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteShippingTemplateAsync
+     *
+     * Delete a shipping template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade force deleting the template if it&#39;s attached to other objects, cascade &#x3D; detach (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteShippingTemplateAsync($id, $cascade = null)
+    {
+        return $this->deleteShippingTemplateAsyncWithHttpInfo($id, $cascade)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation deleteShippingTemplateAsyncWithHttpInfo
+     *
+     * Delete a shipping template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade force deleting the template if it&#39;s attached to other objects, cascade &#x3D; detach (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteShippingTemplateAsyncWithHttpInfo($id, $cascade = null)
+    {
+        $returnType = '';
+        $request = $this->deleteShippingTemplateRequest($id, $cascade);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'deleteShippingTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade force deleting the template if it&#39;s attached to other objects, cascade &#x3D; detach (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function deleteShippingTemplateRequest($id, $cascade = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling deleteShippingTemplate');
         }
-        // parse inputs
-        $resourcePath = "/store/shipping/templates/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/store/shipping/templates/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($cascade !== null) {
-            $queryParams['cascade'] = $this->apiClient->getSerializer()->toQueryValue($cascade);
+            $queryParams['cascade'] = ObjectSerializer::toQueryValue($cascade);
         }
+
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'DELETE',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/store/shipping/templates/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'DELETE',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -444,6 +962,7 @@ class StoreShippingApi
      *
      * @param int $id The id of the shipping item (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ShippingItem
      */
     public function getShippingItem($id)
@@ -459,68 +978,209 @@ class StoreShippingApi
      *
      * @param int $id The id of the shipping item (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ShippingItem, HTTP status code, HTTP response headers (array of strings)
      */
     public function getShippingItemWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\ShippingItem';
+        $request = $this->getShippingItemRequest($id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ShippingItem', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getShippingItemAsync
+     *
+     * Get a single shipping item
+     *
+     * @param int $id The id of the shipping item (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getShippingItemAsync($id)
+    {
+        return $this->getShippingItemAsyncWithHttpInfo($id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getShippingItemAsyncWithHttpInfo
+     *
+     * Get a single shipping item
+     *
+     * @param int $id The id of the shipping item (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getShippingItemAsyncWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\ShippingItem';
+        $request = $this->getShippingItemRequest($id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getShippingItem'
+     *
+     * @param int $id The id of the shipping item (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getShippingItemRequest($id)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling getShippingItem');
         }
-        // parse inputs
-        $resourcePath = "/store/shipping/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/store/shipping/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ShippingItem',
-                '/store/shipping/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ShippingItem', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ShippingItem', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -530,6 +1190,7 @@ class StoreShippingApi
      *
      * @param string $id The id of the template (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ItemTemplateResource
      */
     public function getShippingTemplate($id)
@@ -545,72 +1206,213 @@ class StoreShippingApi
      *
      * @param string $id The id of the template (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ItemTemplateResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function getShippingTemplateWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\ItemTemplateResource';
+        $request = $this->getShippingTemplateRequest($id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ItemTemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getShippingTemplateAsync
+     *
+     * Get a single shipping template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getShippingTemplateAsync($id)
+    {
+        return $this->getShippingTemplateAsyncWithHttpInfo($id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getShippingTemplateAsyncWithHttpInfo
+     *
+     * Get a single shipping template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getShippingTemplateAsyncWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\ItemTemplateResource';
+        $request = $this->getShippingTemplateRequest($id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getShippingTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getShippingTemplateRequest($id)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling getShippingTemplate');
         }
-        // parse inputs
-        $resourcePath = "/store/shipping/templates/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/store/shipping/templates/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ItemTemplateResource',
-                '/store/shipping/templates/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ItemTemplateResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ItemTemplateResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -622,6 +1424,7 @@ class StoreShippingApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceItemTemplateResource_
      */
     public function getShippingTemplates($size = '25', $page = '1', $order = 'id:ASC')
@@ -639,72 +1442,223 @@ class StoreShippingApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceItemTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getShippingTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
-        // parse inputs
-        $resourcePath = "/store/shipping/templates";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\PageResourceItemTemplateResource_';
+        $request = $this->getShippingTemplatesRequest($size, $page, $order);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceItemTemplateResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getShippingTemplatesAsync
+     *
+     * List and search shipping templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getShippingTemplatesAsync($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        return $this->getShippingTemplatesAsyncWithHttpInfo($size, $page, $order)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getShippingTemplatesAsyncWithHttpInfo
+     *
+     * List and search shipping templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getShippingTemplatesAsyncWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceItemTemplateResource_';
+        $request = $this->getShippingTemplatesRequest($size, $page, $order);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getShippingTemplates'
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getShippingTemplatesRequest($size = '25', $page = '1', $order = 'id:ASC')
+    {
+
+        $resourcePath = '/store/shipping/templates';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
         // query params
         if ($order !== null) {
-            $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
+            $queryParams['order'] = ObjectSerializer::toQueryValue($order);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceItemTemplateResource_',
-                '/store/shipping/templates'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceItemTemplateResource_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceItemTemplateResource_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -716,6 +1670,7 @@ class StoreShippingApi
      * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      * @param \KnetikCloud\Model\ShippingItem $shipping_item The shipping item object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ShippingItem
      */
     public function updateShippingItem($id, $cascade = 'false', $shipping_item = null)
@@ -733,81 +1688,228 @@ class StoreShippingApi
      * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      * @param \KnetikCloud\Model\ShippingItem $shipping_item The shipping item object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ShippingItem, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateShippingItemWithHttpInfo($id, $cascade = 'false', $shipping_item = null)
+    {
+        $returnType = '\KnetikCloud\Model\ShippingItem';
+        $request = $this->updateShippingItemRequest($id, $cascade, $shipping_item);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 204:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ShippingItem', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateShippingItemAsync
+     *
+     * Update a shipping item
+     *
+     * @param int $id The id of the shipping item (required)
+     * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
+     * @param \KnetikCloud\Model\ShippingItem $shipping_item The shipping item object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateShippingItemAsync($id, $cascade = 'false', $shipping_item = null)
+    {
+        return $this->updateShippingItemAsyncWithHttpInfo($id, $cascade, $shipping_item)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateShippingItemAsyncWithHttpInfo
+     *
+     * Update a shipping item
+     *
+     * @param int $id The id of the shipping item (required)
+     * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
+     * @param \KnetikCloud\Model\ShippingItem $shipping_item The shipping item object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateShippingItemAsyncWithHttpInfo($id, $cascade = 'false', $shipping_item = null)
+    {
+        $returnType = '\KnetikCloud\Model\ShippingItem';
+        $request = $this->updateShippingItemRequest($id, $cascade, $shipping_item);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateShippingItem'
+     *
+     * @param int $id The id of the shipping item (required)
+     * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
+     * @param \KnetikCloud\Model\ShippingItem $shipping_item The shipping item object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateShippingItemRequest($id, $cascade = 'false', $shipping_item = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling updateShippingItem');
         }
-        // parse inputs
-        $resourcePath = "/store/shipping/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/store/shipping/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($cascade !== null) {
-            $queryParams['cascade'] = $this->apiClient->getSerializer()->toQueryValue($cascade);
+            $queryParams['cascade'] = ObjectSerializer::toQueryValue($cascade);
         }
+
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($shipping_item)) {
             $_tempBody = $shipping_item;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ShippingItem',
-                '/store/shipping/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ShippingItem', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 204:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ShippingItem', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -818,6 +1920,7 @@ class StoreShippingApi
      * @param string $id The id of the template (required)
      * @param \KnetikCloud\Model\ItemTemplateResource $shipping_template_resource The shipping template resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ItemTemplateResource
      */
     public function updateShippingTemplate($id, $shipping_template_resource = null)
@@ -834,76 +1937,221 @@ class StoreShippingApi
      * @param string $id The id of the template (required)
      * @param \KnetikCloud\Model\ItemTemplateResource $shipping_template_resource The shipping template resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ItemTemplateResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateShippingTemplateWithHttpInfo($id, $shipping_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\ItemTemplateResource';
+        $request = $this->updateShippingTemplateRequest($id, $shipping_template_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 204:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ItemTemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateShippingTemplateAsync
+     *
+     * Update a shipping template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\ItemTemplateResource $shipping_template_resource The shipping template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateShippingTemplateAsync($id, $shipping_template_resource = null)
+    {
+        return $this->updateShippingTemplateAsyncWithHttpInfo($id, $shipping_template_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateShippingTemplateAsyncWithHttpInfo
+     *
+     * Update a shipping template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\ItemTemplateResource $shipping_template_resource The shipping template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateShippingTemplateAsyncWithHttpInfo($id, $shipping_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\ItemTemplateResource';
+        $request = $this->updateShippingTemplateRequest($id, $shipping_template_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateShippingTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\ItemTemplateResource $shipping_template_resource The shipping template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateShippingTemplateRequest($id, $shipping_template_resource = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling updateShippingTemplate');
         }
-        // parse inputs
-        $resourcePath = "/store/shipping/templates/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/store/shipping/templates/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($shipping_template_resource)) {
             $_tempBody = $shipping_template_resource;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ItemTemplateResource',
-                '/store/shipping/templates/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ItemTemplateResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 204:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ItemTemplateResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
+
 }

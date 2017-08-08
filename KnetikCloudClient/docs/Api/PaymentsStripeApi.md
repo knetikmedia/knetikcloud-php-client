@@ -23,7 +23,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsStripeApi();
+$api_instance = new KnetikCloud\Api\PaymentsStripeApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\StripeCreatePaymentMethod(); // \KnetikCloud\Model\StripeCreatePaymentMethod | The request to create a Stripe customer with payment info
 
 try {
@@ -66,7 +66,7 @@ Pay with a single use token
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\PaymentsStripeApi();
+$api_instance = new KnetikCloud\Api\PaymentsStripeApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\StripePaymentRequest(); // \KnetikCloud\Model\StripePaymentRequest | The request to pay an invoice
 
 try {

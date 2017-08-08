@@ -25,7 +25,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentCommentsApi();
+$api_instance = new KnetikCloud\Api\ContentCommentsApi(new \Http\Adapter\Guzzle6\Client());
 $comment_resource = new \KnetikCloud\Model\CommentResource(); // \KnetikCloud\Model\CommentResource | The comment to be added
 
 try {
@@ -71,7 +71,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentCommentsApi();
+$api_instance = new KnetikCloud\Api\ContentCommentsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The comment id
 
 try {
@@ -113,7 +113,7 @@ Return a comment
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\ContentCommentsApi();
+$api_instance = new KnetikCloud\Api\ContentCommentsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The comment id
 
 try {
@@ -156,7 +156,7 @@ Returns a page of comments
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\ContentCommentsApi();
+$api_instance = new KnetikCloud\Api\ContentCommentsApi(new \Http\Adapter\Guzzle6\Client());
 $context = "context_example"; // string | Get comments by context type
 $context_id = 56; // int | Get comments by context id
 $size = 25; // int | The number of objects returned per page
@@ -207,7 +207,7 @@ The body is an ElasticSearch query json. Please see their <a href='https://www.e
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\ContentCommentsApi();
+$api_instance = new KnetikCloud\Api\ContentCommentsApi(new \Http\Adapter\Guzzle6\Client());
 $query = NULL; // object | The search query
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -257,9 +257,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentCommentsApi();
+$api_instance = new KnetikCloud\Api\ContentCommentsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The comment id
-$content = "content_example"; // string | The comment content
+$content = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | The comment content
 
 try {
     $api_instance->updateComment($id, $content);
@@ -274,7 +274,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The comment id |
- **content** | **string**| The comment content | [optional]
+ **content** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| The comment content | [optional]
 
 ### Return type
 

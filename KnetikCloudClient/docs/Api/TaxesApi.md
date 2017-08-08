@@ -30,7 +30,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\TaxesApi();
+$api_instance = new KnetikCloud\Api\TaxesApi(new \Http\Adapter\Guzzle6\Client());
 $tax_resource = new \KnetikCloud\Model\CountryTaxResource(); // \KnetikCloud\Model\CountryTaxResource | The tax object
 
 try {
@@ -76,7 +76,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\TaxesApi();
+$api_instance = new KnetikCloud\Api\TaxesApi(new \Http\Adapter\Guzzle6\Client());
 $country_code_iso3 = "country_code_iso3_example"; // string | The iso3 code of the country
 $tax_resource = new \KnetikCloud\Model\StateTaxResource(); // \KnetikCloud\Model\StateTaxResource | The tax object
 
@@ -124,7 +124,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\TaxesApi();
+$api_instance = new KnetikCloud\Api\TaxesApi(new \Http\Adapter\Guzzle6\Client());
 $country_code_iso3 = "country_code_iso3_example"; // string | The iso3 code of the country
 
 try {
@@ -169,7 +169,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\TaxesApi();
+$api_instance = new KnetikCloud\Api\TaxesApi(new \Http\Adapter\Guzzle6\Client());
 $country_code_iso3 = "country_code_iso3_example"; // string | The iso3 code of the country
 $state_code = "state_code_example"; // string | The code of the state
 
@@ -213,7 +213,7 @@ Get a single tax
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\TaxesApi();
+$api_instance = new KnetikCloud\Api\TaxesApi(new \Http\Adapter\Guzzle6\Client());
 $country_code_iso3 = "country_code_iso3_example"; // string | The iso3 code of the country
 
 try {
@@ -258,7 +258,7 @@ Get a list of taxes
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\TaxesApi();
+$api_instance = new KnetikCloud\Api\TaxesApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned
 $order = "name:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -305,7 +305,7 @@ Get a single state tax
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\TaxesApi();
+$api_instance = new KnetikCloud\Api\TaxesApi(new \Http\Adapter\Guzzle6\Client());
 $country_code_iso3 = "country_code_iso3_example"; // string | The iso3 code of the country
 $state_code = "state_code_example"; // string | The code of the state
 
@@ -352,7 +352,7 @@ Get a list of taxes
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\TaxesApi();
+$api_instance = new KnetikCloud\Api\TaxesApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned
 $order = "order_example"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -401,7 +401,7 @@ Get a list of taxes
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\TaxesApi();
+$api_instance = new KnetikCloud\Api\TaxesApi(new \Http\Adapter\Guzzle6\Client());
 $country_code_iso3 = "country_code_iso3_example"; // string | The iso3 code of the country
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned
@@ -453,7 +453,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\TaxesApi();
+$api_instance = new KnetikCloud\Api\TaxesApi(new \Http\Adapter\Guzzle6\Client());
 $country_code_iso3 = "country_code_iso3_example"; // string | The iso3 code of the country
 $tax_resource = new \KnetikCloud\Model\CountryTaxResource(); // \KnetikCloud\Model\CountryTaxResource | The tax object
 
@@ -501,7 +501,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\TaxesApi();
+$api_instance = new KnetikCloud\Api\TaxesApi(new \Http\Adapter\Guzzle6\Client());
 $country_code_iso3 = "country_code_iso3_example"; // string | The iso3 code of the country
 $state_code = "state_code_example"; // string | The code of the state
 $tax_resource = new \KnetikCloud\Model\StateTaxResource(); // \KnetikCloud\Model\StateTaxResource | The tax object

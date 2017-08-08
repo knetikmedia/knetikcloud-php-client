@@ -28,10 +28,15 @@
 
 namespace KnetikCloud\Api;
 
-use \KnetikCloud\ApiClient;
-use \KnetikCloud\ApiException;
-use \KnetikCloud\Configuration;
-use \KnetikCloud\ObjectSerializer;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\MultipartStream;
+use GuzzleHttp\Psr7\Request;
+use KnetikCloud\ApiException;
+use KnetikCloud\Configuration;
+use KnetikCloud\HeaderSelector;
+use KnetikCloud\ObjectSerializer;
 
 /**
  * CampaignsChallengesApi Class Doc Comment
@@ -44,47 +49,36 @@ use \KnetikCloud\ObjectSerializer;
 class CampaignsChallengesApi
 {
     /**
-     * API Client
-     *
-     * @var \KnetikCloud\ApiClient instance of the ApiClient
+     * @var ClientInterface
      */
-    protected $apiClient;
+    protected $client;
 
     /**
-     * Constructor
-     *
-     * @param \KnetikCloud\ApiClient|null $apiClient The api client to use
+     * @var Configuration
      */
-    public function __construct(\KnetikCloud\ApiClient $apiClient = null)
-    {
-        if ($apiClient === null) {
-            $apiClient = new ApiClient();
-        }
+    protected $config;
 
-        $this->apiClient = $apiClient;
+    /**
+     * @param ClientInterface $client
+     * @param Configuration $config
+     * @param HeaderSelector $selector
+     */
+    public function __construct(
+        ClientInterface $client = null,
+        Configuration $config = null,
+        HeaderSelector $selector = null
+    ) {
+        $this->client = $client ?: new Client();
+        $this->config = $config ?: new Configuration();
+        $this->headerSelector = $selector ?: new HeaderSelector();
     }
 
     /**
-     * Get API client
-     *
-     * @return \KnetikCloud\ApiClient get the API client
+     * @return Configuration
      */
-    public function getApiClient()
+    public function getConfig()
     {
-        return $this->apiClient;
-    }
-
-    /**
-     * Set the API client
-     *
-     * @param \KnetikCloud\ApiClient $apiClient set the API client
-     *
-     * @return CampaignsChallengesApi
-     */
-    public function setApiClient(\KnetikCloud\ApiClient $apiClient)
-    {
-        $this->apiClient = $apiClient;
-        return $this;
+        return $this->config;
     }
 
     /**
@@ -94,6 +88,7 @@ class CampaignsChallengesApi
      *
      * @param \KnetikCloud\Model\ChallengeResource $challenge_resource The challenge resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ChallengeResource
      */
     public function createChallenge($challenge_resource = null)
@@ -109,21 +104,144 @@ class CampaignsChallengesApi
      *
      * @param \KnetikCloud\Model\ChallengeResource $challenge_resource The challenge resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ChallengeResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function createChallengeWithHttpInfo($challenge_resource = null)
     {
-        // parse inputs
-        $resourcePath = "/challenges";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\ChallengeResource';
+        $request = $this->createChallengeRequest($challenge_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ChallengeResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createChallengeAsync
+     *
+     * Create a challenge
+     *
+     * @param \KnetikCloud\Model\ChallengeResource $challenge_resource The challenge resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createChallengeAsync($challenge_resource = null)
+    {
+        return $this->createChallengeAsyncWithHttpInfo($challenge_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation createChallengeAsyncWithHttpInfo
+     *
+     * Create a challenge
+     *
+     * @param \KnetikCloud\Model\ChallengeResource $challenge_resource The challenge resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createChallengeAsyncWithHttpInfo($challenge_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\ChallengeResource';
+        $request = $this->createChallengeRequest($challenge_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'createChallenge'
+     *
+     * @param \KnetikCloud\Model\ChallengeResource $challenge_resource The challenge resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function createChallengeRequest($challenge_resource = null)
+    {
+
+        $resourcePath = '/challenges';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
+
 
         // body params
         $_tempBody = null;
@@ -131,43 +249,65 @@ class CampaignsChallengesApi
             $_tempBody = $challenge_resource;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ChallengeResource',
-                '/challenges'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ChallengeResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 201:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ChallengeResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -179,6 +319,7 @@ class CampaignsChallengesApi
      * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
      * @param bool $validate_settings Whether to validate the settings being sent against the available settings on the base activity. (optional, default to false)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ChallengeActivityResource
      */
     public function createChallengeActivity($challenge_id, $challenge_activity_resource = null, $validate_settings = 'false')
@@ -196,81 +337,228 @@ class CampaignsChallengesApi
      * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
      * @param bool $validate_settings Whether to validate the settings being sent against the available settings on the base activity. (optional, default to false)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ChallengeActivityResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function createChallengeActivityWithHttpInfo($challenge_id, $challenge_activity_resource = null, $validate_settings = 'false')
+    {
+        $returnType = '\KnetikCloud\Model\ChallengeActivityResource';
+        $request = $this->createChallengeActivityRequest($challenge_id, $challenge_activity_resource, $validate_settings);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ChallengeActivityResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createChallengeActivityAsync
+     *
+     * Create a challenge activity
+     *
+     * @param int $challenge_id The challenge id (required)
+     * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
+     * @param bool $validate_settings Whether to validate the settings being sent against the available settings on the base activity. (optional, default to false)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createChallengeActivityAsync($challenge_id, $challenge_activity_resource = null, $validate_settings = 'false')
+    {
+        return $this->createChallengeActivityAsyncWithHttpInfo($challenge_id, $challenge_activity_resource, $validate_settings)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation createChallengeActivityAsyncWithHttpInfo
+     *
+     * Create a challenge activity
+     *
+     * @param int $challenge_id The challenge id (required)
+     * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
+     * @param bool $validate_settings Whether to validate the settings being sent against the available settings on the base activity. (optional, default to false)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createChallengeActivityAsyncWithHttpInfo($challenge_id, $challenge_activity_resource = null, $validate_settings = 'false')
+    {
+        $returnType = '\KnetikCloud\Model\ChallengeActivityResource';
+        $request = $this->createChallengeActivityRequest($challenge_id, $challenge_activity_resource, $validate_settings);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'createChallengeActivity'
+     *
+     * @param int $challenge_id The challenge id (required)
+     * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
+     * @param bool $validate_settings Whether to validate the settings being sent against the available settings on the base activity. (optional, default to false)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function createChallengeActivityRequest($challenge_id, $challenge_activity_resource = null, $validate_settings = 'false')
     {
         // verify the required parameter 'challenge_id' is set
         if ($challenge_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $challenge_id when calling createChallengeActivity');
         }
-        // parse inputs
-        $resourcePath = "/challenges/{challenge_id}/activities";
-        $httpBody = '';
+
+        $resourcePath = '/challenges/{challenge_id}/activities';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($validate_settings !== null) {
-            $queryParams['validateSettings'] = $this->apiClient->getSerializer()->toQueryValue($validate_settings);
+            $queryParams['validateSettings'] = ObjectSerializer::toQueryValue($validate_settings);
         }
+
         // path params
         if ($challenge_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "challenge_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($challenge_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'challenge_id' . '}', ObjectSerializer::toPathValue($challenge_id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($challenge_activity_resource)) {
             $_tempBody = $challenge_activity_resource;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ChallengeActivityResource',
-                '/challenges/{challenge_id}/activities'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ChallengeActivityResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 201:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ChallengeActivityResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -280,6 +568,7 @@ class CampaignsChallengesApi
      *
      * @param \KnetikCloud\Model\TemplateResource $challenge_activity_template_resource The challengeActivity template resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\TemplateResource
      */
     public function createChallengeActivityTemplate($challenge_activity_template_resource = null)
@@ -295,21 +584,144 @@ class CampaignsChallengesApi
      *
      * @param \KnetikCloud\Model\TemplateResource $challenge_activity_template_resource The challengeActivity template resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\TemplateResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function createChallengeActivityTemplateWithHttpInfo($challenge_activity_template_resource = null)
     {
-        // parse inputs
-        $resourcePath = "/challenge-activities/templates";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->createChallengeActivityTemplateRequest($challenge_activity_template_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createChallengeActivityTemplateAsync
+     *
+     * Create a challenge activity template
+     *
+     * @param \KnetikCloud\Model\TemplateResource $challenge_activity_template_resource The challengeActivity template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createChallengeActivityTemplateAsync($challenge_activity_template_resource = null)
+    {
+        return $this->createChallengeActivityTemplateAsyncWithHttpInfo($challenge_activity_template_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation createChallengeActivityTemplateAsyncWithHttpInfo
+     *
+     * Create a challenge activity template
+     *
+     * @param \KnetikCloud\Model\TemplateResource $challenge_activity_template_resource The challengeActivity template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createChallengeActivityTemplateAsyncWithHttpInfo($challenge_activity_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->createChallengeActivityTemplateRequest($challenge_activity_template_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'createChallengeActivityTemplate'
+     *
+     * @param \KnetikCloud\Model\TemplateResource $challenge_activity_template_resource The challengeActivity template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function createChallengeActivityTemplateRequest($challenge_activity_template_resource = null)
+    {
+
+        $resourcePath = '/challenge-activities/templates';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
+
 
         // body params
         $_tempBody = null;
@@ -317,43 +729,65 @@ class CampaignsChallengesApi
             $_tempBody = $challenge_activity_template_resource;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\TemplateResource',
-                '/challenge-activities/templates'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\TemplateResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 201:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -363,6 +797,7 @@ class CampaignsChallengesApi
      *
      * @param \KnetikCloud\Model\TemplateResource $challenge_template_resource The challenge template resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\TemplateResource
      */
     public function createChallengeTemplate($challenge_template_resource = null)
@@ -378,21 +813,144 @@ class CampaignsChallengesApi
      *
      * @param \KnetikCloud\Model\TemplateResource $challenge_template_resource The challenge template resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\TemplateResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function createChallengeTemplateWithHttpInfo($challenge_template_resource = null)
     {
-        // parse inputs
-        $resourcePath = "/challenges/templates";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->createChallengeTemplateRequest($challenge_template_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createChallengeTemplateAsync
+     *
+     * Create a challenge template
+     *
+     * @param \KnetikCloud\Model\TemplateResource $challenge_template_resource The challenge template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createChallengeTemplateAsync($challenge_template_resource = null)
+    {
+        return $this->createChallengeTemplateAsyncWithHttpInfo($challenge_template_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation createChallengeTemplateAsyncWithHttpInfo
+     *
+     * Create a challenge template
+     *
+     * @param \KnetikCloud\Model\TemplateResource $challenge_template_resource The challenge template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createChallengeTemplateAsyncWithHttpInfo($challenge_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->createChallengeTemplateRequest($challenge_template_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'createChallengeTemplate'
+     *
+     * @param \KnetikCloud\Model\TemplateResource $challenge_template_resource The challenge template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function createChallengeTemplateRequest($challenge_template_resource = null)
+    {
+
+        $resourcePath = '/challenges/templates';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
+
 
         // body params
         $_tempBody = null;
@@ -400,43 +958,65 @@ class CampaignsChallengesApi
             $_tempBody = $challenge_template_resource;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\TemplateResource',
-                '/challenges/templates'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\TemplateResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 201:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -446,12 +1026,12 @@ class CampaignsChallengesApi
      *
      * @param int $id The challenge id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function deleteChallenge($id)
     {
-        list($response) = $this->deleteChallengeWithHttpInfo($id);
-        return $response;
+        $this->deleteChallengeWithHttpInfo($id);
     }
 
     /**
@@ -461,68 +1041,181 @@ class CampaignsChallengesApi
      *
      * @param int $id The challenge id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteChallengeWithHttpInfo($id)
+    {
+        $returnType = '';
+        $request = $this->deleteChallengeRequest($id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteChallengeAsync
+     *
+     * Delete a challenge
+     *
+     * @param int $id The challenge id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteChallengeAsync($id)
+    {
+        return $this->deleteChallengeAsyncWithHttpInfo($id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation deleteChallengeAsyncWithHttpInfo
+     *
+     * Delete a challenge
+     *
+     * @param int $id The challenge id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteChallengeAsyncWithHttpInfo($id)
+    {
+        $returnType = '';
+        $request = $this->deleteChallengeRequest($id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'deleteChallenge'
+     *
+     * @param int $id The challenge id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function deleteChallengeRequest($id)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling deleteChallenge');
         }
-        // parse inputs
-        $resourcePath = "/challenges/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/challenges/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'DELETE',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/challenges/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'DELETE',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -533,12 +1226,12 @@ class CampaignsChallengesApi
      * @param int $id The challenge_activity id (required)
      * @param int $challenge_id The challenge id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function deleteChallengeActivity($id, $challenge_id)
     {
-        list($response) = $this->deleteChallengeActivityWithHttpInfo($id, $challenge_id);
-        return $response;
+        $this->deleteChallengeActivityWithHttpInfo($id, $challenge_id);
     }
 
     /**
@@ -549,9 +1242,105 @@ class CampaignsChallengesApi
      * @param int $id The challenge_activity id (required)
      * @param int $challenge_id The challenge id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteChallengeActivityWithHttpInfo($id, $challenge_id)
+    {
+        $returnType = '';
+        $request = $this->deleteChallengeActivityRequest($id, $challenge_id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteChallengeActivityAsync
+     *
+     * Delete a challenge activity
+     *
+     * @param int $id The challenge_activity id (required)
+     * @param int $challenge_id The challenge id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteChallengeActivityAsync($id, $challenge_id)
+    {
+        return $this->deleteChallengeActivityAsyncWithHttpInfo($id, $challenge_id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation deleteChallengeActivityAsyncWithHttpInfo
+     *
+     * Delete a challenge activity
+     *
+     * @param int $id The challenge_activity id (required)
+     * @param int $challenge_id The challenge id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteChallengeActivityAsyncWithHttpInfo($id, $challenge_id)
+    {
+        $returnType = '';
+        $request = $this->deleteChallengeActivityRequest($id, $challenge_id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'deleteChallengeActivity'
+     *
+     * @param int $id The challenge_activity id (required)
+     * @param int $challenge_id The challenge id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function deleteChallengeActivityRequest($id, $challenge_id)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
@@ -561,68 +1350,84 @@ class CampaignsChallengesApi
         if ($challenge_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $challenge_id when calling deleteChallengeActivity');
         }
-        // parse inputs
-        $resourcePath = "/challenges/{challenge_id}/activities/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/challenges/{challenge_id}/activities/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
         // path params
         if ($challenge_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "challenge_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($challenge_id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'challenge_id' . '}', ObjectSerializer::toPathValue($challenge_id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'DELETE',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/challenges/{challenge_id}/activities/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'DELETE',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -633,12 +1438,12 @@ class CampaignsChallengesApi
      * @param string $id The id of the template (required)
      * @param string $cascade The value needed to delete used templates (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function deleteChallengeActivityTemplate($id, $cascade = null)
     {
-        list($response) = $this->deleteChallengeActivityTemplateWithHttpInfo($id, $cascade);
-        return $response;
+        $this->deleteChallengeActivityTemplateWithHttpInfo($id, $cascade);
     }
 
     /**
@@ -649,72 +1454,188 @@ class CampaignsChallengesApi
      * @param string $id The id of the template (required)
      * @param string $cascade The value needed to delete used templates (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteChallengeActivityTemplateWithHttpInfo($id, $cascade = null)
+    {
+        $returnType = '';
+        $request = $this->deleteChallengeActivityTemplateRequest($id, $cascade);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteChallengeActivityTemplateAsync
+     *
+     * Delete a challenge activity template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteChallengeActivityTemplateAsync($id, $cascade = null)
+    {
+        return $this->deleteChallengeActivityTemplateAsyncWithHttpInfo($id, $cascade)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation deleteChallengeActivityTemplateAsyncWithHttpInfo
+     *
+     * Delete a challenge activity template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteChallengeActivityTemplateAsyncWithHttpInfo($id, $cascade = null)
+    {
+        $returnType = '';
+        $request = $this->deleteChallengeActivityTemplateRequest($id, $cascade);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'deleteChallengeActivityTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function deleteChallengeActivityTemplateRequest($id, $cascade = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling deleteChallengeActivityTemplate');
         }
-        // parse inputs
-        $resourcePath = "/challenge-activities/templates/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/challenge-activities/templates/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($cascade !== null) {
-            $queryParams['cascade'] = $this->apiClient->getSerializer()->toQueryValue($cascade);
+            $queryParams['cascade'] = ObjectSerializer::toQueryValue($cascade);
         }
+
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'DELETE',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/challenge-activities/templates/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'DELETE',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -724,12 +1645,12 @@ class CampaignsChallengesApi
      *
      * @param int $id The challenge event id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function deleteChallengeEvent($id)
     {
-        list($response) = $this->deleteChallengeEventWithHttpInfo($id);
-        return $response;
+        $this->deleteChallengeEventWithHttpInfo($id);
     }
 
     /**
@@ -739,68 +1660,181 @@ class CampaignsChallengesApi
      *
      * @param int $id The challenge event id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteChallengeEventWithHttpInfo($id)
+    {
+        $returnType = '';
+        $request = $this->deleteChallengeEventRequest($id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteChallengeEventAsync
+     *
+     * Delete a challenge event
+     *
+     * @param int $id The challenge event id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteChallengeEventAsync($id)
+    {
+        return $this->deleteChallengeEventAsyncWithHttpInfo($id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation deleteChallengeEventAsyncWithHttpInfo
+     *
+     * Delete a challenge event
+     *
+     * @param int $id The challenge event id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteChallengeEventAsyncWithHttpInfo($id)
+    {
+        $returnType = '';
+        $request = $this->deleteChallengeEventRequest($id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'deleteChallengeEvent'
+     *
+     * @param int $id The challenge event id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function deleteChallengeEventRequest($id)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling deleteChallengeEvent');
         }
-        // parse inputs
-        $resourcePath = "/challenges/events/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/challenges/events/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'DELETE',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/challenges/events/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'DELETE',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -811,12 +1845,12 @@ class CampaignsChallengesApi
      * @param string $id The id of the template (required)
      * @param string $cascade The value needed to delete used templates (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function deleteChallengeTemplate($id, $cascade = null)
     {
-        list($response) = $this->deleteChallengeTemplateWithHttpInfo($id, $cascade);
-        return $response;
+        $this->deleteChallengeTemplateWithHttpInfo($id, $cascade);
     }
 
     /**
@@ -827,72 +1861,188 @@ class CampaignsChallengesApi
      * @param string $id The id of the template (required)
      * @param string $cascade The value needed to delete used templates (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteChallengeTemplateWithHttpInfo($id, $cascade = null)
+    {
+        $returnType = '';
+        $request = $this->deleteChallengeTemplateRequest($id, $cascade);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteChallengeTemplateAsync
+     *
+     * Delete a challenge template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteChallengeTemplateAsync($id, $cascade = null)
+    {
+        return $this->deleteChallengeTemplateAsyncWithHttpInfo($id, $cascade)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation deleteChallengeTemplateAsyncWithHttpInfo
+     *
+     * Delete a challenge template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteChallengeTemplateAsyncWithHttpInfo($id, $cascade = null)
+    {
+        $returnType = '';
+        $request = $this->deleteChallengeTemplateRequest($id, $cascade);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'deleteChallengeTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function deleteChallengeTemplateRequest($id, $cascade = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling deleteChallengeTemplate');
         }
-        // parse inputs
-        $resourcePath = "/challenges/templates/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/challenges/templates/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($cascade !== null) {
-            $queryParams['cascade'] = $this->apiClient->getSerializer()->toQueryValue($cascade);
+            $queryParams['cascade'] = ObjectSerializer::toQueryValue($cascade);
         }
+
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'DELETE',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/challenges/templates/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'DELETE',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -902,6 +2052,7 @@ class CampaignsChallengesApi
      *
      * @param int $id The challenge id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ChallengeResource
      */
     public function getChallenge($id)
@@ -917,68 +2068,209 @@ class CampaignsChallengesApi
      *
      * @param int $id The challenge id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ChallengeResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function getChallengeWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\ChallengeResource';
+        $request = $this->getChallengeRequest($id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ChallengeResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getChallengeAsync
+     *
+     * Retrieve a challenge
+     *
+     * @param int $id The challenge id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeAsync($id)
+    {
+        return $this->getChallengeAsyncWithHttpInfo($id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getChallengeAsyncWithHttpInfo
+     *
+     * Retrieve a challenge
+     *
+     * @param int $id The challenge id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeAsyncWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\ChallengeResource';
+        $request = $this->getChallengeRequest($id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getChallenge'
+     *
+     * @param int $id The challenge id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getChallengeRequest($id)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling getChallenge');
         }
-        // parse inputs
-        $resourcePath = "/challenges/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/challenges/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ChallengeResource',
-                '/challenges/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ChallengeResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ChallengeResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -991,6 +2283,7 @@ class CampaignsChallengesApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceBareChallengeActivityResource_
      */
     public function getChallengeActivities($challenge_id, $size = '25', $page = '1', $order = 'id:ASC')
@@ -1009,80 +2302,230 @@ class CampaignsChallengesApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceBareChallengeActivityResource_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getChallengeActivitiesWithHttpInfo($challenge_id, $size = '25', $page = '1', $order = 'id:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceBareChallengeActivityResource_';
+        $request = $this->getChallengeActivitiesRequest($challenge_id, $size, $page, $order);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceBareChallengeActivityResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getChallengeActivitiesAsync
+     *
+     * List and search challenge activities
+     *
+     * @param int $challenge_id The challenge id (required)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeActivitiesAsync($challenge_id, $size = '25', $page = '1', $order = 'id:ASC')
+    {
+        return $this->getChallengeActivitiesAsyncWithHttpInfo($challenge_id, $size, $page, $order)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getChallengeActivitiesAsyncWithHttpInfo
+     *
+     * List and search challenge activities
+     *
+     * @param int $challenge_id The challenge id (required)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeActivitiesAsyncWithHttpInfo($challenge_id, $size = '25', $page = '1', $order = 'id:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceBareChallengeActivityResource_';
+        $request = $this->getChallengeActivitiesRequest($challenge_id, $size, $page, $order);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getChallengeActivities'
+     *
+     * @param int $challenge_id The challenge id (required)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getChallengeActivitiesRequest($challenge_id, $size = '25', $page = '1', $order = 'id:ASC')
     {
         // verify the required parameter 'challenge_id' is set
         if ($challenge_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $challenge_id when calling getChallengeActivities');
         }
-        // parse inputs
-        $resourcePath = "/challenges/{challenge_id}/activities";
-        $httpBody = '';
+
+        $resourcePath = '/challenges/{challenge_id}/activities';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
         // query params
         if ($order !== null) {
-            $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
+            $queryParams['order'] = ObjectSerializer::toQueryValue($order);
         }
+
         // path params
         if ($challenge_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "challenge_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($challenge_id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'challenge_id' . '}', ObjectSerializer::toPathValue($challenge_id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceBareChallengeActivityResource_',
-                '/challenges/{challenge_id}/activities'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceBareChallengeActivityResource_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceBareChallengeActivityResource_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1093,6 +2536,7 @@ class CampaignsChallengesApi
      * @param int $id The challenge_activity id (required)
      * @param int $challenge_id The challenge id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ChallengeActivityResource
      */
     public function getChallengeActivity($id, $challenge_id)
@@ -1109,9 +2553,137 @@ class CampaignsChallengesApi
      * @param int $id The challenge_activity id (required)
      * @param int $challenge_id The challenge id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ChallengeActivityResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function getChallengeActivityWithHttpInfo($id, $challenge_id)
+    {
+        $returnType = '\KnetikCloud\Model\ChallengeActivityResource';
+        $request = $this->getChallengeActivityRequest($id, $challenge_id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ChallengeActivityResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getChallengeActivityAsync
+     *
+     * Get a single challenge activity
+     *
+     * @param int $id The challenge_activity id (required)
+     * @param int $challenge_id The challenge id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeActivityAsync($id, $challenge_id)
+    {
+        return $this->getChallengeActivityAsyncWithHttpInfo($id, $challenge_id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getChallengeActivityAsyncWithHttpInfo
+     *
+     * Get a single challenge activity
+     *
+     * @param int $id The challenge_activity id (required)
+     * @param int $challenge_id The challenge id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeActivityAsyncWithHttpInfo($id, $challenge_id)
+    {
+        $returnType = '\KnetikCloud\Model\ChallengeActivityResource';
+        $request = $this->getChallengeActivityRequest($id, $challenge_id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getChallengeActivity'
+     *
+     * @param int $id The challenge_activity id (required)
+     * @param int $challenge_id The challenge id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getChallengeActivityRequest($id, $challenge_id)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
@@ -1121,68 +2693,80 @@ class CampaignsChallengesApi
         if ($challenge_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $challenge_id when calling getChallengeActivity');
         }
-        // parse inputs
-        $resourcePath = "/challenges/{challenge_id}/activities/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/challenges/{challenge_id}/activities/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
         // path params
         if ($challenge_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "challenge_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($challenge_id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'challenge_id' . '}', ObjectSerializer::toPathValue($challenge_id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ChallengeActivityResource',
-                '/challenges/{challenge_id}/activities/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ChallengeActivityResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ChallengeActivityResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1192,6 +2776,7 @@ class CampaignsChallengesApi
      *
      * @param string $id The id of the template (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\TemplateResource
      */
     public function getChallengeActivityTemplate($id)
@@ -1207,72 +2792,213 @@ class CampaignsChallengesApi
      *
      * @param string $id The id of the template (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\TemplateResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function getChallengeActivityTemplateWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->getChallengeActivityTemplateRequest($id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getChallengeActivityTemplateAsync
+     *
+     * Get a single challenge activity template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeActivityTemplateAsync($id)
+    {
+        return $this->getChallengeActivityTemplateAsyncWithHttpInfo($id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getChallengeActivityTemplateAsyncWithHttpInfo
+     *
+     * Get a single challenge activity template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeActivityTemplateAsyncWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->getChallengeActivityTemplateRequest($id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getChallengeActivityTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getChallengeActivityTemplateRequest($id)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling getChallengeActivityTemplate');
         }
-        // parse inputs
-        $resourcePath = "/challenge-activities/templates/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/challenge-activities/templates/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\TemplateResource',
-                '/challenge-activities/templates/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\TemplateResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1284,6 +3010,7 @@ class CampaignsChallengesApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceTemplateResource_
      */
     public function getChallengeActivityTemplates($size = '25', $page = '1', $order = 'id:ASC')
@@ -1301,72 +3028,223 @@ class CampaignsChallengesApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getChallengeActivityTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
-        // parse inputs
-        $resourcePath = "/challenge-activities/templates";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\PageResourceTemplateResource_';
+        $request = $this->getChallengeActivityTemplatesRequest($size, $page, $order);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceTemplateResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getChallengeActivityTemplatesAsync
+     *
+     * List and search challenge activity templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeActivityTemplatesAsync($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        return $this->getChallengeActivityTemplatesAsyncWithHttpInfo($size, $page, $order)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getChallengeActivityTemplatesAsyncWithHttpInfo
+     *
+     * List and search challenge activity templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeActivityTemplatesAsyncWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceTemplateResource_';
+        $request = $this->getChallengeActivityTemplatesRequest($size, $page, $order);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getChallengeActivityTemplates'
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getChallengeActivityTemplatesRequest($size = '25', $page = '1', $order = 'id:ASC')
+    {
+
+        $resourcePath = '/challenge-activities/templates';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
         // query params
         if ($order !== null) {
-            $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
+            $queryParams['order'] = ObjectSerializer::toQueryValue($order);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceTemplateResource_',
-                '/challenge-activities/templates'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceTemplateResource_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceTemplateResource_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1376,6 +3254,7 @@ class CampaignsChallengesApi
      *
      * @param int $id The challenge event id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ChallengeEventResource
      */
     public function getChallengeEvent($id)
@@ -1391,68 +3270,209 @@ class CampaignsChallengesApi
      *
      * @param int $id The challenge event id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ChallengeEventResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function getChallengeEventWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\ChallengeEventResource';
+        $request = $this->getChallengeEventRequest($id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ChallengeEventResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getChallengeEventAsync
+     *
+     * Retrieve a single challenge event details
+     *
+     * @param int $id The challenge event id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeEventAsync($id)
+    {
+        return $this->getChallengeEventAsyncWithHttpInfo($id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getChallengeEventAsyncWithHttpInfo
+     *
+     * Retrieve a single challenge event details
+     *
+     * @param int $id The challenge event id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeEventAsyncWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\ChallengeEventResource';
+        $request = $this->getChallengeEventRequest($id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getChallengeEvent'
+     *
+     * @param int $id The challenge event id (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getChallengeEventRequest($id)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling getChallengeEvent');
         }
-        // parse inputs
-        $resourcePath = "/challenges/events/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/challenges/events/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ChallengeEventResource',
-                '/challenges/events/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ChallengeEventResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ChallengeEventResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1468,6 +3488,7 @@ class CampaignsChallengesApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceChallengeEventResource_
      */
     public function getChallengeEvents($filter_start_date = null, $filter_end_date = null, $filter_campaigns = null, $filter_challenge = null, $size = '25', $page = '1', $order = 'id:ASC')
@@ -1489,84 +3510,247 @@ class CampaignsChallengesApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceChallengeEventResource_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getChallengeEventsWithHttpInfo($filter_start_date = null, $filter_end_date = null, $filter_campaigns = null, $filter_challenge = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
-        // parse inputs
-        $resourcePath = "/challenges/events";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\PageResourceChallengeEventResource_';
+        $request = $this->getChallengeEventsRequest($filter_start_date, $filter_end_date, $filter_campaigns, $filter_challenge, $size, $page, $order);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceChallengeEventResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getChallengeEventsAsync
+     *
+     * Retrieve a list of challenge events
+     *
+     * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the event start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the event end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param bool $filter_campaigns check only for events from currently running campaigns (optional)
+     * @param int $filter_challenge check only for events from the challenge specified by id (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeEventsAsync($filter_start_date = null, $filter_end_date = null, $filter_campaigns = null, $filter_challenge = null, $size = '25', $page = '1', $order = 'id:ASC')
+    {
+        return $this->getChallengeEventsAsyncWithHttpInfo($filter_start_date, $filter_end_date, $filter_campaigns, $filter_challenge, $size, $page, $order)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getChallengeEventsAsyncWithHttpInfo
+     *
+     * Retrieve a list of challenge events
+     *
+     * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the event start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the event end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param bool $filter_campaigns check only for events from currently running campaigns (optional)
+     * @param int $filter_challenge check only for events from the challenge specified by id (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeEventsAsyncWithHttpInfo($filter_start_date = null, $filter_end_date = null, $filter_campaigns = null, $filter_challenge = null, $size = '25', $page = '1', $order = 'id:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceChallengeEventResource_';
+        $request = $this->getChallengeEventsRequest($filter_start_date, $filter_end_date, $filter_campaigns, $filter_challenge, $size, $page, $order);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getChallengeEvents'
+     *
+     * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the event start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the event end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param bool $filter_campaigns check only for events from currently running campaigns (optional)
+     * @param int $filter_challenge check only for events from the challenge specified by id (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getChallengeEventsRequest($filter_start_date = null, $filter_end_date = null, $filter_campaigns = null, $filter_challenge = null, $size = '25', $page = '1', $order = 'id:ASC')
+    {
+
+        $resourcePath = '/challenges/events';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($filter_start_date !== null) {
-            $queryParams['filter_start_date'] = $this->apiClient->getSerializer()->toQueryValue($filter_start_date);
+            $queryParams['filter_start_date'] = ObjectSerializer::toQueryValue($filter_start_date);
         }
         // query params
         if ($filter_end_date !== null) {
-            $queryParams['filter_end_date'] = $this->apiClient->getSerializer()->toQueryValue($filter_end_date);
+            $queryParams['filter_end_date'] = ObjectSerializer::toQueryValue($filter_end_date);
         }
         // query params
         if ($filter_campaigns !== null) {
-            $queryParams['filter_campaigns'] = $this->apiClient->getSerializer()->toQueryValue($filter_campaigns);
+            $queryParams['filter_campaigns'] = ObjectSerializer::toQueryValue($filter_campaigns);
         }
         // query params
         if ($filter_challenge !== null) {
-            $queryParams['filter_challenge'] = $this->apiClient->getSerializer()->toQueryValue($filter_challenge);
+            $queryParams['filter_challenge'] = ObjectSerializer::toQueryValue($filter_challenge);
         }
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
         // query params
         if ($order !== null) {
-            $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
+            $queryParams['order'] = ObjectSerializer::toQueryValue($order);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceChallengeEventResource_',
-                '/challenges/events'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceChallengeEventResource_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceChallengeEventResource_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1576,6 +3760,7 @@ class CampaignsChallengesApi
      *
      * @param string $id The id of the template (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\TemplateResource
      */
     public function getChallengeTemplate($id)
@@ -1591,72 +3776,213 @@ class CampaignsChallengesApi
      *
      * @param string $id The id of the template (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\TemplateResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function getChallengeTemplateWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->getChallengeTemplateRequest($id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getChallengeTemplateAsync
+     *
+     * Get a single challenge template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeTemplateAsync($id)
+    {
+        return $this->getChallengeTemplateAsyncWithHttpInfo($id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getChallengeTemplateAsyncWithHttpInfo
+     *
+     * Get a single challenge template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeTemplateAsyncWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->getChallengeTemplateRequest($id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getChallengeTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getChallengeTemplateRequest($id)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling getChallengeTemplate');
         }
-        // parse inputs
-        $resourcePath = "/challenges/templates/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/challenges/templates/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\TemplateResource',
-                '/challenges/templates/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\TemplateResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1668,6 +3994,7 @@ class CampaignsChallengesApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceTemplateResource_
      */
     public function getChallengeTemplates($size = '25', $page = '1', $order = 'id:ASC')
@@ -1685,72 +4012,223 @@ class CampaignsChallengesApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getChallengeTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
-        // parse inputs
-        $resourcePath = "/challenges/templates";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\PageResourceTemplateResource_';
+        $request = $this->getChallengeTemplatesRequest($size, $page, $order);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceTemplateResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getChallengeTemplatesAsync
+     *
+     * List and search challenge templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeTemplatesAsync($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        return $this->getChallengeTemplatesAsyncWithHttpInfo($size, $page, $order)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getChallengeTemplatesAsyncWithHttpInfo
+     *
+     * List and search challenge templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengeTemplatesAsyncWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceTemplateResource_';
+        $request = $this->getChallengeTemplatesRequest($size, $page, $order);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getChallengeTemplates'
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getChallengeTemplatesRequest($size = '25', $page = '1', $order = 'id:ASC')
+    {
+
+        $resourcePath = '/challenges/templates';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
         // query params
         if ($order !== null) {
-            $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
+            $queryParams['order'] = ObjectSerializer::toQueryValue($order);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceTemplateResource_',
-                '/challenges/templates'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceTemplateResource_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceTemplateResource_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1766,6 +4244,7 @@ class CampaignsChallengesApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceChallengeResource_
      */
     public function getChallenges($filter_template = null, $filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
@@ -1787,84 +4266,247 @@ class CampaignsChallengesApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceChallengeResource_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getChallengesWithHttpInfo($filter_template = null, $filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
-        // parse inputs
-        $resourcePath = "/challenges";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\PageResourceChallengeResource_';
+        $request = $this->getChallengesRequest($filter_template, $filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceChallengeResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getChallengesAsync
+     *
+     * Retrieve a list of challenges
+     *
+     * @param bool $filter_template Filter for challenges that are not tied to campaigns (templates) (optional)
+     * @param bool $filter_active_campaign Filter for challenges that are tied to active campaigns (optional)
+     * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengesAsync($filter_template = null, $filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
+    {
+        return $this->getChallengesAsyncWithHttpInfo($filter_template, $filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getChallengesAsyncWithHttpInfo
+     *
+     * Retrieve a list of challenges
+     *
+     * @param bool $filter_template Filter for challenges that are not tied to campaigns (templates) (optional)
+     * @param bool $filter_active_campaign Filter for challenges that are tied to active campaigns (optional)
+     * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getChallengesAsyncWithHttpInfo($filter_template = null, $filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceChallengeResource_';
+        $request = $this->getChallengesRequest($filter_template, $filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getChallenges'
+     *
+     * @param bool $filter_template Filter for challenges that are not tied to campaigns (templates) (optional)
+     * @param bool $filter_active_campaign Filter for challenges that are tied to active campaigns (optional)
+     * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getChallengesRequest($filter_template = null, $filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
+    {
+
+        $resourcePath = '/challenges';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($filter_template !== null) {
-            $queryParams['filter_template'] = $this->apiClient->getSerializer()->toQueryValue($filter_template);
+            $queryParams['filter_template'] = ObjectSerializer::toQueryValue($filter_template);
         }
         // query params
         if ($filter_active_campaign !== null) {
-            $queryParams['filter_active_campaign'] = $this->apiClient->getSerializer()->toQueryValue($filter_active_campaign);
+            $queryParams['filter_active_campaign'] = ObjectSerializer::toQueryValue($filter_active_campaign);
         }
         // query params
         if ($filter_start_date !== null) {
-            $queryParams['filter_start_date'] = $this->apiClient->getSerializer()->toQueryValue($filter_start_date);
+            $queryParams['filter_start_date'] = ObjectSerializer::toQueryValue($filter_start_date);
         }
         // query params
         if ($filter_end_date !== null) {
-            $queryParams['filter_end_date'] = $this->apiClient->getSerializer()->toQueryValue($filter_end_date);
+            $queryParams['filter_end_date'] = ObjectSerializer::toQueryValue($filter_end_date);
         }
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
         // query params
         if ($order !== null) {
-            $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
+            $queryParams['order'] = ObjectSerializer::toQueryValue($order);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceChallengeResource_',
-                '/challenges'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceChallengeResource_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceChallengeResource_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1875,6 +4517,7 @@ class CampaignsChallengesApi
      * @param int $id The challenge id (required)
      * @param \KnetikCloud\Model\ChallengeResource $challenge_resource The challenge resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ChallengeResource
      */
     public function updateChallenge($id, $challenge_resource = null)
@@ -1891,77 +4534,221 @@ class CampaignsChallengesApi
      * @param int $id The challenge id (required)
      * @param \KnetikCloud\Model\ChallengeResource $challenge_resource The challenge resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ChallengeResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateChallengeWithHttpInfo($id, $challenge_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\ChallengeResource';
+        $request = $this->updateChallengeRequest($id, $challenge_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ChallengeResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateChallengeAsync
+     *
+     * Update a challenge
+     *
+     * @param int $id The challenge id (required)
+     * @param \KnetikCloud\Model\ChallengeResource $challenge_resource The challenge resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateChallengeAsync($id, $challenge_resource = null)
+    {
+        return $this->updateChallengeAsyncWithHttpInfo($id, $challenge_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateChallengeAsyncWithHttpInfo
+     *
+     * Update a challenge
+     *
+     * @param int $id The challenge id (required)
+     * @param \KnetikCloud\Model\ChallengeResource $challenge_resource The challenge resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateChallengeAsyncWithHttpInfo($id, $challenge_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\ChallengeResource';
+        $request = $this->updateChallengeRequest($id, $challenge_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateChallenge'
+     *
+     * @param int $id The challenge id (required)
+     * @param \KnetikCloud\Model\ChallengeResource $challenge_resource The challenge resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateChallengeRequest($id, $challenge_resource = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling updateChallenge');
         }
-        // parse inputs
-        $resourcePath = "/challenges/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/challenges/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($challenge_resource)) {
             $_tempBody = $challenge_resource;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ChallengeResource',
-                '/challenges/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ChallengeResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ChallengeResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1973,6 +4760,7 @@ class CampaignsChallengesApi
      * @param int $challenge_id The challenge id (required)
      * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ChallengeActivityResource
      */
     public function updateChallengeActivity($id, $challenge_id, $challenge_activity_resource = null)
@@ -1990,9 +4778,140 @@ class CampaignsChallengesApi
      * @param int $challenge_id The challenge id (required)
      * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ChallengeActivityResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateChallengeActivityWithHttpInfo($id, $challenge_id, $challenge_activity_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\ChallengeActivityResource';
+        $request = $this->updateChallengeActivityRequest($id, $challenge_id, $challenge_activity_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 204:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ChallengeActivityResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateChallengeActivityAsync
+     *
+     * Update a challenge activity
+     *
+     * @param int $id The challenge_activity id (required)
+     * @param int $challenge_id The challenge id (required)
+     * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateChallengeActivityAsync($id, $challenge_id, $challenge_activity_resource = null)
+    {
+        return $this->updateChallengeActivityAsyncWithHttpInfo($id, $challenge_id, $challenge_activity_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateChallengeActivityAsyncWithHttpInfo
+     *
+     * Update a challenge activity
+     *
+     * @param int $id The challenge_activity id (required)
+     * @param int $challenge_id The challenge id (required)
+     * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateChallengeActivityAsyncWithHttpInfo($id, $challenge_id, $challenge_activity_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\ChallengeActivityResource';
+        $request = $this->updateChallengeActivityRequest($id, $challenge_id, $challenge_activity_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateChallengeActivity'
+     *
+     * @param int $id The challenge_activity id (required)
+     * @param int $challenge_id The challenge id (required)
+     * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateChallengeActivityRequest($id, $challenge_id, $challenge_activity_resource = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
@@ -2002,77 +4921,89 @@ class CampaignsChallengesApi
         if ($challenge_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $challenge_id when calling updateChallengeActivity');
         }
-        // parse inputs
-        $resourcePath = "/challenges/{challenge_id}/activities/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/challenges/{challenge_id}/activities/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
         // path params
         if ($challenge_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "challenge_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($challenge_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'challenge_id' . '}', ObjectSerializer::toPathValue($challenge_id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($challenge_activity_resource)) {
             $_tempBody = $challenge_activity_resource;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ChallengeActivityResource',
-                '/challenges/{challenge_id}/activities/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ChallengeActivityResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 204:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ChallengeActivityResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -2083,6 +5014,7 @@ class CampaignsChallengesApi
      * @param string $id The id of the template (required)
      * @param \KnetikCloud\Model\TemplateResource $challenge_activity_template_resource The challengeActivity template resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\TemplateResource
      */
     public function updateChallengeActivityTemplate($id, $challenge_activity_template_resource = null)
@@ -2099,77 +5031,221 @@ class CampaignsChallengesApi
      * @param string $id The id of the template (required)
      * @param \KnetikCloud\Model\TemplateResource $challenge_activity_template_resource The challengeActivity template resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\TemplateResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateChallengeActivityTemplateWithHttpInfo($id, $challenge_activity_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->updateChallengeActivityTemplateRequest($id, $challenge_activity_template_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 204:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateChallengeActivityTemplateAsync
+     *
+     * Update an challenge activity template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $challenge_activity_template_resource The challengeActivity template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateChallengeActivityTemplateAsync($id, $challenge_activity_template_resource = null)
+    {
+        return $this->updateChallengeActivityTemplateAsyncWithHttpInfo($id, $challenge_activity_template_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateChallengeActivityTemplateAsyncWithHttpInfo
+     *
+     * Update an challenge activity template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $challenge_activity_template_resource The challengeActivity template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateChallengeActivityTemplateAsyncWithHttpInfo($id, $challenge_activity_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->updateChallengeActivityTemplateRequest($id, $challenge_activity_template_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateChallengeActivityTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $challenge_activity_template_resource The challengeActivity template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateChallengeActivityTemplateRequest($id, $challenge_activity_template_resource = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling updateChallengeActivityTemplate');
         }
-        // parse inputs
-        $resourcePath = "/challenge-activities/templates/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/challenge-activities/templates/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($challenge_activity_template_resource)) {
             $_tempBody = $challenge_activity_template_resource;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\TemplateResource',
-                '/challenge-activities/templates/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\TemplateResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 204:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -2180,6 +5256,7 @@ class CampaignsChallengesApi
      * @param string $id The id of the template (required)
      * @param \KnetikCloud\Model\TemplateResource $challenge_template_resource The challenge template resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\TemplateResource
      */
     public function updateChallengeTemplate($id, $challenge_template_resource = null)
@@ -2196,76 +5273,221 @@ class CampaignsChallengesApi
      * @param string $id The id of the template (required)
      * @param \KnetikCloud\Model\TemplateResource $challenge_template_resource The challenge template resource object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\TemplateResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateChallengeTemplateWithHttpInfo($id, $challenge_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->updateChallengeTemplateRequest($id, $challenge_template_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 204:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateChallengeTemplateAsync
+     *
+     * Update a challenge template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $challenge_template_resource The challenge template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateChallengeTemplateAsync($id, $challenge_template_resource = null)
+    {
+        return $this->updateChallengeTemplateAsyncWithHttpInfo($id, $challenge_template_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateChallengeTemplateAsyncWithHttpInfo
+     *
+     * Update a challenge template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $challenge_template_resource The challenge template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateChallengeTemplateAsyncWithHttpInfo($id, $challenge_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->updateChallengeTemplateRequest($id, $challenge_template_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateChallengeTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $challenge_template_resource The challenge template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateChallengeTemplateRequest($id, $challenge_template_resource = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling updateChallengeTemplate');
         }
-        // parse inputs
-        $resourcePath = "/challenges/templates/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/challenges/templates/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($challenge_template_resource)) {
             $_tempBody = $challenge_template_resource;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\TemplateResource',
-                '/challenges/templates/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\TemplateResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 204:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
+
 }

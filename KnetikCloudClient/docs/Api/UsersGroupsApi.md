@@ -36,7 +36,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $unique_name = "unique_name_example"; // string | The group unique name
 $user = new \KnetikCloud\Model\GroupMemberResource(); // \KnetikCloud\Model\GroupMemberResource | The id and status for a user to add to the group
 
@@ -84,7 +84,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $unique_name = "unique_name_example"; // string | The group unique name
 $users = array(new \KnetikCloud\Model\GroupMemberResource()); // \KnetikCloud\Model\GroupMemberResource[] | The id and status for a list of users to add to the group
 
@@ -132,7 +132,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $group_resource = new \KnetikCloud\Model\GroupResource(); // \KnetikCloud\Model\GroupResource | The new group
 
 try {
@@ -180,7 +180,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $group_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The group template resource object
 
 try {
@@ -226,7 +226,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $unique_name = "unique_name_example"; // string | The group unique name
 
 try {
@@ -273,7 +273,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | The value needed to delete used templates
 
@@ -317,7 +317,7 @@ Loads a specific group's details
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $unique_name = "unique_name_example"; // string | The group unique name
 
 try {
@@ -360,7 +360,7 @@ Get a user from a group
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $unique_name = "unique_name_example"; // string | The group unique name
 $user_id = 56; // int | The id of the user
 
@@ -405,7 +405,7 @@ Lists members of the group
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $unique_name = "unique_name_example"; // string | The group unique name
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -457,7 +457,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -503,7 +503,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | a comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -550,7 +550,7 @@ List groups a user is in
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 
 try {
@@ -596,7 +596,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $unique_name = "unique_name_example"; // string | The group unique name
 $user_id = 56; // int | The id of the user to remove
 
@@ -643,7 +643,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $unique_name = "unique_name_example"; // string | The group unique name
 $group_resource = new \KnetikCloud\Model\GroupResource(); // \KnetikCloud\Model\GroupResource | The updated group
 
@@ -690,7 +690,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $unique_name = "unique_name_example"; // string | The group unique name
 $user_id = 56; // int | The user id of the member to modify
 $status = "status_example"; // string | The new status for the user
@@ -739,7 +739,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $group_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The group template resource object
 
@@ -784,7 +784,7 @@ List and search groups
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UsersGroupsApi();
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_template = "filter_template_example"; // string | Filter for groups using a specific template, by id
 $filter_member_count = "filter_member_count_example"; // string | Filters groups by member count. Multiple values possible for range search. Format: filter_member_count=OP,ts&... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count=GT,14,LT,17
 $filter_name = "filter_name_example"; // string | Filter for groups with names starting with the given string

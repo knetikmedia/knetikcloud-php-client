@@ -22,7 +22,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaModerationApi();
+$api_instance = new KnetikCloud\Api\MediaModerationApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The flag report id
 
 try {
@@ -70,7 +70,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaModerationApi();
+$api_instance = new KnetikCloud\Api\MediaModerationApi(new \Http\Adapter\Guzzle6\Client());
 $exclude_resolved = true; // bool | Ignore resolved context
 $filter_context = "filter_context_example"; // string | Filter by moderation context
 $size = 25; // int | The number of objects returned per page
@@ -124,7 +124,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaModerationApi();
+$api_instance = new KnetikCloud\Api\MediaModerationApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The flag report id
 $flag_report_resource = new \KnetikCloud\Model\FlagReportResource(); // \KnetikCloud\Model\FlagReportResource | The new flag report
 

@@ -26,7 +26,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\LogsApi();
+$api_instance = new KnetikCloud\Api\LogsApi(new \Http\Adapter\Guzzle6\Client());
 $log_entry = new \KnetikCloud\Model\UserActionLog(); // \KnetikCloud\Model\UserActionLog | The user log entry to be added
 
 try {
@@ -71,7 +71,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\LogsApi();
+$api_instance = new KnetikCloud\Api\LogsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The BRE event log entry id
 
 try {
@@ -117,7 +117,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\LogsApi();
+$api_instance = new KnetikCloud\Api\LogsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_start_date = "filter_start_date_example"; // string | A comma separated string without spaces.  First value is the operator to search on, second value is the event log start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE).
 $filter_event_name = "filter_event_name_example"; // string | Filter event logs by event name
 $filter_event_id = "filter_event_id_example"; // string | Filter event logs by request id
@@ -173,7 +173,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\LogsApi();
+$api_instance = new KnetikCloud\Api\LogsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The forward log entry id
 
 try {
@@ -219,7 +219,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\LogsApi();
+$api_instance = new KnetikCloud\Api\LogsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_start_date = "filter_start_date_example"; // string | A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE).
 $filter_end_date = "filter_end_date_example"; // string | A comma separated string without spaces.  First value is the operator to search on, second value is the log end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE).
 $filter_status_code = 56; // int | Filter forward logs by http status code
@@ -275,7 +275,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\LogsApi();
+$api_instance = new KnetikCloud\Api\LogsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The user log entry id
 
 try {
@@ -321,7 +321,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\LogsApi();
+$api_instance = new KnetikCloud\Api\LogsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_user = 56; // int | Filter for actions taken by a specific user by id
 $filter_action_name = "filter_action_name_example"; // string | Filter for actions of a specific name
 $size = 25; // int | The number of objects returned per page

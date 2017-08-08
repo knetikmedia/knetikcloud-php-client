@@ -25,7 +25,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ReportingUsageApi();
+$api_instance = new KnetikCloud\Api\ReportingUsageApi(new \Http\Adapter\Guzzle6\Client());
 $start_date = 789; // int | The beginning of the range being requested, unix timestamp in seconds
 $end_date = 789; // int | The ending of the range being requested, unix timestamp in seconds
 $combine_endpoints = false; // bool | Whether to combine counts from different endpoint. Removes the url and method from the result object
@@ -83,7 +83,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ReportingUsageApi();
+$api_instance = new KnetikCloud\Api\ReportingUsageApi(new \Http\Adapter\Guzzle6\Client());
 $start_date = 789; // int | The beginning of the range being requested, unix timestamp in seconds
 $end_date = 789; // int | The ending of the range being requested, unix timestamp in seconds
 $combine_endpoints = false; // bool | Whether to combine counts from different endpoint. Removes the url and method from the result object
@@ -141,7 +141,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ReportingUsageApi();
+$api_instance = new KnetikCloud\Api\ReportingUsageApi(new \Http\Adapter\Guzzle6\Client());
 $start_date = 789; // int | The beginning of the range being requested, unix timestamp in seconds
 $end_date = 789; // int | The ending of the range being requested, unix timestamp in seconds
 $combine_endpoints = false; // bool | Whether to combine counts from different endpoint. Removes the url and method from the result object
@@ -199,7 +199,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ReportingUsageApi();
+$api_instance = new KnetikCloud\Api\ReportingUsageApi(new \Http\Adapter\Guzzle6\Client());
 $start_date = 789; // int | The beginning of the range being requested, unix timestamp in seconds
 $end_date = 789; // int | The ending of the range being requested, unix timestamp in seconds
 $combine_endpoints = false; // bool | Whether to combine counts from different endpoint. Removes the url and method from the result object
@@ -257,7 +257,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ReportingUsageApi();
+$api_instance = new KnetikCloud\Api\ReportingUsageApi(new \Http\Adapter\Guzzle6\Client());
 $start_date = 789; // int | The beginning of the range being requested, unix timestamp in seconds
 $end_date = 789; // int | The ending of the range being requested, unix timestamp in seconds
 $combine_endpoints = false; // bool | Whether to combine counts from different endpoints. Removes the url and method from the result object
@@ -315,7 +315,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ReportingUsageApi();
+$api_instance = new KnetikCloud\Api\ReportingUsageApi(new \Http\Adapter\Guzzle6\Client());
 $start_date = 789; // int | The beginning of the range being requested, unix timestamp in seconds
 $end_date = 789; // int | The ending of the range being requested, unix timestamp in seconds
 

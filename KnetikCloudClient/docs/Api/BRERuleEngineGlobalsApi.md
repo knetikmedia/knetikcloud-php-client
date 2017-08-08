@@ -26,7 +26,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineGlobalsApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineGlobalsApi(new \Http\Adapter\Guzzle6\Client());
 $bre_global_resource = new \KnetikCloud\Model\BreGlobalResource(); // \KnetikCloud\Model\BreGlobalResource | The BRE global resource object
 
 try {
@@ -74,7 +74,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineGlobalsApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineGlobalsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the global definition
 
 try {
@@ -119,7 +119,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineGlobalsApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineGlobalsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the global definition
 
 try {
@@ -165,7 +165,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineGlobalsApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineGlobalsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_system = true; // bool | Filter for globals that are system globals when true, or not when false. Leave off for both mixed
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -217,7 +217,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineGlobalsApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineGlobalsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the global definition
 $bre_global_resource = new \KnetikCloud\Model\BreGlobalResource(); // \KnetikCloud\Model\BreGlobalResource | The BRE global resource object
 

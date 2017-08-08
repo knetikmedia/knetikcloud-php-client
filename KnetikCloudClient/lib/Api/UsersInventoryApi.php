@@ -28,10 +28,15 @@
 
 namespace KnetikCloud\Api;
 
-use \KnetikCloud\ApiClient;
-use \KnetikCloud\ApiException;
-use \KnetikCloud\Configuration;
-use \KnetikCloud\ObjectSerializer;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\MultipartStream;
+use GuzzleHttp\Psr7\Request;
+use KnetikCloud\ApiException;
+use KnetikCloud\Configuration;
+use KnetikCloud\HeaderSelector;
+use KnetikCloud\ObjectSerializer;
 
 /**
  * UsersInventoryApi Class Doc Comment
@@ -44,47 +49,36 @@ use \KnetikCloud\ObjectSerializer;
 class UsersInventoryApi
 {
     /**
-     * API Client
-     *
-     * @var \KnetikCloud\ApiClient instance of the ApiClient
+     * @var ClientInterface
      */
-    protected $apiClient;
+    protected $client;
 
     /**
-     * Constructor
-     *
-     * @param \KnetikCloud\ApiClient|null $apiClient The api client to use
+     * @var Configuration
      */
-    public function __construct(\KnetikCloud\ApiClient $apiClient = null)
-    {
-        if ($apiClient === null) {
-            $apiClient = new ApiClient();
-        }
+    protected $config;
 
-        $this->apiClient = $apiClient;
+    /**
+     * @param ClientInterface $client
+     * @param Configuration $config
+     * @param HeaderSelector $selector
+     */
+    public function __construct(
+        ClientInterface $client = null,
+        Configuration $config = null,
+        HeaderSelector $selector = null
+    ) {
+        $this->client = $client ?: new Client();
+        $this->config = $config ?: new Configuration();
+        $this->headerSelector = $selector ?: new HeaderSelector();
     }
 
     /**
-     * Get API client
-     *
-     * @return \KnetikCloud\ApiClient get the API client
+     * @return Configuration
      */
-    public function getApiClient()
+    public function getConfig()
     {
-        return $this->apiClient;
-    }
-
-    /**
-     * Set the API client
-     *
-     * @param \KnetikCloud\ApiClient $apiClient set the API client
-     *
-     * @return UsersInventoryApi
-     */
-    public function setApiClient(\KnetikCloud\ApiClient $apiClient)
-    {
-        $this->apiClient = $apiClient;
-        return $this;
+        return $this->config;
     }
 
     /**
@@ -95,6 +89,7 @@ class UsersInventoryApi
      * @param int $id The id of the user (required)
      * @param \KnetikCloud\Model\UserInventoryAddRequest $user_inventory_add_request The user inventory add request object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\InvoiceResource
      */
     public function addItemToUserInventory($id, $user_inventory_add_request = null)
@@ -111,77 +106,221 @@ class UsersInventoryApi
      * @param int $id The id of the user (required)
      * @param \KnetikCloud\Model\UserInventoryAddRequest $user_inventory_add_request The user inventory add request object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\InvoiceResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function addItemToUserInventoryWithHttpInfo($id, $user_inventory_add_request = null)
+    {
+        $returnType = '\KnetikCloud\Model\InvoiceResource';
+        $request = $this->addItemToUserInventoryRequest($id, $user_inventory_add_request);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\InvoiceResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation addItemToUserInventoryAsync
+     *
+     * Adds an item to the user inventory
+     *
+     * @param int $id The id of the user (required)
+     * @param \KnetikCloud\Model\UserInventoryAddRequest $user_inventory_add_request The user inventory add request object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function addItemToUserInventoryAsync($id, $user_inventory_add_request = null)
+    {
+        return $this->addItemToUserInventoryAsyncWithHttpInfo($id, $user_inventory_add_request)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation addItemToUserInventoryAsyncWithHttpInfo
+     *
+     * Adds an item to the user inventory
+     *
+     * @param int $id The id of the user (required)
+     * @param \KnetikCloud\Model\UserInventoryAddRequest $user_inventory_add_request The user inventory add request object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function addItemToUserInventoryAsyncWithHttpInfo($id, $user_inventory_add_request = null)
+    {
+        $returnType = '\KnetikCloud\Model\InvoiceResource';
+        $request = $this->addItemToUserInventoryRequest($id, $user_inventory_add_request);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'addItemToUserInventory'
+     *
+     * @param int $id The id of the user (required)
+     * @param \KnetikCloud\Model\UserInventoryAddRequest $user_inventory_add_request The user inventory add request object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function addItemToUserInventoryRequest($id, $user_inventory_add_request = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling addItemToUserInventory');
         }
-        // parse inputs
-        $resourcePath = "/users/{id}/inventory";
-        $httpBody = '';
+
+        $resourcePath = '/users/{id}/inventory';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($user_inventory_add_request)) {
             $_tempBody = $user_inventory_add_request;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\InvoiceResource',
-                '/users/{id}/inventory'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\InvoiceResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 201:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\InvoiceResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -193,12 +332,12 @@ class UsersInventoryApi
      * @param int $item_id The id of the item (required)
      * @param string $sku The specific sku of an entitlement list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function checkUserEntitlementItem($user_id, $item_id, $sku = null)
     {
-        list($response) = $this->checkUserEntitlementItemWithHttpInfo($user_id, $item_id, $sku);
-        return $response;
+        $this->checkUserEntitlementItemWithHttpInfo($user_id, $item_id, $sku);
     }
 
     /**
@@ -210,9 +349,108 @@ class UsersInventoryApi
      * @param int $item_id The id of the item (required)
      * @param string $sku The specific sku of an entitlement list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function checkUserEntitlementItemWithHttpInfo($user_id, $item_id, $sku = null)
+    {
+        $returnType = '';
+        $request = $this->checkUserEntitlementItemRequest($user_id, $item_id, $sku);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation checkUserEntitlementItemAsync
+     *
+     * Check for access to an item without consuming
+     *
+     * @param string $user_id The id of the user to check for or &#39;me&#39; for logged in user (required)
+     * @param int $item_id The id of the item (required)
+     * @param string $sku The specific sku of an entitlement list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function checkUserEntitlementItemAsync($user_id, $item_id, $sku = null)
+    {
+        return $this->checkUserEntitlementItemAsyncWithHttpInfo($user_id, $item_id, $sku)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation checkUserEntitlementItemAsyncWithHttpInfo
+     *
+     * Check for access to an item without consuming
+     *
+     * @param string $user_id The id of the user to check for or &#39;me&#39; for logged in user (required)
+     * @param int $item_id The id of the item (required)
+     * @param string $sku The specific sku of an entitlement list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function checkUserEntitlementItemAsyncWithHttpInfo($user_id, $item_id, $sku = null)
+    {
+        $returnType = '';
+        $request = $this->checkUserEntitlementItemRequest($user_id, $item_id, $sku);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'checkUserEntitlementItem'
+     *
+     * @param string $user_id The id of the user to check for or &#39;me&#39; for logged in user (required)
+     * @param int $item_id The id of the item (required)
+     * @param string $sku The specific sku of an entitlement list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function checkUserEntitlementItemRequest($user_id, $item_id, $sku = null)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -222,72 +460,88 @@ class UsersInventoryApi
         if ($item_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $item_id when calling checkUserEntitlementItem');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/entitlements/{item_id}/check";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/entitlements/{item_id}/check';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($sku !== null) {
-            $queryParams['sku'] = $this->apiClient->getSerializer()->toQueryValue($sku);
+            $queryParams['sku'] = ObjectSerializer::toQueryValue($sku);
         }
+
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
         // path params
         if ($item_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "item_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($item_id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'item_id' . '}', ObjectSerializer::toPathValue($item_id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/users/{user_id}/entitlements/{item_id}/check'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -298,6 +552,7 @@ class UsersInventoryApi
      * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      * @param \KnetikCloud\Model\EntitlementItem $entitlement_item The entitlement item object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\EntitlementItem
      */
     public function createEntitlementItem($cascade = 'false', $entitlement_item = null)
@@ -314,69 +569,217 @@ class UsersInventoryApi
      * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      * @param \KnetikCloud\Model\EntitlementItem $entitlement_item The entitlement item object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\EntitlementItem, HTTP status code, HTTP response headers (array of strings)
      */
     public function createEntitlementItemWithHttpInfo($cascade = 'false', $entitlement_item = null)
     {
-        // parse inputs
-        $resourcePath = "/entitlements";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\EntitlementItem';
+        $request = $this->createEntitlementItemRequest($cascade, $entitlement_item);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\EntitlementItem', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createEntitlementItemAsync
+     *
+     * Create an entitlement item
+     *
+     * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
+     * @param \KnetikCloud\Model\EntitlementItem $entitlement_item The entitlement item object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createEntitlementItemAsync($cascade = 'false', $entitlement_item = null)
+    {
+        return $this->createEntitlementItemAsyncWithHttpInfo($cascade, $entitlement_item)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation createEntitlementItemAsyncWithHttpInfo
+     *
+     * Create an entitlement item
+     *
+     * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
+     * @param \KnetikCloud\Model\EntitlementItem $entitlement_item The entitlement item object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createEntitlementItemAsyncWithHttpInfo($cascade = 'false', $entitlement_item = null)
+    {
+        $returnType = '\KnetikCloud\Model\EntitlementItem';
+        $request = $this->createEntitlementItemRequest($cascade, $entitlement_item);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'createEntitlementItem'
+     *
+     * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
+     * @param \KnetikCloud\Model\EntitlementItem $entitlement_item The entitlement item object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function createEntitlementItemRequest($cascade = 'false', $entitlement_item = null)
+    {
+
+        $resourcePath = '/entitlements';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($cascade !== null) {
-            $queryParams['cascade'] = $this->apiClient->getSerializer()->toQueryValue($cascade);
+            $queryParams['cascade'] = ObjectSerializer::toQueryValue($cascade);
         }
+
+
         // body params
         $_tempBody = null;
         if (isset($entitlement_item)) {
             $_tempBody = $entitlement_item;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\EntitlementItem',
-                '/entitlements'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\EntitlementItem', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 201:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\EntitlementItem', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -386,6 +789,7 @@ class UsersInventoryApi
      *
      * @param \KnetikCloud\Model\ItemTemplateResource $template The entitlement template to be created (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ItemTemplateResource
      */
     public function createEntitlementTemplate($template = null)
@@ -401,21 +805,144 @@ class UsersInventoryApi
      *
      * @param \KnetikCloud\Model\ItemTemplateResource $template The entitlement template to be created (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ItemTemplateResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function createEntitlementTemplateWithHttpInfo($template = null)
     {
-        // parse inputs
-        $resourcePath = "/entitlements/templates";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\ItemTemplateResource';
+        $request = $this->createEntitlementTemplateRequest($template);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ItemTemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createEntitlementTemplateAsync
+     *
+     * Create an entitlement template
+     *
+     * @param \KnetikCloud\Model\ItemTemplateResource $template The entitlement template to be created (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createEntitlementTemplateAsync($template = null)
+    {
+        return $this->createEntitlementTemplateAsyncWithHttpInfo($template)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation createEntitlementTemplateAsyncWithHttpInfo
+     *
+     * Create an entitlement template
+     *
+     * @param \KnetikCloud\Model\ItemTemplateResource $template The entitlement template to be created (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createEntitlementTemplateAsyncWithHttpInfo($template = null)
+    {
+        $returnType = '\KnetikCloud\Model\ItemTemplateResource';
+        $request = $this->createEntitlementTemplateRequest($template);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'createEntitlementTemplate'
+     *
+     * @param \KnetikCloud\Model\ItemTemplateResource $template The entitlement template to be created (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function createEntitlementTemplateRequest($template = null)
+    {
+
+        $resourcePath = '/entitlements/templates';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
+
 
         // body params
         $_tempBody = null;
@@ -423,43 +950,65 @@ class UsersInventoryApi
             $_tempBody = $template;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ItemTemplateResource',
-                '/entitlements/templates'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ItemTemplateResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 201:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ItemTemplateResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -469,12 +1018,12 @@ class UsersInventoryApi
      *
      * @param int $entitlement_id The id of the entitlement (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function deleteEntitlementItem($entitlement_id)
     {
-        list($response) = $this->deleteEntitlementItemWithHttpInfo($entitlement_id);
-        return $response;
+        $this->deleteEntitlementItemWithHttpInfo($entitlement_id);
     }
 
     /**
@@ -484,68 +1033,181 @@ class UsersInventoryApi
      *
      * @param int $entitlement_id The id of the entitlement (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteEntitlementItemWithHttpInfo($entitlement_id)
+    {
+        $returnType = '';
+        $request = $this->deleteEntitlementItemRequest($entitlement_id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteEntitlementItemAsync
+     *
+     * Delete an entitlement item
+     *
+     * @param int $entitlement_id The id of the entitlement (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteEntitlementItemAsync($entitlement_id)
+    {
+        return $this->deleteEntitlementItemAsyncWithHttpInfo($entitlement_id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation deleteEntitlementItemAsyncWithHttpInfo
+     *
+     * Delete an entitlement item
+     *
+     * @param int $entitlement_id The id of the entitlement (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteEntitlementItemAsyncWithHttpInfo($entitlement_id)
+    {
+        $returnType = '';
+        $request = $this->deleteEntitlementItemRequest($entitlement_id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'deleteEntitlementItem'
+     *
+     * @param int $entitlement_id The id of the entitlement (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function deleteEntitlementItemRequest($entitlement_id)
     {
         // verify the required parameter 'entitlement_id' is set
         if ($entitlement_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $entitlement_id when calling deleteEntitlementItem');
         }
-        // parse inputs
-        $resourcePath = "/entitlements/{entitlement_id}";
-        $httpBody = '';
+
+        $resourcePath = '/entitlements/{entitlement_id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($entitlement_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "entitlement_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($entitlement_id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'entitlement_id' . '}', ObjectSerializer::toPathValue($entitlement_id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'DELETE',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/entitlements/{entitlement_id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'DELETE',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -556,12 +1218,12 @@ class UsersInventoryApi
      * @param string $id The id of the template (required)
      * @param string $cascade The value needed to delete used templates (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function deleteEntitlementTemplate($id, $cascade = null)
     {
-        list($response) = $this->deleteEntitlementTemplateWithHttpInfo($id, $cascade);
-        return $response;
+        $this->deleteEntitlementTemplateWithHttpInfo($id, $cascade);
     }
 
     /**
@@ -572,72 +1234,188 @@ class UsersInventoryApi
      * @param string $id The id of the template (required)
      * @param string $cascade The value needed to delete used templates (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteEntitlementTemplateWithHttpInfo($id, $cascade = null)
+    {
+        $returnType = '';
+        $request = $this->deleteEntitlementTemplateRequest($id, $cascade);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteEntitlementTemplateAsync
+     *
+     * Delete an entitlement template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteEntitlementTemplateAsync($id, $cascade = null)
+    {
+        return $this->deleteEntitlementTemplateAsyncWithHttpInfo($id, $cascade)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation deleteEntitlementTemplateAsyncWithHttpInfo
+     *
+     * Delete an entitlement template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteEntitlementTemplateAsyncWithHttpInfo($id, $cascade = null)
+    {
+        $returnType = '';
+        $request = $this->deleteEntitlementTemplateRequest($id, $cascade);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'deleteEntitlementTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function deleteEntitlementTemplateRequest($id, $cascade = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling deleteEntitlementTemplate');
         }
-        // parse inputs
-        $resourcePath = "/entitlements/templates/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/entitlements/templates/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($cascade !== null) {
-            $queryParams['cascade'] = $this->apiClient->getSerializer()->toQueryValue($cascade);
+            $queryParams['cascade'] = ObjectSerializer::toQueryValue($cascade);
         }
+
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'DELETE',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/entitlements/templates/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'DELETE',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -647,6 +1425,7 @@ class UsersInventoryApi
      *
      * @param int $entitlement_id The id of the entitlement (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\EntitlementItem
      */
     public function getEntitlementItem($entitlement_id)
@@ -662,68 +1441,209 @@ class UsersInventoryApi
      *
      * @param int $entitlement_id The id of the entitlement (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\EntitlementItem, HTTP status code, HTTP response headers (array of strings)
      */
     public function getEntitlementItemWithHttpInfo($entitlement_id)
+    {
+        $returnType = '\KnetikCloud\Model\EntitlementItem';
+        $request = $this->getEntitlementItemRequest($entitlement_id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\EntitlementItem', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getEntitlementItemAsync
+     *
+     * Get a single entitlement item
+     *
+     * @param int $entitlement_id The id of the entitlement (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getEntitlementItemAsync($entitlement_id)
+    {
+        return $this->getEntitlementItemAsyncWithHttpInfo($entitlement_id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getEntitlementItemAsyncWithHttpInfo
+     *
+     * Get a single entitlement item
+     *
+     * @param int $entitlement_id The id of the entitlement (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getEntitlementItemAsyncWithHttpInfo($entitlement_id)
+    {
+        $returnType = '\KnetikCloud\Model\EntitlementItem';
+        $request = $this->getEntitlementItemRequest($entitlement_id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getEntitlementItem'
+     *
+     * @param int $entitlement_id The id of the entitlement (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getEntitlementItemRequest($entitlement_id)
     {
         // verify the required parameter 'entitlement_id' is set
         if ($entitlement_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $entitlement_id when calling getEntitlementItem');
         }
-        // parse inputs
-        $resourcePath = "/entitlements/{entitlement_id}";
-        $httpBody = '';
+
+        $resourcePath = '/entitlements/{entitlement_id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($entitlement_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "entitlement_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($entitlement_id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'entitlement_id' . '}', ObjectSerializer::toPathValue($entitlement_id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\EntitlementItem',
-                '/entitlements/{entitlement_id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\EntitlementItem', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\EntitlementItem', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -735,6 +1655,7 @@ class UsersInventoryApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceEntitlementItem_
      */
     public function getEntitlementItems($size = '25', $page = '1', $order = 'id:ASC')
@@ -752,68 +1673,219 @@ class UsersInventoryApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceEntitlementItem_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getEntitlementItemsWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
-        // parse inputs
-        $resourcePath = "/entitlements";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\PageResourceEntitlementItem_';
+        $request = $this->getEntitlementItemsRequest($size, $page, $order);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceEntitlementItem_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getEntitlementItemsAsync
+     *
+     * List and search entitlement items
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getEntitlementItemsAsync($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        return $this->getEntitlementItemsAsyncWithHttpInfo($size, $page, $order)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getEntitlementItemsAsyncWithHttpInfo
+     *
+     * List and search entitlement items
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getEntitlementItemsAsyncWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceEntitlementItem_';
+        $request = $this->getEntitlementItemsRequest($size, $page, $order);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getEntitlementItems'
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getEntitlementItemsRequest($size = '25', $page = '1', $order = 'id:ASC')
+    {
+
+        $resourcePath = '/entitlements';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
         // query params
         if ($order !== null) {
-            $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
+            $queryParams['order'] = ObjectSerializer::toQueryValue($order);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceEntitlementItem_',
-                '/entitlements'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceEntitlementItem_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceEntitlementItem_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -823,6 +1895,7 @@ class UsersInventoryApi
      *
      * @param string $id The id of the template (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ItemTemplateResource
      */
     public function getEntitlementTemplate($id)
@@ -838,72 +1911,213 @@ class UsersInventoryApi
      *
      * @param string $id The id of the template (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ItemTemplateResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function getEntitlementTemplateWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\ItemTemplateResource';
+        $request = $this->getEntitlementTemplateRequest($id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ItemTemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getEntitlementTemplateAsync
+     *
+     * Get a single entitlement template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getEntitlementTemplateAsync($id)
+    {
+        return $this->getEntitlementTemplateAsyncWithHttpInfo($id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getEntitlementTemplateAsyncWithHttpInfo
+     *
+     * Get a single entitlement template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getEntitlementTemplateAsyncWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\ItemTemplateResource';
+        $request = $this->getEntitlementTemplateRequest($id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getEntitlementTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getEntitlementTemplateRequest($id)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling getEntitlementTemplate');
         }
-        // parse inputs
-        $resourcePath = "/entitlements/templates/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/entitlements/templates/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ItemTemplateResource',
-                '/entitlements/templates/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ItemTemplateResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ItemTemplateResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -915,6 +2129,7 @@ class UsersInventoryApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceItemTemplateResource_
      */
     public function getEntitlementTemplates($size = '25', $page = '1', $order = 'id:ASC')
@@ -932,72 +2147,223 @@ class UsersInventoryApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceItemTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getEntitlementTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
     {
-        // parse inputs
-        $resourcePath = "/entitlements/templates";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\PageResourceItemTemplateResource_';
+        $request = $this->getEntitlementTemplatesRequest($size, $page, $order);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceItemTemplateResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getEntitlementTemplatesAsync
+     *
+     * List and search entitlement templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getEntitlementTemplatesAsync($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        return $this->getEntitlementTemplatesAsyncWithHttpInfo($size, $page, $order)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getEntitlementTemplatesAsyncWithHttpInfo
+     *
+     * List and search entitlement templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getEntitlementTemplatesAsyncWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceItemTemplateResource_';
+        $request = $this->getEntitlementTemplatesRequest($size, $page, $order);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getEntitlementTemplates'
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getEntitlementTemplatesRequest($size = '25', $page = '1', $order = 'id:ASC')
+    {
+
+        $resourcePath = '/entitlements/templates';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
         // query params
         if ($order !== null) {
-            $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
+            $queryParams['order'] = ObjectSerializer::toQueryValue($order);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceItemTemplateResource_',
-                '/entitlements/templates'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceItemTemplateResource_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceItemTemplateResource_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1015,6 +2381,7 @@ class UsersInventoryApi
      * @param string $filter_group Filter by entries owned by the users in a given group, by unique name (optional)
      * @param string $filter_date A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceUserInventoryResource_
      */
     public function getUserInventories($id, $inactive = 'false', $size = '25', $page = '1', $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
@@ -1038,104 +2405,269 @@ class UsersInventoryApi
      * @param string $filter_group Filter by entries owned by the users in a given group, by unique name (optional)
      * @param string $filter_date A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceUserInventoryResource_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getUserInventoriesWithHttpInfo($id, $inactive = 'false', $size = '25', $page = '1', $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceUserInventoryResource_';
+        $request = $this->getUserInventoriesRequest($id, $inactive, $size, $page, $filter_item_name, $filter_item_id, $filter_username, $filter_group, $filter_date);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUserInventoryResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getUserInventoriesAsync
+     *
+     * List the user inventory entries for a given user
+     *
+     * @param int $id The id of the user (required)
+     * @param bool $inactive If true, accepts inactive user inventories (optional, default to false)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $filter_item_name Filter by items whose name starts with a string (optional)
+     * @param int $filter_item_id Filter by item id (optional)
+     * @param string $filter_username Filter by entries owned by the user with the specified username (optional)
+     * @param string $filter_group Filter by entries owned by the users in a given group, by unique name (optional)
+     * @param string $filter_date A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUserInventoriesAsync($id, $inactive = 'false', $size = '25', $page = '1', $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
+    {
+        return $this->getUserInventoriesAsyncWithHttpInfo($id, $inactive, $size, $page, $filter_item_name, $filter_item_id, $filter_username, $filter_group, $filter_date)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getUserInventoriesAsyncWithHttpInfo
+     *
+     * List the user inventory entries for a given user
+     *
+     * @param int $id The id of the user (required)
+     * @param bool $inactive If true, accepts inactive user inventories (optional, default to false)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $filter_item_name Filter by items whose name starts with a string (optional)
+     * @param int $filter_item_id Filter by item id (optional)
+     * @param string $filter_username Filter by entries owned by the user with the specified username (optional)
+     * @param string $filter_group Filter by entries owned by the users in a given group, by unique name (optional)
+     * @param string $filter_date A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUserInventoriesAsyncWithHttpInfo($id, $inactive = 'false', $size = '25', $page = '1', $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceUserInventoryResource_';
+        $request = $this->getUserInventoriesRequest($id, $inactive, $size, $page, $filter_item_name, $filter_item_id, $filter_username, $filter_group, $filter_date);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getUserInventories'
+     *
+     * @param int $id The id of the user (required)
+     * @param bool $inactive If true, accepts inactive user inventories (optional, default to false)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $filter_item_name Filter by items whose name starts with a string (optional)
+     * @param int $filter_item_id Filter by item id (optional)
+     * @param string $filter_username Filter by entries owned by the user with the specified username (optional)
+     * @param string $filter_group Filter by entries owned by the users in a given group, by unique name (optional)
+     * @param string $filter_date A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getUserInventoriesRequest($id, $inactive = 'false', $size = '25', $page = '1', $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling getUserInventories');
         }
-        // parse inputs
-        $resourcePath = "/users/{id}/inventory";
-        $httpBody = '';
+
+        $resourcePath = '/users/{id}/inventory';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($inactive !== null) {
-            $queryParams['inactive'] = $this->apiClient->getSerializer()->toQueryValue($inactive);
+            $queryParams['inactive'] = ObjectSerializer::toQueryValue($inactive);
         }
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
         // query params
         if ($filter_item_name !== null) {
-            $queryParams['filter_item_name'] = $this->apiClient->getSerializer()->toQueryValue($filter_item_name);
+            $queryParams['filter_item_name'] = ObjectSerializer::toQueryValue($filter_item_name);
         }
         // query params
         if ($filter_item_id !== null) {
-            $queryParams['filter_item_id'] = $this->apiClient->getSerializer()->toQueryValue($filter_item_id);
+            $queryParams['filter_item_id'] = ObjectSerializer::toQueryValue($filter_item_id);
         }
         // query params
         if ($filter_username !== null) {
-            $queryParams['filter_username'] = $this->apiClient->getSerializer()->toQueryValue($filter_username);
+            $queryParams['filter_username'] = ObjectSerializer::toQueryValue($filter_username);
         }
         // query params
         if ($filter_group !== null) {
-            $queryParams['filter_group'] = $this->apiClient->getSerializer()->toQueryValue($filter_group);
+            $queryParams['filter_group'] = ObjectSerializer::toQueryValue($filter_group);
         }
         // query params
         if ($filter_date !== null) {
-            $queryParams['filter_date'] = $this->apiClient->getSerializer()->toQueryValue($filter_date);
+            $queryParams['filter_date'] = ObjectSerializer::toQueryValue($filter_date);
         }
+
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceUserInventoryResource_',
-                '/users/{id}/inventory'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceUserInventoryResource_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUserInventoryResource_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1146,6 +2678,7 @@ class UsersInventoryApi
      * @param int $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
      * @param int $id The id of the user inventory (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\UserInventoryResource
      */
     public function getUserInventory($user_id, $id)
@@ -1162,9 +2695,137 @@ class UsersInventoryApi
      * @param int $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
      * @param int $id The id of the user inventory (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\UserInventoryResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function getUserInventoryWithHttpInfo($user_id, $id)
+    {
+        $returnType = '\KnetikCloud\Model\UserInventoryResource';
+        $request = $this->getUserInventoryRequest($user_id, $id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\UserInventoryResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getUserInventoryAsync
+     *
+     * Get an inventory entry
+     *
+     * @param int $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
+     * @param int $id The id of the user inventory (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUserInventoryAsync($user_id, $id)
+    {
+        return $this->getUserInventoryAsyncWithHttpInfo($user_id, $id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getUserInventoryAsyncWithHttpInfo
+     *
+     * Get an inventory entry
+     *
+     * @param int $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
+     * @param int $id The id of the user inventory (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUserInventoryAsyncWithHttpInfo($user_id, $id)
+    {
+        $returnType = '\KnetikCloud\Model\UserInventoryResource';
+        $request = $this->getUserInventoryRequest($user_id, $id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getUserInventory'
+     *
+     * @param int $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
+     * @param int $id The id of the user inventory (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getUserInventoryRequest($user_id, $id)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -1174,72 +2835,84 @@ class UsersInventoryApi
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling getUserInventory');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/inventory/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/inventory/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\UserInventoryResource',
-                '/users/{user_id}/inventory/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\UserInventoryResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\UserInventoryResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1252,6 +2925,7 @@ class UsersInventoryApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceUserItemLogResource_
      */
     public function getUserInventoryLog($user_id, $id, $size = '25', $page = '1')
@@ -1270,9 +2944,143 @@ class UsersInventoryApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceUserItemLogResource_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getUserInventoryLogWithHttpInfo($user_id, $id, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceUserItemLogResource_';
+        $request = $this->getUserInventoryLogRequest($user_id, $id, $size, $page);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUserItemLogResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getUserInventoryLogAsync
+     *
+     * List the log entries for this inventory entry
+     *
+     * @param string $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
+     * @param int $id The id of the user inventory (required)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUserInventoryLogAsync($user_id, $id, $size = '25', $page = '1')
+    {
+        return $this->getUserInventoryLogAsyncWithHttpInfo($user_id, $id, $size, $page)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getUserInventoryLogAsyncWithHttpInfo
+     *
+     * List the log entries for this inventory entry
+     *
+     * @param string $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
+     * @param int $id The id of the user inventory (required)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUserInventoryLogAsyncWithHttpInfo($user_id, $id, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceUserItemLogResource_';
+        $request = $this->getUserInventoryLogRequest($user_id, $id, $size, $page);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getUserInventoryLog'
+     *
+     * @param string $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
+     * @param int $id The id of the user inventory (required)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getUserInventoryLogRequest($user_id, $id, $size = '25', $page = '1')
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -1282,80 +3090,92 @@ class UsersInventoryApi
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling getUserInventoryLog');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/inventory/{id}/log";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/inventory/{id}/log';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
+
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceUserItemLogResource_',
-                '/users/{user_id}/inventory/{id}/log'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceUserItemLogResource_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUserItemLogResource_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1372,6 +3192,7 @@ class UsersInventoryApi
      * @param string $filter_group Filter by entries owned by the users in a given group, by unique name (optional)
      * @param string $filter_date A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceUserInventoryResource_
      */
     public function getUsersInventory($inactive = 'false', $size = '25', $page = '1', $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
@@ -1394,92 +3215,258 @@ class UsersInventoryApi
      * @param string $filter_group Filter by entries owned by the users in a given group, by unique name (optional)
      * @param string $filter_date A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceUserInventoryResource_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getUsersInventoryWithHttpInfo($inactive = 'false', $size = '25', $page = '1', $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
     {
-        // parse inputs
-        $resourcePath = "/inventories";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\PageResourceUserInventoryResource_';
+        $request = $this->getUsersInventoryRequest($inactive, $size, $page, $filter_item_name, $filter_item_id, $filter_username, $filter_group, $filter_date);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUserInventoryResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getUsersInventoryAsync
+     *
+     * List the user inventory entries for all users
+     *
+     * @param bool $inactive If true, accepts inactive user inventories (optional, default to false)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $filter_item_name Filter by items whose name starts with a string (optional)
+     * @param int $filter_item_id Filter by item id (optional)
+     * @param string $filter_username Filter by entries owned by the user with the specified username (optional)
+     * @param string $filter_group Filter by entries owned by the users in a given group, by unique name (optional)
+     * @param string $filter_date A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsersInventoryAsync($inactive = 'false', $size = '25', $page = '1', $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
+    {
+        return $this->getUsersInventoryAsyncWithHttpInfo($inactive, $size, $page, $filter_item_name, $filter_item_id, $filter_username, $filter_group, $filter_date)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getUsersInventoryAsyncWithHttpInfo
+     *
+     * List the user inventory entries for all users
+     *
+     * @param bool $inactive If true, accepts inactive user inventories (optional, default to false)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $filter_item_name Filter by items whose name starts with a string (optional)
+     * @param int $filter_item_id Filter by item id (optional)
+     * @param string $filter_username Filter by entries owned by the user with the specified username (optional)
+     * @param string $filter_group Filter by entries owned by the users in a given group, by unique name (optional)
+     * @param string $filter_date A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsersInventoryAsyncWithHttpInfo($inactive = 'false', $size = '25', $page = '1', $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceUserInventoryResource_';
+        $request = $this->getUsersInventoryRequest($inactive, $size, $page, $filter_item_name, $filter_item_id, $filter_username, $filter_group, $filter_date);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getUsersInventory'
+     *
+     * @param bool $inactive If true, accepts inactive user inventories (optional, default to false)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $filter_item_name Filter by items whose name starts with a string (optional)
+     * @param int $filter_item_id Filter by item id (optional)
+     * @param string $filter_username Filter by entries owned by the user with the specified username (optional)
+     * @param string $filter_group Filter by entries owned by the users in a given group, by unique name (optional)
+     * @param string $filter_date A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getUsersInventoryRequest($inactive = 'false', $size = '25', $page = '1', $filter_item_name = null, $filter_item_id = null, $filter_username = null, $filter_group = null, $filter_date = null)
+    {
+
+        $resourcePath = '/inventories';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($inactive !== null) {
-            $queryParams['inactive'] = $this->apiClient->getSerializer()->toQueryValue($inactive);
+            $queryParams['inactive'] = ObjectSerializer::toQueryValue($inactive);
         }
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
         // query params
         if ($filter_item_name !== null) {
-            $queryParams['filter_item_name'] = $this->apiClient->getSerializer()->toQueryValue($filter_item_name);
+            $queryParams['filter_item_name'] = ObjectSerializer::toQueryValue($filter_item_name);
         }
         // query params
         if ($filter_item_id !== null) {
-            $queryParams['filter_item_id'] = $this->apiClient->getSerializer()->toQueryValue($filter_item_id);
+            $queryParams['filter_item_id'] = ObjectSerializer::toQueryValue($filter_item_id);
         }
         // query params
         if ($filter_username !== null) {
-            $queryParams['filter_username'] = $this->apiClient->getSerializer()->toQueryValue($filter_username);
+            $queryParams['filter_username'] = ObjectSerializer::toQueryValue($filter_username);
         }
         // query params
         if ($filter_group !== null) {
-            $queryParams['filter_group'] = $this->apiClient->getSerializer()->toQueryValue($filter_group);
+            $queryParams['filter_group'] = ObjectSerializer::toQueryValue($filter_group);
         }
         // query params
         if ($filter_date !== null) {
-            $queryParams['filter_date'] = $this->apiClient->getSerializer()->toQueryValue($filter_date);
+            $queryParams['filter_date'] = ObjectSerializer::toQueryValue($filter_date);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceUserInventoryResource_',
-                '/inventories'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceUserInventoryResource_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUserInventoryResource_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1490,12 +3477,12 @@ class UsersInventoryApi
      * @param int $user_id The id of the user to grant the entitlement to (required)
      * @param \KnetikCloud\Model\EntitlementGrantRequest $grant_request grantRequest (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function grantUserEntitlement($user_id, $grant_request)
     {
-        list($response) = $this->grantUserEntitlementWithHttpInfo($user_id, $grant_request);
-        return $response;
+        $this->grantUserEntitlementWithHttpInfo($user_id, $grant_request);
     }
 
     /**
@@ -1506,9 +3493,105 @@ class UsersInventoryApi
      * @param int $user_id The id of the user to grant the entitlement to (required)
      * @param \KnetikCloud\Model\EntitlementGrantRequest $grant_request grantRequest (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function grantUserEntitlementWithHttpInfo($user_id, $grant_request)
+    {
+        $returnType = '';
+        $request = $this->grantUserEntitlementRequest($user_id, $grant_request);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation grantUserEntitlementAsync
+     *
+     * Grant an entitlement
+     *
+     * @param int $user_id The id of the user to grant the entitlement to (required)
+     * @param \KnetikCloud\Model\EntitlementGrantRequest $grant_request grantRequest (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function grantUserEntitlementAsync($user_id, $grant_request)
+    {
+        return $this->grantUserEntitlementAsyncWithHttpInfo($user_id, $grant_request)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation grantUserEntitlementAsyncWithHttpInfo
+     *
+     * Grant an entitlement
+     *
+     * @param int $user_id The id of the user to grant the entitlement to (required)
+     * @param \KnetikCloud\Model\EntitlementGrantRequest $grant_request grantRequest (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function grantUserEntitlementAsyncWithHttpInfo($user_id, $grant_request)
+    {
+        $returnType = '';
+        $request = $this->grantUserEntitlementRequest($user_id, $grant_request);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'grantUserEntitlement'
+     *
+     * @param int $user_id The id of the user to grant the entitlement to (required)
+     * @param \KnetikCloud\Model\EntitlementGrantRequest $grant_request grantRequest (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function grantUserEntitlementRequest($user_id, $grant_request)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -1518,65 +3601,85 @@ class UsersInventoryApi
         if ($grant_request === null) {
             throw new \InvalidArgumentException('Missing the required parameter $grant_request when calling grantUserEntitlement');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/entitlements";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/entitlements';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($grant_request)) {
             $_tempBody = $grant_request;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/users/{user_id}/entitlements'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1588,12 +3691,12 @@ class UsersInventoryApi
      * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      * @param \KnetikCloud\Model\EntitlementItem $entitlement_item The entitlement item object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function updateEntitlementItem($entitlement_id, $cascade = 'false', $entitlement_item = null)
     {
-        list($response) = $this->updateEntitlementItemWithHttpInfo($entitlement_id, $cascade, $entitlement_item);
-        return $response;
+        $this->updateEntitlementItemWithHttpInfo($entitlement_id, $cascade, $entitlement_item);
     }
 
     /**
@@ -1605,77 +3708,196 @@ class UsersInventoryApi
      * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
      * @param \KnetikCloud\Model\EntitlementItem $entitlement_item The entitlement item object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateEntitlementItemWithHttpInfo($entitlement_id, $cascade = 'false', $entitlement_item = null)
+    {
+        $returnType = '';
+        $request = $this->updateEntitlementItemRequest($entitlement_id, $cascade, $entitlement_item);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateEntitlementItemAsync
+     *
+     * Update an entitlement item
+     *
+     * @param int $entitlement_id The id of the entitlement (required)
+     * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
+     * @param \KnetikCloud\Model\EntitlementItem $entitlement_item The entitlement item object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateEntitlementItemAsync($entitlement_id, $cascade = 'false', $entitlement_item = null)
+    {
+        return $this->updateEntitlementItemAsyncWithHttpInfo($entitlement_id, $cascade, $entitlement_item)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateEntitlementItemAsyncWithHttpInfo
+     *
+     * Update an entitlement item
+     *
+     * @param int $entitlement_id The id of the entitlement (required)
+     * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
+     * @param \KnetikCloud\Model\EntitlementItem $entitlement_item The entitlement item object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateEntitlementItemAsyncWithHttpInfo($entitlement_id, $cascade = 'false', $entitlement_item = null)
+    {
+        $returnType = '';
+        $request = $this->updateEntitlementItemRequest($entitlement_id, $cascade, $entitlement_item);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateEntitlementItem'
+     *
+     * @param int $entitlement_id The id of the entitlement (required)
+     * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
+     * @param \KnetikCloud\Model\EntitlementItem $entitlement_item The entitlement item object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateEntitlementItemRequest($entitlement_id, $cascade = 'false', $entitlement_item = null)
     {
         // verify the required parameter 'entitlement_id' is set
         if ($entitlement_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $entitlement_id when calling updateEntitlementItem');
         }
-        // parse inputs
-        $resourcePath = "/entitlements/{entitlement_id}";
-        $httpBody = '';
+
+        $resourcePath = '/entitlements/{entitlement_id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($cascade !== null) {
-            $queryParams['cascade'] = $this->apiClient->getSerializer()->toQueryValue($cascade);
+            $queryParams['cascade'] = ObjectSerializer::toQueryValue($cascade);
         }
+
         // path params
         if ($entitlement_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "entitlement_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($entitlement_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'entitlement_id' . '}', ObjectSerializer::toPathValue($entitlement_id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($entitlement_item)) {
             $_tempBody = $entitlement_item;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/entitlements/{entitlement_id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1686,6 +3908,7 @@ class UsersInventoryApi
      * @param string $id The id of the template (required)
      * @param \KnetikCloud\Model\ItemTemplateResource $template The updated template (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ItemTemplateResource
      */
     public function updateEntitlementTemplate($id, $template = null)
@@ -1702,77 +3925,221 @@ class UsersInventoryApi
      * @param string $id The id of the template (required)
      * @param \KnetikCloud\Model\ItemTemplateResource $template The updated template (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ItemTemplateResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateEntitlementTemplateWithHttpInfo($id, $template = null)
+    {
+        $returnType = '\KnetikCloud\Model\ItemTemplateResource';
+        $request = $this->updateEntitlementTemplateRequest($id, $template);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 204:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ItemTemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateEntitlementTemplateAsync
+     *
+     * Update an entitlement template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\ItemTemplateResource $template The updated template (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateEntitlementTemplateAsync($id, $template = null)
+    {
+        return $this->updateEntitlementTemplateAsyncWithHttpInfo($id, $template)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateEntitlementTemplateAsyncWithHttpInfo
+     *
+     * Update an entitlement template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\ItemTemplateResource $template The updated template (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateEntitlementTemplateAsyncWithHttpInfo($id, $template = null)
+    {
+        $returnType = '\KnetikCloud\Model\ItemTemplateResource';
+        $request = $this->updateEntitlementTemplateRequest($id, $template);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateEntitlementTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\ItemTemplateResource $template The updated template (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateEntitlementTemplateRequest($id, $template = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling updateEntitlementTemplate');
         }
-        // parse inputs
-        $resourcePath = "/entitlements/templates/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/entitlements/templates/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($template)) {
             $_tempBody = $template;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\ItemTemplateResource',
-                '/entitlements/templates/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\ItemTemplateResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 204:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\ItemTemplateResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1784,12 +4151,12 @@ class UsersInventoryApi
      * @param int $id The id of the user inventory (required)
      * @param object $data The data map (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function updateUserInventoryBehaviorData($user_id, $id, $data = null)
     {
-        list($response) = $this->updateUserInventoryBehaviorDataWithHttpInfo($user_id, $id, $data);
-        return $response;
+        $this->updateUserInventoryBehaviorDataWithHttpInfo($user_id, $id, $data);
     }
 
     /**
@@ -1801,9 +4168,108 @@ class UsersInventoryApi
      * @param int $id The id of the user inventory (required)
      * @param object $data The data map (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateUserInventoryBehaviorDataWithHttpInfo($user_id, $id, $data = null)
+    {
+        $returnType = '';
+        $request = $this->updateUserInventoryBehaviorDataRequest($user_id, $id, $data);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateUserInventoryBehaviorDataAsync
+     *
+     * Set the behavior data for an inventory entry
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $id The id of the user inventory (required)
+     * @param object $data The data map (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateUserInventoryBehaviorDataAsync($user_id, $id, $data = null)
+    {
+        return $this->updateUserInventoryBehaviorDataAsyncWithHttpInfo($user_id, $id, $data)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateUserInventoryBehaviorDataAsyncWithHttpInfo
+     *
+     * Set the behavior data for an inventory entry
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $id The id of the user inventory (required)
+     * @param object $data The data map (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateUserInventoryBehaviorDataAsyncWithHttpInfo($user_id, $id, $data = null)
+    {
+        $returnType = '';
+        $request = $this->updateUserInventoryBehaviorDataRequest($user_id, $id, $data);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateUserInventoryBehaviorData'
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $id The id of the user inventory (required)
+     * @param object $data The data map (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateUserInventoryBehaviorDataRequest($user_id, $id, $data = null)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -1813,73 +4279,89 @@ class UsersInventoryApi
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling updateUserInventoryBehaviorData');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/inventory/{id}/behavior-data";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/inventory/{id}/behavior-data';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($data)) {
             $_tempBody = $data;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/users/{user_id}/inventory/{id}/behavior-data'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1891,12 +4373,12 @@ class UsersInventoryApi
      * @param int $id The id of the user inventory (required)
      * @param int $timestamp The new expiration date as a unix timestamp in seconds. May be null (no body). (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function updateUserInventoryExpires($user_id, $id, $timestamp = null)
     {
-        list($response) = $this->updateUserInventoryExpiresWithHttpInfo($user_id, $id, $timestamp);
-        return $response;
+        $this->updateUserInventoryExpiresWithHttpInfo($user_id, $id, $timestamp);
     }
 
     /**
@@ -1908,9 +4390,108 @@ class UsersInventoryApi
      * @param int $id The id of the user inventory (required)
      * @param int $timestamp The new expiration date as a unix timestamp in seconds. May be null (no body). (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateUserInventoryExpiresWithHttpInfo($user_id, $id, $timestamp = null)
+    {
+        $returnType = '';
+        $request = $this->updateUserInventoryExpiresRequest($user_id, $id, $timestamp);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateUserInventoryExpiresAsync
+     *
+     * Set the expiration date
+     *
+     * @param int $user_id user_id (required)
+     * @param int $id The id of the user inventory (required)
+     * @param int $timestamp The new expiration date as a unix timestamp in seconds. May be null (no body). (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateUserInventoryExpiresAsync($user_id, $id, $timestamp = null)
+    {
+        return $this->updateUserInventoryExpiresAsyncWithHttpInfo($user_id, $id, $timestamp)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateUserInventoryExpiresAsyncWithHttpInfo
+     *
+     * Set the expiration date
+     *
+     * @param int $user_id user_id (required)
+     * @param int $id The id of the user inventory (required)
+     * @param int $timestamp The new expiration date as a unix timestamp in seconds. May be null (no body). (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateUserInventoryExpiresAsyncWithHttpInfo($user_id, $id, $timestamp = null)
+    {
+        $returnType = '';
+        $request = $this->updateUserInventoryExpiresRequest($user_id, $id, $timestamp);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateUserInventoryExpires'
+     *
+     * @param int $user_id user_id (required)
+     * @param int $id The id of the user inventory (required)
+     * @param int $timestamp The new expiration date as a unix timestamp in seconds. May be null (no body). (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateUserInventoryExpiresRequest($user_id, $id, $timestamp = null)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -1920,73 +4501,89 @@ class UsersInventoryApi
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling updateUserInventoryExpires');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/inventory/{id}/expires";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/inventory/{id}/expires';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($timestamp)) {
             $_tempBody = $timestamp;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/users/{user_id}/inventory/{id}/expires'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1998,12 +4595,12 @@ class UsersInventoryApi
      * @param int $id The id of the user inventory (required)
      * @param string $inventory_status The inventory status object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function updateUserInventoryStatus($user_id, $id, $inventory_status = null)
     {
-        list($response) = $this->updateUserInventoryStatusWithHttpInfo($user_id, $id, $inventory_status);
-        return $response;
+        $this->updateUserInventoryStatusWithHttpInfo($user_id, $id, $inventory_status);
     }
 
     /**
@@ -2015,9 +4612,108 @@ class UsersInventoryApi
      * @param int $id The id of the user inventory (required)
      * @param string $inventory_status The inventory status object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateUserInventoryStatusWithHttpInfo($user_id, $id, $inventory_status = null)
+    {
+        $returnType = '';
+        $request = $this->updateUserInventoryStatusRequest($user_id, $id, $inventory_status);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateUserInventoryStatusAsync
+     *
+     * Set the status for an inventory entry
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $id The id of the user inventory (required)
+     * @param string $inventory_status The inventory status object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateUserInventoryStatusAsync($user_id, $id, $inventory_status = null)
+    {
+        return $this->updateUserInventoryStatusAsyncWithHttpInfo($user_id, $id, $inventory_status)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateUserInventoryStatusAsyncWithHttpInfo
+     *
+     * Set the status for an inventory entry
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $id The id of the user inventory (required)
+     * @param string $inventory_status The inventory status object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateUserInventoryStatusAsyncWithHttpInfo($user_id, $id, $inventory_status = null)
+    {
+        $returnType = '';
+        $request = $this->updateUserInventoryStatusRequest($user_id, $id, $inventory_status);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateUserInventoryStatus'
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $id The id of the user inventory (required)
+     * @param string $inventory_status The inventory status object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateUserInventoryStatusRequest($user_id, $id, $inventory_status = null)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -2027,73 +4723,89 @@ class UsersInventoryApi
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling updateUserInventoryStatus');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/inventory/{id}/status";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/inventory/{id}/status';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($inventory_status)) {
             $_tempBody = $inventory_status;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/users/{user_id}/inventory/{id}/status'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -2106,12 +4818,12 @@ class UsersInventoryApi
      * @param string $sku The specific sku of an entitlement_list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)
      * @param string $info Any additional info to add to the log about this use (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function useUserEntitlementItem($user_id, $item_id, $sku = null, $info = null)
     {
-        list($response) = $this->useUserEntitlementItemWithHttpInfo($user_id, $item_id, $sku, $info);
-        return $response;
+        $this->useUserEntitlementItemWithHttpInfo($user_id, $item_id, $sku, $info);
     }
 
     /**
@@ -2124,9 +4836,111 @@ class UsersInventoryApi
      * @param string $sku The specific sku of an entitlement_list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)
      * @param string $info Any additional info to add to the log about this use (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function useUserEntitlementItemWithHttpInfo($user_id, $item_id, $sku = null, $info = null)
+    {
+        $returnType = '';
+        $request = $this->useUserEntitlementItemRequest($user_id, $item_id, $sku, $info);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation useUserEntitlementItemAsync
+     *
+     * Use an item
+     *
+     * @param string $user_id The id of the user to check for or &#39;me&#39; for logged in user (required)
+     * @param int $item_id The id of the item (required)
+     * @param string $sku The specific sku of an entitlement_list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)
+     * @param string $info Any additional info to add to the log about this use (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function useUserEntitlementItemAsync($user_id, $item_id, $sku = null, $info = null)
+    {
+        return $this->useUserEntitlementItemAsyncWithHttpInfo($user_id, $item_id, $sku, $info)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation useUserEntitlementItemAsyncWithHttpInfo
+     *
+     * Use an item
+     *
+     * @param string $user_id The id of the user to check for or &#39;me&#39; for logged in user (required)
+     * @param int $item_id The id of the item (required)
+     * @param string $sku The specific sku of an entitlement_list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)
+     * @param string $info Any additional info to add to the log about this use (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function useUserEntitlementItemAsyncWithHttpInfo($user_id, $item_id, $sku = null, $info = null)
+    {
+        $returnType = '';
+        $request = $this->useUserEntitlementItemRequest($user_id, $item_id, $sku, $info);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'useUserEntitlementItem'
+     *
+     * @param string $user_id The id of the user to check for or &#39;me&#39; for logged in user (required)
+     * @param int $item_id The id of the item (required)
+     * @param string $sku The specific sku of an entitlement_list addition to check entitlement for. This is of very limited and specific use and should generally be left out (optional)
+     * @param string $info Any additional info to add to the log about this use (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function useUserEntitlementItemRequest($user_id, $item_id, $sku = null, $info = null)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -2136,75 +4950,92 @@ class UsersInventoryApi
         if ($item_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $item_id when calling useUserEntitlementItem');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/entitlements/{item_id}/use";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/entitlements/{item_id}/use';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($sku !== null) {
-            $queryParams['sku'] = $this->apiClient->getSerializer()->toQueryValue($sku);
+            $queryParams['sku'] = ObjectSerializer::toQueryValue($sku);
         }
         // query params
         if ($info !== null) {
-            $queryParams['info'] = $this->apiClient->getSerializer()->toQueryValue($info);
+            $queryParams['info'] = ObjectSerializer::toQueryValue($info);
         }
+
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
         // path params
         if ($item_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "item_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($item_id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'item_id' . '}', ObjectSerializer::toPathValue($item_id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/users/{user_id}/entitlements/{item_id}/use'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
+
 }

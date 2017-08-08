@@ -31,7 +31,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaArtistsApi();
+$api_instance = new KnetikCloud\Api\MediaArtistsApi(new \Http\Adapter\Guzzle6\Client());
 $artist_resource = new \KnetikCloud\Model\ArtistResource(); // \KnetikCloud\Model\ArtistResource | The new artist
 
 try {
@@ -79,7 +79,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaArtistsApi();
+$api_instance = new KnetikCloud\Api\MediaArtistsApi(new \Http\Adapter\Guzzle6\Client());
 $artist_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The artist template resource object
 
 try {
@@ -125,7 +125,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaArtistsApi();
+$api_instance = new KnetikCloud\Api\MediaArtistsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The artist id
 
 try {
@@ -172,7 +172,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaArtistsApi();
+$api_instance = new KnetikCloud\Api\MediaArtistsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | The value needed to delete used templates
 
@@ -216,7 +216,7 @@ Loads a specific artist details
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\MediaArtistsApi();
+$api_instance = new KnetikCloud\Api\MediaArtistsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The artist id
 $show_contributions = 56; // int | The number of contributions to show fetch
 
@@ -264,7 +264,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaArtistsApi();
+$api_instance = new KnetikCloud\Api\MediaArtistsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -310,7 +310,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaArtistsApi();
+$api_instance = new KnetikCloud\Api\MediaArtistsApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -357,7 +357,7 @@ Search for artists
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\MediaArtistsApi();
+$api_instance = new KnetikCloud\Api\MediaArtistsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_artists_by_name = "filter_artists_by_name_example"; // string | Filter for artists which name *STARTS* with the given string
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -409,7 +409,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaArtistsApi();
+$api_instance = new KnetikCloud\Api\MediaArtistsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The artist id
 $artist_resource = new \KnetikCloud\Model\ArtistResource(); // \KnetikCloud\Model\ArtistResource | The new artist
 
@@ -456,7 +456,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaArtistsApi();
+$api_instance = new KnetikCloud\Api\MediaArtistsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $artist_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The artist template resource object
 

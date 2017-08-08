@@ -32,7 +32,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ActivitiesApi();
+$api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $activity_resource = new \KnetikCloud\Model\ActivityResource(); // \KnetikCloud\Model\ActivityResource | The activity resource object
 
 try {
@@ -80,7 +80,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ActivitiesApi();
+$api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $test = false; // bool | if true, indicates that the occurrence should NOT be created. This can be used to test for eligibility and valid settings
 $activity_occurrence_resource = new \KnetikCloud\Model\ActivityOccurrenceResource(); // \KnetikCloud\Model\ActivityOccurrenceResource | The activity occurrence object
 
@@ -130,7 +130,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ActivitiesApi();
+$api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $activity_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The activity template resource object
 
 try {
@@ -176,7 +176,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ActivitiesApi();
+$api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The id of the activity
 
 try {
@@ -223,7 +223,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ActivitiesApi();
+$api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | The value needed to delete used templates
 
@@ -267,7 +267,7 @@ List activity definitions
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\ActivitiesApi();
+$api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $filter_template = true; // bool | Filter for activities that are templates, or specifically not if false
 $filter_name = "filter_name_example"; // string | Filter for activities that have a name starting with specified string
 $filter_id = "filter_id_example"; // string | Filter for activities with an id in the given comma separated list of ids
@@ -320,7 +320,7 @@ Get a single activity
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\ActivitiesApi();
+$api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The id of the activity
 
 try {
@@ -366,7 +366,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ActivitiesApi();
+$api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -412,7 +412,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ActivitiesApi();
+$api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -462,7 +462,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ActivitiesApi();
+$api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $activity_occurrence_id = 789; // int | The id of the activity occurrence
 $activity_occurrence_results = new \KnetikCloud\Model\ActivityOccurrenceResultsResource(); // \KnetikCloud\Model\ActivityOccurrenceResultsResource | The activity occurrence object
 
@@ -510,7 +510,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ActivitiesApi();
+$api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The id of the activity
 $activity_resource = new \KnetikCloud\Model\ActivityResource(); // \KnetikCloud\Model\ActivityResource | The activity resource object
 
@@ -560,7 +560,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ActivitiesApi();
+$api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $activity_occurrence_id = 789; // int | The id of the activity occurrence
 $activity_cccurrence_status = "activity_cccurrence_status_example"; // string | The activity occurrence status object
 
@@ -607,7 +607,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ActivitiesApi();
+$api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $activity_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The activity template resource object
 

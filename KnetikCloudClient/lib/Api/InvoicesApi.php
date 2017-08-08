@@ -28,10 +28,15 @@
 
 namespace KnetikCloud\Api;
 
-use \KnetikCloud\ApiClient;
-use \KnetikCloud\ApiException;
-use \KnetikCloud\Configuration;
-use \KnetikCloud\ObjectSerializer;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\MultipartStream;
+use GuzzleHttp\Psr7\Request;
+use KnetikCloud\ApiException;
+use KnetikCloud\Configuration;
+use KnetikCloud\HeaderSelector;
+use KnetikCloud\ObjectSerializer;
 
 /**
  * InvoicesApi Class Doc Comment
@@ -44,47 +49,36 @@ use \KnetikCloud\ObjectSerializer;
 class InvoicesApi
 {
     /**
-     * API Client
-     *
-     * @var \KnetikCloud\ApiClient instance of the ApiClient
+     * @var ClientInterface
      */
-    protected $apiClient;
+    protected $client;
 
     /**
-     * Constructor
-     *
-     * @param \KnetikCloud\ApiClient|null $apiClient The api client to use
+     * @var Configuration
      */
-    public function __construct(\KnetikCloud\ApiClient $apiClient = null)
-    {
-        if ($apiClient === null) {
-            $apiClient = new ApiClient();
-        }
+    protected $config;
 
-        $this->apiClient = $apiClient;
+    /**
+     * @param ClientInterface $client
+     * @param Configuration $config
+     * @param HeaderSelector $selector
+     */
+    public function __construct(
+        ClientInterface $client = null,
+        Configuration $config = null,
+        HeaderSelector $selector = null
+    ) {
+        $this->client = $client ?: new Client();
+        $this->config = $config ?: new Configuration();
+        $this->headerSelector = $selector ?: new HeaderSelector();
     }
 
     /**
-     * Get API client
-     *
-     * @return \KnetikCloud\ApiClient get the API client
+     * @return Configuration
      */
-    public function getApiClient()
+    public function getConfig()
     {
-        return $this->apiClient;
-    }
-
-    /**
-     * Set the API client
-     *
-     * @param \KnetikCloud\ApiClient $apiClient set the API client
-     *
-     * @return InvoicesApi
-     */
-    public function setApiClient(\KnetikCloud\ApiClient $apiClient)
-    {
-        $this->apiClient = $apiClient;
-        return $this;
+        return $this->config;
     }
 
     /**
@@ -94,6 +88,7 @@ class InvoicesApi
      *
      * @param \KnetikCloud\Model\InvoiceCreateRequest $req Invoice to be created (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\InvoiceResource[]
      */
     public function createInvoice($req = null)
@@ -109,21 +104,144 @@ class InvoicesApi
      *
      * @param \KnetikCloud\Model\InvoiceCreateRequest $req Invoice to be created (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\InvoiceResource[], HTTP status code, HTTP response headers (array of strings)
      */
     public function createInvoiceWithHttpInfo($req = null)
     {
-        // parse inputs
-        $resourcePath = "/invoices";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\InvoiceResource[]';
+        $request = $this->createInvoiceRequest($req);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\InvoiceResource[]', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createInvoiceAsync
+     *
+     * Create an invoice
+     *
+     * @param \KnetikCloud\Model\InvoiceCreateRequest $req Invoice to be created (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createInvoiceAsync($req = null)
+    {
+        return $this->createInvoiceAsyncWithHttpInfo($req)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation createInvoiceAsyncWithHttpInfo
+     *
+     * Create an invoice
+     *
+     * @param \KnetikCloud\Model\InvoiceCreateRequest $req Invoice to be created (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createInvoiceAsyncWithHttpInfo($req = null)
+    {
+        $returnType = '\KnetikCloud\Model\InvoiceResource[]';
+        $request = $this->createInvoiceRequest($req);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'createInvoice'
+     *
+     * @param \KnetikCloud\Model\InvoiceCreateRequest $req Invoice to be created (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function createInvoiceRequest($req = null)
+    {
+
+        $resourcePath = '/invoices';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
+
 
         // body params
         $_tempBody = null;
@@ -131,43 +249,65 @@ class InvoicesApi
             $_tempBody = $req;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\InvoiceResource[]',
-                '/invoices'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\InvoiceResource[]', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\InvoiceResource[]', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -176,6 +316,7 @@ class InvoicesApi
      * Lists available fulfillment statuses
      *
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return string[]
      */
     public function getFulFillmentStatuses()
@@ -190,56 +331,198 @@ class InvoicesApi
      * Lists available fulfillment statuses
      *
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of string[], HTTP status code, HTTP response headers (array of strings)
      */
     public function getFulFillmentStatusesWithHttpInfo()
     {
-        // parse inputs
-        $resourcePath = "/invoices/fulfillment-statuses";
-        $httpBody = '';
+        $returnType = 'string[]';
+        $request = $this->getFulFillmentStatusesRequest();
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'string[]', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getFulFillmentStatusesAsync
+     *
+     * Lists available fulfillment statuses
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getFulFillmentStatusesAsync()
+    {
+        return $this->getFulFillmentStatusesAsyncWithHttpInfo()->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getFulFillmentStatusesAsyncWithHttpInfo
+     *
+     * Lists available fulfillment statuses
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getFulFillmentStatusesAsyncWithHttpInfo()
+    {
+        $returnType = 'string[]';
+        $request = $this->getFulFillmentStatusesRequest();
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getFulFillmentStatuses'
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getFulFillmentStatusesRequest()
+    {
+
+        $resourcePath = '/invoices/fulfillment-statuses';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                'string[]',
-                '/invoices/fulfillment-statuses'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, 'string[]', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'string[]', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -249,6 +532,7 @@ class InvoicesApi
      *
      * @param int $id The id of the invoice (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\InvoiceResource
      */
     public function getInvoice($id)
@@ -264,72 +548,213 @@ class InvoicesApi
      *
      * @param int $id The id of the invoice (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\InvoiceResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function getInvoiceWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\InvoiceResource';
+        $request = $this->getInvoiceRequest($id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\InvoiceResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getInvoiceAsync
+     *
+     * Retrieve an invoice
+     *
+     * @param int $id The id of the invoice (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getInvoiceAsync($id)
+    {
+        return $this->getInvoiceAsyncWithHttpInfo($id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getInvoiceAsyncWithHttpInfo
+     *
+     * Retrieve an invoice
+     *
+     * @param int $id The id of the invoice (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getInvoiceAsyncWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\InvoiceResource';
+        $request = $this->getInvoiceRequest($id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getInvoice'
+     *
+     * @param int $id The id of the invoice (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getInvoiceRequest($id)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling getInvoice');
         }
-        // parse inputs
-        $resourcePath = "/invoices/{id}";
-        $httpBody = '';
+
+        $resourcePath = '/invoices/{id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\InvoiceResource',
-                '/invoices/{id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\InvoiceResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\InvoiceResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -341,6 +766,7 @@ class InvoicesApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceInvoiceLogEntry_
      */
     public function getInvoiceLogs($id, $size = '25', $page = '1')
@@ -358,80 +784,227 @@ class InvoicesApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceInvoiceLogEntry_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getInvoiceLogsWithHttpInfo($id, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceInvoiceLogEntry_';
+        $request = $this->getInvoiceLogsRequest($id, $size, $page);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceInvoiceLogEntry_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getInvoiceLogsAsync
+     *
+     * List invoice logs
+     *
+     * @param int $id The id of the invoice (required)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getInvoiceLogsAsync($id, $size = '25', $page = '1')
+    {
+        return $this->getInvoiceLogsAsyncWithHttpInfo($id, $size, $page)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getInvoiceLogsAsyncWithHttpInfo
+     *
+     * List invoice logs
+     *
+     * @param int $id The id of the invoice (required)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getInvoiceLogsAsyncWithHttpInfo($id, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceInvoiceLogEntry_';
+        $request = $this->getInvoiceLogsRequest($id, $size, $page);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getInvoiceLogs'
+     *
+     * @param int $id The id of the invoice (required)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getInvoiceLogsRequest($id, $size = '25', $page = '1')
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling getInvoiceLogs');
         }
-        // parse inputs
-        $resourcePath = "/invoices/{id}/logs";
-        $httpBody = '';
+
+        $resourcePath = '/invoices/{id}/logs';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
+
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceInvoiceLogEntry_',
-                '/invoices/{id}/logs'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceInvoiceLogEntry_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceInvoiceLogEntry_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -457,6 +1030,7 @@ class InvoicesApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceInvoiceResource_
      */
     public function getInvoices($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = '1')
@@ -488,128 +1062,321 @@ class InvoicesApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceInvoiceResource_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getInvoicesWithHttpInfo($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = '1')
     {
-        // parse inputs
-        $resourcePath = "/invoices";
-        $httpBody = '';
+        $returnType = '\KnetikCloud\Model\PageResourceInvoiceResource_';
+        $request = $this->getInvoicesRequest($filter_user, $filter_email, $filter_fulfillment_status, $filter_payment_status, $filter_item_name, $filter_external_ref, $filter_created_date, $filter_vendor_ids, $filter_currency, $filter_shipping_state_name, $filter_shipping_country_name, $filter_shipping, $filter_vendor_name, $filter_sku, $size, $page, $order);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceInvoiceResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getInvoicesAsync
+     *
+     * Retrieve invoices
+     *
+     * @param int $filter_user The id of a user to get invoices for. Automtically added if not being called with admin permissions. (optional)
+     * @param string $filter_email Filters invoices by customer&#39;s email. Admins only. (optional)
+     * @param string $filter_fulfillment_status Filters invoices by fulfillment status type. Can be a comma separated list of statuses (optional)
+     * @param string $filter_payment_status Filters invoices by payment status type. Can be a comma separated list of statuses (optional)
+     * @param string $filter_item_name Filters invoices by item name containing the given string (optional)
+     * @param string $filter_external_ref Filters invoices by external reference. (optional)
+     * @param string $filter_created_date Filters invoices by creation date. Multiple values possible for range search. Format: filter_created_date&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ) and ts is a unix timestamp in seconds. Ex: filter_created_date&#x3D;GT,1452154258,LT,1554254874 (optional)
+     * @param string $filter_vendor_ids Filters invoices for ones from one of the vendors whose id is in the given comma separated list (optional)
+     * @param string $filter_currency Filters invoices by currency. ISO3 currency code (optional)
+     * @param string $filter_shipping_state_name Filters invoices by shipping address: Exact match state name (optional)
+     * @param string $filter_shipping_country_name Filters invoices by shipping address: Exact match country name (optional)
+     * @param string $filter_shipping Filters invoices by shipping price. Multiple values possible for range search. Format: filter_shipping&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_shipping&#x3D;GT,14.58,LT,15.54 (optional)
+     * @param string $filter_vendor_name Filters invoices by vendor name starting with given string (optional)
+     * @param string $filter_sku Filters invoices by item sku (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getInvoicesAsync($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = '1')
+    {
+        return $this->getInvoicesAsyncWithHttpInfo($filter_user, $filter_email, $filter_fulfillment_status, $filter_payment_status, $filter_item_name, $filter_external_ref, $filter_created_date, $filter_vendor_ids, $filter_currency, $filter_shipping_state_name, $filter_shipping_country_name, $filter_shipping, $filter_vendor_name, $filter_sku, $size, $page, $order)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getInvoicesAsyncWithHttpInfo
+     *
+     * Retrieve invoices
+     *
+     * @param int $filter_user The id of a user to get invoices for. Automtically added if not being called with admin permissions. (optional)
+     * @param string $filter_email Filters invoices by customer&#39;s email. Admins only. (optional)
+     * @param string $filter_fulfillment_status Filters invoices by fulfillment status type. Can be a comma separated list of statuses (optional)
+     * @param string $filter_payment_status Filters invoices by payment status type. Can be a comma separated list of statuses (optional)
+     * @param string $filter_item_name Filters invoices by item name containing the given string (optional)
+     * @param string $filter_external_ref Filters invoices by external reference. (optional)
+     * @param string $filter_created_date Filters invoices by creation date. Multiple values possible for range search. Format: filter_created_date&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ) and ts is a unix timestamp in seconds. Ex: filter_created_date&#x3D;GT,1452154258,LT,1554254874 (optional)
+     * @param string $filter_vendor_ids Filters invoices for ones from one of the vendors whose id is in the given comma separated list (optional)
+     * @param string $filter_currency Filters invoices by currency. ISO3 currency code (optional)
+     * @param string $filter_shipping_state_name Filters invoices by shipping address: Exact match state name (optional)
+     * @param string $filter_shipping_country_name Filters invoices by shipping address: Exact match country name (optional)
+     * @param string $filter_shipping Filters invoices by shipping price. Multiple values possible for range search. Format: filter_shipping&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_shipping&#x3D;GT,14.58,LT,15.54 (optional)
+     * @param string $filter_vendor_name Filters invoices by vendor name starting with given string (optional)
+     * @param string $filter_sku Filters invoices by item sku (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getInvoicesAsyncWithHttpInfo($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceInvoiceResource_';
+        $request = $this->getInvoicesRequest($filter_user, $filter_email, $filter_fulfillment_status, $filter_payment_status, $filter_item_name, $filter_external_ref, $filter_created_date, $filter_vendor_ids, $filter_currency, $filter_shipping_state_name, $filter_shipping_country_name, $filter_shipping, $filter_vendor_name, $filter_sku, $size, $page, $order);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getInvoices'
+     *
+     * @param int $filter_user The id of a user to get invoices for. Automtically added if not being called with admin permissions. (optional)
+     * @param string $filter_email Filters invoices by customer&#39;s email. Admins only. (optional)
+     * @param string $filter_fulfillment_status Filters invoices by fulfillment status type. Can be a comma separated list of statuses (optional)
+     * @param string $filter_payment_status Filters invoices by payment status type. Can be a comma separated list of statuses (optional)
+     * @param string $filter_item_name Filters invoices by item name containing the given string (optional)
+     * @param string $filter_external_ref Filters invoices by external reference. (optional)
+     * @param string $filter_created_date Filters invoices by creation date. Multiple values possible for range search. Format: filter_created_date&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ) and ts is a unix timestamp in seconds. Ex: filter_created_date&#x3D;GT,1452154258,LT,1554254874 (optional)
+     * @param string $filter_vendor_ids Filters invoices for ones from one of the vendors whose id is in the given comma separated list (optional)
+     * @param string $filter_currency Filters invoices by currency. ISO3 currency code (optional)
+     * @param string $filter_shipping_state_name Filters invoices by shipping address: Exact match state name (optional)
+     * @param string $filter_shipping_country_name Filters invoices by shipping address: Exact match country name (optional)
+     * @param string $filter_shipping Filters invoices by shipping price. Multiple values possible for range search. Format: filter_shipping&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_shipping&#x3D;GT,14.58,LT,15.54 (optional)
+     * @param string $filter_vendor_name Filters invoices by vendor name starting with given string (optional)
+     * @param string $filter_sku Filters invoices by item sku (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getInvoicesRequest($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = '1')
+    {
+
+        $resourcePath = '/invoices';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($filter_user !== null) {
-            $queryParams['filter_user'] = $this->apiClient->getSerializer()->toQueryValue($filter_user);
+            $queryParams['filter_user'] = ObjectSerializer::toQueryValue($filter_user);
         }
         // query params
         if ($filter_email !== null) {
-            $queryParams['filter_email'] = $this->apiClient->getSerializer()->toQueryValue($filter_email);
+            $queryParams['filter_email'] = ObjectSerializer::toQueryValue($filter_email);
         }
         // query params
         if ($filter_fulfillment_status !== null) {
-            $queryParams['filter_fulfillment_status'] = $this->apiClient->getSerializer()->toQueryValue($filter_fulfillment_status);
+            $queryParams['filter_fulfillment_status'] = ObjectSerializer::toQueryValue($filter_fulfillment_status);
         }
         // query params
         if ($filter_payment_status !== null) {
-            $queryParams['filter_payment_status'] = $this->apiClient->getSerializer()->toQueryValue($filter_payment_status);
+            $queryParams['filter_payment_status'] = ObjectSerializer::toQueryValue($filter_payment_status);
         }
         // query params
         if ($filter_item_name !== null) {
-            $queryParams['filter_item_name'] = $this->apiClient->getSerializer()->toQueryValue($filter_item_name);
+            $queryParams['filter_item_name'] = ObjectSerializer::toQueryValue($filter_item_name);
         }
         // query params
         if ($filter_external_ref !== null) {
-            $queryParams['filter_external_ref'] = $this->apiClient->getSerializer()->toQueryValue($filter_external_ref);
+            $queryParams['filter_external_ref'] = ObjectSerializer::toQueryValue($filter_external_ref);
         }
         // query params
         if ($filter_created_date !== null) {
-            $queryParams['filter_created_date'] = $this->apiClient->getSerializer()->toQueryValue($filter_created_date);
+            $queryParams['filter_created_date'] = ObjectSerializer::toQueryValue($filter_created_date);
         }
         // query params
         if ($filter_vendor_ids !== null) {
-            $queryParams['filter_vendor_ids'] = $this->apiClient->getSerializer()->toQueryValue($filter_vendor_ids);
+            $queryParams['filter_vendor_ids'] = ObjectSerializer::toQueryValue($filter_vendor_ids);
         }
         // query params
         if ($filter_currency !== null) {
-            $queryParams['filter_currency'] = $this->apiClient->getSerializer()->toQueryValue($filter_currency);
+            $queryParams['filter_currency'] = ObjectSerializer::toQueryValue($filter_currency);
         }
         // query params
         if ($filter_shipping_state_name !== null) {
-            $queryParams['filter_shipping_state_name'] = $this->apiClient->getSerializer()->toQueryValue($filter_shipping_state_name);
+            $queryParams['filter_shipping_state_name'] = ObjectSerializer::toQueryValue($filter_shipping_state_name);
         }
         // query params
         if ($filter_shipping_country_name !== null) {
-            $queryParams['filter_shipping_country_name'] = $this->apiClient->getSerializer()->toQueryValue($filter_shipping_country_name);
+            $queryParams['filter_shipping_country_name'] = ObjectSerializer::toQueryValue($filter_shipping_country_name);
         }
         // query params
         if ($filter_shipping !== null) {
-            $queryParams['filter_shipping'] = $this->apiClient->getSerializer()->toQueryValue($filter_shipping);
+            $queryParams['filter_shipping'] = ObjectSerializer::toQueryValue($filter_shipping);
         }
         // query params
         if ($filter_vendor_name !== null) {
-            $queryParams['filter_vendor_name'] = $this->apiClient->getSerializer()->toQueryValue($filter_vendor_name);
+            $queryParams['filter_vendor_name'] = ObjectSerializer::toQueryValue($filter_vendor_name);
         }
         // query params
         if ($filter_sku !== null) {
-            $queryParams['filter_sku'] = $this->apiClient->getSerializer()->toQueryValue($filter_sku);
+            $queryParams['filter_sku'] = ObjectSerializer::toQueryValue($filter_sku);
         }
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
         // query params
         if ($order !== null) {
-            $queryParams['order'] = $this->apiClient->getSerializer()->toQueryValue($order);
+            $queryParams['order'] = ObjectSerializer::toQueryValue($order);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceInvoiceResource_',
-                '/invoices'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceInvoiceResource_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceInvoiceResource_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -618,6 +1385,7 @@ class InvoicesApi
      * Lists available payment statuses
      *
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return string[]
      */
     public function getPaymentStatuses()
@@ -632,149 +1400,407 @@ class InvoicesApi
      * Lists available payment statuses
      *
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of string[], HTTP status code, HTTP response headers (array of strings)
      */
     public function getPaymentStatusesWithHttpInfo()
     {
-        // parse inputs
-        $resourcePath = "/invoices/payment-statuses";
-        $httpBody = '';
-        $queryParams = [];
-        $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $returnType = 'string[]';
+        $request = $this->getPaymentStatusesRequest();
 
-
-        // for model (json/xml)
-        if (isset($_tempBody)) {
-            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // make the API Call
         try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                'string[]',
-                '/invoices/payment-statuses'
-            );
 
-            return [$this->apiClient->getSerializer()->deserialize($response, 'string[]', $httpHeader), $statusCode, $httpHeader];
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'string[]', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'string[]', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
             }
-
             throw $e;
         }
     }
 
     /**
+     * Operation getPaymentStatusesAsync
+     *
+     * Lists available payment statuses
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getPaymentStatusesAsync()
+    {
+        return $this->getPaymentStatusesAsyncWithHttpInfo()->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getPaymentStatusesAsyncWithHttpInfo
+     *
+     * Lists available payment statuses
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getPaymentStatusesAsyncWithHttpInfo()
+    {
+        $returnType = 'string[]';
+        $request = $this->getPaymentStatusesRequest();
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getPaymentStatuses'
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getPaymentStatusesRequest()
+    {
+
+        $resourcePath = '/invoices/payment-statuses';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation payInvoice
      *
-     * Trigger payment of an invoice
+     * Pay an invoice using a saved payment method
      *
      * @param int $id The id of the invoice (required)
-     * @param \KnetikCloud\Model\PayBySavedMethodRequest $request Payment info (optional)
+     * @param \KnetikCloud\Model\PayBySavedMethodRequest $request The payment method details. Will default to the appropriate user&#39;s wallet in the invoice currency if ommited. (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function payInvoice($id, $request = null)
     {
-        list($response) = $this->payInvoiceWithHttpInfo($id, $request);
-        return $response;
+        $this->payInvoiceWithHttpInfo($id, $request);
     }
 
     /**
      * Operation payInvoiceWithHttpInfo
      *
-     * Trigger payment of an invoice
+     * Pay an invoice using a saved payment method
      *
      * @param int $id The id of the invoice (required)
-     * @param \KnetikCloud\Model\PayBySavedMethodRequest $request Payment info (optional)
+     * @param \KnetikCloud\Model\PayBySavedMethodRequest $request The payment method details. Will default to the appropriate user&#39;s wallet in the invoice currency if ommited. (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function payInvoiceWithHttpInfo($id, $request = null)
+    {
+        $returnType = '';
+        $request = $this->payInvoiceRequest($id, $request);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation payInvoiceAsync
+     *
+     * Pay an invoice using a saved payment method
+     *
+     * @param int $id The id of the invoice (required)
+     * @param \KnetikCloud\Model\PayBySavedMethodRequest $request The payment method details. Will default to the appropriate user&#39;s wallet in the invoice currency if ommited. (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function payInvoiceAsync($id, $request = null)
+    {
+        return $this->payInvoiceAsyncWithHttpInfo($id, $request)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation payInvoiceAsyncWithHttpInfo
+     *
+     * Pay an invoice using a saved payment method
+     *
+     * @param int $id The id of the invoice (required)
+     * @param \KnetikCloud\Model\PayBySavedMethodRequest $request The payment method details. Will default to the appropriate user&#39;s wallet in the invoice currency if ommited. (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function payInvoiceAsyncWithHttpInfo($id, $request = null)
+    {
+        $returnType = '';
+        $request = $this->payInvoiceRequest($id, $request);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'payInvoice'
+     *
+     * @param int $id The id of the invoice (required)
+     * @param \KnetikCloud\Model\PayBySavedMethodRequest $request The payment method details. Will default to the appropriate user&#39;s wallet in the invoice currency if ommited. (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function payInvoiceRequest($id, $request = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling payInvoice');
         }
-        // parse inputs
-        $resourcePath = "/invoices/{id}/payments";
-        $httpBody = '';
+
+        $resourcePath = '/invoices/{id}/payments';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($request)) {
             $_tempBody = $request;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/invoices/{id}/payments'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -785,14 +1811,14 @@ class InvoicesApi
      * @param int $id The id of the invoice (required)
      * @param string $bundle_sku The sku of the bundle in the invoice that contains the given target (required)
      * @param string $sku The sku of an item in the bundle in the invoice (required)
-     * @param string $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
+     * @param \KnetikCloud\Model\StringWrapper $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function setBundledInvoiceItemFulfillmentStatus($id, $bundle_sku, $sku, $status)
     {
-        list($response) = $this->setBundledInvoiceItemFulfillmentStatusWithHttpInfo($id, $bundle_sku, $sku, $status);
-        return $response;
+        $this->setBundledInvoiceItemFulfillmentStatusWithHttpInfo($id, $bundle_sku, $sku, $status);
     }
 
     /**
@@ -803,11 +1829,113 @@ class InvoicesApi
      * @param int $id The id of the invoice (required)
      * @param string $bundle_sku The sku of the bundle in the invoice that contains the given target (required)
      * @param string $sku The sku of an item in the bundle in the invoice (required)
-     * @param string $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
+     * @param \KnetikCloud\Model\StringWrapper $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function setBundledInvoiceItemFulfillmentStatusWithHttpInfo($id, $bundle_sku, $sku, $status)
+    {
+        $returnType = '';
+        $request = $this->setBundledInvoiceItemFulfillmentStatusRequest($id, $bundle_sku, $sku, $status);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setBundledInvoiceItemFulfillmentStatusAsync
+     *
+     * Set the fulfillment status of a bundled invoice item
+     *
+     * @param int $id The id of the invoice (required)
+     * @param string $bundle_sku The sku of the bundle in the invoice that contains the given target (required)
+     * @param string $sku The sku of an item in the bundle in the invoice (required)
+     * @param \KnetikCloud\Model\StringWrapper $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setBundledInvoiceItemFulfillmentStatusAsync($id, $bundle_sku, $sku, $status)
+    {
+        return $this->setBundledInvoiceItemFulfillmentStatusAsyncWithHttpInfo($id, $bundle_sku, $sku, $status)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation setBundledInvoiceItemFulfillmentStatusAsyncWithHttpInfo
+     *
+     * Set the fulfillment status of a bundled invoice item
+     *
+     * @param int $id The id of the invoice (required)
+     * @param string $bundle_sku The sku of the bundle in the invoice that contains the given target (required)
+     * @param string $sku The sku of an item in the bundle in the invoice (required)
+     * @param \KnetikCloud\Model\StringWrapper $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setBundledInvoiceItemFulfillmentStatusAsyncWithHttpInfo($id, $bundle_sku, $sku, $status)
+    {
+        $returnType = '';
+        $request = $this->setBundledInvoiceItemFulfillmentStatusRequest($id, $bundle_sku, $sku, $status);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'setBundledInvoiceItemFulfillmentStatus'
+     *
+     * @param int $id The id of the invoice (required)
+     * @param string $bundle_sku The sku of the bundle in the invoice that contains the given target (required)
+     * @param string $sku The sku of an item in the bundle in the invoice (required)
+     * @param \KnetikCloud\Model\StringWrapper $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function setBundledInvoiceItemFulfillmentStatusRequest($id, $bundle_sku, $sku, $status)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
@@ -825,81 +1953,93 @@ class InvoicesApi
         if ($status === null) {
             throw new \InvalidArgumentException('Missing the required parameter $status when calling setBundledInvoiceItemFulfillmentStatus');
         }
-        // parse inputs
-        $resourcePath = "/invoices/{id}/items/{bundleSku}/bundled-skus/{sku}/fulfillment-status";
-        $httpBody = '';
+
+        $resourcePath = '/invoices/{id}/items/{bundleSku}/bundled-skus/{sku}/fulfillment-status';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
         // path params
         if ($bundle_sku !== null) {
-            $resourcePath = str_replace(
-                "{" . "bundleSku" . "}",
-                $this->apiClient->getSerializer()->toPathValue($bundle_sku),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'bundleSku' . '}', ObjectSerializer::toPathValue($bundle_sku), $resourcePath);
         }
         // path params
         if ($sku !== null) {
-            $resourcePath = str_replace(
-                "{" . "sku" . "}",
-                $this->apiClient->getSerializer()->toPathValue($sku),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'sku' . '}', ObjectSerializer::toPathValue($sku), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($status)) {
             $_tempBody = $status;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/invoices/{id}/items/{bundleSku}/bundled-skus/{sku}/fulfillment-status'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -908,14 +2048,14 @@ class InvoicesApi
      * Set the external reference of an invoice
      *
      * @param int $id The id of the invoice (required)
-     * @param string $external_ref External reference info (optional)
+     * @param \KnetikCloud\Model\StringWrapper $external_ref External reference info (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function setExternalRef($id, $external_ref = null)
     {
-        list($response) = $this->setExternalRefWithHttpInfo($id, $external_ref);
-        return $response;
+        $this->setExternalRefWithHttpInfo($id, $external_ref);
     }
 
     /**
@@ -924,75 +2064,191 @@ class InvoicesApi
      * Set the external reference of an invoice
      *
      * @param int $id The id of the invoice (required)
-     * @param string $external_ref External reference info (optional)
+     * @param \KnetikCloud\Model\StringWrapper $external_ref External reference info (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function setExternalRefWithHttpInfo($id, $external_ref = null)
+    {
+        $returnType = '';
+        $request = $this->setExternalRefRequest($id, $external_ref);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setExternalRefAsync
+     *
+     * Set the external reference of an invoice
+     *
+     * @param int $id The id of the invoice (required)
+     * @param \KnetikCloud\Model\StringWrapper $external_ref External reference info (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setExternalRefAsync($id, $external_ref = null)
+    {
+        return $this->setExternalRefAsyncWithHttpInfo($id, $external_ref)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation setExternalRefAsyncWithHttpInfo
+     *
+     * Set the external reference of an invoice
+     *
+     * @param int $id The id of the invoice (required)
+     * @param \KnetikCloud\Model\StringWrapper $external_ref External reference info (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setExternalRefAsyncWithHttpInfo($id, $external_ref = null)
+    {
+        $returnType = '';
+        $request = $this->setExternalRefRequest($id, $external_ref);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'setExternalRef'
+     *
+     * @param int $id The id of the invoice (required)
+     * @param \KnetikCloud\Model\StringWrapper $external_ref External reference info (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function setExternalRefRequest($id, $external_ref = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling setExternalRef');
         }
-        // parse inputs
-        $resourcePath = "/invoices/{id}/external-ref";
-        $httpBody = '';
+
+        $resourcePath = '/invoices/{id}/external-ref';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($external_ref)) {
             $_tempBody = $external_ref;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/invoices/{id}/external-ref'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1002,14 +2258,14 @@ class InvoicesApi
      *
      * @param int $id The id of the invoice (required)
      * @param string $sku The sku of an item in the invoice (required)
-     * @param string $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
+     * @param \KnetikCloud\Model\StringWrapper $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function setInvoiceItemFulfillmentStatus($id, $sku, $status)
     {
-        list($response) = $this->setInvoiceItemFulfillmentStatusWithHttpInfo($id, $sku, $status);
-        return $response;
+        $this->setInvoiceItemFulfillmentStatusWithHttpInfo($id, $sku, $status);
     }
 
     /**
@@ -1019,11 +2275,110 @@ class InvoicesApi
      *
      * @param int $id The id of the invoice (required)
      * @param string $sku The sku of an item in the invoice (required)
-     * @param string $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
+     * @param \KnetikCloud\Model\StringWrapper $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function setInvoiceItemFulfillmentStatusWithHttpInfo($id, $sku, $status)
+    {
+        $returnType = '';
+        $request = $this->setInvoiceItemFulfillmentStatusRequest($id, $sku, $status);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setInvoiceItemFulfillmentStatusAsync
+     *
+     * Set the fulfillment status of an invoice item
+     *
+     * @param int $id The id of the invoice (required)
+     * @param string $sku The sku of an item in the invoice (required)
+     * @param \KnetikCloud\Model\StringWrapper $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setInvoiceItemFulfillmentStatusAsync($id, $sku, $status)
+    {
+        return $this->setInvoiceItemFulfillmentStatusAsyncWithHttpInfo($id, $sku, $status)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation setInvoiceItemFulfillmentStatusAsyncWithHttpInfo
+     *
+     * Set the fulfillment status of an invoice item
+     *
+     * @param int $id The id of the invoice (required)
+     * @param string $sku The sku of an item in the invoice (required)
+     * @param \KnetikCloud\Model\StringWrapper $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setInvoiceItemFulfillmentStatusAsyncWithHttpInfo($id, $sku, $status)
+    {
+        $returnType = '';
+        $request = $this->setInvoiceItemFulfillmentStatusRequest($id, $sku, $status);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'setInvoiceItemFulfillmentStatus'
+     *
+     * @param int $id The id of the invoice (required)
+     * @param string $sku The sku of an item in the invoice (required)
+     * @param \KnetikCloud\Model\StringWrapper $status The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function setInvoiceItemFulfillmentStatusRequest($id, $sku, $status)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
@@ -1037,73 +2392,89 @@ class InvoicesApi
         if ($status === null) {
             throw new \InvalidArgumentException('Missing the required parameter $status when calling setInvoiceItemFulfillmentStatus');
         }
-        // parse inputs
-        $resourcePath = "/invoices/{id}/items/{sku}/fulfillment-status";
-        $httpBody = '';
+
+        $resourcePath = '/invoices/{id}/items/{sku}/fulfillment-status';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
         // path params
         if ($sku !== null) {
-            $resourcePath = str_replace(
-                "{" . "sku" . "}",
-                $this->apiClient->getSerializer()->toPathValue($sku),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'sku' . '}', ObjectSerializer::toPathValue($sku), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($status)) {
             $_tempBody = $status;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/invoices/{id}/items/{sku}/fulfillment-status'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1112,14 +2483,14 @@ class InvoicesApi
      * Set the order notes of an invoice
      *
      * @param int $id The id of the invoice (required)
-     * @param string $order_notes Payment status info (optional)
+     * @param \KnetikCloud\Model\StringWrapper $order_notes Payment status info (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function setOrderNotes($id, $order_notes = null)
     {
-        list($response) = $this->setOrderNotesWithHttpInfo($id, $order_notes);
-        return $response;
+        $this->setOrderNotesWithHttpInfo($id, $order_notes);
     }
 
     /**
@@ -1128,75 +2499,191 @@ class InvoicesApi
      * Set the order notes of an invoice
      *
      * @param int $id The id of the invoice (required)
-     * @param string $order_notes Payment status info (optional)
+     * @param \KnetikCloud\Model\StringWrapper $order_notes Payment status info (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function setOrderNotesWithHttpInfo($id, $order_notes = null)
+    {
+        $returnType = '';
+        $request = $this->setOrderNotesRequest($id, $order_notes);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setOrderNotesAsync
+     *
+     * Set the order notes of an invoice
+     *
+     * @param int $id The id of the invoice (required)
+     * @param \KnetikCloud\Model\StringWrapper $order_notes Payment status info (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setOrderNotesAsync($id, $order_notes = null)
+    {
+        return $this->setOrderNotesAsyncWithHttpInfo($id, $order_notes)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation setOrderNotesAsyncWithHttpInfo
+     *
+     * Set the order notes of an invoice
+     *
+     * @param int $id The id of the invoice (required)
+     * @param \KnetikCloud\Model\StringWrapper $order_notes Payment status info (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setOrderNotesAsyncWithHttpInfo($id, $order_notes = null)
+    {
+        $returnType = '';
+        $request = $this->setOrderNotesRequest($id, $order_notes);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'setOrderNotes'
+     *
+     * @param int $id The id of the invoice (required)
+     * @param \KnetikCloud\Model\StringWrapper $order_notes Payment status info (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function setOrderNotesRequest($id, $order_notes = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling setOrderNotes');
         }
-        // parse inputs
-        $resourcePath = "/invoices/{id}/order-notes";
-        $httpBody = '';
+
+        $resourcePath = '/invoices/{id}/order-notes';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($order_notes)) {
             $_tempBody = $order_notes;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/invoices/{id}/order-notes'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1207,12 +2694,12 @@ class InvoicesApi
      * @param int $id The id of the invoice (required)
      * @param \KnetikCloud\Model\InvoicePaymentStatusRequest $request Payment status info (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function setPaymentStatus($id, $request = null)
     {
-        list($response) = $this->setPaymentStatusWithHttpInfo($id, $request);
-        return $response;
+        $this->setPaymentStatusWithHttpInfo($id, $request);
     }
 
     /**
@@ -1223,73 +2710,189 @@ class InvoicesApi
      * @param int $id The id of the invoice (required)
      * @param \KnetikCloud\Model\InvoicePaymentStatusRequest $request Payment status info (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function setPaymentStatusWithHttpInfo($id, $request = null)
+    {
+        $returnType = '';
+        $request = $this->setPaymentStatusRequest($id, $request);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setPaymentStatusAsync
+     *
+     * Set the payment status of an invoice
+     *
+     * @param int $id The id of the invoice (required)
+     * @param \KnetikCloud\Model\InvoicePaymentStatusRequest $request Payment status info (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setPaymentStatusAsync($id, $request = null)
+    {
+        return $this->setPaymentStatusAsyncWithHttpInfo($id, $request)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation setPaymentStatusAsyncWithHttpInfo
+     *
+     * Set the payment status of an invoice
+     *
+     * @param int $id The id of the invoice (required)
+     * @param \KnetikCloud\Model\InvoicePaymentStatusRequest $request Payment status info (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setPaymentStatusAsyncWithHttpInfo($id, $request = null)
+    {
+        $returnType = '';
+        $request = $this->setPaymentStatusRequest($id, $request);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'setPaymentStatus'
+     *
+     * @param int $id The id of the invoice (required)
+     * @param \KnetikCloud\Model\InvoicePaymentStatusRequest $request Payment status info (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function setPaymentStatusRequest($id, $request = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling setPaymentStatus');
         }
-        // parse inputs
-        $resourcePath = "/invoices/{id}/payment-status";
-        $httpBody = '';
+
+        $resourcePath = '/invoices/{id}/payment-status';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($request)) {
             $_tempBody = $request;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/invoices/{id}/payment-status'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -1300,12 +2903,12 @@ class InvoicesApi
      * @param int $id The id of the invoice (required)
      * @param \KnetikCloud\Model\AddressResource $billing_info_request Address info (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function updateBillingInfo($id, $billing_info_request = null)
     {
-        list($response) = $this->updateBillingInfoWithHttpInfo($id, $billing_info_request);
-        return $response;
+        $this->updateBillingInfoWithHttpInfo($id, $billing_info_request);
     }
 
     /**
@@ -1316,72 +2919,189 @@ class InvoicesApi
      * @param int $id The id of the invoice (required)
      * @param \KnetikCloud\Model\AddressResource $billing_info_request Address info (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateBillingInfoWithHttpInfo($id, $billing_info_request = null)
+    {
+        $returnType = '';
+        $request = $this->updateBillingInfoRequest($id, $billing_info_request);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateBillingInfoAsync
+     *
+     * Set or update billing info
+     *
+     * @param int $id The id of the invoice (required)
+     * @param \KnetikCloud\Model\AddressResource $billing_info_request Address info (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateBillingInfoAsync($id, $billing_info_request = null)
+    {
+        return $this->updateBillingInfoAsyncWithHttpInfo($id, $billing_info_request)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateBillingInfoAsyncWithHttpInfo
+     *
+     * Set or update billing info
+     *
+     * @param int $id The id of the invoice (required)
+     * @param \KnetikCloud\Model\AddressResource $billing_info_request Address info (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateBillingInfoAsyncWithHttpInfo($id, $billing_info_request = null)
+    {
+        $returnType = '';
+        $request = $this->updateBillingInfoRequest($id, $billing_info_request);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateBillingInfo'
+     *
+     * @param int $id The id of the invoice (required)
+     * @param \KnetikCloud\Model\AddressResource $billing_info_request Address info (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateBillingInfoRequest($id, $billing_info_request = null)
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $id when calling updateBillingInfo');
         }
-        // parse inputs
-        $resourcePath = "/invoices/{id}/billing-address";
-        $httpBody = '';
+
+        $resourcePath = '/invoices/{id}/billing-address';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($id !== null) {
-            $resourcePath = str_replace(
-                "{" . "id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($billing_info_request)) {
             $_tempBody = $billing_info_request;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/invoices/{id}/billing-address'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
+
 }

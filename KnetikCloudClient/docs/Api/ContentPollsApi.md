@@ -31,9 +31,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentPollsApi();
+$api_instance = new KnetikCloud\Api\ContentPollsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The poll id
-$answer_key = "answer_key_example"; // string | The answer key
+$answer_key = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | The answer key
 
 try {
     $result = $api_instance->answerPoll($id, $answer_key);
@@ -49,7 +49,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The poll id |
- **answer_key** | **string**| The answer key | [optional]
+ **answer_key** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| The answer key | [optional]
 
 ### Return type
 
@@ -81,7 +81,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentPollsApi();
+$api_instance = new KnetikCloud\Api\ContentPollsApi(new \Http\Adapter\Guzzle6\Client());
 $poll_resource = new \KnetikCloud\Model\PollResource(); // \KnetikCloud\Model\PollResource | The poll object
 
 try {
@@ -129,7 +129,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentPollsApi();
+$api_instance = new KnetikCloud\Api\ContentPollsApi(new \Http\Adapter\Guzzle6\Client());
 $poll_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The poll template resource object
 
 try {
@@ -175,7 +175,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentPollsApi();
+$api_instance = new KnetikCloud\Api\ContentPollsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The poll id
 
 try {
@@ -222,7 +222,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentPollsApi();
+$api_instance = new KnetikCloud\Api\ContentPollsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | The value needed to delete used templates
 
@@ -266,7 +266,7 @@ Get a single poll
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\ContentPollsApi();
+$api_instance = new KnetikCloud\Api\ContentPollsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The poll id
 
 try {
@@ -312,7 +312,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentPollsApi();
+$api_instance = new KnetikCloud\Api\ContentPollsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The poll id
 
 try {
@@ -358,7 +358,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentPollsApi();
+$api_instance = new KnetikCloud\Api\ContentPollsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -404,7 +404,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentPollsApi();
+$api_instance = new KnetikCloud\Api\ContentPollsApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -453,7 +453,7 @@ Get a list of polls with optional filtering. Assets will not be filled in on the
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\ContentPollsApi();
+$api_instance = new KnetikCloud\Api\ContentPollsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_category = "filter_category_example"; // string | Filter for polls from a specific category by id
 $filter_tagset = "filter_tagset_example"; // string | Filter for polls with specified tags (separated by comma)
 $filter_text = "filter_text_example"; // string | Filter for polls whose text contains a string
@@ -509,7 +509,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentPollsApi();
+$api_instance = new KnetikCloud\Api\ContentPollsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The poll id
 $poll_resource = new \KnetikCloud\Model\PollResource(); // \KnetikCloud\Model\PollResource | The poll object
 
@@ -557,7 +557,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentPollsApi();
+$api_instance = new KnetikCloud\Api\ContentPollsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $poll_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The poll template resource object
 

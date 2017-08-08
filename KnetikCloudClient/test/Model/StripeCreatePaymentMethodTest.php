@@ -78,6 +78,13 @@ class StripeCreatePaymentMethodTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "details"
+     */
+    public function testPropertyDetails()
+    {
+    }
+
+    /**
      * Test attribute "token"
      */
     public function testPropertyToken()

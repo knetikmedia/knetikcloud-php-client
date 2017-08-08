@@ -27,7 +27,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthClientsApi();
+$api_instance = new KnetikCloud\Api\AuthClientsApi(new \Http\Adapter\Guzzle6\Client());
 $client_resource = new \KnetikCloud\Model\ClientResource(); // \KnetikCloud\Model\ClientResource | The client resource object
 
 try {
@@ -73,7 +73,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthClientsApi();
+$api_instance = new KnetikCloud\Api\AuthClientsApi(new \Http\Adapter\Guzzle6\Client());
 $client_key = "client_key_example"; // string | The key of the client
 
 try {
@@ -118,7 +118,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthClientsApi();
+$api_instance = new KnetikCloud\Api\AuthClientsApi(new \Http\Adapter\Guzzle6\Client());
 $client_key = "client_key_example"; // string | The key of the client
 
 try {
@@ -164,7 +164,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthClientsApi();
+$api_instance = new KnetikCloud\Api\AuthClientsApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getClientGrantTypes();
@@ -206,7 +206,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthClientsApi();
+$api_instance = new KnetikCloud\Api\AuthClientsApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -256,7 +256,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthClientsApi();
+$api_instance = new KnetikCloud\Api\AuthClientsApi(new \Http\Adapter\Guzzle6\Client());
 $client_key = "client_key_example"; // string | The key of the client
 $grant_list = array(new \KnetikCloud\Model\string[]()); // string[] | A list of unique grant types
 
@@ -303,7 +303,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthClientsApi();
+$api_instance = new KnetikCloud\Api\AuthClientsApi(new \Http\Adapter\Guzzle6\Client());
 $client_key = "client_key_example"; // string | The key of the client
 $redirect_list = array(new \KnetikCloud\Model\string[]()); // string[] | A list of unique redirect uris
 
@@ -350,7 +350,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthClientsApi();
+$api_instance = new KnetikCloud\Api\AuthClientsApi(new \Http\Adapter\Guzzle6\Client());
 $client_key = "client_key_example"; // string | The key of the client
 $client_resource = new \KnetikCloud\Model\ClientResource(); // \KnetikCloud\Model\ClientResource | The client resource object
 

@@ -19,7 +19,7 @@ Mark an invoice paid using Apple payment receipt. A receipt will only be accepte
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\PaymentsAppleApi();
+$api_instance = new KnetikCloud\Api\PaymentsAppleApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\ApplyPaymentRequest(); // \KnetikCloud\Model\ApplyPaymentRequest | The request for paying an invoice through an Apple receipt
 
 try {

@@ -18,7 +18,7 @@ Get details for a template property type
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\TemplatesPropertiesApi();
+$api_instance = new KnetikCloud\Api\TemplatesPropertiesApi(new \Http\Adapter\Guzzle6\Client());
 $type = "type_example"; // string | type
 
 try {
@@ -61,7 +61,7 @@ List template property types
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\TemplatesPropertiesApi();
+$api_instance = new KnetikCloud\Api\TemplatesPropertiesApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getTemplatePropertyTypes();

@@ -55,6 +55,7 @@ class AmazonS3Activity implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'action' => 'string',
+        'cdn_url' => 'string',
         'created_date' => 'int',
         'filename' => 'string',
         'id' => 'int',
@@ -69,6 +70,7 @@ class AmazonS3Activity implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'action' => null,
+        'cdn_url' => null,
         'created_date' => 'int64',
         'filename' => null,
         'id' => 'int64',
@@ -93,6 +95,7 @@ class AmazonS3Activity implements ArrayAccess
      */
     protected static $attributeMap = [
         'action' => 'action',
+        'cdn_url' => 'cdn_url',
         'created_date' => 'created_date',
         'filename' => 'filename',
         'id' => 'id',
@@ -108,6 +111,7 @@ class AmazonS3Activity implements ArrayAccess
      */
     protected static $setters = [
         'action' => 'setAction',
+        'cdn_url' => 'setCdnUrl',
         'created_date' => 'setCreatedDate',
         'filename' => 'setFilename',
         'id' => 'setId',
@@ -123,6 +127,7 @@ class AmazonS3Activity implements ArrayAccess
      */
     protected static $getters = [
         'action' => 'getAction',
+        'cdn_url' => 'getCdnUrl',
         'created_date' => 'getCreatedDate',
         'filename' => 'getFilename',
         'id' => 'getId',
@@ -163,6 +168,7 @@ class AmazonS3Activity implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['action'] = isset($data['action']) ? $data['action'] : null;
+        $this->container['cdn_url'] = isset($data['cdn_url']) ? $data['cdn_url'] : null;
         $this->container['created_date'] = isset($data['created_date']) ? $data['created_date'] : null;
         $this->container['filename'] = isset($data['filename']) ? $data['filename'] : null;
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
@@ -213,6 +219,27 @@ class AmazonS3Activity implements ArrayAccess
     public function setAction($action)
     {
         $this->container['action'] = $action;
+
+        return $this;
+    }
+
+    /**
+     * Gets cdn_url
+     * @return string
+     */
+    public function getCdnUrl()
+    {
+        return $this->container['cdn_url'];
+    }
+
+    /**
+     * Sets cdn_url
+     * @param string $cdn_url URL for accessing the resource via CDN if configured (will default to the main url if not)
+     * @return $this
+     */
+    public function setCdnUrl($cdn_url)
+    {
+        $this->container['cdn_url'] = $cdn_url;
 
         return $this;
     }
@@ -312,7 +339,7 @@ class AmazonS3Activity implements ArrayAccess
 
     /**
      * Sets url
-     * @param string $url URL for accessing the S3 resource
+     * @param string $url URL for posting and later accessing the S3 resource
      * @return $this
      */
     public function setUrl($url)

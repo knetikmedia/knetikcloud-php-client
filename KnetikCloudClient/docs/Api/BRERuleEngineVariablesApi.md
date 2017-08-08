@@ -23,7 +23,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineVariablesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineVariablesApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getBREVariableTypes();
@@ -67,7 +67,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineVariablesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineVariablesApi(new \Http\Adapter\Guzzle6\Client());
 $name = "name_example"; // string | The name of the type
 $filter_name = "filter_name_example"; // string | Filter results by those with names starting with this string
 $size = 25; // int | The number of objects returned per page

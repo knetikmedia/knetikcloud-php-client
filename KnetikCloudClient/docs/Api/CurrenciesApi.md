@@ -24,7 +24,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CurrenciesApi();
+$api_instance = new KnetikCloud\Api\CurrenciesApi(new \Http\Adapter\Guzzle6\Client());
 $currency = new \KnetikCloud\Model\CurrencyResource(); // \KnetikCloud\Model\CurrencyResource | The currency object
 
 try {
@@ -70,7 +70,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CurrenciesApi();
+$api_instance = new KnetikCloud\Api\CurrenciesApi(new \Http\Adapter\Guzzle6\Client());
 $code = "code_example"; // string | The currency code
 
 try {
@@ -112,7 +112,7 @@ List and search currencies
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\CurrenciesApi();
+$api_instance = new KnetikCloud\Api\CurrenciesApi(new \Http\Adapter\Guzzle6\Client());
 $filter_enabled_currencies = true; // bool | Filter for alternate currencies setup explicitely in system config
 $filter_type = "filter_type_example"; // string | Filter currencies by type.  Allowable values: ('virtual', 'real')
 $size = 25; // int | The number of objects returned per page
@@ -163,7 +163,7 @@ Get a single currency
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\CurrenciesApi();
+$api_instance = new KnetikCloud\Api\CurrenciesApi(new \Http\Adapter\Guzzle6\Client());
 $code = "code_example"; // string | The currency code
 
 try {
@@ -209,7 +209,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CurrenciesApi();
+$api_instance = new KnetikCloud\Api\CurrenciesApi(new \Http\Adapter\Guzzle6\Client());
 $code = "code_example"; // string | The currency code
 $currency = new \KnetikCloud\Model\CurrencyResource(); // \KnetikCloud\Model\CurrencyResource | The currency object
 

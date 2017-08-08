@@ -29,7 +29,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthRolesApi();
+$api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $role_resource = new \KnetikCloud\Model\RoleResource(); // \KnetikCloud\Model\RoleResource | The role resource object
 
 try {
@@ -75,7 +75,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthRolesApi();
+$api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $role = "role_example"; // string | The role value
 $force = true; // bool | If true, removes role from users/clients
 
@@ -122,7 +122,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthRolesApi();
+$api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $client_key = "client_key_example"; // string | The client key
 
 try {
@@ -168,7 +168,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthRolesApi();
+$api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $role = "role_example"; // string | The role value
 
 try {
@@ -202,7 +202,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getRoles**
-> \KnetikCloud\Model\PageResourceRoleResource_ getRoles($size, $page, $order)
+> \KnetikCloud\Model\PageResourceRoleResource_ getRoles($filter_name, $filter_role, $size, $page, $order)
 
 List and search roles
 
@@ -214,13 +214,15 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthRolesApi();
+$api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
+$filter_name = "filter_name_example"; // string | Filter for roles that have a name starting with specified string
+$filter_role = "filter_role_example"; // string | Filter for roles that have a role starting with specified string
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "order_example"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
 
 try {
-    $result = $api_instance->getRoles($size, $page, $order);
+    $result = $api_instance->getRoles($filter_name, $filter_role, $size, $page, $order);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AuthRolesApi->getRoles: ', $e->getMessage(), PHP_EOL;
@@ -232,6 +234,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **filter_name** | **string**| Filter for roles that have a name starting with specified string | [optional]
+ **filter_role** | **string**| Filter for roles that have a role starting with specified string | [optional]
  **size** | **int**| The number of objects returned per page | [optional] [default to 25]
  **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]
  **order** | **string**| A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] | [optional]
@@ -264,7 +268,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthRolesApi();
+$api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The user's id
 
 try {
@@ -310,7 +314,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthRolesApi();
+$api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $client_key = "client_key_example"; // string | The client key
 $roles_list = array(new \KnetikCloud\Model\string[]()); // string[] | The list of unique roles
 
@@ -358,7 +362,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthRolesApi();
+$api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $role = "role_example"; // string | The role value
 $permissions_list = array(new \KnetikCloud\Model\string[]()); // string[] | The list of unique permissions
 
@@ -406,7 +410,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthRolesApi();
+$api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The user's id
 $roles_list = array(new \KnetikCloud\Model\string[]()); // string[] | The list of unique roles
 
@@ -454,7 +458,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthRolesApi();
+$api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $role = "role_example"; // string | The role value
 $role_resource = new \KnetikCloud\Model\RoleResource(); // \KnetikCloud\Model\RoleResource | The role resource object
 

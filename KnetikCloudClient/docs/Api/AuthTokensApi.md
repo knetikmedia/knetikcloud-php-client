@@ -22,7 +22,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthTokensApi();
+$api_instance = new KnetikCloud\Api\AuthTokensApi(new \Http\Adapter\Guzzle6\Client());
 $username = "username_example"; // string | The username of the user
 $client_id = "client_id_example"; // string | The id of the client
 
@@ -69,7 +69,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthTokensApi();
+$api_instance = new KnetikCloud\Api\AuthTokensApi(new \Http\Adapter\Guzzle6\Client());
 $username = "username_example"; // string | The username of the user
 $client_id = "client_id_example"; // string | The id of the client
 
@@ -119,7 +119,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthTokensApi();
+$api_instance = new KnetikCloud\Api\AuthTokensApi(new \Http\Adapter\Guzzle6\Client());
 $filter_client_id = "filter_client_id_example"; // string | Filters for token whose client id matches provided string
 $filter_username = "filter_username_example"; // string | Filters for token whose username matches provided string
 $size = 25; // int | The number of objects returned per page

@@ -32,7 +32,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi();
+$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the cart
 $custom_discount = new \KnetikCloud\Model\CouponDefinition(); // \KnetikCloud\Model\CouponDefinition | The details of the discount to add
 
@@ -79,7 +79,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi();
+$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the cart
 $sku_request = new \KnetikCloud\Model\SkuRequest(); // \KnetikCloud\Model\SkuRequest | The request of the sku
 
@@ -128,7 +128,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi();
+$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the cart
 $cart_item_request = new \KnetikCloud\Model\CartItemRequest(); // \KnetikCloud\Model\CartItemRequest | The cart item request object
 
@@ -177,7 +177,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi();
+$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi(new \Http\Adapter\Guzzle6\Client());
 $owner = 56; // int | Set the owner of a cart. If not specified, defaults to the calling user's id. If specified and is not the calling user's id, SHOPPING_CARTS_ADMIN permission is required
 $currency_code = "currency_code_example"; // string | Set the currency for the cart, by currency code. May be disallowed by site settings.
 
@@ -225,7 +225,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi();
+$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the cart
 
 try {
@@ -271,7 +271,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi();
+$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_owner_id = 56; // int | Filter by the id of the owner
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -323,7 +323,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi();
+$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the cart
 
 try {
@@ -371,7 +371,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi();
+$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the cart
 
 try {
@@ -417,7 +417,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi();
+$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the cart
 $code = "code_example"; // string | The SKU code of the coupon to remove
 
@@ -466,9 +466,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi();
+$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the cart
-$currency_code = "currency_code_example"; // string | The code of the currency
+$currency_code = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | The code of the currency
 
 try {
     $api_instance->setCartCurrency($id, $currency_code);
@@ -483,7 +483,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the cart |
- **currency_code** | **string**| The code of the currency | [optional]
+ **currency_code** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| The code of the currency | [optional]
 
 ### Return type
 
@@ -513,9 +513,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi();
+$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the cart
-$user_id = 56; // int | The id of the user
+$user_id = new \KnetikCloud\Model\IntWrapper(); // \KnetikCloud\Model\IntWrapper | The id of the user
 
 try {
     $api_instance->setCartOwner($id, $user_id);
@@ -530,7 +530,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the cart |
- **user_id** | **int**| The id of the user | [optional]
+ **user_id** | [**\KnetikCloud\Model\IntWrapper**](../Model/IntWrapper.md)| The id of the user | [optional]
 
 ### Return type
 
@@ -562,7 +562,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi();
+$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the cart
 $cart_item_request = new \KnetikCloud\Model\CartItemRequest(); // \KnetikCloud\Model\CartItemRequest | The cart item request object
 
@@ -609,7 +609,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi();
+$api_instance = new KnetikCloud\Api\StoreShoppingCartsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the cart
 $cart_shipping_address_request = new \KnetikCloud\Model\CartShippingAddressRequest(); // \KnetikCloud\Model\CartShippingAddressRequest | The cart shipping address request object
 

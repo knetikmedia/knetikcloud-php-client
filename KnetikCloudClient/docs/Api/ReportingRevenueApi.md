@@ -26,7 +26,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ReportingRevenueApi();
+$api_instance = new KnetikCloud\Api\ReportingRevenueApi(new \Http\Adapter\Guzzle6\Client());
 $currency_code = "currency_code_example"; // string | The code for a currency to get sales data for
 $start_date = 789; // int | The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time
 $end_date = 789; // int | The end of the time range to aggregate, unix timestamp in seconds. Default is end of time
@@ -78,7 +78,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ReportingRevenueApi();
+$api_instance = new KnetikCloud\Api\ReportingRevenueApi(new \Http\Adapter\Guzzle6\Client());
 $currency_code = "currency_code_example"; // string | The code for a currency to get refund data for
 $start_date = 789; // int | The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time
 $end_date = 789; // int | The end of the time range to aggregate, unix timestamp in seconds. Default is end of time
@@ -130,7 +130,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ReportingRevenueApi();
+$api_instance = new KnetikCloud\Api\ReportingRevenueApi(new \Http\Adapter\Guzzle6\Client());
 $currency_code = "currency_code_example"; // string | The code for a currency to get sales data for
 $start_date = 789; // int | The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time
 $end_date = 789; // int | The end of the time range to aggregate, unix timestamp in seconds. Default is end of time
@@ -186,7 +186,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ReportingRevenueApi();
+$api_instance = new KnetikCloud\Api\ReportingRevenueApi(new \Http\Adapter\Guzzle6\Client());
 $currency_code = "currency_code_example"; // string | The code for a currency to get sales data for
 $start_date = 789; // int | The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time
 $end_date = 789; // int | The end of the time range to aggregate, unix timestamp in seconds. Default is end of time
@@ -242,7 +242,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ReportingRevenueApi();
+$api_instance = new KnetikCloud\Api\ReportingRevenueApi(new \Http\Adapter\Guzzle6\Client());
 $currency_code = "currency_code_example"; // string | The code for a currency to get sales data for
 $start_date = 789; // int | The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time
 $end_date = 789; // int | The end of the time range to aggregate, unix timestamp in seconds. Default is end of time

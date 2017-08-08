@@ -29,7 +29,6 @@
 namespace KnetikCloud;
 
 use \KnetikCloud\Configuration;
-use \KnetikCloud\ApiClient;
 use \KnetikCloud\ApiException;
 use \KnetikCloud\ObjectSerializer;
 
@@ -135,7 +134,7 @@ class InvoicesApiTest extends \PHPUnit_Framework_TestCase
     /**
      * Test case for payInvoice
      *
-     * Trigger payment of an invoice.
+     * Pay an invoice using a saved payment method.
      *
      */
     public function testPayInvoice()

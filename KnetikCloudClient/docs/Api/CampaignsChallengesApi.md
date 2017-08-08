@@ -44,7 +44,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $challenge_resource = new \KnetikCloud\Model\ChallengeResource(); // \KnetikCloud\Model\ChallengeResource | The challenge resource object
 
 try {
@@ -90,7 +90,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $challenge_id = 789; // int | The challenge id
 $challenge_activity_resource = new \KnetikCloud\Model\ChallengeActivityResource(); // \KnetikCloud\Model\ChallengeActivityResource | The challenge activity resource object
 $validate_settings = false; // bool | Whether to validate the settings being sent against the available settings on the base activity.
@@ -142,7 +142,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $challenge_activity_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The challengeActivity template resource object
 
 try {
@@ -190,7 +190,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $challenge_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The challenge template resource object
 
 try {
@@ -236,7 +236,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The challenge id
 
 try {
@@ -283,7 +283,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The challenge_activity id
 $challenge_id = 789; // int | The challenge id
 
@@ -332,7 +332,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | The value needed to delete used templates
 
@@ -379,7 +379,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The challenge event id
 
 try {
@@ -426,7 +426,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | The value needed to delete used templates
 
@@ -470,7 +470,7 @@ Retrieve a challenge
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The challenge id
 
 try {
@@ -513,7 +513,7 @@ List and search challenge activities
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $challenge_id = 789; // int | The challenge id
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -564,7 +564,7 @@ A challenge can have multiple instances of the same activity and thus the id use
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The challenge_activity id
 $challenge_id = 789; // int | The challenge id
 
@@ -612,7 +612,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -658,7 +658,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -705,7 +705,7 @@ Retrieve a single challenge event details
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The challenge event id
 
 try {
@@ -748,7 +748,7 @@ Retrieve a list of challenge events
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $filter_start_date = "filter_start_date_example"; // string | A comma separated string without spaces.  First value is the operator to search on, second value is the event start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE).
 $filter_end_date = "filter_end_date_example"; // string | A comma separated string without spaces.  First value is the operator to search on, second value is the event end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE).
 $filter_campaigns = true; // bool | check only for events from currently running campaigns
@@ -806,7 +806,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -852,7 +852,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -899,7 +899,7 @@ Retrieve a list of challenges
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $filter_template = true; // bool | Filter for challenges that are not tied to campaigns (templates)
 $filter_active_campaign = true; // bool | Filter for challenges that are tied to active campaigns
 $filter_start_date = "filter_start_date_example"; // string | A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE).
@@ -959,7 +959,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The challenge id
 $challenge_resource = new \KnetikCloud\Model\ChallengeResource(); // \KnetikCloud\Model\ChallengeResource | The challenge resource object
 
@@ -1009,7 +1009,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The challenge_activity id
 $challenge_id = 789; // int | The challenge id
 $challenge_activity_resource = new \KnetikCloud\Model\ChallengeActivityResource(); // \KnetikCloud\Model\ChallengeActivityResource | The challenge activity resource object
@@ -1059,7 +1059,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $challenge_activity_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The challengeActivity template resource object
 
@@ -1107,7 +1107,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CampaignsChallengesApi();
+$api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $challenge_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The challenge template resource object
 

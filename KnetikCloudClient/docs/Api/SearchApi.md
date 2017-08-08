@@ -26,7 +26,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\SearchApi();
+$api_instance = new KnetikCloud\Api\SearchApi(new \Http\Adapter\Guzzle6\Client());
 $type = "type_example"; // string | The index type
 $id = "id_example"; // string | The ID of the object
 $object = NULL; // object | The object to add
@@ -77,7 +77,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\SearchApi();
+$api_instance = new KnetikCloud\Api\SearchApi(new \Http\Adapter\Guzzle6\Client());
 $mappings = array(new \KnetikCloud\Model\SearchReferenceMapping()); // \KnetikCloud\Model\SearchReferenceMapping[] | The mappings to add
 
 try {
@@ -124,7 +124,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\SearchApi();
+$api_instance = new KnetikCloud\Api\SearchApi(new \Http\Adapter\Guzzle6\Client());
 $type = "type_example"; // string | The index type
 $id = "id_example"; // string | The ID of the object to delete
 
@@ -173,7 +173,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\SearchApi();
+$api_instance = new KnetikCloud\Api\SearchApi(new \Http\Adapter\Guzzle6\Client());
 $type = "type_example"; // string | The index type
 
 try {
@@ -217,7 +217,7 @@ The body is an ElasticSearch query in JSON format. Please see their <a href='htt
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\SearchApi();
+$api_instance = new KnetikCloud\Api\SearchApi(new \Http\Adapter\Guzzle6\Client());
 $type = "type_example"; // string | The index type
 $query = NULL; // object | The query to be used for the search
 $size = 25; // int | The number of objects returned per page

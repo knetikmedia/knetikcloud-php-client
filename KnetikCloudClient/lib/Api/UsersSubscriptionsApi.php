@@ -28,10 +28,15 @@
 
 namespace KnetikCloud\Api;
 
-use \KnetikCloud\ApiClient;
-use \KnetikCloud\ApiException;
-use \KnetikCloud\Configuration;
-use \KnetikCloud\ObjectSerializer;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\MultipartStream;
+use GuzzleHttp\Psr7\Request;
+use KnetikCloud\ApiException;
+use KnetikCloud\Configuration;
+use KnetikCloud\HeaderSelector;
+use KnetikCloud\ObjectSerializer;
 
 /**
  * UsersSubscriptionsApi Class Doc Comment
@@ -44,47 +49,36 @@ use \KnetikCloud\ObjectSerializer;
 class UsersSubscriptionsApi
 {
     /**
-     * API Client
-     *
-     * @var \KnetikCloud\ApiClient instance of the ApiClient
+     * @var ClientInterface
      */
-    protected $apiClient;
+    protected $client;
 
     /**
-     * Constructor
-     *
-     * @param \KnetikCloud\ApiClient|null $apiClient The api client to use
+     * @var Configuration
      */
-    public function __construct(\KnetikCloud\ApiClient $apiClient = null)
-    {
-        if ($apiClient === null) {
-            $apiClient = new ApiClient();
-        }
+    protected $config;
 
-        $this->apiClient = $apiClient;
+    /**
+     * @param ClientInterface $client
+     * @param Configuration $config
+     * @param HeaderSelector $selector
+     */
+    public function __construct(
+        ClientInterface $client = null,
+        Configuration $config = null,
+        HeaderSelector $selector = null
+    ) {
+        $this->client = $client ?: new Client();
+        $this->config = $config ?: new Configuration();
+        $this->headerSelector = $selector ?: new HeaderSelector();
     }
 
     /**
-     * Get API client
-     *
-     * @return \KnetikCloud\ApiClient get the API client
+     * @return Configuration
      */
-    public function getApiClient()
+    public function getConfig()
     {
-        return $this->apiClient;
-    }
-
-    /**
-     * Set the API client
-     *
-     * @param \KnetikCloud\ApiClient $apiClient set the API client
-     *
-     * @return UsersSubscriptionsApi
-     */
-    public function setApiClient(\KnetikCloud\ApiClient $apiClient)
-    {
-        $this->apiClient = $apiClient;
-        return $this;
+        return $this->config;
     }
 
     /**
@@ -95,6 +89,7 @@ class UsersSubscriptionsApi
      * @param int $user_id The id of the user (required)
      * @param int $inventory_id The id of the user&#39;s inventory (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\InventorySubscriptionResource
      */
     public function getUserSubscriptionDetails($user_id, $inventory_id)
@@ -111,9 +106,137 @@ class UsersSubscriptionsApi
      * @param int $user_id The id of the user (required)
      * @param int $inventory_id The id of the user&#39;s inventory (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\InventorySubscriptionResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function getUserSubscriptionDetailsWithHttpInfo($user_id, $inventory_id)
+    {
+        $returnType = '\KnetikCloud\Model\InventorySubscriptionResource';
+        $request = $this->getUserSubscriptionDetailsRequest($user_id, $inventory_id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\InventorySubscriptionResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getUserSubscriptionDetailsAsync
+     *
+     * Get details about a user's subscription
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUserSubscriptionDetailsAsync($user_id, $inventory_id)
+    {
+        return $this->getUserSubscriptionDetailsAsyncWithHttpInfo($user_id, $inventory_id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getUserSubscriptionDetailsAsyncWithHttpInfo
+     *
+     * Get details about a user's subscription
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUserSubscriptionDetailsAsyncWithHttpInfo($user_id, $inventory_id)
+    {
+        $returnType = '\KnetikCloud\Model\InventorySubscriptionResource';
+        $request = $this->getUserSubscriptionDetailsRequest($user_id, $inventory_id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getUserSubscriptionDetails'
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getUserSubscriptionDetailsRequest($user_id, $inventory_id)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -123,72 +246,84 @@ class UsersSubscriptionsApi
         if ($inventory_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $inventory_id when calling getUserSubscriptionDetails');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/subscriptions/{inventory_id}";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/subscriptions/{inventory_id}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
         // path params
         if ($inventory_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "inventory_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($inventory_id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'inventory_id' . '}', ObjectSerializer::toPathValue($inventory_id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\InventorySubscriptionResource',
-                '/users/{user_id}/subscriptions/{inventory_id}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\InventorySubscriptionResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\InventorySubscriptionResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -198,6 +333,7 @@ class UsersSubscriptionsApi
      *
      * @param int $user_id The id of the user (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\InventorySubscriptionResource[]
      */
     public function getUsersSubscriptionDetails($user_id)
@@ -213,72 +349,213 @@ class UsersSubscriptionsApi
      *
      * @param int $user_id The id of the user (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\InventorySubscriptionResource[], HTTP status code, HTTP response headers (array of strings)
      */
     public function getUsersSubscriptionDetailsWithHttpInfo($user_id)
+    {
+        $returnType = '\KnetikCloud\Model\InventorySubscriptionResource[]';
+        $request = $this->getUsersSubscriptionDetailsRequest($user_id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\InventorySubscriptionResource[]', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getUsersSubscriptionDetailsAsync
+     *
+     * Get details about a user's subscriptions
+     *
+     * @param int $user_id The id of the user (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsersSubscriptionDetailsAsync($user_id)
+    {
+        return $this->getUsersSubscriptionDetailsAsyncWithHttpInfo($user_id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getUsersSubscriptionDetailsAsyncWithHttpInfo
+     *
+     * Get details about a user's subscriptions
+     *
+     * @param int $user_id The id of the user (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsersSubscriptionDetailsAsyncWithHttpInfo($user_id)
+    {
+        $returnType = '\KnetikCloud\Model\InventorySubscriptionResource[]';
+        $request = $this->getUsersSubscriptionDetailsRequest($user_id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getUsersSubscriptionDetails'
+     *
+     * @param int $user_id The id of the user (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getUsersSubscriptionDetailsRequest($user_id)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $user_id when calling getUsersSubscriptionDetails');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/subscriptions";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/subscriptions';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\InventorySubscriptionResource[]',
-                '/users/{user_id}/subscriptions'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\InventorySubscriptionResource[]', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\InventorySubscriptionResource[]', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -290,6 +567,7 @@ class UsersSubscriptionsApi
      * @param int $inventory_id The id of the user&#39;s inventory (required)
      * @param \KnetikCloud\Model\ReactivateSubscriptionRequest $reactivate_subscription_request The reactivate subscription request object inventory (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\InvoiceResource
      */
     public function reactivateUserSubscription($user_id, $inventory_id, $reactivate_subscription_request = null)
@@ -307,9 +585,140 @@ class UsersSubscriptionsApi
      * @param int $inventory_id The id of the user&#39;s inventory (required)
      * @param \KnetikCloud\Model\ReactivateSubscriptionRequest $reactivate_subscription_request The reactivate subscription request object inventory (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\InvoiceResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function reactivateUserSubscriptionWithHttpInfo($user_id, $inventory_id, $reactivate_subscription_request = null)
+    {
+        $returnType = '\KnetikCloud\Model\InvoiceResource';
+        $request = $this->reactivateUserSubscriptionRequest($user_id, $inventory_id, $reactivate_subscription_request);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\InvoiceResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation reactivateUserSubscriptionAsync
+     *
+     * Reactivate a subscription and charge fee
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\ReactivateSubscriptionRequest $reactivate_subscription_request The reactivate subscription request object inventory (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function reactivateUserSubscriptionAsync($user_id, $inventory_id, $reactivate_subscription_request = null)
+    {
+        return $this->reactivateUserSubscriptionAsyncWithHttpInfo($user_id, $inventory_id, $reactivate_subscription_request)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation reactivateUserSubscriptionAsyncWithHttpInfo
+     *
+     * Reactivate a subscription and charge fee
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\ReactivateSubscriptionRequest $reactivate_subscription_request The reactivate subscription request object inventory (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function reactivateUserSubscriptionAsyncWithHttpInfo($user_id, $inventory_id, $reactivate_subscription_request = null)
+    {
+        $returnType = '\KnetikCloud\Model\InvoiceResource';
+        $request = $this->reactivateUserSubscriptionRequest($user_id, $inventory_id, $reactivate_subscription_request);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'reactivateUserSubscription'
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\ReactivateSubscriptionRequest $reactivate_subscription_request The reactivate subscription request object inventory (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function reactivateUserSubscriptionRequest($user_id, $inventory_id, $reactivate_subscription_request = null)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -319,77 +728,89 @@ class UsersSubscriptionsApi
         if ($inventory_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $inventory_id when calling reactivateUserSubscription');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/subscriptions/{inventory_id}/reactivate";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/subscriptions/{inventory_id}/reactivate';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
         // path params
         if ($inventory_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "inventory_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($inventory_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'inventory_id' . '}', ObjectSerializer::toPathValue($inventory_id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($reactivate_subscription_request)) {
             $_tempBody = $reactivate_subscription_request;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'POST',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\InvoiceResource',
-                '/users/{user_id}/subscriptions/{inventory_id}/reactivate'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\InvoiceResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\InvoiceResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -401,12 +822,12 @@ class UsersSubscriptionsApi
      * @param int $inventory_id The id of the user&#39;s inventory (required)
      * @param int $bill_date The new bill date. Unix timestamp in seconds (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function setSubscriptionBillDate($user_id, $inventory_id, $bill_date)
     {
-        list($response) = $this->setSubscriptionBillDateWithHttpInfo($user_id, $inventory_id, $bill_date);
-        return $response;
+        $this->setSubscriptionBillDateWithHttpInfo($user_id, $inventory_id, $bill_date);
     }
 
     /**
@@ -418,9 +839,108 @@ class UsersSubscriptionsApi
      * @param int $inventory_id The id of the user&#39;s inventory (required)
      * @param int $bill_date The new bill date. Unix timestamp in seconds (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function setSubscriptionBillDateWithHttpInfo($user_id, $inventory_id, $bill_date)
+    {
+        $returnType = '';
+        $request = $this->setSubscriptionBillDateRequest($user_id, $inventory_id, $bill_date);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setSubscriptionBillDateAsync
+     *
+     * Set a new date to bill a subscription on
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param int $bill_date The new bill date. Unix timestamp in seconds (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setSubscriptionBillDateAsync($user_id, $inventory_id, $bill_date)
+    {
+        return $this->setSubscriptionBillDateAsyncWithHttpInfo($user_id, $inventory_id, $bill_date)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation setSubscriptionBillDateAsyncWithHttpInfo
+     *
+     * Set a new date to bill a subscription on
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param int $bill_date The new bill date. Unix timestamp in seconds (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setSubscriptionBillDateAsyncWithHttpInfo($user_id, $inventory_id, $bill_date)
+    {
+        $returnType = '';
+        $request = $this->setSubscriptionBillDateRequest($user_id, $inventory_id, $bill_date);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'setSubscriptionBillDate'
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param int $bill_date The new bill date. Unix timestamp in seconds (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function setSubscriptionBillDateRequest($user_id, $inventory_id, $bill_date)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -434,73 +954,89 @@ class UsersSubscriptionsApi
         if ($bill_date === null) {
             throw new \InvalidArgumentException('Missing the required parameter $bill_date when calling setSubscriptionBillDate');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/subscriptions/{inventory_id}/bill-date";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/subscriptions/{inventory_id}/bill-date';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
         // path params
         if ($inventory_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "inventory_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($inventory_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'inventory_id' . '}', ObjectSerializer::toPathValue($inventory_id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($bill_date)) {
             $_tempBody = $bill_date;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/users/{user_id}/subscriptions/{inventory_id}/bill-date'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -510,14 +1046,14 @@ class UsersSubscriptionsApi
      *
      * @param int $user_id The id of the user (required)
      * @param int $inventory_id The id of the user&#39;s inventory (required)
-     * @param int $payment_method_id The id of the payment method (optional)
+     * @param \KnetikCloud\Model\IntWrapper $payment_method_id The id of the payment method (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function setSubscriptionPaymentMethod($user_id, $inventory_id, $payment_method_id = null)
     {
-        list($response) = $this->setSubscriptionPaymentMethodWithHttpInfo($user_id, $inventory_id, $payment_method_id);
-        return $response;
+        $this->setSubscriptionPaymentMethodWithHttpInfo($user_id, $inventory_id, $payment_method_id);
     }
 
     /**
@@ -527,11 +1063,110 @@ class UsersSubscriptionsApi
      *
      * @param int $user_id The id of the user (required)
      * @param int $inventory_id The id of the user&#39;s inventory (required)
-     * @param int $payment_method_id The id of the payment method (optional)
+     * @param \KnetikCloud\Model\IntWrapper $payment_method_id The id of the payment method (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function setSubscriptionPaymentMethodWithHttpInfo($user_id, $inventory_id, $payment_method_id = null)
+    {
+        $returnType = '';
+        $request = $this->setSubscriptionPaymentMethodRequest($user_id, $inventory_id, $payment_method_id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setSubscriptionPaymentMethodAsync
+     *
+     * Set the payment method to use for a subscription
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\IntWrapper $payment_method_id The id of the payment method (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setSubscriptionPaymentMethodAsync($user_id, $inventory_id, $payment_method_id = null)
+    {
+        return $this->setSubscriptionPaymentMethodAsyncWithHttpInfo($user_id, $inventory_id, $payment_method_id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation setSubscriptionPaymentMethodAsyncWithHttpInfo
+     *
+     * Set the payment method to use for a subscription
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\IntWrapper $payment_method_id The id of the payment method (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setSubscriptionPaymentMethodAsyncWithHttpInfo($user_id, $inventory_id, $payment_method_id = null)
+    {
+        $returnType = '';
+        $request = $this->setSubscriptionPaymentMethodRequest($user_id, $inventory_id, $payment_method_id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'setSubscriptionPaymentMethod'
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\IntWrapper $payment_method_id The id of the payment method (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function setSubscriptionPaymentMethodRequest($user_id, $inventory_id, $payment_method_id = null)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -541,73 +1176,89 @@ class UsersSubscriptionsApi
         if ($inventory_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $inventory_id when calling setSubscriptionPaymentMethod');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/subscriptions/{inventory_id}/payment-method";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/subscriptions/{inventory_id}/payment-method';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
         // path params
         if ($inventory_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "inventory_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($inventory_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'inventory_id' . '}', ObjectSerializer::toPathValue($inventory_id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($payment_method_id)) {
             $_tempBody = $payment_method_id;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/users/{user_id}/subscriptions/{inventory_id}/payment-method'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -617,14 +1268,14 @@ class UsersSubscriptionsApi
      *
      * @param int $user_id The id of the user (required)
      * @param int $inventory_id The id of the user&#39;s inventory (required)
-     * @param string $status The new status for the subscription. Actual options may differ from the indicated set if the invoice status type data has been altered.  Allowable values: (&#39;current&#39;, &#39;canceled&#39;, &#39;stopped&#39;, &#39;payment_failed&#39;, &#39;suspended&#39;) (required)
+     * @param \KnetikCloud\Model\StringWrapper $status The new status for the subscription. Actual options may differ from the indicated set if the invoice status type data has been altered.  Allowable values: (&#39;current&#39;, &#39;canceled&#39;, &#39;stopped&#39;, &#39;payment_failed&#39;, &#39;suspended&#39;) (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function setSubscriptionStatus($user_id, $inventory_id, $status)
     {
-        list($response) = $this->setSubscriptionStatusWithHttpInfo($user_id, $inventory_id, $status);
-        return $response;
+        $this->setSubscriptionStatusWithHttpInfo($user_id, $inventory_id, $status);
     }
 
     /**
@@ -634,11 +1285,110 @@ class UsersSubscriptionsApi
      *
      * @param int $user_id The id of the user (required)
      * @param int $inventory_id The id of the user&#39;s inventory (required)
-     * @param string $status The new status for the subscription. Actual options may differ from the indicated set if the invoice status type data has been altered.  Allowable values: (&#39;current&#39;, &#39;canceled&#39;, &#39;stopped&#39;, &#39;payment_failed&#39;, &#39;suspended&#39;) (required)
+     * @param \KnetikCloud\Model\StringWrapper $status The new status for the subscription. Actual options may differ from the indicated set if the invoice status type data has been altered.  Allowable values: (&#39;current&#39;, &#39;canceled&#39;, &#39;stopped&#39;, &#39;payment_failed&#39;, &#39;suspended&#39;) (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function setSubscriptionStatusWithHttpInfo($user_id, $inventory_id, $status)
+    {
+        $returnType = '';
+        $request = $this->setSubscriptionStatusRequest($user_id, $inventory_id, $status);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setSubscriptionStatusAsync
+     *
+     * Set the status of a subscription
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\StringWrapper $status The new status for the subscription. Actual options may differ from the indicated set if the invoice status type data has been altered.  Allowable values: (&#39;current&#39;, &#39;canceled&#39;, &#39;stopped&#39;, &#39;payment_failed&#39;, &#39;suspended&#39;) (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setSubscriptionStatusAsync($user_id, $inventory_id, $status)
+    {
+        return $this->setSubscriptionStatusAsyncWithHttpInfo($user_id, $inventory_id, $status)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation setSubscriptionStatusAsyncWithHttpInfo
+     *
+     * Set the status of a subscription
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\StringWrapper $status The new status for the subscription. Actual options may differ from the indicated set if the invoice status type data has been altered.  Allowable values: (&#39;current&#39;, &#39;canceled&#39;, &#39;stopped&#39;, &#39;payment_failed&#39;, &#39;suspended&#39;) (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setSubscriptionStatusAsyncWithHttpInfo($user_id, $inventory_id, $status)
+    {
+        $returnType = '';
+        $request = $this->setSubscriptionStatusRequest($user_id, $inventory_id, $status);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'setSubscriptionStatus'
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\StringWrapper $status The new status for the subscription. Actual options may differ from the indicated set if the invoice status type data has been altered.  Allowable values: (&#39;current&#39;, &#39;canceled&#39;, &#39;stopped&#39;, &#39;payment_failed&#39;, &#39;suspended&#39;) (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function setSubscriptionStatusRequest($user_id, $inventory_id, $status)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -652,73 +1402,89 @@ class UsersSubscriptionsApi
         if ($status === null) {
             throw new \InvalidArgumentException('Missing the required parameter $status when calling setSubscriptionStatus');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/subscriptions/{inventory_id}/status";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/subscriptions/{inventory_id}/status';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
         // path params
         if ($inventory_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "inventory_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($inventory_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'inventory_id' . '}', ObjectSerializer::toPathValue($inventory_id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($status)) {
             $_tempBody = $status;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/users/{user_id}/subscriptions/{inventory_id}/status'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -728,14 +1494,14 @@ class UsersSubscriptionsApi
      *
      * @param int $user_id The id of the user (required)
      * @param int $inventory_id The id of the user&#39;s inventory (required)
-     * @param string $plan_id The id of the new plan. Must be from the same subscription (optional)
+     * @param \KnetikCloud\Model\StringWrapper $plan_id The id of the new plan. Must be from the same subscription (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function setUserSubscriptionPlan($user_id, $inventory_id, $plan_id = null)
     {
-        list($response) = $this->setUserSubscriptionPlanWithHttpInfo($user_id, $inventory_id, $plan_id);
-        return $response;
+        $this->setUserSubscriptionPlanWithHttpInfo($user_id, $inventory_id, $plan_id);
     }
 
     /**
@@ -745,11 +1511,110 @@ class UsersSubscriptionsApi
      *
      * @param int $user_id The id of the user (required)
      * @param int $inventory_id The id of the user&#39;s inventory (required)
-     * @param string $plan_id The id of the new plan. Must be from the same subscription (optional)
+     * @param \KnetikCloud\Model\StringWrapper $plan_id The id of the new plan. Must be from the same subscription (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function setUserSubscriptionPlanWithHttpInfo($user_id, $inventory_id, $plan_id = null)
+    {
+        $returnType = '';
+        $request = $this->setUserSubscriptionPlanRequest($user_id, $inventory_id, $plan_id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setUserSubscriptionPlanAsync
+     *
+     * Set a new subscription plan for a user
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\StringWrapper $plan_id The id of the new plan. Must be from the same subscription (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setUserSubscriptionPlanAsync($user_id, $inventory_id, $plan_id = null)
+    {
+        return $this->setUserSubscriptionPlanAsyncWithHttpInfo($user_id, $inventory_id, $plan_id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation setUserSubscriptionPlanAsyncWithHttpInfo
+     *
+     * Set a new subscription plan for a user
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\StringWrapper $plan_id The id of the new plan. Must be from the same subscription (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setUserSubscriptionPlanAsyncWithHttpInfo($user_id, $inventory_id, $plan_id = null)
+    {
+        $returnType = '';
+        $request = $this->setUserSubscriptionPlanRequest($user_id, $inventory_id, $plan_id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'setUserSubscriptionPlan'
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\StringWrapper $plan_id The id of the new plan. Must be from the same subscription (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function setUserSubscriptionPlanRequest($user_id, $inventory_id, $plan_id = null)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -759,73 +1624,89 @@ class UsersSubscriptionsApi
         if ($inventory_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $inventory_id when calling setUserSubscriptionPlan');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/subscriptions/{inventory_id}/plan";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/subscriptions/{inventory_id}/plan';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
         // path params
         if ($inventory_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "inventory_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($inventory_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'inventory_id' . '}', ObjectSerializer::toPathValue($inventory_id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($plan_id)) {
             $_tempBody = $plan_id;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/users/{user_id}/subscriptions/{inventory_id}/plan'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -837,12 +1718,12 @@ class UsersSubscriptionsApi
      * @param int $inventory_id The id of the user&#39;s inventory (required)
      * @param \KnetikCloud\Model\SubscriptionPriceOverrideRequest $the_override_details override (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function setUserSubscriptionPrice($user_id, $inventory_id, $the_override_details = null)
     {
-        list($response) = $this->setUserSubscriptionPriceWithHttpInfo($user_id, $inventory_id, $the_override_details);
-        return $response;
+        $this->setUserSubscriptionPriceWithHttpInfo($user_id, $inventory_id, $the_override_details);
     }
 
     /**
@@ -854,9 +1735,108 @@ class UsersSubscriptionsApi
      * @param int $inventory_id The id of the user&#39;s inventory (required)
      * @param \KnetikCloud\Model\SubscriptionPriceOverrideRequest $the_override_details override (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function setUserSubscriptionPriceWithHttpInfo($user_id, $inventory_id, $the_override_details = null)
+    {
+        $returnType = '';
+        $request = $this->setUserSubscriptionPriceRequest($user_id, $inventory_id, $the_override_details);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setUserSubscriptionPriceAsync
+     *
+     * Set a new subscription price for a user
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\SubscriptionPriceOverrideRequest $the_override_details override (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setUserSubscriptionPriceAsync($user_id, $inventory_id, $the_override_details = null)
+    {
+        return $this->setUserSubscriptionPriceAsyncWithHttpInfo($user_id, $inventory_id, $the_override_details)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation setUserSubscriptionPriceAsyncWithHttpInfo
+     *
+     * Set a new subscription price for a user
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\SubscriptionPriceOverrideRequest $the_override_details override (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setUserSubscriptionPriceAsyncWithHttpInfo($user_id, $inventory_id, $the_override_details = null)
+    {
+        $returnType = '';
+        $request = $this->setUserSubscriptionPriceRequest($user_id, $inventory_id, $the_override_details);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'setUserSubscriptionPrice'
+     *
+     * @param int $user_id The id of the user (required)
+     * @param int $inventory_id The id of the user&#39;s inventory (required)
+     * @param \KnetikCloud\Model\SubscriptionPriceOverrideRequest $the_override_details override (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function setUserSubscriptionPriceRequest($user_id, $inventory_id, $the_override_details = null)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -866,72 +1846,89 @@ class UsersSubscriptionsApi
         if ($inventory_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $inventory_id when calling setUserSubscriptionPrice');
         }
-        // parse inputs
-        $resourcePath = "/users/{user_id}/subscriptions/{inventory_id}/price-override";
-        $httpBody = '';
+
+        $resourcePath = '/users/{user_id}/subscriptions/{inventory_id}/price-override';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
+
 
         // path params
         if ($user_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "user_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($user_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
         // path params
         if ($inventory_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "inventory_id" . "}",
-                $this->apiClient->getSerializer()->toPathValue($inventory_id),
-                $resourcePath
-            );
+            $resourcePath = str_replace('{' . 'inventory_id' . '}', ObjectSerializer::toPathValue($inventory_id), $resourcePath);
         }
+
         // body params
         $_tempBody = null;
         if (isset($the_override_details)) {
             $_tempBody = $the_override_details;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/users/{user_id}/subscriptions/{inventory_id}/price-override'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
+
 }

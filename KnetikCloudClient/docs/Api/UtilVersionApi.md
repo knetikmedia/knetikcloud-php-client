@@ -17,7 +17,7 @@ Get current version info
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UtilVersionApi();
+$api_instance = new KnetikCloud\Api\UtilVersionApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getVersion();

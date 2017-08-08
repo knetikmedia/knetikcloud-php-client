@@ -27,7 +27,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\DevicesApi();
+$api_instance = new KnetikCloud\Api\DevicesApi(new \Http\Adapter\Guzzle6\Client());
 $user_resources = array(new \KnetikCloud\Model\SimpleUserResource()); // \KnetikCloud\Model\SimpleUserResource[] | userResources
 $id = 56; // int | id
 
@@ -75,7 +75,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\DevicesApi();
+$api_instance = new KnetikCloud\Api\DevicesApi(new \Http\Adapter\Guzzle6\Client());
 $device = new \KnetikCloud\Model\DeviceResource(); // \KnetikCloud\Model\DeviceResource | device
 
 try {
@@ -121,7 +121,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\DevicesApi();
+$api_instance = new KnetikCloud\Api\DevicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | id
 
 try {
@@ -166,7 +166,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\DevicesApi();
+$api_instance = new KnetikCloud\Api\DevicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the device
 $user_id = 56; // int | The user id of the device user
 
@@ -213,7 +213,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\DevicesApi();
+$api_instance = new KnetikCloud\Api\DevicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the device
 $filter_id = "filter_id_example"; // string | Filter for device users to delete with a user id in a given comma separated list of ids
 
@@ -260,7 +260,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\DevicesApi();
+$api_instance = new KnetikCloud\Api\DevicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | id
 
 try {
@@ -308,7 +308,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\DevicesApi();
+$api_instance = new KnetikCloud\Api\DevicesApi(new \Http\Adapter\Guzzle6\Client());
 $filter_make = "filter_make_example"; // string | Filter for devices with specified make
 $filter_model = "filter_model_example"; // string | Filter for devices with specified model
 $size = 25; // int | The number of objects returned per page
@@ -362,7 +362,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\DevicesApi();
+$api_instance = new KnetikCloud\Api\DevicesApi(new \Http\Adapter\Guzzle6\Client());
 $device = new \KnetikCloud\Model\DeviceResource(); // \KnetikCloud\Model\DeviceResource | device
 $id = 56; // int | id
 

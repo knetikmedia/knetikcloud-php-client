@@ -24,7 +24,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ConfigsApi();
+$api_instance = new KnetikCloud\Api\ConfigsApi(new \Http\Adapter\Guzzle6\Client());
 $config = new \KnetikCloud\Model\Config(); // \KnetikCloud\Model\Config | The config object
 
 try {
@@ -70,7 +70,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ConfigsApi();
+$api_instance = new KnetikCloud\Api\ConfigsApi(new \Http\Adapter\Guzzle6\Client());
 $name = "name_example"; // string | The config name
 
 try {
@@ -117,7 +117,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ConfigsApi();
+$api_instance = new KnetikCloud\Api\ConfigsApi(new \Http\Adapter\Guzzle6\Client());
 $name = "name_example"; // string | The config name
 
 try {
@@ -163,7 +163,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ConfigsApi();
+$api_instance = new KnetikCloud\Api\ConfigsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_search = "filter_search_example"; // string | Filter for configs whose name contains the given string
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned
@@ -215,7 +215,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ConfigsApi();
+$api_instance = new KnetikCloud\Api\ConfigsApi(new \Http\Adapter\Guzzle6\Client());
 $name = "name_example"; // string | The config name
 $config = new \KnetikCloud\Model\Config(); // \KnetikCloud\Model\Config | The config object
 

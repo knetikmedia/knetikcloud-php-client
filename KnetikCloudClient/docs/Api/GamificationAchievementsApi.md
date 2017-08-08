@@ -39,7 +39,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $achievement = new \KnetikCloud\Model\AchievementDefinitionResource(); // \KnetikCloud\Model\AchievementDefinitionResource | The achievement definition
 
 try {
@@ -87,7 +87,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $template = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The achievement template to be created
 
 try {
@@ -135,7 +135,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $name = "name_example"; // string | The name of the achievement
 
 try {
@@ -182,7 +182,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | The value needed to delete used templates
 
@@ -229,7 +229,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $name = "name_example"; // string | The name of the achievement
 
 try {
@@ -275,7 +275,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -321,7 +321,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -371,7 +371,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getAchievementTriggers();
@@ -413,7 +413,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_tagset = "filter_tagset_example"; // string | Filter for achievements with specified tags (separated by comma)
 $filter_name = "filter_name_example"; // string | Filter for achievements whose name contains a string
 $filter_hidden = true; // bool | Filter for achievements that are hidden or not
@@ -473,7 +473,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $name = "name_example"; // string | The name of the derived achievement
 
 try {
@@ -521,7 +521,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The user's id
 $achievement_name = "achievement_name_example"; // string | The achievement's name
 
@@ -571,7 +571,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The user's id
 $filter_achievement_derived = true; // bool | Filter for achievements that are derived from other services
 $filter_achievement_tagset = "filter_achievement_tagset_example"; // string | Filter for achievements with specified tags (separated by comma)
@@ -629,7 +629,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $achievement_name = "achievement_name_example"; // string | The achievement's name
 $filter_achievement_derived = true; // bool | Filter for achievements that are derived from other services
 $filter_achievement_tagset = "filter_achievement_tagset_example"; // string | Filter for achievements with specified tags (separated by comma)
@@ -687,7 +687,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_achievement_derived = true; // bool | Filter for achievements that are derived from other services
 $filter_achievement_tagset = "filter_achievement_tagset_example"; // string | Filter for achievements with specified tags (separated by comma)
 $filter_achievement_name = "filter_achievement_name_example"; // string | Filter for achievements whose name contains a string
@@ -743,10 +743,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The user's id
 $achievement_name = "achievement_name_example"; // string | The achievement's name
-$progress = 56; // int | The amount to add to the progress value
+$progress = new \KnetikCloud\Model\IntWrapper(); // \KnetikCloud\Model\IntWrapper | The amount to add to the progress value
 
 try {
     $result = $api_instance->incrementAchievementProgress($user_id, $achievement_name, $progress);
@@ -763,7 +763,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **int**| The user&#39;s id |
  **achievement_name** | **string**| The achievement&#39;s name |
- **progress** | **int**| The amount to add to the progress value | [optional]
+ **progress** | [**\KnetikCloud\Model\IntWrapper**](../Model/IntWrapper.md)| The amount to add to the progress value | [optional]
 
 ### Return type
 
@@ -795,10 +795,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The user's id
 $achievement_name = "achievement_name_example"; // string | The achievement's name
-$progress = 56; // int | The new progress value
+$progress = new \KnetikCloud\Model\IntWrapper(); // \KnetikCloud\Model\IntWrapper | The new progress value
 
 try {
     $result = $api_instance->setAchievementProgress($user_id, $achievement_name, $progress);
@@ -815,7 +815,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **int**| The user&#39;s id |
  **achievement_name** | **string**| The achievement&#39;s name |
- **progress** | **int**| The new progress value | [optional]
+ **progress** | [**\KnetikCloud\Model\IntWrapper**](../Model/IntWrapper.md)| The new progress value | [optional]
 
 ### Return type
 
@@ -847,7 +847,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $name = "name_example"; // string | The name of the achievement
 $achievement = new \KnetikCloud\Model\AchievementDefinitionResource(); // \KnetikCloud\Model\AchievementDefinitionResource | The achievement definition
 
@@ -895,7 +895,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationAchievementsApi();
+$api_instance = new KnetikCloud\Api\GamificationAchievementsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $template = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The updated template
 

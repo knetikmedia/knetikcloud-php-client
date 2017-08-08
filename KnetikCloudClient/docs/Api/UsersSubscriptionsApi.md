@@ -27,7 +27,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 $inventory_id = 56; // int | The id of the user's inventory
 
@@ -75,7 +75,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 
 try {
@@ -121,7 +121,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 $inventory_id = 56; // int | The id of the user's inventory
 $reactivate_subscription_request = new \KnetikCloud\Model\ReactivateSubscriptionRequest(); // \KnetikCloud\Model\ReactivateSubscriptionRequest | The reactivate subscription request object inventory
@@ -171,7 +171,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 $inventory_id = 56; // int | The id of the user's inventory
 $bill_date = 789; // int | The new bill date. Unix timestamp in seconds
@@ -222,10 +222,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 $inventory_id = 56; // int | The id of the user's inventory
-$payment_method_id = 56; // int | The id of the payment method
+$payment_method_id = new \KnetikCloud\Model\IntWrapper(); // \KnetikCloud\Model\IntWrapper | The id of the payment method
 
 try {
     $api_instance->setSubscriptionPaymentMethod($user_id, $inventory_id, $payment_method_id);
@@ -241,7 +241,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **int**| The id of the user |
  **inventory_id** | **int**| The id of the user&#39;s inventory |
- **payment_method_id** | **int**| The id of the payment method | [optional]
+ **payment_method_id** | [**\KnetikCloud\Model\IntWrapper**](../Model/IntWrapper.md)| The id of the payment method | [optional]
 
 ### Return type
 
@@ -263,7 +263,7 @@ void (empty response body)
 
 Set the status of a subscription
 
-The body is a json string (put in quotes) that should match a desired invoice status type. Note that the new status may be blocked if the system is not configured to allow the current status to be changed to the new, to enforce proper flow. The default options for statuses are shown below but may be altered for special use cases
+Note that the new status may be blocked if the system is not configured to allow the current status to be changed to the new, to enforce proper flow. The default options for statuses are shown below but may be altered for special use cases
 
 ### Example
 ```php
@@ -273,10 +273,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 $inventory_id = 56; // int | The id of the user's inventory
-$status = "status_example"; // string | The new status for the subscription. Actual options may differ from the indicated set if the invoice status type data has been altered.  Allowable values: ('current', 'canceled', 'stopped', 'payment_failed', 'suspended')
+$status = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | The new status for the subscription. Actual options may differ from the indicated set if the invoice status type data has been altered.  Allowable values: ('current', 'canceled', 'stopped', 'payment_failed', 'suspended')
 
 try {
     $api_instance->setSubscriptionStatus($user_id, $inventory_id, $status);
@@ -292,7 +292,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **int**| The id of the user |
  **inventory_id** | **int**| The id of the user&#39;s inventory |
- **status** | **string**| The new status for the subscription. Actual options may differ from the indicated set if the invoice status type data has been altered.  Allowable values: (&#39;current&#39;, &#39;canceled&#39;, &#39;stopped&#39;, &#39;payment_failed&#39;, &#39;suspended&#39;) |
+ **status** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| The new status for the subscription. Actual options may differ from the indicated set if the invoice status type data has been altered.  Allowable values: (&#39;current&#39;, &#39;canceled&#39;, &#39;stopped&#39;, &#39;payment_failed&#39;, &#39;suspended&#39;) |
 
 ### Return type
 
@@ -322,10 +322,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 $inventory_id = 56; // int | The id of the user's inventory
-$plan_id = "plan_id_example"; // string | The id of the new plan. Must be from the same subscription
+$plan_id = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | The id of the new plan. Must be from the same subscription
 
 try {
     $api_instance->setUserSubscriptionPlan($user_id, $inventory_id, $plan_id);
@@ -341,7 +341,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **int**| The id of the user |
  **inventory_id** | **int**| The id of the user&#39;s inventory |
- **plan_id** | **string**| The id of the new plan. Must be from the same subscription | [optional]
+ **plan_id** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| The id of the new plan. Must be from the same subscription | [optional]
 
 ### Return type
 
@@ -373,7 +373,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\UsersSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 $inventory_id = 56; // int | The id of the user's inventory
 $the_override_details = new \KnetikCloud\Model\SubscriptionPriceOverrideRequest(); // \KnetikCloud\Model\SubscriptionPriceOverrideRequest | override

@@ -49,7 +49,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $question_id = "question_id_example"; // string | The id of the question
 $answer = new \KnetikCloud\Model\AnswerResource(); // \KnetikCloud\Model\AnswerResource | The new answer
 
@@ -97,9 +97,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the question
-$tag = "tag_example"; // string | The new tag
+$tag = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | The new tag
 
 try {
     $api_instance->addQuestionTag($id, $tag);
@@ -114,7 +114,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the question |
- **tag** | **string**| The new tag | [optional]
+ **tag** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| The new tag | [optional]
 
 ### Return type
 
@@ -146,8 +146,8 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
-$tag = "tag_example"; // string | The tag to add
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
+$tag = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | The tag to add
 $filter_search = "filter_search_example"; // string | Filter for documents whose question, answers or tags contains provided string
 $filter_idset = "filter_idset_example"; // string | Filter for documents whose id is in the comma separated list provided
 $filter_category = "filter_category_example"; // string | Filter for questions with specified category, by id
@@ -170,7 +170,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tag** | **string**| The tag to add | [optional]
+ **tag** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| The tag to add | [optional]
  **filter_search** | **string**| Filter for documents whose question, answers or tags contains provided string | [optional]
  **filter_idset** | **string**| Filter for documents whose id is in the comma separated list provided | [optional]
  **filter_category** | **string**| Filter for questions with specified category, by id | [optional]
@@ -210,7 +210,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\ImportJobResource(); // \KnetikCloud\Model\ImportJobResource | The new import job
 
 try {
@@ -256,7 +256,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $question = new \KnetikCloud\Model\QuestionResource(); // \KnetikCloud\Model\QuestionResource | The new question
 
 try {
@@ -304,7 +304,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $question_template_resource = new \KnetikCloud\Model\QuestionTemplateResource(); // \KnetikCloud\Model\QuestionTemplateResource | The question template resource object
 
 try {
@@ -352,7 +352,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The id of the job
 
 try {
@@ -397,7 +397,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the question
 
 try {
@@ -442,7 +442,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $question_id = "question_id_example"; // string | The id of the question
 $id = "id_example"; // string | The id of the answer
 
@@ -491,7 +491,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | The value needed to delete used templates
 
@@ -538,7 +538,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The id of the job
 
 try {
@@ -584,7 +584,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $filter_vendor = "filter_vendor_example"; // string | Filter for jobs by vendor id
 $filter_category = "filter_category_example"; // string | Filter for jobs by category id
 $filter_name = "filter_name_example"; // string | Filter for jobs which name *STARTS* with the given string
@@ -642,7 +642,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the question
 
 try {
@@ -688,7 +688,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $question_id = "question_id_example"; // string | The id of the question
 $id = "id_example"; // string | The id of the answer
 
@@ -736,7 +736,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $question_id = "question_id_example"; // string | The id of the question
 
 try {
@@ -784,7 +784,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $since = 789; // int | Timestamp in seconds
 
 try {
@@ -830,7 +830,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the question
 
 try {
@@ -876,7 +876,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -922,7 +922,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -972,7 +972,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -1040,7 +1040,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $filter_search = "filter_search_example"; // string | Filter for documents whose question, answers or tags contains provided string
 $filter_idset = "filter_idset_example"; // string | Filter for documents whose id is in the comma separated list provided
 $filter_category = "filter_category_example"; // string | Filter for questions with specified category, by id
@@ -1100,7 +1100,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The id of the job
 $publish_now = true; // bool | Whether the new questions should be published live immediately
 
@@ -1148,7 +1148,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the question
 $tag = "tag_example"; // string | The tag to remove
 
@@ -1197,7 +1197,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $tag = "tag_example"; // string | The tag to remove
 $filter_search = "filter_search_example"; // string | Filter for documents whose question, answers or tags contains provided string
 $filter_idset = "filter_idset_example"; // string | Filter for documents whose id is in the comma separated list provided
@@ -1261,7 +1261,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $filter_search = "filter_search_example"; // string | Filter for tags starting with the given text
 $filter_category = "filter_category_example"; // string | Filter for tags on questions from a specific category
 $filter_import_id = 789; // int | Filter for tags on questions from a specific import job
@@ -1313,7 +1313,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The id of the job
 $request = new \KnetikCloud\Model\ImportJobResource(); // \KnetikCloud\Model\ImportJobResource | The updated job
 
@@ -1361,7 +1361,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the question
 $question = new \KnetikCloud\Model\QuestionResource(); // \KnetikCloud\Model\QuestionResource | The updated question
 
@@ -1409,7 +1409,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $question_id = "question_id_example"; // string | The id of the question
 $id = "id_example"; // string | The id of the answer
 $answer = new \KnetikCloud\Model\AnswerResource(); // \KnetikCloud\Model\AnswerResource | The updated answer
@@ -1458,7 +1458,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $question_template_resource = new \KnetikCloud\Model\QuestionTemplateResource(); // \KnetikCloud\Model\QuestionTemplateResource | The question template resource object
 
@@ -1508,7 +1508,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationTriviaApi();
+$api_instance = new KnetikCloud\Api\GamificationTriviaApi(new \Http\Adapter\Guzzle6\Client());
 $question = new \KnetikCloud\Model\QuestionResource(); // \KnetikCloud\Model\QuestionResource | New values for a set of question fields
 $filter_search = "filter_search_example"; // string | Filter for documents whose question, answers or tags contains provided string
 $filter_idset = "filter_idset_example"; // string | Filter for documents whose id is in the comma separated list provided

@@ -29,7 +29,6 @@
 namespace KnetikCloud;
 
 use \KnetikCloud\Configuration;
-use \KnetikCloud\ApiClient;
 use \KnetikCloud\ApiException;
 use \KnetikCloud\ObjectSerializer;
 
@@ -169,6 +168,16 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function testGetStoreItems()
+    {
+    }
+
+    /**
+     * Test case for quickBuy
+     *
+     * One-step purchase and pay for a single SKU item from a user's wallet.
+     *
+     */
+    public function testQuickBuy()
     {
     }
 

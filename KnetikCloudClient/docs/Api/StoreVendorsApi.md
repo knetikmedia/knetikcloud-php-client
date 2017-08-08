@@ -29,7 +29,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreVendorsApi();
+$api_instance = new KnetikCloud\Api\StoreVendorsApi(new \Http\Adapter\Guzzle6\Client());
 $vendor = new \KnetikCloud\Model\VendorResource(); // \KnetikCloud\Model\VendorResource | The vendor
 
 try {
@@ -77,7 +77,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreVendorsApi();
+$api_instance = new KnetikCloud\Api\StoreVendorsApi(new \Http\Adapter\Guzzle6\Client());
 $vendor_template_resource = new \KnetikCloud\Model\ItemTemplateResource(); // \KnetikCloud\Model\ItemTemplateResource | The new vendor template
 
 try {
@@ -123,7 +123,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreVendorsApi();
+$api_instance = new KnetikCloud\Api\StoreVendorsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the vendor
 
 try {
@@ -168,7 +168,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreVendorsApi();
+$api_instance = new KnetikCloud\Api\StoreVendorsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | force deleting the template if it's attached to other objects, cascade = detach
 
@@ -212,7 +212,7 @@ Get a single vendor
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\StoreVendorsApi();
+$api_instance = new KnetikCloud\Api\StoreVendorsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the vendor
 
 try {
@@ -260,7 +260,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreVendorsApi();
+$api_instance = new KnetikCloud\Api\StoreVendorsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -306,7 +306,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreVendorsApi();
+$api_instance = new KnetikCloud\Api\StoreVendorsApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "1"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -353,7 +353,7 @@ List and search vendors
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\StoreVendorsApi();
+$api_instance = new KnetikCloud\Api\StoreVendorsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_name = "filter_name_example"; // string | Filters vendors by name starting with the text provided in the filter
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -405,7 +405,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreVendorsApi();
+$api_instance = new KnetikCloud\Api\StoreVendorsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the vendor
 $vendor = new \KnetikCloud\Model\VendorResource(); // \KnetikCloud\Model\VendorResource | The vendor
 
@@ -453,7 +453,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreVendorsApi();
+$api_instance = new KnetikCloud\Api\StoreVendorsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $vendor_template_resource = new \KnetikCloud\Model\ItemTemplateResource(); // \KnetikCloud\Model\ItemTemplateResource | The vendor template resource object
 

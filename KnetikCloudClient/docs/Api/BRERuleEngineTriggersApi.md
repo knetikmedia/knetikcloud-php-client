@@ -26,7 +26,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineTriggersApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineTriggersApi(new \Http\Adapter\Guzzle6\Client());
 $bre_trigger_resource = new \KnetikCloud\Model\BreTriggerResource(); // \KnetikCloud\Model\BreTriggerResource | The BRE trigger resource object
 
 try {
@@ -74,7 +74,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineTriggersApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineTriggersApi(new \Http\Adapter\Guzzle6\Client());
 $event_name = "event_name_example"; // string | The trigger event name
 
 try {
@@ -119,7 +119,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineTriggersApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineTriggersApi(new \Http\Adapter\Guzzle6\Client());
 $event_name = "event_name_example"; // string | The trigger event name
 
 try {
@@ -165,7 +165,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineTriggersApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineTriggersApi(new \Http\Adapter\Guzzle6\Client());
 $filter_system = true; // bool | Filter for triggers that are system triggers when true, or not when false. Leave off for both mixed
 $filter_category = "filter_category_example"; // string | Filter for triggers that are within a specific category
 $filter_tags = "filter_tags_example"; // string | Filter for triggers that have all of the given tags (comma separated list)
@@ -225,7 +225,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineTriggersApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineTriggersApi(new \Http\Adapter\Guzzle6\Client());
 $event_name = "event_name_example"; // string | The trigger event name
 $bre_trigger_resource = new \KnetikCloud\Model\BreTriggerResource(); // \KnetikCloud\Model\BreTriggerResource | The BRE trigger resource object
 

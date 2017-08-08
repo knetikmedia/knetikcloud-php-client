@@ -17,7 +17,7 @@ Get health info
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UtilHealthApi();
+$api_instance = new KnetikCloud\Api\UtilHealthApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getHealth();

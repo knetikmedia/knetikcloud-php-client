@@ -30,7 +30,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $subscription_resource = new \KnetikCloud\Model\SubscriptionResource(); // \KnetikCloud\Model\SubscriptionResource | The subscription to be created
 
 try {
@@ -78,7 +78,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $subscription_template_resource = new \KnetikCloud\Model\SubscriptionTemplateResource(); // \KnetikCloud\Model\SubscriptionTemplateResource | The new subscription template
 
 try {
@@ -126,7 +126,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the subscription
 $plan_id = "plan_id_example"; // string | The id of the plan
 
@@ -173,7 +173,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | force deleting the template if it's attached to other objects, cascade = detach
 
@@ -217,7 +217,7 @@ Retrieve a single subscription item and associated plans
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the subscription
 
 try {
@@ -265,7 +265,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -311,7 +311,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -358,7 +358,7 @@ List available subscription items and associated plans
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -408,7 +408,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $api_instance->processSubscriptions();
@@ -451,7 +451,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the subscription
 $subscription_resource = new \KnetikCloud\Model\SubscriptionResource(); // \KnetikCloud\Model\SubscriptionResource | The subscription resource object
 
@@ -498,7 +498,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi();
+$api_instance = new KnetikCloud\Api\StoreSubscriptionsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $subscription_template_resource = new \KnetikCloud\Model\SubscriptionTemplateResource(); // \KnetikCloud\Model\SubscriptionTemplateResource | The subscription template resource object
 

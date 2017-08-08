@@ -25,7 +25,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsPayPalClassicApi();
+$api_instance = new KnetikCloud\Api\PaymentsPayPalClassicApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\CreateBillingAgreementRequest(); // \KnetikCloud\Model\CreateBillingAgreementRequest | The request to create a PayPal billing agreement
 
 try {
@@ -73,7 +73,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsPayPalClassicApi();
+$api_instance = new KnetikCloud\Api\PaymentsPayPalClassicApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\CreatePayPalPaymentRequest(); // \KnetikCloud\Model\CreatePayPalPaymentRequest | The request to create a PayPal payment token
 
 try {
@@ -121,7 +121,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsPayPalClassicApi();
+$api_instance = new KnetikCloud\Api\PaymentsPayPalClassicApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\FinalizeBillingAgreementRequest(); // \KnetikCloud\Model\FinalizeBillingAgreementRequest | The request to finalize a PayPal billing agreement
 
 try {
@@ -169,7 +169,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsPayPalClassicApi();
+$api_instance = new KnetikCloud\Api\PaymentsPayPalClassicApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\FinalizePayPalPaymentRequest(); // \KnetikCloud\Model\FinalizePayPalPaymentRequest | The request to finalize the payment
 
 try {

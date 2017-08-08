@@ -10,7 +10,7 @@ Method | HTTP request | Description
 [**getInvoiceLogs**](InvoicesApi.md#getInvoiceLogs) | **GET** /invoices/{id}/logs | List invoice logs
 [**getInvoices**](InvoicesApi.md#getInvoices) | **GET** /invoices | Retrieve invoices
 [**getPaymentStatuses**](InvoicesApi.md#getPaymentStatuses) | **GET** /invoices/payment-statuses | Lists available payment statuses
-[**payInvoice**](InvoicesApi.md#payInvoice) | **POST** /invoices/{id}/payments | Trigger payment of an invoice
+[**payInvoice**](InvoicesApi.md#payInvoice) | **POST** /invoices/{id}/payments | Pay an invoice using a saved payment method
 [**setBundledInvoiceItemFulfillmentStatus**](InvoicesApi.md#setBundledInvoiceItemFulfillmentStatus) | **PUT** /invoices/{id}/items/{bundleSku}/bundled-skus/{sku}/fulfillment-status | Set the fulfillment status of a bundled invoice item
 [**setExternalRef**](InvoicesApi.md#setExternalRef) | **PUT** /invoices/{id}/external-ref | Set the external reference of an invoice
 [**setInvoiceItemFulfillmentStatus**](InvoicesApi.md#setInvoiceItemFulfillmentStatus) | **PUT** /invoices/{id}/items/{sku}/fulfillment-status | Set the fulfillment status of an invoice item
@@ -34,7 +34,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\InvoicesApi();
+$api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $req = new \KnetikCloud\Model\InvoiceCreateRequest(); // \KnetikCloud\Model\InvoiceCreateRequest | Invoice to be created
 
 try {
@@ -77,7 +77,7 @@ Lists available fulfillment statuses
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\InvoicesApi();
+$api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getFulFillmentStatuses();
@@ -119,7 +119,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\InvoicesApi();
+$api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
 
 try {
@@ -165,7 +165,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\InvoicesApi();
+$api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -217,7 +217,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\InvoicesApi();
+$api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $filter_user = 56; // int | The id of a user to get invoices for. Automtically added if not being called with admin permissions.
 $filter_email = "filter_email_example"; // string | Filters invoices by customer's email. Admins only.
 $filter_fulfillment_status = "filter_fulfillment_status_example"; // string | Filters invoices by fulfillment status type. Can be a comma separated list of statuses
@@ -292,7 +292,7 @@ Lists available payment statuses
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\InvoicesApi();
+$api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getPaymentStatuses();
@@ -324,7 +324,7 @@ No authorization required
 # **payInvoice**
 > payInvoice($id, $request)
 
-Trigger payment of an invoice
+Pay an invoice using a saved payment method
 
 ### Example
 ```php
@@ -334,9 +334,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\InvoicesApi();
+$api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
-$request = new \KnetikCloud\Model\PayBySavedMethodRequest(); // \KnetikCloud\Model\PayBySavedMethodRequest | Payment info
+$request = new \KnetikCloud\Model\PayBySavedMethodRequest(); // \KnetikCloud\Model\PayBySavedMethodRequest | The payment method details. Will default to the appropriate user's wallet in the invoice currency if ommited.
 
 try {
     $api_instance->payInvoice($id, $request);
@@ -351,7 +351,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the invoice |
- **request** | [**\KnetikCloud\Model\PayBySavedMethodRequest**](../Model/PayBySavedMethodRequest.md)| Payment info | [optional]
+ **request** | [**\KnetikCloud\Model\PayBySavedMethodRequest**](../Model/PayBySavedMethodRequest.md)| The payment method details. Will default to the appropriate user&#39;s wallet in the invoice currency if ommited. | [optional]
 
 ### Return type
 
@@ -383,11 +383,11 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\InvoicesApi();
+$api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
 $bundle_sku = "bundle_sku_example"; // string | The sku of the bundle in the invoice that contains the given target
 $sku = "sku_example"; // string | The sku of an item in the bundle in the invoice
-$status = "status_example"; // string | The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  'unfulfilled', 'fulfilled', 'not fulfillable', 'failed', 'processing', 'failed_permanent', 'delayed'
+$status = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  'unfulfilled', 'fulfilled', 'not fulfillable', 'failed', 'processing', 'failed_permanent', 'delayed'
 
 try {
     $api_instance->setBundledInvoiceItemFulfillmentStatus($id, $bundle_sku, $sku, $status);
@@ -404,7 +404,7 @@ Name | Type | Description  | Notes
  **id** | **int**| The id of the invoice |
  **bundle_sku** | **string**| The sku of the bundle in the invoice that contains the given target |
  **sku** | **string**| The sku of an item in the bundle in the invoice |
- **status** | **string**| The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; |
+ **status** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; |
 
 ### Return type
 
@@ -434,9 +434,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\InvoicesApi();
+$api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
-$external_ref = "external_ref_example"; // string | External reference info
+$external_ref = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | External reference info
 
 try {
     $api_instance->setExternalRef($id, $external_ref);
@@ -451,7 +451,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the invoice |
- **external_ref** | **string**| External reference info | [optional]
+ **external_ref** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| External reference info | [optional]
 
 ### Return type
 
@@ -483,10 +483,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\InvoicesApi();
+$api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
 $sku = "sku_example"; // string | The sku of an item in the invoice
-$status = "status_example"; // string | The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  'unfulfilled', 'fulfilled', 'not fulfillable', 'failed', 'processing', 'failed_permanent', 'delayed'
+$status = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  'unfulfilled', 'fulfilled', 'not fulfillable', 'failed', 'processing', 'failed_permanent', 'delayed'
 
 try {
     $api_instance->setInvoiceItemFulfillmentStatus($id, $sku, $status);
@@ -502,7 +502,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the invoice |
  **sku** | **string**| The sku of an item in the invoice |
- **status** | **string**| The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; |
+ **status** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| The new fulfillment status for the item. Additional options may be available based on configuration.  Allowable values:  &#39;unfulfilled&#39;, &#39;fulfilled&#39;, &#39;not fulfillable&#39;, &#39;failed&#39;, &#39;processing&#39;, &#39;failed_permanent&#39;, &#39;delayed&#39; |
 
 ### Return type
 
@@ -532,9 +532,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\InvoicesApi();
+$api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
-$order_notes = "order_notes_example"; // string | Payment status info
+$order_notes = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | Payment status info
 
 try {
     $api_instance->setOrderNotes($id, $order_notes);
@@ -549,7 +549,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the invoice |
- **order_notes** | **string**| Payment status info | [optional]
+ **order_notes** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| Payment status info | [optional]
 
 ### Return type
 
@@ -581,7 +581,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\InvoicesApi();
+$api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
 $request = new \KnetikCloud\Model\InvoicePaymentStatusRequest(); // \KnetikCloud\Model\InvoicePaymentStatusRequest | Payment status info
 
@@ -628,7 +628,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\InvoicesApi();
+$api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
 $billing_info_request = new \KnetikCloud\Model\AddressResource(); // \KnetikCloud\Model\AddressResource | Address info
 

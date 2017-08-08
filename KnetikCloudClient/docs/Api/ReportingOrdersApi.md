@@ -20,7 +20,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ReportingOrdersApi();
+$api_instance = new KnetikCloud\Api\ReportingOrdersApi(new \Http\Adapter\Guzzle6\Client());
 $currency_code = "currency_code_example"; // string | The code for a currency to get sales data for
 $granularity = "day"; // string | The time duration to aggregate by
 $filter_payment_status = "filter_payment_status_example"; // string | A payment status to filter results by, can be a comma separated list

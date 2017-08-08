@@ -20,7 +20,7 @@ Tokens expire in 24 hours
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UtilBatchApi();
+$api_instance = new KnetikCloud\Api\UtilBatchApi(new \Http\Adapter\Guzzle6\Client());
 $token = "token_example"; // string | token
 
 try {
@@ -65,7 +65,7 @@ Should the request take longer than one of the alloted timeout parameters, a tok
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UtilBatchApi();
+$api_instance = new KnetikCloud\Api\UtilBatchApi(new \Http\Adapter\Guzzle6\Client());
 $batch = new \KnetikCloud\Model\Batch(); // \KnetikCloud\Model\Batch | The batch object
 
 try {

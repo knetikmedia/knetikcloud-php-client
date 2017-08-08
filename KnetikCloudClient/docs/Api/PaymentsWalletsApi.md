@@ -26,7 +26,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsWalletsApi();
+$api_instance = new KnetikCloud\Api\PaymentsWalletsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The ID of the user for whom wallet is being retrieved
 $currency_code = "currency_code_example"; // string | Currency code of the user's wallet
 
@@ -74,7 +74,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsWalletsApi();
+$api_instance = new KnetikCloud\Api\PaymentsWalletsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The ID of the user for whom wallet transactions are being retrieved
 $currency_code = "currency_code_example"; // string | Currency code of the user's wallet
 $filter_type = "filter_type_example"; // string | Filter for transactions with specified type
@@ -136,7 +136,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsWalletsApi();
+$api_instance = new KnetikCloud\Api\PaymentsWalletsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The ID of the user for whom wallets are being retrieved
 
 try {
@@ -182,7 +182,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsWalletsApi();
+$api_instance = new KnetikCloud\Api\PaymentsWalletsApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getWalletBalances();
@@ -224,7 +224,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsWalletsApi();
+$api_instance = new KnetikCloud\Api\PaymentsWalletsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_invoice = 56; // int | Filter for transactions from a specific invoice
 $filter_type = "filter_type_example"; // string | Filter for transactions with specified type
 $filter_date = "filter_date_example"; // string | A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds. Can be repeated for a range, eg: GT,123,LT,456  Allowed operators: (GT, LT, EQ, GOE, LOE).
@@ -290,7 +290,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsWalletsApi();
+$api_instance = new KnetikCloud\Api\PaymentsWalletsApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -340,7 +340,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsWalletsApi();
+$api_instance = new KnetikCloud\Api\PaymentsWalletsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The ID of the user for whom wallet is being modified
 $currency_code = "currency_code_example"; // string | Currency code of the user's wallet
 $request = new \KnetikCloud\Model\WalletAlterRequest(); // \KnetikCloud\Model\WalletAlterRequest | The requested balance modification to be made to the user's wallet

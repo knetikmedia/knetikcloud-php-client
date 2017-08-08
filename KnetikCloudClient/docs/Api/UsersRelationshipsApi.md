@@ -24,7 +24,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersRelationshipsApi();
+$api_instance = new KnetikCloud\Api\UsersRelationshipsApi(new \Http\Adapter\Guzzle6\Client());
 $relationship = new \KnetikCloud\Model\UserRelationshipResource(); // \KnetikCloud\Model\UserRelationshipResource | The new relationship
 
 try {
@@ -70,7 +70,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersRelationshipsApi();
+$api_instance = new KnetikCloud\Api\UsersRelationshipsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The id of the relationship
 
 try {
@@ -115,7 +115,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersRelationshipsApi();
+$api_instance = new KnetikCloud\Api\UsersRelationshipsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The id of the relationship
 
 try {
@@ -161,7 +161,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersRelationshipsApi();
+$api_instance = new KnetikCloud\Api\UsersRelationshipsApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned
 $order = "order_example"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -211,7 +211,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersRelationshipsApi();
+$api_instance = new KnetikCloud\Api\UsersRelationshipsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The id of the relationship
 $relationship = new \KnetikCloud\Model\UserRelationshipResource(); // \KnetikCloud\Model\UserRelationshipResource | The new relationship
 

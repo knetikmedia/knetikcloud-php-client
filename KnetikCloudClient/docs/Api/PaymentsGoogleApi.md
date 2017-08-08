@@ -19,7 +19,7 @@ Mark an invoice paid with Google. Verifies signature from Google and treats the 
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\PaymentsGoogleApi();
+$api_instance = new KnetikCloud\Api\PaymentsGoogleApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\GooglePaymentRequest(); // \KnetikCloud\Model\GooglePaymentRequest | The request for paying an invoice through a Google in-app payment
 
 try {

@@ -28,7 +28,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineRulesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineRulesApi(new \Http\Adapter\Guzzle6\Client());
 $bre_rule = new \KnetikCloud\Model\BreRule(); // \KnetikCloud\Model\BreRule | The BRE rule object
 
 try {
@@ -76,7 +76,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineRulesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineRulesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the rule
 
 try {
@@ -121,7 +121,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineRulesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineRulesApi(new \Http\Adapter\Guzzle6\Client());
 $expression = new \KnetikCloud\Model\ExpressionObject_(); // \KnetikCloud\Model\ExpressionObject_ | The expression
 
 try {
@@ -167,7 +167,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineRulesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineRulesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the rule
 
 try {
@@ -213,7 +213,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineRulesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineRulesApi(new \Http\Adapter\Guzzle6\Client());
 $filter_name = "filter_name_example"; // string | Filter for rules containing the given name
 $filter_enabled = null; // bool | Filter for rules by active status, null for both
 $filter_system = true; // bool | Filter for rules that are system rules when true, or not when false. Leave off for both mixed
@@ -275,7 +275,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineRulesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineRulesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the rule
 $enabled = new \KnetikCloud\Model\BooleanResource(); // \KnetikCloud\Model\BooleanResource | The boolean value
 
@@ -324,7 +324,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineRulesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineRulesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the rule
 $bre_rule = new \KnetikCloud\Model\BreRule(); // \KnetikCloud\Model\BreRule | The BRE rule object
 

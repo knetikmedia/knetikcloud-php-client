@@ -85,6 +85,13 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "descending"
+     */
+    public function testPropertyDescending()
+    {
+    }
+
+    /**
      * Test attribute "direction"
      */
     public function testPropertyDirection()

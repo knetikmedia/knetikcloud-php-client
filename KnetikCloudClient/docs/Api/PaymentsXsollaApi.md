@@ -21,7 +21,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsXsollaApi();
+$api_instance = new KnetikCloud\Api\PaymentsXsollaApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\XsollaPaymentRequest(); // \KnetikCloud\Model\XsollaPaymentRequest | The payment request to be sent to XSolla
 
 try {
@@ -66,7 +66,7 @@ Only used by Xsolla to call back to JSAPI after processing user payment action
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\PaymentsXsollaApi();
+$api_instance = new KnetikCloud\Api\PaymentsXsollaApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $api_instance->receiveXsollaNotification();

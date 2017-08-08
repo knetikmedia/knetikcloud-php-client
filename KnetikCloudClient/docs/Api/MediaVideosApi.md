@@ -45,9 +45,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The video id
-$user_id = 56; // int | The user id
+$user_id = new \KnetikCloud\Model\IntWrapper(); // \KnetikCloud\Model\IntWrapper | The user id
 
 try {
     $api_instance->addUserToVideoWhitelist($id, $user_id);
@@ -62,7 +62,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The video id |
- **user_id** | **int**| The user id | [optional]
+ **user_id** | [**\KnetikCloud\Model\IntWrapper**](../Model/IntWrapper.md)| The user id | [optional]
 
 ### Return type
 
@@ -92,7 +92,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_resource = new \KnetikCloud\Model\VideoResource(); // \KnetikCloud\Model\VideoResource | The video object
 
 try {
@@ -138,7 +138,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_id = 56; // int | The video id
 $comment_resource = new \KnetikCloud\Model\CommentResource(); // \KnetikCloud\Model\CommentResource | The comment object
 
@@ -186,7 +186,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_id = 789; // int | The video id
 $contribution_resource = new \KnetikCloud\Model\ContributionResource(); // \KnetikCloud\Model\ContributionResource | The contribution object
 
@@ -233,9 +233,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_id = 789; // int | The video id
-$reason = "reason_example"; // string | The flag reason
+$reason = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | The flag reason
 
 try {
     $result = $api_instance->addVideoFlag($video_id, $reason);
@@ -251,7 +251,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **video_id** | **int**| The video id |
- **reason** | **string**| The flag reason | [optional]
+ **reason** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| The flag reason | [optional]
 
 ### Return type
 
@@ -281,7 +281,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_id = 789; // int | The video id
 $video_relationship_resource = new \KnetikCloud\Model\VideoRelationshipResource(); // \KnetikCloud\Model\VideoRelationshipResource | The video relationship object
 
@@ -329,7 +329,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_id = 56; // int | The video id
 $disposition_resource = new \KnetikCloud\Model\DispositionResource(); // \KnetikCloud\Model\DispositionResource | The disposition object
 
@@ -377,7 +377,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The video id
 
 try {
@@ -422,7 +422,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_id = 789; // int | The video id
 $id = 789; // int | The comment id
 
@@ -469,7 +469,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $disposition_id = 789; // int | The disposition id
 
 try {
@@ -514,7 +514,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_id = 789; // int | The video id
 
 try {
@@ -559,7 +559,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_id = 789; // int | The video id
 $id = 789; // int | The relationship id
 
@@ -606,7 +606,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The user id
 $exclude_flagged = true; // bool | Skip videos that have been flagged by the current user
 $size = 25; // int | The number of objects returned per page
@@ -658,7 +658,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The video id
 
 try {
@@ -701,7 +701,7 @@ Returns a page of comments for a video
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_id = 56; // int | The video id
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -748,7 +748,7 @@ Returns a page of dispositions for a video
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_id = 56; // int | The video id
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -795,7 +795,7 @@ Returns a page of video relationships
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_id = 789; // int | The video id
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -842,7 +842,7 @@ Search videos using the documented filters
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $exclude_flagged = true; // bool | Skip videos that have been flagged by the current user
 $filter_videos_by_uploader = 56; // int | Filter for videos by uploader id
 $filter_category = "filter_category_example"; // string | Filter for videos from a specific category by id
@@ -918,7 +918,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_id = 789; // int | The video id
 $id = 56; // int | The user id
 
@@ -965,7 +965,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_id = 789; // int | The video id
 $id = 56; // int | The contributor id
 
@@ -1012,7 +1012,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The video id
 $video_resource = new \KnetikCloud\Model\VideoResource(); // \KnetikCloud\Model\VideoResource | The video object
 
@@ -1059,10 +1059,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_id = 789; // int | The video id
 $id = 789; // int | The comment id
-$content = "content_example"; // string | The comment content
+$content = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | The comment content
 
 try {
     $api_instance->updateVideoComment($video_id, $id, $content);
@@ -1078,7 +1078,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **video_id** | **int**| The video id |
  **id** | **int**| The comment id |
- **content** | **string**| The comment content | [optional]
+ **content** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| The comment content | [optional]
 
 ### Return type
 
@@ -1108,10 +1108,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $video_id = 789; // int | The video id
 $relationship_id = 789; // int | The relationship id
-$details = "details_example"; // string | The video relationship details
+$details = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | The video relationship details
 
 try {
     $api_instance->updateVideoRelationship($video_id, $relationship_id, $details);
@@ -1127,7 +1127,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **video_id** | **int**| The video id |
  **relationship_id** | **int**| The relationship id |
- **details** | **string**| The video relationship details | [optional]
+ **details** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| The video relationship details | [optional]
 
 ### Return type
 
@@ -1154,7 +1154,7 @@ Increment a video's view count
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\MediaVideosApi();
+$api_instance = new KnetikCloud\Api\MediaVideosApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The video id
 
 try {

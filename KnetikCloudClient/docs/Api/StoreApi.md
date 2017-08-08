@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**getStore**](StoreApi.md#getStore) | **GET** /store | Get a listing of store items
 [**getStoreItem**](StoreApi.md#getStoreItem) | **GET** /store/items/{id} | Get a single store item
 [**getStoreItems**](StoreApi.md#getStoreItems) | **GET** /store/items | List and search store items
+[**quickBuy**](StoreApi.md#quickBuy) | **POST** /store/quick-buy | One-step purchase and pay for a single SKU item from a user&#39;s wallet
 [**updateItemTemplate**](StoreApi.md#updateItemTemplate) | **PUT** /store/items/templates/{id} | Update an item template
 [**updateStoreItem**](StoreApi.md#updateStoreItem) | **PUT** /store/items/{id} | Update a store item
 
@@ -33,7 +34,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreApi();
+$api_instance = new KnetikCloud\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 $item_template_resource = new \KnetikCloud\Model\StoreItemTemplateResource(); // \KnetikCloud\Model\StoreItemTemplateResource | The new item template
 
 try {
@@ -81,7 +82,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreApi();
+$api_instance = new KnetikCloud\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 $cascade = false; // bool | Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values.
 $store_item = new \KnetikCloud\Model\StoreItem(); // \KnetikCloud\Model\StoreItem | The store item object
 
@@ -129,7 +130,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreApi();
+$api_instance = new KnetikCloud\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | force deleting the template if it's attached to other objects, cascade = detach
 
@@ -176,7 +177,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreApi();
+$api_instance = new KnetikCloud\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the item
 
 try {
@@ -221,7 +222,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreApi();
+$api_instance = new KnetikCloud\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getBehaviors();
@@ -265,7 +266,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreApi();
+$api_instance = new KnetikCloud\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -311,7 +312,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreApi();
+$api_instance = new KnetikCloud\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -360,7 +361,7 @@ The exact structure of each items may differ to include fields specific to the t
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\StoreApi();
+$api_instance = new KnetikCloud\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 $limit = 56; // int | The amount of items returned
 $page = 56; // int | The page of the request
 $use_catalog = true; // bool | Whether to remove items that are not intended for display or not in date
@@ -411,7 +412,7 @@ Get a single store item
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\StoreApi();
+$api_instance = new KnetikCloud\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the item
 
 try {
@@ -454,7 +455,7 @@ List and search store items
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\StoreApi();
+$api_instance = new KnetikCloud\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 $filter_name_search = "filter_name_search_example"; // string | Filter for items whose name starts with a given string.
 $filter_unique_key = "filter_unique_key_example"; // string | Filter for items whose unique_key is a given string.
 $filter_published = true; // bool | Filter for skus that have been published.
@@ -519,6 +520,54 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
+# **quickBuy**
+> \KnetikCloud\Model\InvoiceResource quickBuy($quick_buy_request)
+
+One-step purchase and pay for a single SKU item from a user's wallet
+
+Used to create and automatically pay an invoice for a single unit of a single SKU from a user's wallet. SKU must be priced in virtual currency and must not be an item that requires shipping. PAYMENTS_ADMIN permission is required if user ID is specified and is not the ID of the currently logged in user. If invoice price does not match expected price, purchase is aborted
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: OAuth2
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
+$quick_buy_request = new \KnetikCloud\Model\QuickBuyRequest(); // \KnetikCloud\Model\QuickBuyRequest | Quick buy details
+
+try {
+    $result = $api_instance->quickBuy($quick_buy_request);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling StoreApi->quickBuy: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **quick_buy_request** | [**\KnetikCloud\Model\QuickBuyRequest**](../Model/QuickBuyRequest.md)| Quick buy details | [optional]
+
+### Return type
+
+[**\KnetikCloud\Model\InvoiceResource**](../Model/InvoiceResource.md)
+
+### Authorization
+
+[OAuth2](../../README.md#OAuth2)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
 # **updateItemTemplate**
 > \KnetikCloud\Model\StoreItemTemplateResource updateItemTemplate($id, $item_template_resource)
 
@@ -532,7 +581,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreApi();
+$api_instance = new KnetikCloud\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $item_template_resource = new \KnetikCloud\Model\StoreItemTemplateResource(); // \KnetikCloud\Model\StoreItemTemplateResource | The item template resource object
 
@@ -580,7 +629,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreApi();
+$api_instance = new KnetikCloud\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the item
 $cascade = false; // bool | Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values.
 $store_item = new \KnetikCloud\Model\StoreItem(); // \KnetikCloud\Model\StoreItem | The store item object

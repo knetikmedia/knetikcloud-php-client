@@ -22,7 +22,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsTransactionsApi();
+$api_instance = new KnetikCloud\Api\PaymentsTransactionsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | id
 
 try {
@@ -68,7 +68,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsTransactionsApi();
+$api_instance = new KnetikCloud\Api\PaymentsTransactionsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_invoice = 56; // int | Filter for transactions from a specific invoice
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -122,7 +122,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsTransactionsApi();
+$api_instance = new KnetikCloud\Api\PaymentsTransactionsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the transaction to refund
 $request = new \KnetikCloud\Model\RefundRequest(); // \KnetikCloud\Model\RefundRequest | Request containing refund details
 

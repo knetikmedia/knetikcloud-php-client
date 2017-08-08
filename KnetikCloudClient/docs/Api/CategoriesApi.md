@@ -30,7 +30,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CategoriesApi();
+$api_instance = new KnetikCloud\Api\CategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $category = new \KnetikCloud\Model\CategoryResource(); // \KnetikCloud\Model\CategoryResource | The category to create
 
 try {
@@ -78,7 +78,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CategoriesApi();
+$api_instance = new KnetikCloud\Api\CategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $template = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The template to create
 
 try {
@@ -124,7 +124,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CategoriesApi();
+$api_instance = new KnetikCloud\Api\CategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the category to be deleted
 
 try {
@@ -171,7 +171,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CategoriesApi();
+$api_instance = new KnetikCloud\Api\CategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | The value needed to delete used templates
 
@@ -215,7 +215,7 @@ List and search categories with optional filters
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\CategoriesApi();
+$api_instance = new KnetikCloud\Api\CategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $filter_search = "filter_search_example"; // string | Filter for categories whose names begin with provided string
 $filter_active = true; // bool | Filter for categories that are specifically active or inactive
 $size = 25; // int | The number of objects returned per page
@@ -266,7 +266,7 @@ Get a single category
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\CategoriesApi();
+$api_instance = new KnetikCloud\Api\CategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the category to retrieve
 
 try {
@@ -312,7 +312,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CategoriesApi();
+$api_instance = new KnetikCloud\Api\CategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -358,7 +358,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CategoriesApi();
+$api_instance = new KnetikCloud\Api\CategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -405,7 +405,7 @@ List all trivia tags in the system
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\CategoriesApi();
+$api_instance = new KnetikCloud\Api\CategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 
@@ -453,7 +453,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CategoriesApi();
+$api_instance = new KnetikCloud\Api\CategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the category
 $category = new \KnetikCloud\Model\CategoryResource(); // \KnetikCloud\Model\CategoryResource | The category to update
 
@@ -501,7 +501,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\CategoriesApi();
+$api_instance = new KnetikCloud\Api\CategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $template = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The updated template information
 

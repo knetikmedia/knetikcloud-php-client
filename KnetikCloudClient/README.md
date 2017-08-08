@@ -10,7 +10,7 @@ For more information, please visit [http://www.knetik.com](http://www.knetik.com
 
 ## Requirements
 
-PHP 5.4.0 and later
+PHP 5.5 and later
 
 ## Installation & Usage
 ### Composer
@@ -38,7 +38,7 @@ Then run `composer install`
 Download the files and include `autoload.php`:
 
 ```php
-    require_once('/path/to/KnetikCloudClient/autoload.php');
+    require_once('/path/to/KnetikCloudClient/vendor/autoload.php');
 ```
 
 ## Tests
@@ -350,7 +350,7 @@ Class | Method | HTTP request | Description
 *InvoicesApi* | [**getInvoiceLogs**](docs/Api/InvoicesApi.md#getinvoicelogs) | **GET** /invoices/{id}/logs | List invoice logs
 *InvoicesApi* | [**getInvoices**](docs/Api/InvoicesApi.md#getinvoices) | **GET** /invoices | Retrieve invoices
 *InvoicesApi* | [**getPaymentStatuses**](docs/Api/InvoicesApi.md#getpaymentstatuses) | **GET** /invoices/payment-statuses | Lists available payment statuses
-*InvoicesApi* | [**payInvoice**](docs/Api/InvoicesApi.md#payinvoice) | **POST** /invoices/{id}/payments | Trigger payment of an invoice
+*InvoicesApi* | [**payInvoice**](docs/Api/InvoicesApi.md#payinvoice) | **POST** /invoices/{id}/payments | Pay an invoice using a saved payment method
 *InvoicesApi* | [**setBundledInvoiceItemFulfillmentStatus**](docs/Api/InvoicesApi.md#setbundledinvoiceitemfulfillmentstatus) | **PUT** /invoices/{id}/items/{bundleSku}/bundled-skus/{sku}/fulfillment-status | Set the fulfillment status of a bundled invoice item
 *InvoicesApi* | [**setExternalRef**](docs/Api/InvoicesApi.md#setexternalref) | **PUT** /invoices/{id}/external-ref | Set the external reference of an invoice
 *InvoicesApi* | [**setInvoiceItemFulfillmentStatus**](docs/Api/InvoicesApi.md#setinvoiceitemfulfillmentstatus) | **PUT** /invoices/{id}/items/{sku}/fulfillment-status | Set the fulfillment status of an invoice item
@@ -417,6 +417,7 @@ Class | Method | HTTP request | Description
 *PaymentsApi* | [**paymentCapture**](docs/Api/PaymentsApi.md#paymentcapture) | **POST** /payment/authorizations/{id}/capture | Capture an existing invoice payment authorization
 *PaymentsApi* | [**updatePaymentMethod**](docs/Api/PaymentsApi.md#updatepaymentmethod) | **PUT** /users/{user_id}/payment-methods/{id} | Update an existing payment method for a user
 *PaymentsAppleApi* | [**verifyAppleReceipt**](docs/Api/PaymentsAppleApi.md#verifyapplereceipt) | **POST** /payment/provider/apple/receipt | Pay invoice with Apple receipt
+*PaymentsFattMerchantApi* | [**createOrUpdateFattMerchantPaymentMethod**](docs/Api/PaymentsFattMerchantApi.md#createorupdatefattmerchantpaymentmethod) | **PUT** /payment/provider/fattmerchant/payment-methods | Create or update a FattMerchant payment method for a user
 *PaymentsGoogleApi* | [**handleGooglePayment**](docs/Api/PaymentsGoogleApi.md#handlegooglepayment) | **POST** /payment/provider/google/payments | Mark an invoice paid with Google
 *PaymentsOptimalApi* | [**silentPostOptimal**](docs/Api/PaymentsOptimalApi.md#silentpostoptimal) | **POST** /payment/provider/optimal/silent | Initiate silent post with Optimal
 *PaymentsPayPalClassicApi* | [**createPayPalBillingAgreementUrl**](docs/Api/PaymentsPayPalClassicApi.md#createpaypalbillingagreementurl) | **POST** /payment/provider/paypal/classic/agreements/start | Create a PayPal Classic billing agreement for the user
@@ -470,6 +471,7 @@ Class | Method | HTTP request | Description
 *StoreApi* | [**getStore**](docs/Api/StoreApi.md#getstore) | **GET** /store | Get a listing of store items
 *StoreApi* | [**getStoreItem**](docs/Api/StoreApi.md#getstoreitem) | **GET** /store/items/{id} | Get a single store item
 *StoreApi* | [**getStoreItems**](docs/Api/StoreApi.md#getstoreitems) | **GET** /store/items | List and search store items
+*StoreApi* | [**quickBuy**](docs/Api/StoreApi.md#quickbuy) | **POST** /store/quick-buy | One-step purchase and pay for a single SKU item from a user&#39;s wallet
 *StoreApi* | [**updateItemTemplate**](docs/Api/StoreApi.md#updateitemtemplate) | **PUT** /store/items/templates/{id} | Update an item template
 *StoreApi* | [**updateStoreItem**](docs/Api/StoreApi.md#updatestoreitem) | **PUT** /store/items/{id} | Update a store item
 *StoreBundlesApi* | [**createBundleItem**](docs/Api/StoreBundlesApi.md#createbundleitem) | **POST** /store/bundles | Create a bundle item
@@ -729,6 +731,8 @@ Class | Method | HTTP request | Description
  - [ExpressionObject_](docs/Model/ExpressionObject_.md)
  - [ExpressionResource](docs/Model/ExpressionResource.md)
  - [FacebookToken](docs/Model/FacebookToken.md)
+ - [FattMerchantPaymentMethod](docs/Model/FattMerchantPaymentMethod.md)
+ - [FattMerchantPaymentMethodRequest](docs/Model/FattMerchantPaymentMethodRequest.md)
  - [FinalizeBillingAgreementRequest](docs/Model/FinalizeBillingAgreementRequest.md)
  - [FinalizePayPalPaymentRequest](docs/Model/FinalizePayPalPaymentRequest.md)
  - [FlagReportResource](docs/Model/FlagReportResource.md)
@@ -745,6 +749,7 @@ Class | Method | HTTP request | Description
  - [IOConfig](docs/Model/IOConfig.md)
  - [ImportJobOutputResource](docs/Model/ImportJobOutputResource.md)
  - [ImportJobResource](docs/Model/ImportJobResource.md)
+ - [IntWrapper](docs/Model/IntWrapper.md)
  - [IntegerOperationResource](docs/Model/IntegerOperationResource.md)
  - [InventorySubscriptionResource](docs/Model/InventorySubscriptionResource.md)
  - [InvoiceCreateRequest](docs/Model/InvoiceCreateRequest.md)
@@ -854,6 +859,7 @@ Class | Method | HTTP request | Description
  - [PasswordResetRequest](docs/Model/PasswordResetRequest.md)
  - [PayBySavedMethodRequest](docs/Model/PayBySavedMethodRequest.md)
  - [PaymentAuthorizationResource](docs/Model/PaymentAuthorizationResource.md)
+ - [PaymentMethodDetails](docs/Model/PaymentMethodDetails.md)
  - [PaymentMethodResource](docs/Model/PaymentMethodResource.md)
  - [PaymentMethodTypeResource](docs/Model/PaymentMethodTypeResource.md)
  - [PermissionResource](docs/Model/PermissionResource.md)
@@ -868,6 +874,7 @@ Class | Method | HTTP request | Description
  - [PropertyFieldResource](docs/Model/PropertyFieldResource.md)
  - [QuestionResource](docs/Model/QuestionResource.md)
  - [QuestionTemplateResource](docs/Model/QuestionTemplateResource.md)
+ - [QuickBuyRequest](docs/Model/QuickBuyRequest.md)
  - [RawEmailResource](docs/Model/RawEmailResource.md)
  - [RawSMSResource](docs/Model/RawSMSResource.md)
  - [ReactivateSubscriptionRequest](docs/Model/ReactivateSubscriptionRequest.md)
@@ -901,6 +908,7 @@ Class | Method | HTTP request | Description
  - [StateTaxResource](docs/Model/StateTaxResource.md)
  - [StoreItemTemplateResource](docs/Model/StoreItemTemplateResource.md)
  - [StringOperationResource](docs/Model/StringOperationResource.md)
+ - [StringWrapper](docs/Model/StringWrapper.md)
  - [StripeCreatePaymentMethod](docs/Model/StripeCreatePaymentMethod.md)
  - [StripePaymentRequest](docs/Model/StripePaymentRequest.md)
  - [SubscriptionCreditResource](docs/Model/SubscriptionCreditResource.md)
@@ -964,6 +972,7 @@ Class | Method | HTTP request | Description
  - [IntegerProperty](docs/Model/IntegerProperty.md)
  - [IntegerPropertyDefinitionResource](docs/Model/IntegerPropertyDefinitionResource.md)
  - [LimitedGettable](docs/Model/LimitedGettable.md)
+ - [LogLevelEvent](docs/Model/LogLevelEvent.md)
  - [LongProperty](docs/Model/LongProperty.md)
  - [LongPropertyDefinitionResource](docs/Model/LongPropertyDefinitionResource.md)
  - [NewCustomerEvent](docs/Model/NewCustomerEvent.md)

@@ -30,7 +30,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreCouponsApi();
+$api_instance = new KnetikCloud\Api\StoreCouponsApi(new \Http\Adapter\Guzzle6\Client());
 $cascade = false; // bool | Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values.
 $coupon_item = new \KnetikCloud\Model\CouponItem(); // \KnetikCloud\Model\CouponItem | The coupon item object
 
@@ -80,7 +80,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreCouponsApi();
+$api_instance = new KnetikCloud\Api\StoreCouponsApi(new \Http\Adapter\Guzzle6\Client());
 $coupon_template_resource = new \KnetikCloud\Model\ItemTemplateResource(); // \KnetikCloud\Model\ItemTemplateResource | The new coupon template
 
 try {
@@ -126,7 +126,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreCouponsApi();
+$api_instance = new KnetikCloud\Api\StoreCouponsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the coupon
 
 try {
@@ -171,7 +171,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreCouponsApi();
+$api_instance = new KnetikCloud\Api\StoreCouponsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | force deleting the template if it's attached to other objects, cascade = detach
 
@@ -218,7 +218,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreCouponsApi();
+$api_instance = new KnetikCloud\Api\StoreCouponsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the coupon
 
 try {
@@ -266,7 +266,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreCouponsApi();
+$api_instance = new KnetikCloud\Api\StoreCouponsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -312,7 +312,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreCouponsApi();
+$api_instance = new KnetikCloud\Api\StoreCouponsApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -362,7 +362,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreCouponsApi();
+$api_instance = new KnetikCloud\Api\StoreCouponsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the coupon
 $cascade = false; // bool | Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values.
 $coupon_item = new \KnetikCloud\Model\CouponItem(); // \KnetikCloud\Model\CouponItem | The coupon item object
@@ -412,7 +412,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreCouponsApi();
+$api_instance = new KnetikCloud\Api\StoreCouponsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $coupon_template_resource = new \KnetikCloud\Model\ItemTemplateResource(); // \KnetikCloud\Model\ItemTemplateResource | The coupon template resource object
 

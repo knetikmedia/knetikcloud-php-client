@@ -22,7 +22,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AmazonWebServicesS3Api();
+$api_instance = new KnetikCloud\Api\AmazonWebServicesS3Api(new \Http\Adapter\Guzzle6\Client());
 $filename = "filename_example"; // string | The file name
 $content_type = "content_type_example"; // string | The content type
 

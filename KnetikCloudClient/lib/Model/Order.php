@@ -55,6 +55,7 @@ class Order implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'ascending' => 'bool',
+        'descending' => 'bool',
         'direction' => 'string',
         'ignore_case' => 'bool',
         'null_handling' => 'string',
@@ -67,6 +68,7 @@ class Order implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'ascending' => null,
+        'descending' => null,
         'direction' => null,
         'ignore_case' => null,
         'null_handling' => null,
@@ -89,6 +91,7 @@ class Order implements ArrayAccess
      */
     protected static $attributeMap = [
         'ascending' => 'ascending',
+        'descending' => 'descending',
         'direction' => 'direction',
         'ignore_case' => 'ignore_case',
         'null_handling' => 'null_handling',
@@ -102,6 +105,7 @@ class Order implements ArrayAccess
      */
     protected static $setters = [
         'ascending' => 'setAscending',
+        'descending' => 'setDescending',
         'direction' => 'setDirection',
         'ignore_case' => 'setIgnoreCase',
         'null_handling' => 'setNullHandling',
@@ -115,6 +119,7 @@ class Order implements ArrayAccess
      */
     protected static $getters = [
         'ascending' => 'getAscending',
+        'descending' => 'getDescending',
         'direction' => 'getDirection',
         'ignore_case' => 'getIgnoreCase',
         'null_handling' => 'getNullHandling',
@@ -183,6 +188,7 @@ class Order implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['ascending'] = isset($data['ascending']) ? $data['ascending'] : null;
+        $this->container['descending'] = isset($data['descending']) ? $data['descending'] : null;
         $this->container['direction'] = isset($data['direction']) ? $data['direction'] : null;
         $this->container['ignore_case'] = isset($data['ignore_case']) ? $data['ignore_case'] : null;
         $this->container['null_handling'] = isset($data['null_handling']) ? $data['null_handling'] : null;
@@ -255,6 +261,27 @@ class Order implements ArrayAccess
     public function setAscending($ascending)
     {
         $this->container['ascending'] = $ascending;
+
+        return $this;
+    }
+
+    /**
+     * Gets descending
+     * @return bool
+     */
+    public function getDescending()
+    {
+        return $this->container['descending'];
+    }
+
+    /**
+     * Sets descending
+     * @param bool $descending
+     * @return $this
+     */
+    public function setDescending($descending)
+    {
+        $this->container['descending'] = $descending;
 
         return $this;
     }

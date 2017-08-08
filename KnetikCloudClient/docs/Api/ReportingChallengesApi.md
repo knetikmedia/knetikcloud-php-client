@@ -23,7 +23,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ReportingChallengesApi();
+$api_instance = new KnetikCloud\Api\ReportingChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $filter_event = 789; // int | A sepecific challenge event id
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned
@@ -77,7 +77,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ReportingChallengesApi();
+$api_instance = new KnetikCloud\Api\ReportingChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $filter_event = 789; // int | A sepecific challenge event id
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned

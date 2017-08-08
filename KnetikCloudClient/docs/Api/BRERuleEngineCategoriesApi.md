@@ -29,7 +29,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $template = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The category template to create
 
 try {
@@ -77,7 +77,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | The value needed to delete used templates
 
@@ -124,7 +124,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 
@@ -172,7 +172,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $name = "name_example"; // string | The category name
 
 try {
@@ -218,7 +218,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -264,7 +264,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -314,7 +314,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $name = "name_example"; // string | The category name
 $category = new \KnetikCloud\Model\BreCategoryResource(); // \KnetikCloud\Model\BreCategoryResource | The updated BRE category information
 
@@ -362,7 +362,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi();
+$api_instance = new KnetikCloud\Api\BRERuleEngineCategoriesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $template = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The updated category template definition
 

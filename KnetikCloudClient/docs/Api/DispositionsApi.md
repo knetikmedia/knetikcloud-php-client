@@ -24,7 +24,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\DispositionsApi();
+$api_instance = new KnetikCloud\Api\DispositionsApi(new \Http\Adapter\Guzzle6\Client());
 $disposition = new \KnetikCloud\Model\DispositionResource(); // \KnetikCloud\Model\DispositionResource | The new disposition record
 
 try {
@@ -70,7 +70,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\DispositionsApi();
+$api_instance = new KnetikCloud\Api\DispositionsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The id of the disposition record
 
 try {
@@ -112,7 +112,7 @@ Returns a disposition
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\DispositionsApi();
+$api_instance = new KnetikCloud\Api\DispositionsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The id of the disposition record
 
 try {
@@ -155,7 +155,7 @@ Returns a list of disposition counts
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\DispositionsApi();
+$api_instance = new KnetikCloud\Api\DispositionsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_context = "filter_context_example"; // string | Filter for dispositions within a context type (games, articles, polls, etc). Optionally with a specific id like filter_context=video:47
 $filter_owner = "filter_owner_example"; // string | Filter for dispositions from a specific user by id or 'me'
 
@@ -200,7 +200,7 @@ Returns a page of dispositions
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\DispositionsApi();
+$api_instance = new KnetikCloud\Api\DispositionsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_context = "filter_context_example"; // string | Filter for dispositions within a context type (games, articles, polls, etc). Optionally with a specific id like filter_context=video:47
 $filter_owner = "filter_owner_example"; // string | Filter for dispositions from a specific user by id or 'me'
 $size = 25; // int | The number of objects returned per page

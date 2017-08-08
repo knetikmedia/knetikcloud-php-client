@@ -31,7 +31,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentArticlesApi();
+$api_instance = new KnetikCloud\Api\ContentArticlesApi(new \Http\Adapter\Guzzle6\Client());
 $article_resource = new \KnetikCloud\Model\ArticleResource(); // \KnetikCloud\Model\ArticleResource | The new article
 
 try {
@@ -79,7 +79,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentArticlesApi();
+$api_instance = new KnetikCloud\Api\ContentArticlesApi(new \Http\Adapter\Guzzle6\Client());
 $article_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The article template resource object
 
 try {
@@ -125,7 +125,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentArticlesApi();
+$api_instance = new KnetikCloud\Api\ContentArticlesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The article id
 
 try {
@@ -172,7 +172,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentArticlesApi();
+$api_instance = new KnetikCloud\Api\ContentArticlesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | The value needed to delete used templates
 
@@ -216,7 +216,7 @@ Get a single article
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\ContentArticlesApi();
+$api_instance = new KnetikCloud\Api\ContentArticlesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The article id
 
 try {
@@ -262,7 +262,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentArticlesApi();
+$api_instance = new KnetikCloud\Api\ContentArticlesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -308,7 +308,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentArticlesApi();
+$api_instance = new KnetikCloud\Api\ContentArticlesApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -357,7 +357,7 @@ Get a list of articles with optional filtering. Assets will not be filled in on 
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\ContentArticlesApi();
+$api_instance = new KnetikCloud\Api\ContentArticlesApi(new \Http\Adapter\Guzzle6\Client());
 $filter_category = "filter_category_example"; // string | Filter for articles from a specific category by id
 $filter_tagset = "filter_tagset_example"; // string | Filter for articles with at least one of a specified set of tags (separated by comma)
 $filter_tag_intersection = "filter_tag_intersection_example"; // string | Filter for articles with all of a specified set of tags (separated by comma)
@@ -417,7 +417,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentArticlesApi();
+$api_instance = new KnetikCloud\Api\ContentArticlesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The article id
 $article_resource = new \KnetikCloud\Model\ArticleResource(); // \KnetikCloud\Model\ArticleResource | The article object
 
@@ -465,7 +465,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\ContentArticlesApi();
+$api_instance = new KnetikCloud\Api\ContentArticlesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $article_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The article template resource object
 

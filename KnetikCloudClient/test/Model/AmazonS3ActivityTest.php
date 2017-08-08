@@ -85,6 +85,13 @@ class AmazonS3ActivityTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "cdn_url"
+     */
+    public function testPropertyCdnUrl()
+    {
+    }
+
+    /**
      * Test attribute "created_date"
      */
     public function testPropertyCreatedDate()

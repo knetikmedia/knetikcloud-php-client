@@ -24,7 +24,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersAddressesApi();
+$api_instance = new KnetikCloud\Api\UsersAddressesApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user
 $saved_address_resource = new \KnetikCloud\Model\SavedAddressResource(); // \KnetikCloud\Model\SavedAddressResource | The new address
 
@@ -72,7 +72,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersAddressesApi();
+$api_instance = new KnetikCloud\Api\UsersAddressesApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user
 $id = 56; // int | The id of the address
 
@@ -119,7 +119,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersAddressesApi();
+$api_instance = new KnetikCloud\Api\UsersAddressesApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user
 $id = 56; // int | The id of the address
 
@@ -167,7 +167,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersAddressesApi();
+$api_instance = new KnetikCloud\Api\UsersAddressesApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -219,7 +219,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersAddressesApi();
+$api_instance = new KnetikCloud\Api\UsersAddressesApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user
 $id = 56; // int | The id of the address
 $saved_address_resource = new \KnetikCloud\Model\SavedAddressResource(); // \KnetikCloud\Model\SavedAddressResource | The saved address resource object

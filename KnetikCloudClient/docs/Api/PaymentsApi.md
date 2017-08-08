@@ -26,7 +26,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsApi();
+$api_instance = new KnetikCloud\Api\PaymentsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | ID of the user for whom the payment method is being created
 $payment_method = new \KnetikCloud\Model\PaymentMethodResource(); // \KnetikCloud\Model\PaymentMethodResource | Payment method being created
 
@@ -74,7 +74,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsApi();
+$api_instance = new KnetikCloud\Api\PaymentsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | ID of the user for whom the payment method is being updated
 $id = 56; // int | ID of the payment method being deleted
 
@@ -121,7 +121,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsApi();
+$api_instance = new KnetikCloud\Api\PaymentsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | ID of the user for whom the payment method is being retrieved
 $id = 56; // int | ID of the payment method being retrieved
 
@@ -169,7 +169,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsApi();
+$api_instance = new KnetikCloud\Api\PaymentsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | ID of the user for whom the payment methods are being retrieved
 $filter_name = "filter_name_example"; // string | Filter for payment methods whose name starts with a given string
 $filter_payment_type = "filter_payment_type_example"; // string | Filter for payment methods with a specific payment type
@@ -229,7 +229,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsApi();
+$api_instance = new KnetikCloud\Api\PaymentsApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\PaymentAuthorizationResource(); // \KnetikCloud\Model\PaymentAuthorizationResource | Payment authorization request
 
 try {
@@ -275,7 +275,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsApi();
+$api_instance = new KnetikCloud\Api\PaymentsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | ID of the payment authorization to capture
 
 try {
@@ -320,7 +320,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\PaymentsApi();
+$api_instance = new KnetikCloud\Api\PaymentsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | ID of the user for whom the payment method is being updated
 $id = 56; // int | ID of the payment method being updated
 $payment_method = new \KnetikCloud\Model\PaymentMethodResource(); // \KnetikCloud\Model\PaymentMethodResource | The updated payment method data

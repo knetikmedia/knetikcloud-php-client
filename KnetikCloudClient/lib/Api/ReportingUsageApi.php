@@ -28,10 +28,15 @@
 
 namespace KnetikCloud\Api;
 
-use \KnetikCloud\ApiClient;
-use \KnetikCloud\ApiException;
-use \KnetikCloud\Configuration;
-use \KnetikCloud\ObjectSerializer;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\MultipartStream;
+use GuzzleHttp\Psr7\Request;
+use KnetikCloud\ApiException;
+use KnetikCloud\Configuration;
+use KnetikCloud\HeaderSelector;
+use KnetikCloud\ObjectSerializer;
 
 /**
  * ReportingUsageApi Class Doc Comment
@@ -44,47 +49,36 @@ use \KnetikCloud\ObjectSerializer;
 class ReportingUsageApi
 {
     /**
-     * API Client
-     *
-     * @var \KnetikCloud\ApiClient instance of the ApiClient
+     * @var ClientInterface
      */
-    protected $apiClient;
+    protected $client;
 
     /**
-     * Constructor
-     *
-     * @param \KnetikCloud\ApiClient|null $apiClient The api client to use
+     * @var Configuration
      */
-    public function __construct(\KnetikCloud\ApiClient $apiClient = null)
-    {
-        if ($apiClient === null) {
-            $apiClient = new ApiClient();
-        }
+    protected $config;
 
-        $this->apiClient = $apiClient;
+    /**
+     * @param ClientInterface $client
+     * @param Configuration $config
+     * @param HeaderSelector $selector
+     */
+    public function __construct(
+        ClientInterface $client = null,
+        Configuration $config = null,
+        HeaderSelector $selector = null
+    ) {
+        $this->client = $client ?: new Client();
+        $this->config = $config ?: new Configuration();
+        $this->headerSelector = $selector ?: new HeaderSelector();
     }
 
     /**
-     * Get API client
-     *
-     * @return \KnetikCloud\ApiClient get the API client
+     * @return Configuration
      */
-    public function getApiClient()
+    public function getConfig()
     {
-        return $this->apiClient;
-    }
-
-    /**
-     * Set the API client
-     *
-     * @param \KnetikCloud\ApiClient $apiClient set the API client
-     *
-     * @return ReportingUsageApi
-     */
-    public function setApiClient(\KnetikCloud\ApiClient $apiClient)
-    {
-        $this->apiClient = $apiClient;
-        return $this;
+        return $this->config;
     }
 
     /**
@@ -100,6 +94,7 @@ class ReportingUsageApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceUsageInfo_
      */
     public function getUsageByDay($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
@@ -121,9 +116,152 @@ class ReportingUsageApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceUsageInfo_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getUsageByDayWithHttpInfo($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceUsageInfo_';
+        $request = $this->getUsageByDayRequest($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUsageInfo_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getUsageByDayAsync
+     *
+     * Returns aggregated endpoint usage information by day
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @param bool $combine_endpoints Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
+     * @param string $method Filter for a certain endpoint method.  Must include url as well to work (optional)
+     * @param string $url Filter for a certain endpoint.  Must include method as well to work (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsageByDayAsync($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
+    {
+        return $this->getUsageByDayAsyncWithHttpInfo($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getUsageByDayAsyncWithHttpInfo
+     *
+     * Returns aggregated endpoint usage information by day
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @param bool $combine_endpoints Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
+     * @param string $method Filter for a certain endpoint method.  Must include url as well to work (optional)
+     * @param string $url Filter for a certain endpoint.  Must include method as well to work (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsageByDayAsyncWithHttpInfo($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceUsageInfo_';
+        $request = $this->getUsageByDayRequest($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getUsageByDay'
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @param bool $combine_endpoints Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
+     * @param string $method Filter for a certain endpoint method.  Must include url as well to work (optional)
+     * @param string $url Filter for a certain endpoint.  Must include method as well to work (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getUsageByDayRequest($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'start_date' is set
         if ($start_date === null) {
@@ -133,84 +271,104 @@ class ReportingUsageApi
         if ($end_date === null) {
             throw new \InvalidArgumentException('Missing the required parameter $end_date when calling getUsageByDay');
         }
-        // parse inputs
-        $resourcePath = "/reporting/usage/day";
-        $httpBody = '';
+
+        $resourcePath = '/reporting/usage/day';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($start_date !== null) {
-            $queryParams['start_date'] = $this->apiClient->getSerializer()->toQueryValue($start_date);
+            $queryParams['start_date'] = ObjectSerializer::toQueryValue($start_date);
         }
         // query params
         if ($end_date !== null) {
-            $queryParams['end_date'] = $this->apiClient->getSerializer()->toQueryValue($end_date);
+            $queryParams['end_date'] = ObjectSerializer::toQueryValue($end_date);
         }
         // query params
         if ($combine_endpoints !== null) {
-            $queryParams['combine_endpoints'] = $this->apiClient->getSerializer()->toQueryValue($combine_endpoints);
+            $queryParams['combine_endpoints'] = ObjectSerializer::toQueryValue($combine_endpoints);
         }
         // query params
         if ($method !== null) {
-            $queryParams['method'] = $this->apiClient->getSerializer()->toQueryValue($method);
+            $queryParams['method'] = ObjectSerializer::toQueryValue($method);
         }
         // query params
         if ($url !== null) {
-            $queryParams['url'] = $this->apiClient->getSerializer()->toQueryValue($url);
+            $queryParams['url'] = ObjectSerializer::toQueryValue($url);
         }
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceUsageInfo_',
-                '/reporting/usage/day'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceUsageInfo_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUsageInfo_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -226,6 +384,7 @@ class ReportingUsageApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceUsageInfo_
      */
     public function getUsageByHour($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
@@ -247,9 +406,152 @@ class ReportingUsageApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceUsageInfo_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getUsageByHourWithHttpInfo($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceUsageInfo_';
+        $request = $this->getUsageByHourRequest($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUsageInfo_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getUsageByHourAsync
+     *
+     * Returns aggregated endpoint usage information by hour
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @param bool $combine_endpoints Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
+     * @param string $method Filter for a certain endpoint method.  Must include url as well to work (optional)
+     * @param string $url Filter for a certain endpoint.  Must include method as well to work (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsageByHourAsync($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
+    {
+        return $this->getUsageByHourAsyncWithHttpInfo($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getUsageByHourAsyncWithHttpInfo
+     *
+     * Returns aggregated endpoint usage information by hour
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @param bool $combine_endpoints Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
+     * @param string $method Filter for a certain endpoint method.  Must include url as well to work (optional)
+     * @param string $url Filter for a certain endpoint.  Must include method as well to work (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsageByHourAsyncWithHttpInfo($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceUsageInfo_';
+        $request = $this->getUsageByHourRequest($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getUsageByHour'
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @param bool $combine_endpoints Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
+     * @param string $method Filter for a certain endpoint method.  Must include url as well to work (optional)
+     * @param string $url Filter for a certain endpoint.  Must include method as well to work (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getUsageByHourRequest($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'start_date' is set
         if ($start_date === null) {
@@ -259,84 +561,104 @@ class ReportingUsageApi
         if ($end_date === null) {
             throw new \InvalidArgumentException('Missing the required parameter $end_date when calling getUsageByHour');
         }
-        // parse inputs
-        $resourcePath = "/reporting/usage/hour";
-        $httpBody = '';
+
+        $resourcePath = '/reporting/usage/hour';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($start_date !== null) {
-            $queryParams['start_date'] = $this->apiClient->getSerializer()->toQueryValue($start_date);
+            $queryParams['start_date'] = ObjectSerializer::toQueryValue($start_date);
         }
         // query params
         if ($end_date !== null) {
-            $queryParams['end_date'] = $this->apiClient->getSerializer()->toQueryValue($end_date);
+            $queryParams['end_date'] = ObjectSerializer::toQueryValue($end_date);
         }
         // query params
         if ($combine_endpoints !== null) {
-            $queryParams['combine_endpoints'] = $this->apiClient->getSerializer()->toQueryValue($combine_endpoints);
+            $queryParams['combine_endpoints'] = ObjectSerializer::toQueryValue($combine_endpoints);
         }
         // query params
         if ($method !== null) {
-            $queryParams['method'] = $this->apiClient->getSerializer()->toQueryValue($method);
+            $queryParams['method'] = ObjectSerializer::toQueryValue($method);
         }
         // query params
         if ($url !== null) {
-            $queryParams['url'] = $this->apiClient->getSerializer()->toQueryValue($url);
+            $queryParams['url'] = ObjectSerializer::toQueryValue($url);
         }
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceUsageInfo_',
-                '/reporting/usage/hour'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceUsageInfo_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUsageInfo_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -352,6 +674,7 @@ class ReportingUsageApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceUsageInfo_
      */
     public function getUsageByMinute($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
@@ -373,9 +696,152 @@ class ReportingUsageApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceUsageInfo_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getUsageByMinuteWithHttpInfo($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceUsageInfo_';
+        $request = $this->getUsageByMinuteRequest($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUsageInfo_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getUsageByMinuteAsync
+     *
+     * Returns aggregated endpoint usage information by minute
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @param bool $combine_endpoints Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
+     * @param string $method Filter for a certain endpoint method.  Must include url as well to work (optional)
+     * @param string $url Filter for a certain endpoint.  Must include method as well to work (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsageByMinuteAsync($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
+    {
+        return $this->getUsageByMinuteAsyncWithHttpInfo($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getUsageByMinuteAsyncWithHttpInfo
+     *
+     * Returns aggregated endpoint usage information by minute
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @param bool $combine_endpoints Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
+     * @param string $method Filter for a certain endpoint method.  Must include url as well to work (optional)
+     * @param string $url Filter for a certain endpoint.  Must include method as well to work (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsageByMinuteAsyncWithHttpInfo($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceUsageInfo_';
+        $request = $this->getUsageByMinuteRequest($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getUsageByMinute'
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @param bool $combine_endpoints Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
+     * @param string $method Filter for a certain endpoint method.  Must include url as well to work (optional)
+     * @param string $url Filter for a certain endpoint.  Must include method as well to work (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getUsageByMinuteRequest($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'start_date' is set
         if ($start_date === null) {
@@ -385,84 +851,104 @@ class ReportingUsageApi
         if ($end_date === null) {
             throw new \InvalidArgumentException('Missing the required parameter $end_date when calling getUsageByMinute');
         }
-        // parse inputs
-        $resourcePath = "/reporting/usage/minute";
-        $httpBody = '';
+
+        $resourcePath = '/reporting/usage/minute';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($start_date !== null) {
-            $queryParams['start_date'] = $this->apiClient->getSerializer()->toQueryValue($start_date);
+            $queryParams['start_date'] = ObjectSerializer::toQueryValue($start_date);
         }
         // query params
         if ($end_date !== null) {
-            $queryParams['end_date'] = $this->apiClient->getSerializer()->toQueryValue($end_date);
+            $queryParams['end_date'] = ObjectSerializer::toQueryValue($end_date);
         }
         // query params
         if ($combine_endpoints !== null) {
-            $queryParams['combine_endpoints'] = $this->apiClient->getSerializer()->toQueryValue($combine_endpoints);
+            $queryParams['combine_endpoints'] = ObjectSerializer::toQueryValue($combine_endpoints);
         }
         // query params
         if ($method !== null) {
-            $queryParams['method'] = $this->apiClient->getSerializer()->toQueryValue($method);
+            $queryParams['method'] = ObjectSerializer::toQueryValue($method);
         }
         // query params
         if ($url !== null) {
-            $queryParams['url'] = $this->apiClient->getSerializer()->toQueryValue($url);
+            $queryParams['url'] = ObjectSerializer::toQueryValue($url);
         }
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceUsageInfo_',
-                '/reporting/usage/minute'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceUsageInfo_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUsageInfo_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -478,6 +964,7 @@ class ReportingUsageApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceUsageInfo_
      */
     public function getUsageByMonth($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
@@ -499,9 +986,152 @@ class ReportingUsageApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceUsageInfo_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getUsageByMonthWithHttpInfo($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceUsageInfo_';
+        $request = $this->getUsageByMonthRequest($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUsageInfo_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getUsageByMonthAsync
+     *
+     * Returns aggregated endpoint usage information by month
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @param bool $combine_endpoints Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
+     * @param string $method Filter for a certain endpoint method.  Must include url as well to work (optional)
+     * @param string $url Filter for a certain endpoint.  Must include method as well to work (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsageByMonthAsync($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
+    {
+        return $this->getUsageByMonthAsyncWithHttpInfo($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getUsageByMonthAsyncWithHttpInfo
+     *
+     * Returns aggregated endpoint usage information by month
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @param bool $combine_endpoints Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
+     * @param string $method Filter for a certain endpoint method.  Must include url as well to work (optional)
+     * @param string $url Filter for a certain endpoint.  Must include method as well to work (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsageByMonthAsyncWithHttpInfo($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceUsageInfo_';
+        $request = $this->getUsageByMonthRequest($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getUsageByMonth'
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @param bool $combine_endpoints Whether to combine counts from different endpoint. Removes the url and method from the result object (optional, default to false)
+     * @param string $method Filter for a certain endpoint method.  Must include url as well to work (optional)
+     * @param string $url Filter for a certain endpoint.  Must include method as well to work (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getUsageByMonthRequest($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'start_date' is set
         if ($start_date === null) {
@@ -511,84 +1141,104 @@ class ReportingUsageApi
         if ($end_date === null) {
             throw new \InvalidArgumentException('Missing the required parameter $end_date when calling getUsageByMonth');
         }
-        // parse inputs
-        $resourcePath = "/reporting/usage/month";
-        $httpBody = '';
+
+        $resourcePath = '/reporting/usage/month';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($start_date !== null) {
-            $queryParams['start_date'] = $this->apiClient->getSerializer()->toQueryValue($start_date);
+            $queryParams['start_date'] = ObjectSerializer::toQueryValue($start_date);
         }
         // query params
         if ($end_date !== null) {
-            $queryParams['end_date'] = $this->apiClient->getSerializer()->toQueryValue($end_date);
+            $queryParams['end_date'] = ObjectSerializer::toQueryValue($end_date);
         }
         // query params
         if ($combine_endpoints !== null) {
-            $queryParams['combine_endpoints'] = $this->apiClient->getSerializer()->toQueryValue($combine_endpoints);
+            $queryParams['combine_endpoints'] = ObjectSerializer::toQueryValue($combine_endpoints);
         }
         // query params
         if ($method !== null) {
-            $queryParams['method'] = $this->apiClient->getSerializer()->toQueryValue($method);
+            $queryParams['method'] = ObjectSerializer::toQueryValue($method);
         }
         // query params
         if ($url !== null) {
-            $queryParams['url'] = $this->apiClient->getSerializer()->toQueryValue($url);
+            $queryParams['url'] = ObjectSerializer::toQueryValue($url);
         }
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceUsageInfo_',
-                '/reporting/usage/month'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceUsageInfo_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUsageInfo_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -604,6 +1254,7 @@ class ReportingUsageApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceUsageInfo_
      */
     public function getUsageByYear($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
@@ -625,9 +1276,152 @@ class ReportingUsageApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceUsageInfo_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getUsageByYearWithHttpInfo($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceUsageInfo_';
+        $request = $this->getUsageByYearRequest($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUsageInfo_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getUsageByYearAsync
+     *
+     * Returns aggregated endpoint usage information by year
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @param bool $combine_endpoints Whether to combine counts from different endpoints. Removes the url and method from the result object (optional, default to false)
+     * @param string $method Filter for a certain endpoint method.  Must include url as well to work (optional)
+     * @param string $url Filter for a certain endpoint.  Must include method as well to work (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsageByYearAsync($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
+    {
+        return $this->getUsageByYearAsyncWithHttpInfo($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getUsageByYearAsyncWithHttpInfo
+     *
+     * Returns aggregated endpoint usage information by year
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @param bool $combine_endpoints Whether to combine counts from different endpoints. Removes the url and method from the result object (optional, default to false)
+     * @param string $method Filter for a certain endpoint method.  Must include url as well to work (optional)
+     * @param string $url Filter for a certain endpoint.  Must include method as well to work (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsageByYearAsyncWithHttpInfo($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceUsageInfo_';
+        $request = $this->getUsageByYearRequest($start_date, $end_date, $combine_endpoints, $method, $url, $size, $page);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getUsageByYear'
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @param bool $combine_endpoints Whether to combine counts from different endpoints. Removes the url and method from the result object (optional, default to false)
+     * @param string $method Filter for a certain endpoint method.  Must include url as well to work (optional)
+     * @param string $url Filter for a certain endpoint.  Must include method as well to work (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getUsageByYearRequest($start_date, $end_date, $combine_endpoints = 'false', $method = null, $url = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'start_date' is set
         if ($start_date === null) {
@@ -637,84 +1431,104 @@ class ReportingUsageApi
         if ($end_date === null) {
             throw new \InvalidArgumentException('Missing the required parameter $end_date when calling getUsageByYear');
         }
-        // parse inputs
-        $resourcePath = "/reporting/usage/year";
-        $httpBody = '';
+
+        $resourcePath = '/reporting/usage/year';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($start_date !== null) {
-            $queryParams['start_date'] = $this->apiClient->getSerializer()->toQueryValue($start_date);
+            $queryParams['start_date'] = ObjectSerializer::toQueryValue($start_date);
         }
         // query params
         if ($end_date !== null) {
-            $queryParams['end_date'] = $this->apiClient->getSerializer()->toQueryValue($end_date);
+            $queryParams['end_date'] = ObjectSerializer::toQueryValue($end_date);
         }
         // query params
         if ($combine_endpoints !== null) {
-            $queryParams['combine_endpoints'] = $this->apiClient->getSerializer()->toQueryValue($combine_endpoints);
+            $queryParams['combine_endpoints'] = ObjectSerializer::toQueryValue($combine_endpoints);
         }
         // query params
         if ($method !== null) {
-            $queryParams['method'] = $this->apiClient->getSerializer()->toQueryValue($method);
+            $queryParams['method'] = ObjectSerializer::toQueryValue($method);
         }
         // query params
         if ($url !== null) {
-            $queryParams['url'] = $this->apiClient->getSerializer()->toQueryValue($url);
+            $queryParams['url'] = ObjectSerializer::toQueryValue($url);
         }
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceUsageInfo_',
-                '/reporting/usage/year'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceUsageInfo_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceUsageInfo_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -725,6 +1539,7 @@ class ReportingUsageApi
      * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
      * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return string[]
      */
     public function getUsageEndpoints($start_date, $end_date)
@@ -741,9 +1556,137 @@ class ReportingUsageApi
      * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
      * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of string[], HTTP status code, HTTP response headers (array of strings)
      */
     public function getUsageEndpointsWithHttpInfo($start_date, $end_date)
+    {
+        $returnType = 'string[]';
+        $request = $this->getUsageEndpointsRequest($start_date, $end_date);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'string[]', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getUsageEndpointsAsync
+     *
+     * Returns list of endpoints called (method and url)
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsageEndpointsAsync($start_date, $end_date)
+    {
+        return $this->getUsageEndpointsAsyncWithHttpInfo($start_date, $end_date)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getUsageEndpointsAsyncWithHttpInfo
+     *
+     * Returns list of endpoints called (method and url)
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUsageEndpointsAsyncWithHttpInfo($start_date, $end_date)
+    {
+        $returnType = 'string[]';
+        $request = $this->getUsageEndpointsRequest($start_date, $end_date);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getUsageEndpoints'
+     *
+     * @param int $start_date The beginning of the range being requested, unix timestamp in seconds (required)
+     * @param int $end_date The ending of the range being requested, unix timestamp in seconds (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getUsageEndpointsRequest($start_date, $end_date)
     {
         // verify the required parameter 'start_date' is set
         if ($start_date === null) {
@@ -753,63 +1696,84 @@ class ReportingUsageApi
         if ($end_date === null) {
             throw new \InvalidArgumentException('Missing the required parameter $end_date when calling getUsageEndpoints');
         }
-        // parse inputs
-        $resourcePath = "/reporting/usage/endpoints";
-        $httpBody = '';
+
+        $resourcePath = '/reporting/usage/endpoints';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($start_date !== null) {
-            $queryParams['start_date'] = $this->apiClient->getSerializer()->toQueryValue($start_date);
+            $queryParams['start_date'] = ObjectSerializer::toQueryValue($start_date);
         }
         // query params
         if ($end_date !== null) {
-            $queryParams['end_date'] = $this->apiClient->getSerializer()->toQueryValue($end_date);
+            $queryParams['end_date'] = ObjectSerializer::toQueryValue($end_date);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                'string[]',
-                '/reporting/usage/endpoints'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, 'string[]', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'string[]', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
+
 }

@@ -28,10 +28,15 @@
 
 namespace KnetikCloud\Api;
 
-use \KnetikCloud\ApiClient;
-use \KnetikCloud\ApiException;
-use \KnetikCloud\Configuration;
-use \KnetikCloud\ObjectSerializer;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\MultipartStream;
+use GuzzleHttp\Psr7\Request;
+use KnetikCloud\ApiException;
+use KnetikCloud\Configuration;
+use KnetikCloud\HeaderSelector;
+use KnetikCloud\ObjectSerializer;
 
 /**
  * ReportingRevenueApi Class Doc Comment
@@ -44,47 +49,36 @@ use \KnetikCloud\ObjectSerializer;
 class ReportingRevenueApi
 {
     /**
-     * API Client
-     *
-     * @var \KnetikCloud\ApiClient instance of the ApiClient
+     * @var ClientInterface
      */
-    protected $apiClient;
+    protected $client;
 
     /**
-     * Constructor
-     *
-     * @param \KnetikCloud\ApiClient|null $apiClient The api client to use
+     * @var Configuration
      */
-    public function __construct(\KnetikCloud\ApiClient $apiClient = null)
-    {
-        if ($apiClient === null) {
-            $apiClient = new ApiClient();
-        }
+    protected $config;
 
-        $this->apiClient = $apiClient;
+    /**
+     * @param ClientInterface $client
+     * @param Configuration $config
+     * @param HeaderSelector $selector
+     */
+    public function __construct(
+        ClientInterface $client = null,
+        Configuration $config = null,
+        HeaderSelector $selector = null
+    ) {
+        $this->client = $client ?: new Client();
+        $this->config = $config ?: new Configuration();
+        $this->headerSelector = $selector ?: new HeaderSelector();
     }
 
     /**
-     * Get API client
-     *
-     * @return \KnetikCloud\ApiClient get the API client
+     * @return Configuration
      */
-    public function getApiClient()
+    public function getConfig()
     {
-        return $this->apiClient;
-    }
-
-    /**
-     * Set the API client
-     *
-     * @param \KnetikCloud\ApiClient $apiClient set the API client
-     *
-     * @return ReportingRevenueApi
-     */
-    public function setApiClient(\KnetikCloud\ApiClient $apiClient)
-    {
-        $this->apiClient = $apiClient;
-        return $this;
+        return $this->config;
     }
 
     /**
@@ -96,6 +90,7 @@ class ReportingRevenueApi
      * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\RevenueReportResource
      */
     public function getItemRevenue($currency_code, $start_date = null, $end_date = null)
@@ -113,80 +108,227 @@ class ReportingRevenueApi
      * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\RevenueReportResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function getItemRevenueWithHttpInfo($currency_code, $start_date = null, $end_date = null)
+    {
+        $returnType = '\KnetikCloud\Model\RevenueReportResource';
+        $request = $this->getItemRevenueRequest($currency_code, $start_date, $end_date);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\RevenueReportResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getItemRevenueAsync
+     *
+     * Get item revenue info
+     *
+     * @param string $currency_code The code for a currency to get sales data for (required)
+     * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
+     * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getItemRevenueAsync($currency_code, $start_date = null, $end_date = null)
+    {
+        return $this->getItemRevenueAsyncWithHttpInfo($currency_code, $start_date, $end_date)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getItemRevenueAsyncWithHttpInfo
+     *
+     * Get item revenue info
+     *
+     * @param string $currency_code The code for a currency to get sales data for (required)
+     * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
+     * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getItemRevenueAsyncWithHttpInfo($currency_code, $start_date = null, $end_date = null)
+    {
+        $returnType = '\KnetikCloud\Model\RevenueReportResource';
+        $request = $this->getItemRevenueRequest($currency_code, $start_date, $end_date);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getItemRevenue'
+     *
+     * @param string $currency_code The code for a currency to get sales data for (required)
+     * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
+     * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getItemRevenueRequest($currency_code, $start_date = null, $end_date = null)
     {
         // verify the required parameter 'currency_code' is set
         if ($currency_code === null) {
             throw new \InvalidArgumentException('Missing the required parameter $currency_code when calling getItemRevenue');
         }
-        // parse inputs
-        $resourcePath = "/reporting/revenue/item-sales/{currency_code}";
-        $httpBody = '';
+
+        $resourcePath = '/reporting/revenue/item-sales/{currency_code}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($start_date !== null) {
-            $queryParams['start_date'] = $this->apiClient->getSerializer()->toQueryValue($start_date);
+            $queryParams['start_date'] = ObjectSerializer::toQueryValue($start_date);
         }
         // query params
         if ($end_date !== null) {
-            $queryParams['end_date'] = $this->apiClient->getSerializer()->toQueryValue($end_date);
+            $queryParams['end_date'] = ObjectSerializer::toQueryValue($end_date);
         }
+
         // path params
         if ($currency_code !== null) {
-            $resourcePath = str_replace(
-                "{" . "currency_code" . "}",
-                $this->apiClient->getSerializer()->toPathValue($currency_code),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'currency_code' . '}', ObjectSerializer::toPathValue($currency_code), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\RevenueReportResource',
-                '/reporting/revenue/item-sales/{currency_code}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\RevenueReportResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\RevenueReportResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -198,6 +340,7 @@ class ReportingRevenueApi
      * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\RevenueReportResource
      */
     public function getRefundRevenue($currency_code, $start_date = null, $end_date = null)
@@ -215,80 +358,227 @@ class ReportingRevenueApi
      * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\RevenueReportResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function getRefundRevenueWithHttpInfo($currency_code, $start_date = null, $end_date = null)
+    {
+        $returnType = '\KnetikCloud\Model\RevenueReportResource';
+        $request = $this->getRefundRevenueRequest($currency_code, $start_date, $end_date);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\RevenueReportResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getRefundRevenueAsync
+     *
+     * Get refund revenue info
+     *
+     * @param string $currency_code The code for a currency to get refund data for (required)
+     * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
+     * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getRefundRevenueAsync($currency_code, $start_date = null, $end_date = null)
+    {
+        return $this->getRefundRevenueAsyncWithHttpInfo($currency_code, $start_date, $end_date)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getRefundRevenueAsyncWithHttpInfo
+     *
+     * Get refund revenue info
+     *
+     * @param string $currency_code The code for a currency to get refund data for (required)
+     * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
+     * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getRefundRevenueAsyncWithHttpInfo($currency_code, $start_date = null, $end_date = null)
+    {
+        $returnType = '\KnetikCloud\Model\RevenueReportResource';
+        $request = $this->getRefundRevenueRequest($currency_code, $start_date, $end_date);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getRefundRevenue'
+     *
+     * @param string $currency_code The code for a currency to get refund data for (required)
+     * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
+     * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getRefundRevenueRequest($currency_code, $start_date = null, $end_date = null)
     {
         // verify the required parameter 'currency_code' is set
         if ($currency_code === null) {
             throw new \InvalidArgumentException('Missing the required parameter $currency_code when calling getRefundRevenue');
         }
-        // parse inputs
-        $resourcePath = "/reporting/revenue/refunds/{currency_code}";
-        $httpBody = '';
+
+        $resourcePath = '/reporting/revenue/refunds/{currency_code}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($start_date !== null) {
-            $queryParams['start_date'] = $this->apiClient->getSerializer()->toQueryValue($start_date);
+            $queryParams['start_date'] = ObjectSerializer::toQueryValue($start_date);
         }
         // query params
         if ($end_date !== null) {
-            $queryParams['end_date'] = $this->apiClient->getSerializer()->toQueryValue($end_date);
+            $queryParams['end_date'] = ObjectSerializer::toQueryValue($end_date);
         }
+
         // path params
         if ($currency_code !== null) {
-            $resourcePath = str_replace(
-                "{" . "currency_code" . "}",
-                $this->apiClient->getSerializer()->toPathValue($currency_code),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'currency_code' . '}', ObjectSerializer::toPathValue($currency_code), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\RevenueReportResource',
-                '/reporting/revenue/refunds/{currency_code}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\RevenueReportResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\RevenueReportResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -302,6 +592,7 @@ class ReportingRevenueApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceRevenueCountryReportResource_
      */
     public function getRevenueByCountry($currency_code, $start_date = null, $end_date = null, $size = '25', $page = '1')
@@ -321,88 +612,241 @@ class ReportingRevenueApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceRevenueCountryReportResource_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getRevenueByCountryWithHttpInfo($currency_code, $start_date = null, $end_date = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceRevenueCountryReportResource_';
+        $request = $this->getRevenueByCountryRequest($currency_code, $start_date, $end_date, $size, $page);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceRevenueCountryReportResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getRevenueByCountryAsync
+     *
+     * Get revenue info by country
+     *
+     * @param string $currency_code The code for a currency to get sales data for (required)
+     * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
+     * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getRevenueByCountryAsync($currency_code, $start_date = null, $end_date = null, $size = '25', $page = '1')
+    {
+        return $this->getRevenueByCountryAsyncWithHttpInfo($currency_code, $start_date, $end_date, $size, $page)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getRevenueByCountryAsyncWithHttpInfo
+     *
+     * Get revenue info by country
+     *
+     * @param string $currency_code The code for a currency to get sales data for (required)
+     * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
+     * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getRevenueByCountryAsyncWithHttpInfo($currency_code, $start_date = null, $end_date = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceRevenueCountryReportResource_';
+        $request = $this->getRevenueByCountryRequest($currency_code, $start_date, $end_date, $size, $page);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getRevenueByCountry'
+     *
+     * @param string $currency_code The code for a currency to get sales data for (required)
+     * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
+     * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getRevenueByCountryRequest($currency_code, $start_date = null, $end_date = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'currency_code' is set
         if ($currency_code === null) {
             throw new \InvalidArgumentException('Missing the required parameter $currency_code when calling getRevenueByCountry');
         }
-        // parse inputs
-        $resourcePath = "/reporting/revenue/countries/{currency_code}";
-        $httpBody = '';
+
+        $resourcePath = '/reporting/revenue/countries/{currency_code}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($start_date !== null) {
-            $queryParams['start_date'] = $this->apiClient->getSerializer()->toQueryValue($start_date);
+            $queryParams['start_date'] = ObjectSerializer::toQueryValue($start_date);
         }
         // query params
         if ($end_date !== null) {
-            $queryParams['end_date'] = $this->apiClient->getSerializer()->toQueryValue($end_date);
+            $queryParams['end_date'] = ObjectSerializer::toQueryValue($end_date);
         }
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
+
         // path params
         if ($currency_code !== null) {
-            $resourcePath = str_replace(
-                "{" . "currency_code" . "}",
-                $this->apiClient->getSerializer()->toPathValue($currency_code),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'currency_code' . '}', ObjectSerializer::toPathValue($currency_code), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceRevenueCountryReportResource_',
-                '/reporting/revenue/countries/{currency_code}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceRevenueCountryReportResource_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceRevenueCountryReportResource_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -416,6 +860,7 @@ class ReportingRevenueApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceRevenueProductReportResource_
      */
     public function getRevenueByItem($currency_code, $start_date = null, $end_date = null, $size = '25', $page = '1')
@@ -435,88 +880,241 @@ class ReportingRevenueApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceRevenueProductReportResource_, HTTP status code, HTTP response headers (array of strings)
      */
     public function getRevenueByItemWithHttpInfo($currency_code, $start_date = null, $end_date = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceRevenueProductReportResource_';
+        $request = $this->getRevenueByItemRequest($currency_code, $start_date, $end_date, $size, $page);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceRevenueProductReportResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getRevenueByItemAsync
+     *
+     * Get revenue info by item
+     *
+     * @param string $currency_code The code for a currency to get sales data for (required)
+     * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
+     * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getRevenueByItemAsync($currency_code, $start_date = null, $end_date = null, $size = '25', $page = '1')
+    {
+        return $this->getRevenueByItemAsyncWithHttpInfo($currency_code, $start_date, $end_date, $size, $page)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getRevenueByItemAsyncWithHttpInfo
+     *
+     * Get revenue info by item
+     *
+     * @param string $currency_code The code for a currency to get sales data for (required)
+     * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
+     * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getRevenueByItemAsyncWithHttpInfo($currency_code, $start_date = null, $end_date = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceRevenueProductReportResource_';
+        $request = $this->getRevenueByItemRequest($currency_code, $start_date, $end_date, $size, $page);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getRevenueByItem'
+     *
+     * @param string $currency_code The code for a currency to get sales data for (required)
+     * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
+     * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getRevenueByItemRequest($currency_code, $start_date = null, $end_date = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'currency_code' is set
         if ($currency_code === null) {
             throw new \InvalidArgumentException('Missing the required parameter $currency_code when calling getRevenueByItem');
         }
-        // parse inputs
-        $resourcePath = "/reporting/revenue/products/{currency_code}";
-        $httpBody = '';
+
+        $resourcePath = '/reporting/revenue/products/{currency_code}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($start_date !== null) {
-            $queryParams['start_date'] = $this->apiClient->getSerializer()->toQueryValue($start_date);
+            $queryParams['start_date'] = ObjectSerializer::toQueryValue($start_date);
         }
         // query params
         if ($end_date !== null) {
-            $queryParams['end_date'] = $this->apiClient->getSerializer()->toQueryValue($end_date);
+            $queryParams['end_date'] = ObjectSerializer::toQueryValue($end_date);
         }
         // query params
         if ($size !== null) {
-            $queryParams['size'] = $this->apiClient->getSerializer()->toQueryValue($size);
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
         }
         // query params
         if ($page !== null) {
-            $queryParams['page'] = $this->apiClient->getSerializer()->toQueryValue($page);
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
         }
+
         // path params
         if ($currency_code !== null) {
-            $resourcePath = str_replace(
-                "{" . "currency_code" . "}",
-                $this->apiClient->getSerializer()->toPathValue($currency_code),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'currency_code' . '}', ObjectSerializer::toPathValue($currency_code), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\PageResourceRevenueProductReportResource_',
-                '/reporting/revenue/products/{currency_code}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\PageResourceRevenueProductReportResource_', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceRevenueProductReportResource_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
 
     /**
@@ -528,6 +1126,7 @@ class ReportingRevenueApi
      * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\RevenueReportResource
      */
     public function getSubscriptionRevenue($currency_code, $start_date = null, $end_date = null)
@@ -545,79 +1144,227 @@ class ReportingRevenueApi
      * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
      * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\RevenueReportResource, HTTP status code, HTTP response headers (array of strings)
      */
     public function getSubscriptionRevenueWithHttpInfo($currency_code, $start_date = null, $end_date = null)
+    {
+        $returnType = '\KnetikCloud\Model\RevenueReportResource';
+        $request = $this->getSubscriptionRevenueRequest($currency_code, $start_date, $end_date);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\RevenueReportResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getSubscriptionRevenueAsync
+     *
+     * Get subscription revenue info
+     *
+     * @param string $currency_code The code for a currency to get sales data for (required)
+     * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
+     * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getSubscriptionRevenueAsync($currency_code, $start_date = null, $end_date = null)
+    {
+        return $this->getSubscriptionRevenueAsyncWithHttpInfo($currency_code, $start_date, $end_date)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getSubscriptionRevenueAsyncWithHttpInfo
+     *
+     * Get subscription revenue info
+     *
+     * @param string $currency_code The code for a currency to get sales data for (required)
+     * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
+     * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getSubscriptionRevenueAsyncWithHttpInfo($currency_code, $start_date = null, $end_date = null)
+    {
+        $returnType = '\KnetikCloud\Model\RevenueReportResource';
+        $request = $this->getSubscriptionRevenueRequest($currency_code, $start_date, $end_date);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getSubscriptionRevenue'
+     *
+     * @param string $currency_code The code for a currency to get sales data for (required)
+     * @param int $start_date The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time (optional)
+     * @param int $end_date The end of the time range to aggregate, unix timestamp in seconds. Default is end of time (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getSubscriptionRevenueRequest($currency_code, $start_date = null, $end_date = null)
     {
         // verify the required parameter 'currency_code' is set
         if ($currency_code === null) {
             throw new \InvalidArgumentException('Missing the required parameter $currency_code when calling getSubscriptionRevenue');
         }
-        // parse inputs
-        $resourcePath = "/reporting/revenue/subscription-sales/{currency_code}";
-        $httpBody = '';
+
+        $resourcePath = '/reporting/revenue/subscription-sales/{currency_code}';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
+        $httpBody = '';
+        $multipart = false;
 
         // query params
         if ($start_date !== null) {
-            $queryParams['start_date'] = $this->apiClient->getSerializer()->toQueryValue($start_date);
+            $queryParams['start_date'] = ObjectSerializer::toQueryValue($start_date);
         }
         // query params
         if ($end_date !== null) {
-            $queryParams['end_date'] = $this->apiClient->getSerializer()->toQueryValue($end_date);
+            $queryParams['end_date'] = ObjectSerializer::toQueryValue($end_date);
         }
+
         // path params
         if ($currency_code !== null) {
-            $resourcePath = str_replace(
-                "{" . "currency_code" . "}",
-                $this->apiClient->getSerializer()->toPathValue($currency_code),
-                $resourcePath
+            $resourcePath = str_replace('{' . 'currency_code' . '}', ObjectSerializer::toPathValue($currency_code), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
             );
         }
 
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
         } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'GET',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                '\KnetikCloud\Model\RevenueReportResource',
-                '/reporting/revenue/subscription-sales/{currency_code}'
-            );
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
-            return [$this->apiClient->getSerializer()->deserialize($response, '\KnetikCloud\Model\RevenueReportResource', $httpHeader), $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\RevenueReportResource', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-
-            throw $e;
         }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
     }
+
 }

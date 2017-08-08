@@ -17,7 +17,7 @@ Get access token
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\AccessTokenApi();
+$api_instance = new KnetikCloud\Api\AccessTokenApi(new \Http\Adapter\Guzzle6\Client());
 $grant_type = "client_credentials"; // string | Grant type
 $client_id = "knetik"; // string | The id of the client
 $client_secret = "client_secret_example"; // string | The secret key of the client.  Used only with a grant_type of client_credentials

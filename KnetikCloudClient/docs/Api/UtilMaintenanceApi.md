@@ -23,7 +23,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UtilMaintenanceApi();
+$api_instance = new KnetikCloud\Api\UtilMaintenanceApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $api_instance->deleteMaintenance();
@@ -63,7 +63,7 @@ Get current maintenance info. 404 if no maintenance.
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UtilMaintenanceApi();
+$api_instance = new KnetikCloud\Api\UtilMaintenanceApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getMaintenance();
@@ -105,7 +105,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UtilMaintenanceApi();
+$api_instance = new KnetikCloud\Api\UtilMaintenanceApi(new \Http\Adapter\Guzzle6\Client());
 $maintenance = new \KnetikCloud\Model\Maintenance(); // \KnetikCloud\Model\Maintenance | The maintenance object
 
 try {
@@ -150,7 +150,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UtilMaintenanceApi();
+$api_instance = new KnetikCloud\Api\UtilMaintenanceApi(new \Http\Adapter\Guzzle6\Client());
 $maintenance = new \KnetikCloud\Model\Maintenance(); // \KnetikCloud\Model\Maintenance | The maintenance object
 
 try {

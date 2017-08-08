@@ -35,9 +35,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
-$tag = "tag_example"; // string | tag
+$tag = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | tag
 
 try {
     $api_instance->addUserTag($user_id, $tag);
@@ -52,7 +52,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **int**| The id of the user |
- **tag** | **string**| tag |
+ **tag** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| tag |
 
 ### Return type
 
@@ -84,7 +84,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $user_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The user template resource object
 
 try {
@@ -132,7 +132,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | The value needed to delete used templates
 
@@ -181,7 +181,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the user or 'me'
 
 try {
@@ -227,7 +227,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 
 try {
@@ -273,7 +273,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -319,7 +319,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -371,7 +371,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $filter_displayname = "filter_displayname_example"; // string | Filter for users whose display name starts with provided string.
 $filter_email = "filter_email_example"; // string | Filter for users whose email starts with provided string. Requires USERS_ADMIN permission
 $filter_firstname = "filter_firstname_example"; // string | Filter for users whose first name starts with provided string. Requires USERS_ADMIN permission
@@ -440,7 +440,7 @@ Finish resetting a user's password using the secret provided from the password-r
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the user
 $new_password_request = new \KnetikCloud\Model\NewPasswordRequest(); // \KnetikCloud\Model\NewPasswordRequest | The new password request object
 
@@ -486,7 +486,7 @@ Password should be in plain text and will be encrypted on receipt. Use SSL for s
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $user_resource = new \KnetikCloud\Model\UserResource(); // \KnetikCloud\Model\UserResource | The user resource object
 
 try {
@@ -532,7 +532,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 $tag = "tag_example"; // string | The tag to remove
 
@@ -581,9 +581,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the user
-$password = "password_example"; // string | The new plain text password
+$password = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | The new plain text password
 
 try {
     $api_instance->setPassword($id, $password);
@@ -598,7 +598,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| The id of the user |
- **password** | **string**| The new plain text password | [optional]
+ **password** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| The new plain text password | [optional]
 
 ### Return type
 
@@ -627,7 +627,7 @@ A reset code will be generated and a 'forgot_password' BRE event will be fired w
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the user
 
 try {
@@ -671,7 +671,7 @@ A reset code will be generated and a 'forgot_password' BRE event will be fired w
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $password_reset = new \KnetikCloud\Model\PasswordResetRequest(); // \KnetikCloud\Model\PasswordResetRequest | An object containing one of three methods to look up a user
 
 try {
@@ -718,7 +718,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the user or 'me'
 $user_resource = new \KnetikCloud\Model\UserResource(); // \KnetikCloud\Model\UserResource | The user resource object
 
@@ -765,7 +765,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersApi();
+$api_instance = new KnetikCloud\Api\UsersApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $user_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The user template resource object
 

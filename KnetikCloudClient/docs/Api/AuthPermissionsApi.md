@@ -24,7 +24,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthPermissionsApi();
+$api_instance = new KnetikCloud\Api\AuthPermissionsApi(new \Http\Adapter\Guzzle6\Client());
 $permission_resource = new \KnetikCloud\Model\PermissionResource(); // \KnetikCloud\Model\PermissionResource | The permission resource object
 
 try {
@@ -70,7 +70,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthPermissionsApi();
+$api_instance = new KnetikCloud\Api\AuthPermissionsApi(new \Http\Adapter\Guzzle6\Client());
 $permission = "permission_example"; // string | The permission value
 $force = true; // bool | If true, removes permission assigned to roles
 
@@ -117,7 +117,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthPermissionsApi();
+$api_instance = new KnetikCloud\Api\AuthPermissionsApi(new \Http\Adapter\Guzzle6\Client());
 $permission = "permission_example"; // string | The permission value
 
 try {
@@ -163,7 +163,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthPermissionsApi();
+$api_instance = new KnetikCloud\Api\AuthPermissionsApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "permission:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -213,7 +213,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\AuthPermissionsApi();
+$api_instance = new KnetikCloud\Api\AuthPermissionsApi(new \Http\Adapter\Guzzle6\Client());
 $permission = "permission_example"; // string | The permission value
 $permission_resource = new \KnetikCloud\Model\PermissionResource(); // \KnetikCloud\Model\PermissionResource | The permission resource object
 

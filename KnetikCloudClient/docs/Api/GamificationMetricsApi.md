@@ -22,7 +22,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationMetricsApi();
+$api_instance = new KnetikCloud\Api\GamificationMetricsApi(new \Http\Adapter\Guzzle6\Client());
 $metric = new \KnetikCloud\Model\MetricResource(); // \KnetikCloud\Model\MetricResource | The new metric
 
 try {

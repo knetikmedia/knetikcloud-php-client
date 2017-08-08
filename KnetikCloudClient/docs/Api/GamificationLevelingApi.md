@@ -29,7 +29,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationLevelingApi();
+$api_instance = new KnetikCloud\Api\GamificationLevelingApi(new \Http\Adapter\Guzzle6\Client());
 $level = new \KnetikCloud\Model\LevelingResource(); // \KnetikCloud\Model\LevelingResource | The level schema definition
 
 try {
@@ -75,7 +75,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationLevelingApi();
+$api_instance = new KnetikCloud\Api\GamificationLevelingApi(new \Http\Adapter\Guzzle6\Client());
 $name = "name_example"; // string | The level schema name
 
 try {
@@ -120,7 +120,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationLevelingApi();
+$api_instance = new KnetikCloud\Api\GamificationLevelingApi(new \Http\Adapter\Guzzle6\Client());
 $name = "name_example"; // string | The level schema name
 
 try {
@@ -166,7 +166,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationLevelingApi();
+$api_instance = new KnetikCloud\Api\GamificationLevelingApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getLevelTriggers();
@@ -210,7 +210,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationLevelingApi();
+$api_instance = new KnetikCloud\Api\GamificationLevelingApi(new \Http\Adapter\Guzzle6\Client());
 $filter_name = "filter_name_example"; // string | Filter for level schemas whose name contains a given string
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -262,7 +262,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationLevelingApi();
+$api_instance = new KnetikCloud\Api\GamificationLevelingApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 $name = "name_example"; // string | The level schema name
 
@@ -312,7 +312,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationLevelingApi();
+$api_instance = new KnetikCloud\Api\GamificationLevelingApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 $filter_name = "filter_name_example"; // string | Filter for level schemas whose name contains a given string
 $size = 25; // int | The number of objects returned per page
@@ -368,10 +368,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationLevelingApi();
+$api_instance = new KnetikCloud\Api\GamificationLevelingApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 $name = "name_example"; // string | The level schema name
-$progress = 56; // int | The amount of progress to add
+$progress = new \KnetikCloud\Model\IntWrapper(); // \KnetikCloud\Model\IntWrapper | The amount of progress to add
 
 try {
     $api_instance->incrementProgress($user_id, $name, $progress);
@@ -387,7 +387,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **int**| The id of the user |
  **name** | **string**| The level schema name |
- **progress** | **int**| The amount of progress to add | [optional]
+ **progress** | [**\KnetikCloud\Model\IntWrapper**](../Model/IntWrapper.md)| The amount of progress to add | [optional]
 
 ### Return type
 
@@ -419,10 +419,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationLevelingApi();
+$api_instance = new KnetikCloud\Api\GamificationLevelingApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 $name = "name_example"; // string | The level schema name
-$progress = 56; // int | The new progress amount
+$progress = new \KnetikCloud\Model\IntWrapper(); // \KnetikCloud\Model\IntWrapper | The new progress amount
 
 try {
     $api_instance->setProgress($user_id, $name, $progress);
@@ -438,7 +438,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **int**| The id of the user |
  **name** | **string**| The level schema name |
- **progress** | **int**| The new progress amount | [optional]
+ **progress** | [**\KnetikCloud\Model\IntWrapper**](../Model/IntWrapper.md)| The new progress amount | [optional]
 
 ### Return type
 
@@ -468,7 +468,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\GamificationLevelingApi();
+$api_instance = new KnetikCloud\Api\GamificationLevelingApi(new \Http\Adapter\Guzzle6\Client());
 $name = "name_example"; // string | The level schema name
 $new_level = new \KnetikCloud\Model\LevelingResource(); // \KnetikCloud\Model\LevelingResource | The level schema definition
 

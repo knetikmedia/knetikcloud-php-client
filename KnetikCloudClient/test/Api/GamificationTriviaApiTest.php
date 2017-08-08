@@ -29,7 +29,6 @@
 namespace KnetikCloud;
 
 use \KnetikCloud\Configuration;
-use \KnetikCloud\ApiClient;
 use \KnetikCloud\ApiException;
 use \KnetikCloud\ObjectSerializer;
 

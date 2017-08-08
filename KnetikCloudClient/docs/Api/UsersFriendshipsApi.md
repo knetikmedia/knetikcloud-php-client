@@ -27,7 +27,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersFriendshipsApi();
+$api_instance = new KnetikCloud\Api\UsersFriendshipsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user or 'me' if logged in
 $id = 56; // int | The id of the user to befriend
 
@@ -74,7 +74,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersFriendshipsApi();
+$api_instance = new KnetikCloud\Api\UsersFriendshipsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user or 'me'
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -126,7 +126,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersFriendshipsApi();
+$api_instance = new KnetikCloud\Api\UsersFriendshipsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user or 'me' if logged in
 
 try {
@@ -174,7 +174,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersFriendshipsApi();
+$api_instance = new KnetikCloud\Api\UsersFriendshipsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user or 'me'
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -226,9 +226,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersFriendshipsApi();
+$api_instance = new KnetikCloud\Api\UsersFriendshipsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user or 'me' if logged in
-$token = "token_example"; // string | The invite token
+$token = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | The invite token
 
 try {
     $api_instance->redeemFriendshipToken($user_id, $token);
@@ -243,7 +243,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **string**| The id of the user or &#39;me&#39; if logged in |
- **token** | **string**| The invite token | [optional]
+ **token** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| The invite token | [optional]
 
 ### Return type
 
@@ -273,7 +273,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersFriendshipsApi();
+$api_instance = new KnetikCloud\Api\UsersFriendshipsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user or 'me' if logged in
 $id = 56; // int | The id of the user to befriend
 

@@ -42,7 +42,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the user
 $user_inventory_add_request = new \KnetikCloud\Model\UserInventoryAddRequest(); // \KnetikCloud\Model\UserInventoryAddRequest | The user inventory add request object
 
@@ -92,7 +92,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user to check for or 'me' for logged in user
 $item_id = 56; // int | The id of the item
 $sku = "sku_example"; // string | The specific sku of an entitlement list addition to check entitlement for. This is of very limited and specific use and should generally be left out
@@ -141,7 +141,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $cascade = false; // bool | Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values.
 $entitlement_item = new \KnetikCloud\Model\EntitlementItem(); // \KnetikCloud\Model\EntitlementItem | The entitlement item object
 
@@ -191,7 +191,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $template = new \KnetikCloud\Model\ItemTemplateResource(); // \KnetikCloud\Model\ItemTemplateResource | The entitlement template to be created
 
 try {
@@ -237,7 +237,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $entitlement_id = 56; // int | The id of the entitlement
 
 try {
@@ -284,7 +284,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | The value needed to delete used templates
 
@@ -328,7 +328,7 @@ Get a single entitlement item
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $entitlement_id = 56; // int | The id of the entitlement
 
 try {
@@ -371,7 +371,7 @@ List and search entitlement items
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -421,7 +421,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -467,7 +467,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -517,7 +517,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the user
 $inactive = false; // bool | If true, accepts inactive user inventories
 $size = 25; // int | The number of objects returned per page
@@ -579,7 +579,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the inventory owner or 'me' for the logged in user
 $id = 56; // int | The id of the user inventory
 
@@ -627,7 +627,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the inventory owner or 'me' for the logged in user
 $id = 56; // int | The id of the user inventory
 $size = 25; // int | The number of objects returned per page
@@ -679,7 +679,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $inactive = false; // bool | If true, accepts inactive user inventories
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -739,7 +739,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user to grant the entitlement to
 $grant_request = new \KnetikCloud\Model\EntitlementGrantRequest(); // \KnetikCloud\Model\EntitlementGrantRequest | grantRequest
 
@@ -786,7 +786,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $entitlement_id = 56; // int | The id of the entitlement
 $cascade = false; // bool | Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values.
 $entitlement_item = new \KnetikCloud\Model\EntitlementItem(); // \KnetikCloud\Model\EntitlementItem | The entitlement item object
@@ -835,7 +835,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $template = new \KnetikCloud\Model\ItemTemplateResource(); // \KnetikCloud\Model\ItemTemplateResource | The updated template
 
@@ -883,7 +883,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 $id = 56; // int | The id of the user inventory
 $data = NULL; // object | The data map
@@ -934,7 +934,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | user_id
 $id = 56; // int | The id of the user inventory
 $timestamp = 789; // int | The new expiration date as a unix timestamp in seconds. May be null (no body).
@@ -983,7 +983,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
 $id = 56; // int | The id of the user inventory
 $inventory_status = "inventory_status_example"; // string | The inventory status object
@@ -1032,7 +1032,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\UsersInventoryApi();
+$api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user to check for or 'me' for logged in user
 $item_id = 56; // int | The id of the item
 $sku = "sku_example"; // string | The specific sku of an entitlement_list addition to check entitlement for. This is of very limited and specific use and should generally be left out

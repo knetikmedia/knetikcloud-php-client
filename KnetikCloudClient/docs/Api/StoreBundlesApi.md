@@ -30,7 +30,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreBundlesApi();
+$api_instance = new KnetikCloud\Api\StoreBundlesApi(new \Http\Adapter\Guzzle6\Client());
 $cascade = false; // bool | Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values.
 $bundle_item = new \KnetikCloud\Model\BundleItem(); // \KnetikCloud\Model\BundleItem | The bundle item object
 
@@ -80,7 +80,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreBundlesApi();
+$api_instance = new KnetikCloud\Api\StoreBundlesApi(new \Http\Adapter\Guzzle6\Client());
 $bundle_template_resource = new \KnetikCloud\Model\ItemTemplateResource(); // \KnetikCloud\Model\ItemTemplateResource | The new bundle template
 
 try {
@@ -126,7 +126,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreBundlesApi();
+$api_instance = new KnetikCloud\Api\StoreBundlesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the bundle
 
 try {
@@ -171,7 +171,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreBundlesApi();
+$api_instance = new KnetikCloud\Api\StoreBundlesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $cascade = "cascade_example"; // string | force deleting the template if it's attached to other objects, cascade = detach
 
@@ -215,7 +215,7 @@ Get a single bundle item
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\StoreBundlesApi();
+$api_instance = new KnetikCloud\Api\StoreBundlesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the bundle
 
 try {
@@ -260,7 +260,7 @@ Bundle Templates define a type of bundle and the properties they have.
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\StoreBundlesApi();
+$api_instance = new KnetikCloud\Api\StoreBundlesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 
 try {
@@ -303,7 +303,7 @@ List and search bundle templates
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new KnetikCloud\Api\StoreBundlesApi();
+$api_instance = new KnetikCloud\Api\StoreBundlesApi(new \Http\Adapter\Guzzle6\Client());
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
@@ -353,7 +353,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreBundlesApi();
+$api_instance = new KnetikCloud\Api\StoreBundlesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the bundle
 $cascade = false; // bool | Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values.
 $bundle_item = new \KnetikCloud\Model\BundleItem(); // \KnetikCloud\Model\BundleItem | The bundle item object
@@ -403,7 +403,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: OAuth2
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new KnetikCloud\Api\StoreBundlesApi();
+$api_instance = new KnetikCloud\Api\StoreBundlesApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the template
 $bundle_template_resource = new \KnetikCloud\Model\ItemTemplateResource(); // \KnetikCloud\Model\ItemTemplateResource | The bundle template resource object
 
