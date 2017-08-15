@@ -20,9 +20,6 @@ Delete maintenance info
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\UtilMaintenanceApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
@@ -42,7 +39,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -102,9 +99,6 @@ Set current maintenance info
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\UtilMaintenanceApi(new \Http\Adapter\Guzzle6\Client());
 $maintenance = new \KnetikCloud\Model\Maintenance(); // \KnetikCloud\Model\Maintenance | The maintenance object
 
@@ -128,7 +122,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -146,9 +140,6 @@ Update current maintenance info
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\UtilMaintenanceApi(new \Http\Adapter\Guzzle6\Client());
 $maintenance = new \KnetikCloud\Model\Maintenance(); // \KnetikCloud\Model\Maintenance | The maintenance object
@@ -173,7 +164,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 

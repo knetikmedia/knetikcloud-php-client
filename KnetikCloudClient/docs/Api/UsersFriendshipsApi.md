@@ -24,9 +24,6 @@ As a user, either creates or confirm a pending request. As an admin, call this e
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\UsersFriendshipsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user or 'me' if logged in
 $id = 56; // int | The id of the user to befriend
@@ -52,7 +49,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -70,9 +67,6 @@ Get friends list
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\UsersFriendshipsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user or 'me'
@@ -102,7 +96,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -122,9 +116,6 @@ This is a unique invite token that allows direct connection to the request user.
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\UsersFriendshipsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user or 'me' if logged in
@@ -150,7 +141,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -170,9 +161,6 @@ Invites that the specified user received
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\UsersFriendshipsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user or 'me'
@@ -202,7 +190,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -222,9 +210,6 @@ Immediately connects the requested user with the user mapped by the provided inv
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\UsersFriendshipsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user or 'me' if logged in
@@ -251,7 +236,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -269,9 +254,6 @@ Remove or decline a friend
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\UsersFriendshipsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user or 'me' if logged in
@@ -298,7 +280,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 

@@ -20,9 +20,6 @@ Types include integer, string, user and invoice. These are used to qualify trigg
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\BRERuleEngineVariablesApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
@@ -43,7 +40,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -63,9 +60,6 @@ Used to lookup users to fill in a user constant for example. Only types marked a
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\BRERuleEngineVariablesApi(new \Http\Adapter\Guzzle6\Client());
 $name = "name_example"; // string | The name of the type
@@ -97,7 +91,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 

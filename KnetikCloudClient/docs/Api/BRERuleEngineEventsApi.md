@@ -19,9 +19,6 @@ Parameters within the event must match names and types from the trigger. Actual 
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\BRERuleEngineEventsApi(new \Http\Adapter\Guzzle6\Client());
 $bre_event = new \KnetikCloud\Model\BreEvent(); // \KnetikCloud\Model\BreEvent | The BRE event object
 
@@ -46,7 +43,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 

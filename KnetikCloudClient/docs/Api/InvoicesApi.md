@@ -31,9 +31,6 @@ Create an invoice(s) by providing a cart GUID. Note that there may be multiple i
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $req = new \KnetikCloud\Model\InvoiceCreateRequest(); // \KnetikCloud\Model\InvoiceCreateRequest | Invoice to be created
 
@@ -58,7 +55,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -116,9 +113,6 @@ Retrieve an invoice
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
 
@@ -143,7 +137,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -161,9 +155,6 @@ List invoice logs
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
@@ -193,7 +184,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -213,9 +204,6 @@ Without INVOICES_ADMIN permission the results are automatically filtered for onl
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $filter_user = 56; // int | The id of a user to get invoices for. Automtically added if not being called with admin permissions.
@@ -273,7 +261,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -331,9 +319,6 @@ Pay an invoice using a saved payment method
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
 $request = new \KnetikCloud\Model\PayBySavedMethodRequest(); // \KnetikCloud\Model\PayBySavedMethodRequest | The payment method details. Will default to the appropriate user's wallet in the invoice currency if ommited.
@@ -359,7 +344,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -379,9 +364,6 @@ This allows external fulfillment systems to report success or failure. Fulfillme
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
@@ -412,7 +394,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -430,9 +412,6 @@ Set the external reference of an invoice
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
@@ -459,7 +438,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -479,9 +458,6 @@ This allows external fulfillment systems to report success or failure. Fulfillme
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
@@ -510,7 +486,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -528,9 +504,6 @@ Set the order notes of an invoice
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
@@ -557,7 +530,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -577,9 +550,6 @@ This may trigger fulfillment if setting the status to 'paid'. This is mainly int
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
@@ -606,7 +576,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -624,9 +594,6 @@ Set or update billing info
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\InvoicesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the invoice
@@ -653,7 +620,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 

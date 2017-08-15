@@ -19,9 +19,6 @@ Delete tokens by username, client id, or both
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\AuthTokensApi(new \Http\Adapter\Guzzle6\Client());
 $username = "username_example"; // string | The username of the user
 $client_id = "client_id_example"; // string | The id of the client
@@ -47,7 +44,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -65,9 +62,6 @@ Get a single token by username and client id
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\AuthTokensApi(new \Http\Adapter\Guzzle6\Client());
 $username = "username_example"; // string | The username of the user
@@ -95,7 +89,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -115,9 +109,6 @@ Token value not shown
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\AuthTokensApi(new \Http\Adapter\Guzzle6\Client());
 $filter_client_id = "filter_client_id_example"; // string | Filters for token whose client id matches provided string
@@ -151,7 +142,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 

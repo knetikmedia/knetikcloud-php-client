@@ -21,9 +21,6 @@ Create a fulfillment type
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\FulfillmentApi(new \Http\Adapter\Guzzle6\Client());
 $type = new \KnetikCloud\Model\FulfillmentType(); // \KnetikCloud\Model\FulfillmentType | The fulfillment type
 
@@ -48,7 +45,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -66,9 +63,6 @@ Delete a fulfillment type
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\FulfillmentApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id
@@ -93,7 +87,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -202,9 +196,6 @@ Update a fulfillment type
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\FulfillmentApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id
 $fulfillment_type = new \KnetikCloud\Model\FulfillmentType(); // \KnetikCloud\Model\FulfillmentType | The fulfillment type
@@ -230,7 +221,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 

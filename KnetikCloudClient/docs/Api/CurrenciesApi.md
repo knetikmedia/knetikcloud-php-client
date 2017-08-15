@@ -21,9 +21,6 @@ Create a currency
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\CurrenciesApi(new \Http\Adapter\Guzzle6\Client());
 $currency = new \KnetikCloud\Model\CurrencyResource(); // \KnetikCloud\Model\CurrencyResource | The currency object
 
@@ -48,7 +45,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -66,9 +63,6 @@ Delete a currency
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\CurrenciesApi(new \Http\Adapter\Guzzle6\Client());
 $code = "code_example"; // string | The currency code
@@ -93,7 +87,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -206,9 +200,6 @@ Update a currency
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\CurrenciesApi(new \Http\Adapter\Guzzle6\Client());
 $code = "code_example"; // string | The currency code
 $currency = new \KnetikCloud\Model\CurrencyResource(); // \KnetikCloud\Model\CurrencyResource | The currency object
@@ -234,7 +225,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 

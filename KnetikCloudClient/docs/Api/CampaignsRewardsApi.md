@@ -21,9 +21,6 @@ Create a reward set
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\CampaignsRewardsApi(new \Http\Adapter\Guzzle6\Client());
 $reward_set_resource = new \KnetikCloud\Model\RewardSetResource(); // \KnetikCloud\Model\RewardSetResource | The reward set resource object
 
@@ -48,7 +45,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -66,9 +63,6 @@ Delete a reward set
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\CampaignsRewardsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The reward id
@@ -93,7 +87,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -202,9 +196,6 @@ Update a reward set
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\CampaignsRewardsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The reward id
 $reward_set_resource = new \KnetikCloud\Model\RewardSetResource(); // \KnetikCloud\Model\RewardSetResource | The reward set resource object
@@ -231,7 +222,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 

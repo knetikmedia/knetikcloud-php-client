@@ -19,9 +19,6 @@ Links the current user account to a facebook account, using the acccess token fr
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\SocialFacebookApi(new \Http\Adapter\Guzzle6\Client());
 $facebook_token = new \KnetikCloud\Model\FacebookToken(); // \KnetikCloud\Model\FacebookToken | The token from facebook
 
@@ -45,7 +42,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 

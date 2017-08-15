@@ -17,9 +17,6 @@ Get a list of available actions
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\BRERuleEngineActionsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_category = "filter_category_example"; // string | Filter for actions that are within a specific category
 $filter_name = "filter_name_example"; // string | Filter for actions that have names containing the given string
@@ -50,7 +47,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 

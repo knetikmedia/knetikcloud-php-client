@@ -283,10 +283,6 @@ class ContentArticlesApi
             }
         }
 
-        // this endpoint requires OAuth (access token)
-        if ($this->config->getAccessToken() !== null) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
@@ -512,10 +508,6 @@ class ContentArticlesApi
             }
         }
 
-        // this endpoint requires OAuth (access token)
-        if ($this->config->getAccessToken() !== null) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
@@ -711,10 +703,6 @@ class ContentArticlesApi
             }
         }
 
-        // this endpoint requires OAuth (access token)
-        if ($this->config->getAccessToken() !== null) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
@@ -919,10 +907,6 @@ class ContentArticlesApi
             }
         }
 
-        // this endpoint requires OAuth (access token)
-        if ($this->config->getAccessToken() !== null) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
@@ -1379,10 +1363,6 @@ class ContentArticlesApi
             }
         }
 
-        // this endpoint requires OAuth (access token)
-        if ($this->config->getAccessToken() !== null) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
@@ -1625,10 +1605,6 @@ class ContentArticlesApi
             }
         }
 
-        // this endpoint requires OAuth (access token)
-        if ($this->config->getAccessToken() !== null) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
@@ -1657,6 +1633,7 @@ class ContentArticlesApi
      *
      * List and search articles
      *
+     * @param bool $filter_active_only Filter for articles that are active (true) or inactive (false) (optional)
      * @param string $filter_category Filter for articles from a specific category by id (optional)
      * @param string $filter_tagset Filter for articles with at least one of a specified set of tags (separated by comma) (optional)
      * @param string $filter_tag_intersection Filter for articles with all of a specified set of tags (separated by comma) (optional)
@@ -1669,9 +1646,9 @@ class ContentArticlesApi
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceArticleResource_
      */
-    public function getArticles($filter_category = null, $filter_tagset = null, $filter_tag_intersection = null, $filter_tag_exclusion = null, $filter_title = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getArticles($filter_active_only = null, $filter_category = null, $filter_tagset = null, $filter_tag_intersection = null, $filter_tag_exclusion = null, $filter_title = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
-        list($response) = $this->getArticlesWithHttpInfo($filter_category, $filter_tagset, $filter_tag_intersection, $filter_tag_exclusion, $filter_title, $size, $page, $order);
+        list($response) = $this->getArticlesWithHttpInfo($filter_active_only, $filter_category, $filter_tagset, $filter_tag_intersection, $filter_tag_exclusion, $filter_title, $size, $page, $order);
         return $response;
     }
 
@@ -1680,6 +1657,7 @@ class ContentArticlesApi
      *
      * List and search articles
      *
+     * @param bool $filter_active_only Filter for articles that are active (true) or inactive (false) (optional)
      * @param string $filter_category Filter for articles from a specific category by id (optional)
      * @param string $filter_tagset Filter for articles with at least one of a specified set of tags (separated by comma) (optional)
      * @param string $filter_tag_intersection Filter for articles with all of a specified set of tags (separated by comma) (optional)
@@ -1692,10 +1670,10 @@ class ContentArticlesApi
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceArticleResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getArticlesWithHttpInfo($filter_category = null, $filter_tagset = null, $filter_tag_intersection = null, $filter_tag_exclusion = null, $filter_title = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getArticlesWithHttpInfo($filter_active_only = null, $filter_category = null, $filter_tagset = null, $filter_tag_intersection = null, $filter_tag_exclusion = null, $filter_title = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceArticleResource_';
-        $request = $this->getArticlesRequest($filter_category, $filter_tagset, $filter_tag_intersection, $filter_tag_exclusion, $filter_title, $size, $page, $order);
+        $request = $this->getArticlesRequest($filter_active_only, $filter_category, $filter_tagset, $filter_tag_intersection, $filter_tag_exclusion, $filter_title, $size, $page, $order);
 
         try {
 
@@ -1756,6 +1734,7 @@ class ContentArticlesApi
      *
      * List and search articles
      *
+     * @param bool $filter_active_only Filter for articles that are active (true) or inactive (false) (optional)
      * @param string $filter_category Filter for articles from a specific category by id (optional)
      * @param string $filter_tagset Filter for articles with at least one of a specified set of tags (separated by comma) (optional)
      * @param string $filter_tag_intersection Filter for articles with all of a specified set of tags (separated by comma) (optional)
@@ -1767,9 +1746,9 @@ class ContentArticlesApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getArticlesAsync($filter_category = null, $filter_tagset = null, $filter_tag_intersection = null, $filter_tag_exclusion = null, $filter_title = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getArticlesAsync($filter_active_only = null, $filter_category = null, $filter_tagset = null, $filter_tag_intersection = null, $filter_tag_exclusion = null, $filter_title = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
-        return $this->getArticlesAsyncWithHttpInfo($filter_category, $filter_tagset, $filter_tag_intersection, $filter_tag_exclusion, $filter_title, $size, $page, $order)->then(function ($response) {
+        return $this->getArticlesAsyncWithHttpInfo($filter_active_only, $filter_category, $filter_tagset, $filter_tag_intersection, $filter_tag_exclusion, $filter_title, $size, $page, $order)->then(function ($response) {
             return $response[0];
         });
     }
@@ -1779,6 +1758,7 @@ class ContentArticlesApi
      *
      * List and search articles
      *
+     * @param bool $filter_active_only Filter for articles that are active (true) or inactive (false) (optional)
      * @param string $filter_category Filter for articles from a specific category by id (optional)
      * @param string $filter_tagset Filter for articles with at least one of a specified set of tags (separated by comma) (optional)
      * @param string $filter_tag_intersection Filter for articles with all of a specified set of tags (separated by comma) (optional)
@@ -1790,10 +1770,10 @@ class ContentArticlesApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getArticlesAsyncWithHttpInfo($filter_category = null, $filter_tagset = null, $filter_tag_intersection = null, $filter_tag_exclusion = null, $filter_title = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getArticlesAsyncWithHttpInfo($filter_active_only = null, $filter_category = null, $filter_tagset = null, $filter_tag_intersection = null, $filter_tag_exclusion = null, $filter_title = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceArticleResource_';
-        $request = $this->getArticlesRequest($filter_category, $filter_tagset, $filter_tag_intersection, $filter_tag_exclusion, $filter_title, $size, $page, $order);
+        $request = $this->getArticlesRequest($filter_active_only, $filter_category, $filter_tagset, $filter_tag_intersection, $filter_tag_exclusion, $filter_title, $size, $page, $order);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
@@ -1826,6 +1806,7 @@ class ContentArticlesApi
     /**
      * Create request for operation 'getArticles'
      *
+     * @param bool $filter_active_only Filter for articles that are active (true) or inactive (false) (optional)
      * @param string $filter_category Filter for articles from a specific category by id (optional)
      * @param string $filter_tagset Filter for articles with at least one of a specified set of tags (separated by comma) (optional)
      * @param string $filter_tag_intersection Filter for articles with all of a specified set of tags (separated by comma) (optional)
@@ -1837,7 +1818,7 @@ class ContentArticlesApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getArticlesRequest($filter_category = null, $filter_tagset = null, $filter_tag_intersection = null, $filter_tag_exclusion = null, $filter_title = null, $size = '25', $page = '1', $order = 'id:ASC')
+    protected function getArticlesRequest($filter_active_only = null, $filter_category = null, $filter_tagset = null, $filter_tag_intersection = null, $filter_tag_exclusion = null, $filter_title = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
 
         $resourcePath = '/content/articles';
@@ -1847,6 +1828,10 @@ class ContentArticlesApi
         $httpBody = '';
         $multipart = false;
 
+        // query params
+        if ($filter_active_only !== null) {
+            $queryParams['filter_active_only'] = ObjectSerializer::toQueryValue($filter_active_only);
+        }
         // query params
         if ($filter_category !== null) {
             $queryParams['filter_category'] = ObjectSerializer::toQueryValue($filter_category);
@@ -2154,10 +2139,6 @@ class ContentArticlesApi
             }
         }
 
-        // this endpoint requires OAuth (access token)
-        if ($this->config->getAccessToken() !== null) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
@@ -2396,10 +2377,6 @@ class ContentArticlesApi
             }
         }
 
-        // this endpoint requires OAuth (access token)
-        if ($this->config->getAccessToken() !== null) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');

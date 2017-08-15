@@ -72,9 +72,19 @@ class AmazonWebServicesS3ApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for getDownloadURL
+     *
+     * Get a temporary signed S3 URL for download.
+     *
+     */
+    public function testGetDownloadURL()
+    {
+    }
+
+    /**
      * Test case for getSignedS3URL
      *
-     * Get a signed S3 URL.
+     * Get a signed S3 URL for upload.
      *
      */
     public function testGetSignedS3URL()

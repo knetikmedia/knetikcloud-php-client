@@ -19,9 +19,6 @@ Get user registration counts grouped by time range
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\ReportingUsersApi(new \Http\Adapter\Guzzle6\Client());
 $granularity = "day"; // string | The time duration to aggregate by
 $start_date = 789; // int | The start of the time range to aggregate, unix timestamp in seconds. Default is beginning of time
@@ -54,7 +51,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 

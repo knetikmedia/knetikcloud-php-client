@@ -19,9 +19,6 @@ Will return the url for a hosted payment endpoint to post to. See Optimal docume
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\PaymentsOptimalApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\OptimalPaymentRequest(); // \KnetikCloud\Model\OptimalPaymentRequest | The payment request to initiate
 
@@ -46,7 +43,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 

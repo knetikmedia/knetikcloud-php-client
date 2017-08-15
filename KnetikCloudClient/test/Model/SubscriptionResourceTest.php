@@ -92,6 +92,13 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "behaviors"
+     */
+    public function testPropertyBehaviors()
+    {
+    }
+
+    /**
      * Test attribute "category"
      */
     public function testPropertyCategory()

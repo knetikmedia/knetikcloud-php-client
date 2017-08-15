@@ -23,9 +23,6 @@ Once created you can then use in a custom rule. Note that global definitions can
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 $api_instance = new KnetikCloud\Api\BRERuleEngineGlobalsApi(new \Http\Adapter\Guzzle6\Client());
 $bre_global_resource = new \KnetikCloud\Model\BreGlobalResource(); // \KnetikCloud\Model\BreGlobalResource | The BRE global resource object
 
@@ -50,7 +47,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -70,9 +67,6 @@ May fail if there are existing rules against it. Cannot delete core globals
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\BRERuleEngineGlobalsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the global definition
@@ -97,7 +91,7 @@ void (empty response body)
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -115,9 +109,6 @@ Get a single global definition
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\BRERuleEngineGlobalsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the global definition
@@ -143,7 +134,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -161,9 +152,6 @@ List global definitions
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\BRERuleEngineGlobalsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_system = true; // bool | Filter for globals that are system globals when true, or not when false. Leave off for both mixed
@@ -193,7 +181,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
@@ -213,9 +201,6 @@ May fail if new parameters mismatch requirements of existing rules. Cannot updat
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\BRERuleEngineGlobalsApi(new \Http\Adapter\Guzzle6\Client());
 $id = "id_example"; // string | The id of the global definition
@@ -243,7 +228,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 

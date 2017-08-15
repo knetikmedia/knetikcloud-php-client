@@ -56,6 +56,7 @@ class SubscriptionResource implements ArrayAccess
     protected static $swaggerTypes = [
         'additional_properties' => 'map[string,\KnetikCloud\Model\Property]',
         'availability' => 'string',
+        'behaviors' => '\KnetikCloud\Model\Behavior[]',
         'category' => 'string',
         'consolidation_day_of_month' => 'int',
         'created_date' => 'int',
@@ -83,6 +84,7 @@ class SubscriptionResource implements ArrayAccess
     protected static $swaggerFormats = [
         'additional_properties' => null,
         'availability' => null,
+        'behaviors' => null,
         'category' => null,
         'consolidation_day_of_month' => 'int32',
         'created_date' => 'int64',
@@ -120,6 +122,7 @@ class SubscriptionResource implements ArrayAccess
     protected static $attributeMap = [
         'additional_properties' => 'additional_properties',
         'availability' => 'availability',
+        'behaviors' => 'behaviors',
         'category' => 'category',
         'consolidation_day_of_month' => 'consolidation_day_of_month',
         'created_date' => 'created_date',
@@ -148,6 +151,7 @@ class SubscriptionResource implements ArrayAccess
     protected static $setters = [
         'additional_properties' => 'setAdditionalProperties',
         'availability' => 'setAvailability',
+        'behaviors' => 'setBehaviors',
         'category' => 'setCategory',
         'consolidation_day_of_month' => 'setConsolidationDayOfMonth',
         'created_date' => 'setCreatedDate',
@@ -176,6 +180,7 @@ class SubscriptionResource implements ArrayAccess
     protected static $getters = [
         'additional_properties' => 'getAdditionalProperties',
         'availability' => 'getAvailability',
+        'behaviors' => 'getBehaviors',
         'category' => 'getCategory',
         'consolidation_day_of_month' => 'getConsolidationDayOfMonth',
         'created_date' => 'getCreatedDate',
@@ -257,6 +262,7 @@ class SubscriptionResource implements ArrayAccess
     {
         $this->container['additional_properties'] = isset($data['additional_properties']) ? $data['additional_properties'] : null;
         $this->container['availability'] = isset($data['availability']) ? $data['availability'] : null;
+        $this->container['behaviors'] = isset($data['behaviors']) ? $data['behaviors'] : null;
         $this->container['category'] = isset($data['category']) ? $data['category'] : null;
         $this->container['consolidation_day_of_month'] = isset($data['consolidation_day_of_month']) ? $data['consolidation_day_of_month'] : null;
         $this->container['created_date'] = isset($data['created_date']) ? $data['created_date'] : null;
@@ -385,6 +391,27 @@ class SubscriptionResource implements ArrayAccess
             );
         }
         $this->container['availability'] = $availability;
+
+        return $this;
+    }
+
+    /**
+     * Gets behaviors
+     * @return \KnetikCloud\Model\Behavior[]
+     */
+    public function getBehaviors()
+    {
+        return $this->container['behaviors'];
+    }
+
+    /**
+     * Sets behaviors
+     * @param \KnetikCloud\Model\Behavior[] $behaviors The behaviors linked to the item, describing various options and interactions. May not be included in item lists
+     * @return $this
+     */
+    public function setBehaviors($behaviors)
+    {
+        $this->container['behaviors'] = $behaviors;
 
         return $this;
     }

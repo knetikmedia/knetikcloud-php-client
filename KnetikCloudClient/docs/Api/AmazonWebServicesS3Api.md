@@ -4,23 +4,70 @@ All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getSignedS3URL**](AmazonWebServicesS3Api.md#getSignedS3URL) | **GET** /amazon/s3/signedposturl | Get a signed S3 URL
+[**getDownloadURL**](AmazonWebServicesS3Api.md#getDownloadURL) | **GET** /amazon/s3/downloadurl | Get a temporary signed S3 URL for download
+[**getSignedS3URL**](AmazonWebServicesS3Api.md#getSignedS3URL) | **GET** /amazon/s3/signedposturl | Get a signed S3 URL for upload
 
 
-# **getSignedS3URL**
-> \KnetikCloud\Model\AmazonS3Activity getSignedS3URL($filename, $content_type)
+# **getDownloadURL**
+> string getDownloadURL($bucket, $path, $expiration)
 
-Get a signed S3 URL
+Get a temporary signed S3 URL for download
 
-Requires the file name and file content type (i.e., 'video/mpeg')
+To give access to files in your own S3 account, you will need to grant KnetikcCloud access to the file by adjusting your bucket policy accordingly. See S3 documentation for details.
 
 ### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure OAuth2 access token for authorization: OAuth2
-KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$api_instance = new KnetikCloud\Api\AmazonWebServicesS3Api(new \Http\Adapter\Guzzle6\Client());
+$bucket = "bucket_example"; // string | S3 bucket name
+$path = "path_example"; // string | The path to the file relative the bucket (the s3 object key)
+$expiration = 60; // int | The number of seconds this URL will be valid. Default to 60
+
+try {
+    $result = $api_instance->getDownloadURL($bucket, $path, $expiration);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling AmazonWebServicesS3Api->getDownloadURL: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **bucket** | **string**| S3 bucket name | [optional]
+ **path** | **string**| The path to the file relative the bucket (the s3 object key) | [optional]
+ **expiration** | **int**| The number of seconds this URL will be valid. Default to 60 | [optional] [default to 60]
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **getSignedS3URL**
+> \KnetikCloud\Model\AmazonS3Activity getSignedS3URL($filename, $content_type)
+
+Get a signed S3 URL for upload
+
+Requires the file name and file content type (i.e., 'video/mpeg'). Make a PUT to the resulting url to upload the file and use the cdn_url to retrieve it after.
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new KnetikCloud\Api\AmazonWebServicesS3Api(new \Http\Adapter\Guzzle6\Client());
 $filename = "filename_example"; // string | The file name
@@ -48,7 +95,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[OAuth2](../../README.md#OAuth2)
+No authorization required
 
 ### HTTP request headers
 
