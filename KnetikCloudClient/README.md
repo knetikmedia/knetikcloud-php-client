@@ -84,11 +84,13 @@ $api_instance = new KnetikCloud\Api\AccessTokenApi();
 $grant_type = "client_credentials"; // string | Grant type
 $client_id = "knetik"; // string | The id of the client
 $client_secret = "client_secret_example"; // string | The secret key of the client.  Used only with a grant_type of client_credentials
-$username = "username_example"; // string | The username of the client.  Used only with a grant_type of password
-$password = "password_example"; // string | The password of the client.  Used only with a grant_type of password
+$username = "username_example"; // string | The username of the client. Used only with a grant_type of password
+$password = "password_example"; // string | The password of the client. Used only with a grant_type of password
+$token = "token_example"; // string | The 3rd party authentication token. Used only with a grant_type of facebook, google, etc (social plugins)
+$refresh_token = "refresh_token_example"; // string | The refresh token obtained during prior authentication. Used only with a grant_type of refresh_token
 
 try {
-    $result = $api_instance->getOAuthToken($grant_type, $client_id, $client_secret, $username, $password);
+    $result = $api_instance->getOAuthToken($grant_type, $client_id, $client_secret, $username, $password, $token, $refresh_token);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AccessTokenApi->getOAuthToken: ', $e->getMessage(), PHP_EOL;

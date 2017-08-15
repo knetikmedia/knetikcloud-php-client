@@ -89,15 +89,17 @@ class AccessTokenApi
      * @param string $grant_type Grant type (required)
      * @param string $client_id The id of the client (required)
      * @param string $client_secret The secret key of the client.  Used only with a grant_type of client_credentials (optional)
-     * @param string $username The username of the client.  Used only with a grant_type of password (optional)
-     * @param string $password The password of the client.  Used only with a grant_type of password (optional)
+     * @param string $username The username of the client. Used only with a grant_type of password (optional)
+     * @param string $password The password of the client. Used only with a grant_type of password (optional)
+     * @param string $token The 3rd party authentication token. Used only with a grant_type of facebook, google, etc (social plugins) (optional)
+     * @param string $refresh_token The refresh token obtained during prior authentication. Used only with a grant_type of refresh_token (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\OAuth2Resource
      */
-    public function getOAuthToken($grant_type, $client_id, $client_secret = null, $username = null, $password = null)
+    public function getOAuthToken($grant_type, $client_id, $client_secret = null, $username = null, $password = null, $token = null, $refresh_token = null)
     {
-        list($response) = $this->getOAuthTokenWithHttpInfo($grant_type, $client_id, $client_secret, $username, $password);
+        list($response) = $this->getOAuthTokenWithHttpInfo($grant_type, $client_id, $client_secret, $username, $password, $token, $refresh_token);
         return $response;
     }
 
@@ -109,16 +111,18 @@ class AccessTokenApi
      * @param string $grant_type Grant type (required)
      * @param string $client_id The id of the client (required)
      * @param string $client_secret The secret key of the client.  Used only with a grant_type of client_credentials (optional)
-     * @param string $username The username of the client.  Used only with a grant_type of password (optional)
-     * @param string $password The password of the client.  Used only with a grant_type of password (optional)
+     * @param string $username The username of the client. Used only with a grant_type of password (optional)
+     * @param string $password The password of the client. Used only with a grant_type of password (optional)
+     * @param string $token The 3rd party authentication token. Used only with a grant_type of facebook, google, etc (social plugins) (optional)
+     * @param string $refresh_token The refresh token obtained during prior authentication. Used only with a grant_type of refresh_token (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\OAuth2Resource, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getOAuthTokenWithHttpInfo($grant_type, $client_id, $client_secret = null, $username = null, $password = null)
+    public function getOAuthTokenWithHttpInfo($grant_type, $client_id, $client_secret = null, $username = null, $password = null, $token = null, $refresh_token = null)
     {
         $returnType = '\KnetikCloud\Model\OAuth2Resource';
-        $request = $this->getOAuthTokenRequest($grant_type, $client_id, $client_secret, $username, $password);
+        $request = $this->getOAuthTokenRequest($grant_type, $client_id, $client_secret, $username, $password, $token, $refresh_token);
 
         try {
 
@@ -178,14 +182,16 @@ class AccessTokenApi
      * @param string $grant_type Grant type (required)
      * @param string $client_id The id of the client (required)
      * @param string $client_secret The secret key of the client.  Used only with a grant_type of client_credentials (optional)
-     * @param string $username The username of the client.  Used only with a grant_type of password (optional)
-     * @param string $password The password of the client.  Used only with a grant_type of password (optional)
+     * @param string $username The username of the client. Used only with a grant_type of password (optional)
+     * @param string $password The password of the client. Used only with a grant_type of password (optional)
+     * @param string $token The 3rd party authentication token. Used only with a grant_type of facebook, google, etc (social plugins) (optional)
+     * @param string $refresh_token The refresh token obtained during prior authentication. Used only with a grant_type of refresh_token (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getOAuthTokenAsync($grant_type, $client_id, $client_secret = null, $username = null, $password = null)
+    public function getOAuthTokenAsync($grant_type, $client_id, $client_secret = null, $username = null, $password = null, $token = null, $refresh_token = null)
     {
-        return $this->getOAuthTokenAsyncWithHttpInfo($grant_type, $client_id, $client_secret, $username, $password)->then(function ($response) {
+        return $this->getOAuthTokenAsyncWithHttpInfo($grant_type, $client_id, $client_secret, $username, $password, $token, $refresh_token)->then(function ($response) {
             return $response[0];
         });
     }
@@ -198,15 +204,17 @@ class AccessTokenApi
      * @param string $grant_type Grant type (required)
      * @param string $client_id The id of the client (required)
      * @param string $client_secret The secret key of the client.  Used only with a grant_type of client_credentials (optional)
-     * @param string $username The username of the client.  Used only with a grant_type of password (optional)
-     * @param string $password The password of the client.  Used only with a grant_type of password (optional)
+     * @param string $username The username of the client. Used only with a grant_type of password (optional)
+     * @param string $password The password of the client. Used only with a grant_type of password (optional)
+     * @param string $token The 3rd party authentication token. Used only with a grant_type of facebook, google, etc (social plugins) (optional)
+     * @param string $refresh_token The refresh token obtained during prior authentication. Used only with a grant_type of refresh_token (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getOAuthTokenAsyncWithHttpInfo($grant_type, $client_id, $client_secret = null, $username = null, $password = null)
+    public function getOAuthTokenAsyncWithHttpInfo($grant_type, $client_id, $client_secret = null, $username = null, $password = null, $token = null, $refresh_token = null)
     {
         $returnType = '\KnetikCloud\Model\OAuth2Resource';
-        $request = $this->getOAuthTokenRequest($grant_type, $client_id, $client_secret, $username, $password);
+        $request = $this->getOAuthTokenRequest($grant_type, $client_id, $client_secret, $username, $password, $token, $refresh_token);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
@@ -242,12 +250,14 @@ class AccessTokenApi
      * @param string $grant_type Grant type (required)
      * @param string $client_id The id of the client (required)
      * @param string $client_secret The secret key of the client.  Used only with a grant_type of client_credentials (optional)
-     * @param string $username The username of the client.  Used only with a grant_type of password (optional)
-     * @param string $password The password of the client.  Used only with a grant_type of password (optional)
+     * @param string $username The username of the client. Used only with a grant_type of password (optional)
+     * @param string $password The password of the client. Used only with a grant_type of password (optional)
+     * @param string $token The 3rd party authentication token. Used only with a grant_type of facebook, google, etc (social plugins) (optional)
+     * @param string $refresh_token The refresh token obtained during prior authentication. Used only with a grant_type of refresh_token (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getOAuthTokenRequest($grant_type, $client_id, $client_secret = null, $username = null, $password = null)
+    protected function getOAuthTokenRequest($grant_type, $client_id, $client_secret = null, $username = null, $password = null, $token = null, $refresh_token = null)
     {
         // verify the required parameter 'grant_type' is set
         if ($grant_type === null) {
@@ -286,6 +296,14 @@ class AccessTokenApi
         // form params
         if ($password !== null) {
             $formParams['password'] = ObjectSerializer::toFormValue($password);
+        }
+        // form params
+        if ($token !== null) {
+            $formParams['token'] = ObjectSerializer::toFormValue($token);
+        }
+        // form params
+        if ($refresh_token !== null) {
+            $formParams['refresh_token'] = ObjectSerializer::toFormValue($refresh_token);
         }
 
         if ($multipart) {
