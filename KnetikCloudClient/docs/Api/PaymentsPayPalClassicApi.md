@@ -22,6 +22,11 @@ Returns the token that should be used to forward the user to PayPal so they can 
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 $api_instance = new KnetikCloud\Api\PaymentsPayPalClassicApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\CreateBillingAgreementRequest(); // \KnetikCloud\Model\CreateBillingAgreementRequest | The request to create a PayPal billing agreement
 
@@ -46,7 +51,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -66,6 +71,11 @@ Returns the token that should be used to forward the user to PayPal so they can 
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\PaymentsPayPalClassicApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\CreatePayPalPaymentRequest(); // \KnetikCloud\Model\CreatePayPalPaymentRequest | The request to create a PayPal payment token
@@ -91,7 +101,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -111,6 +121,11 @@ Returns the ID of the new payment method created for the user for the billing ag
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\PaymentsPayPalClassicApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\FinalizeBillingAgreementRequest(); // \KnetikCloud\Model\FinalizeBillingAgreementRequest | The request to finalize a PayPal billing agreement
@@ -136,7 +151,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -156,6 +171,11 @@ The invoice will be marked paid/failed by asynchronous IPN callback.
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\PaymentsPayPalClassicApi(new \Http\Adapter\Guzzle6\Client());
 $request = new \KnetikCloud\Model\FinalizePayPalPaymentRequest(); // \KnetikCloud\Model\FinalizePayPalPaymentRequest | The request to finalize the payment
@@ -180,7 +200,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 

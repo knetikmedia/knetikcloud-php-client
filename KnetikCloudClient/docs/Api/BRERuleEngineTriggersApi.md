@@ -23,6 +23,11 @@ Customer added triggers will not be fired automatically or have rules associated
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 $api_instance = new KnetikCloud\Api\BRERuleEngineTriggersApi(new \Http\Adapter\Guzzle6\Client());
 $bre_trigger_resource = new \KnetikCloud\Model\BreTriggerResource(); // \KnetikCloud\Model\BreTriggerResource | The BRE trigger resource object
 
@@ -47,7 +52,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -67,6 +72,11 @@ May fail if there are existing rules against it. Cannot delete core triggers
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\BRERuleEngineTriggersApi(new \Http\Adapter\Guzzle6\Client());
 $event_name = "event_name_example"; // string | The trigger event name
@@ -91,7 +101,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -109,6 +119,11 @@ Get a single trigger
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\BRERuleEngineTriggersApi(new \Http\Adapter\Guzzle6\Client());
 $event_name = "event_name_example"; // string | The trigger event name
@@ -134,7 +149,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -152,6 +167,11 @@ List triggers
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\BRERuleEngineTriggersApi(new \Http\Adapter\Guzzle6\Client());
 $filter_system = true; // bool | Filter for triggers that are system triggers when true, or not when false. Leave off for both mixed
@@ -189,7 +209,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -209,6 +229,11 @@ May fail if new parameters mismatch requirements of existing rules. Cannot updat
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\BRERuleEngineTriggersApi(new \Http\Adapter\Guzzle6\Client());
 $event_name = "event_name_example"; // string | The trigger event name
@@ -236,7 +261,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 

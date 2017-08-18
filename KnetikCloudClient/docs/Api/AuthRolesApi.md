@@ -26,6 +26,11 @@ Create a new role
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 $api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $role_resource = new \KnetikCloud\Model\RoleResource(); // \KnetikCloud\Model\RoleResource | The role resource object
 
@@ -50,7 +55,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -68,6 +73,11 @@ Delete a role
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $role = "role_example"; // string | The role value
@@ -94,7 +104,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -112,6 +122,11 @@ Get roles for a client
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $client_key = "client_key_example"; // string | The client key
@@ -137,7 +152,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -155,6 +170,11 @@ Get a single role
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $role = "role_example"; // string | The role value
@@ -180,7 +200,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -198,6 +218,11 @@ List and search roles
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $filter_name = "filter_name_example"; // string | Filter for roles that have a name starting with specified string
@@ -231,7 +256,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -249,6 +274,11 @@ Get roles for a user
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The user's id
@@ -274,7 +304,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -292,6 +322,11 @@ Set roles for a client
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $client_key = "client_key_example"; // string | The client key
@@ -319,7 +354,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -337,6 +372,11 @@ Set permissions for a role
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $role = "role_example"; // string | The role value
@@ -364,7 +404,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -382,6 +422,11 @@ Set roles for a user
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The user's id
@@ -409,7 +454,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -427,6 +472,11 @@ Update a role
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\AuthRolesApi(new \Http\Adapter\Guzzle6\Client());
 $role = "role_example"; // string | The role value
@@ -454,7 +504,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 

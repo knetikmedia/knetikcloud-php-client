@@ -19,6 +19,11 @@ Get the details for a single transaction
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 $api_instance = new KnetikCloud\Api\PaymentsTransactionsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | id
 
@@ -43,7 +48,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -61,6 +66,11 @@ List and search transactions
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\PaymentsTransactionsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_invoice = 56; // int | Filter for transactions from a specific invoice
@@ -92,7 +102,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -112,6 +122,11 @@ Will not allow for refunding more than the full amount even with multiple partia
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\PaymentsTransactionsApi(new \Http\Adapter\Guzzle6\Client());
 $id = 56; // int | The id of the transaction to refund
@@ -139,7 +154,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
