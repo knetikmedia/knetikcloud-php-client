@@ -83,4 +83,11 @@ class PayBySavedMethodRequestTest extends \PHPUnit_Framework_TestCase
     public function testPropertyPaymentMethod()
     {
     }
+
+    /**
+     * Test attribute "user_id"
+     */
+    public function testPropertyUserId()
+    {
+    }
 }

@@ -54,7 +54,8 @@ class PayBySavedMethodRequest implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'payment_method' => 'int'
+        'payment_method' => 'int',
+        'user_id' => 'int'
     ];
 
     /**
@@ -62,7 +63,8 @@ class PayBySavedMethodRequest implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'payment_method' => 'int32'
+        'payment_method' => 'int32',
+        'user_id' => 'int32'
     ];
 
     public static function swaggerTypes()
@@ -80,7 +82,8 @@ class PayBySavedMethodRequest implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'payment_method' => 'payment_method'
+        'payment_method' => 'payment_method',
+        'user_id' => 'user_id'
     ];
 
 
@@ -89,7 +92,8 @@ class PayBySavedMethodRequest implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'payment_method' => 'setPaymentMethod'
+        'payment_method' => 'setPaymentMethod',
+        'user_id' => 'setUserId'
     ];
 
 
@@ -98,7 +102,8 @@ class PayBySavedMethodRequest implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'payment_method' => 'getPaymentMethod'
+        'payment_method' => 'getPaymentMethod',
+        'user_id' => 'getUserId'
     ];
 
     public static function attributeMap()
@@ -133,6 +138,7 @@ class PayBySavedMethodRequest implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['payment_method'] = isset($data['payment_method']) ? $data['payment_method'] : null;
+        $this->container['user_id'] = isset($data['user_id']) ? $data['user_id'] : null;
     }
 
     /**
@@ -183,6 +189,27 @@ class PayBySavedMethodRequest implements ArrayAccess
     public function setPaymentMethod($payment_method)
     {
         $this->container['payment_method'] = $payment_method;
+
+        return $this;
+    }
+
+    /**
+     * Gets user_id
+     * @return int
+     */
+    public function getUserId()
+    {
+        return $this->container['user_id'];
+    }
+
+    /**
+     * Sets user_id
+     * @param int $user_id The id of a user to bill. Must have PAYMENTS_ADMIN permission
+     * @return $this
+     */
+    public function setUserId($user_id)
+    {
+        $this->container['user_id'] = $user_id;
 
         return $this;
     }
