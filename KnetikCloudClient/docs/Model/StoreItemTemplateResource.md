@@ -3,6 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**allow_additional** | **bool** | Whether to allow additional properties beyond those specified or not | [optional] 
 **behaviors** | [**\KnetikCloud\Model\ItemBehaviorDefinitionResource[]**](ItemBehaviorDefinitionResource.md) | The customized behaviors that are required or default for this type of item | [optional] 
 **created_date** | **int** | The date/time this resource was created in seconds since unix epoch | [optional] 
 **id** | **string** | The id of the template | [optional] 

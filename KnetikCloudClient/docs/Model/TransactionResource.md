@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **transaction_id** | **string** | The payment gateway (external) transaction ID | [optional] 
 **type** | **string** | The general type of the transaction | [optional] 
 **type_hint** | **string** | The table name of the subclass | [optional] 
-**value** | **double** | The amount of the transaction, positive if a gain, negative if an expenditure | [optional] 
+**value** | **float** | The amount of the transaction, positive if a gain, negative if an expenditure | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

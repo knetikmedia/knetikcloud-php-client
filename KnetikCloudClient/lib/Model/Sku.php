@@ -59,8 +59,10 @@ class Sku implements ArrayAccess
         'description' => 'string',
         'inventory' => 'int',
         'min_inventory_threshold' => 'int',
-        'original_price' => 'double',
-        'price' => 'double',
+        'not_available' => 'bool',
+        'not_displayable' => 'bool',
+        'original_price' => 'float',
+        'price' => 'float',
         'published' => 'bool',
         'sale_id' => 'int',
         'sale_name' => 'string',
@@ -79,8 +81,10 @@ class Sku implements ArrayAccess
         'description' => null,
         'inventory' => 'int32',
         'min_inventory_threshold' => 'int32',
-        'original_price' => 'double',
-        'price' => 'double',
+        'not_available' => null,
+        'not_displayable' => null,
+        'original_price' => null,
+        'price' => null,
         'published' => null,
         'sale_id' => 'int32',
         'sale_name' => null,
@@ -109,6 +113,8 @@ class Sku implements ArrayAccess
         'description' => 'description',
         'inventory' => 'inventory',
         'min_inventory_threshold' => 'min_inventory_threshold',
+        'not_available' => 'not_available',
+        'not_displayable' => 'not_displayable',
         'original_price' => 'original_price',
         'price' => 'price',
         'published' => 'published',
@@ -130,6 +136,8 @@ class Sku implements ArrayAccess
         'description' => 'setDescription',
         'inventory' => 'setInventory',
         'min_inventory_threshold' => 'setMinInventoryThreshold',
+        'not_available' => 'setNotAvailable',
+        'not_displayable' => 'setNotDisplayable',
         'original_price' => 'setOriginalPrice',
         'price' => 'setPrice',
         'published' => 'setPublished',
@@ -151,6 +159,8 @@ class Sku implements ArrayAccess
         'description' => 'getDescription',
         'inventory' => 'getInventory',
         'min_inventory_threshold' => 'getMinInventoryThreshold',
+        'not_available' => 'getNotAvailable',
+        'not_displayable' => 'getNotDisplayable',
         'original_price' => 'getOriginalPrice',
         'price' => 'getPrice',
         'published' => 'getPublished',
@@ -197,6 +207,8 @@ class Sku implements ArrayAccess
         $this->container['description'] = isset($data['description']) ? $data['description'] : null;
         $this->container['inventory'] = isset($data['inventory']) ? $data['inventory'] : null;
         $this->container['min_inventory_threshold'] = isset($data['min_inventory_threshold']) ? $data['min_inventory_threshold'] : null;
+        $this->container['not_available'] = isset($data['not_available']) ? $data['not_available'] : null;
+        $this->container['not_displayable'] = isset($data['not_displayable']) ? $data['not_displayable'] : null;
         $this->container['original_price'] = isset($data['original_price']) ? $data['original_price'] : null;
         $this->container['price'] = isset($data['price']) ? $data['price'] : null;
         $this->container['published'] = isset($data['published']) ? $data['published'] : null;
@@ -362,8 +374,50 @@ class Sku implements ArrayAccess
     }
 
     /**
+     * Gets not_available
+     * @return bool
+     */
+    public function getNotAvailable()
+    {
+        return $this->container['not_available'];
+    }
+
+    /**
+     * Sets not_available
+     * @param bool $not_available
+     * @return $this
+     */
+    public function setNotAvailable($not_available)
+    {
+        $this->container['not_available'] = $not_available;
+
+        return $this;
+    }
+
+    /**
+     * Gets not_displayable
+     * @return bool
+     */
+    public function getNotDisplayable()
+    {
+        return $this->container['not_displayable'];
+    }
+
+    /**
+     * Sets not_displayable
+     * @param bool $not_displayable
+     * @return $this
+     */
+    public function setNotDisplayable($not_displayable)
+    {
+        $this->container['not_displayable'] = $not_displayable;
+
+        return $this;
+    }
+
+    /**
      * Gets original_price
-     * @return double
+     * @return float
      */
     public function getOriginalPrice()
     {
@@ -372,7 +426,7 @@ class Sku implements ArrayAccess
 
     /**
      * Sets original_price
-     * @param double $original_price The base price before any sale
+     * @param float $original_price The base price before any sale
      * @return $this
      */
     public function setOriginalPrice($original_price)
@@ -384,7 +438,7 @@ class Sku implements ArrayAccess
 
     /**
      * Gets price
-     * @return double
+     * @return float
      */
     public function getPrice()
     {
@@ -393,7 +447,7 @@ class Sku implements ArrayAccess
 
     /**
      * Sets price
-     * @param double $price The current price of the SKU with sales, if any. Set original_price for the base
+     * @param float $price The current price of the SKU with sales, if any. Set original_price for the base
      * @return $this
      */
     public function setPrice($price)
@@ -414,7 +468,7 @@ class Sku implements ArrayAccess
 
     /**
      * Sets published
-     * @param bool $published Whether or not the SKU is currently published
+     * @param bool $published Whether or not the SKU is currently visible to users. This will not block users from purchase. Use start_date or stop_date to prevent purchase. Default: true
      * @return $this
      */
     public function setPublished($published)
@@ -498,7 +552,7 @@ class Sku implements ArrayAccess
 
     /**
      * Sets start_date
-     * @param int $start_date The date the sku becomes available, unix timestamp in seconds.  If set to null, sku will become available immediately
+     * @param int $start_date The date the sku becomes visible (if published) and available for purchase, unix timestamp in seconds.  If set to null, sku will become available immediately
      * @return $this
      */
     public function setStartDate($start_date)
@@ -519,7 +573,7 @@ class Sku implements ArrayAccess
 
     /**
      * Sets stop_date
-     * @param int $stop_date The date the sku becomes unavailable, unix timestamp in seconds.  If set to null, sku is always available
+     * @param int $stop_date The date the sku becomes hidden and unavailable for purchase, unix timestamp in seconds.  If set to null, sku is always available
      * @return $this
      */
     public function setStopDate($stop_date)

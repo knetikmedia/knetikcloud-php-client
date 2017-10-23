@@ -5,8 +5,10 @@ All URIs are relative to *https://sandbox.knetikcloud.com*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**sendRawEmail**](MessagingApi.md#sendRawEmail) | **POST** /messaging/raw-email | Send a raw email to one or more users
+[**sendRawPush**](MessagingApi.md#sendRawPush) | **POST** /messaging/raw-push | Send a raw push notification
 [**sendRawSMS**](MessagingApi.md#sendRawSMS) | **POST** /messaging/raw-sms | Send a raw SMS
 [**sendTemplatedEmail**](MessagingApi.md#sendTemplatedEmail) | **POST** /messaging/templated-email | Send a templated email to one or more users
+[**sendTemplatedPush**](MessagingApi.md#sendTemplatedPush) | **POST** /messaging/templated-push | Send a templated push notification
 [**sendTemplatedSMS**](MessagingApi.md#sendTemplatedSMS) | **POST** /messaging/templated-sms | Send a new templated SMS
 
 
@@ -41,6 +43,55 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **raw_email_resource** | [**\KnetikCloud\Model\RawEmailResource**](../Model/RawEmailResource.md)| The new raw email to be sent | [optional]
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **sendRawPush**
+> sendRawPush($raw_push_resource)
+
+Send a raw push notification
+
+Sends a raw push notification message to one or more users. User's without registered mobile device for the application will be skipped.
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\MessagingApi(new \Http\Adapter\Guzzle6\Client());
+$raw_push_resource = new \KnetikCloud\Model\RawPushResource(); // \KnetikCloud\Model\RawPushResource | The new raw push notification to be sent
+
+try {
+    $api_instance->sendRawPush($raw_push_resource);
+} catch (Exception $e) {
+    echo 'Exception when calling MessagingApi->sendRawPush: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **raw_push_resource** | [**\KnetikCloud\Model\RawPushResource**](../Model/RawPushResource.md)| The new raw push notification to be sent | [optional]
 
 ### Return type
 
@@ -137,6 +188,55 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **message_resource** | [**\KnetikCloud\Model\TemplateEmailResource**](../Model/TemplateEmailResource.md)| The new template email to be sent | [optional]
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **sendTemplatedPush**
+> sendTemplatedPush($template_push_resource)
+
+Send a templated push notification
+
+Sends a templated push notification message to one or more users. User's without registered mobile device for the application will be skipped.
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\MessagingApi(new \Http\Adapter\Guzzle6\Client());
+$template_push_resource = new \KnetikCloud\Model\TemplatePushResource(); // \KnetikCloud\Model\TemplatePushResource | The new templated push notification to be sent
+
+try {
+    $api_instance->sendTemplatedPush($template_push_resource);
+} catch (Exception $e) {
+    echo 'Exception when calling MessagingApi->sendTemplatedPush: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **template_push_resource** | [**\KnetikCloud\Model\TemplatePushResource**](../Model/TemplatePushResource.md)| The new templated push notification to be sent | [optional]
 
 ### Return type
 

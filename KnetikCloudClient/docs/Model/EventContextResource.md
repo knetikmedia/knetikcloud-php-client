@@ -3,6 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**definition** | **string** |  | [optional] 
 **event_name** | **string** |  | [optional] 
 **parameters** | [**map[string,\KnetikCloud\Model\ExpressionResource]**](ExpressionResource.md) |  | [optional] 
 **type** | **string** |  | [optional] 

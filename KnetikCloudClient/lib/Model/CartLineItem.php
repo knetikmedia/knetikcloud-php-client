@@ -57,10 +57,10 @@ class CartLineItem implements ArrayAccess
         'currency_code' => 'string',
         'description' => 'string',
         'discount' => '\KnetikCloud\Model\Discount',
-        'line_total' => 'double',
+        'line_total' => 'float',
         'name' => 'string',
-        'original_line_total' => 'double',
-        'original_unit_price' => 'double',
+        'original_line_total' => 'float',
+        'original_unit_price' => 'float',
         'qty' => 'int',
         'sale_name' => 'string',
         'sku' => 'string',
@@ -69,7 +69,7 @@ class CartLineItem implements ArrayAccess
         'tags' => 'string[]',
         'thumb_url' => 'string',
         'unique_key' => 'string',
-        'unit_price' => 'double',
+        'unit_price' => 'float',
         'vendor_id' => 'int',
         'vendor_name' => 'string'
     ];
@@ -82,10 +82,10 @@ class CartLineItem implements ArrayAccess
         'currency_code' => null,
         'description' => null,
         'discount' => null,
-        'line_total' => 'double',
+        'line_total' => null,
         'name' => null,
-        'original_line_total' => 'double',
-        'original_unit_price' => 'double',
+        'original_line_total' => null,
+        'original_unit_price' => null,
         'qty' => 'int32',
         'sale_name' => null,
         'sku' => null,
@@ -94,7 +94,7 @@ class CartLineItem implements ArrayAccess
         'tags' => null,
         'thumb_url' => null,
         'unique_key' => null,
-        'unit_price' => 'double',
+        'unit_price' => null,
         'vendor_id' => 'int32',
         'vendor_name' => null
     ];
@@ -327,7 +327,7 @@ class CartLineItem implements ArrayAccess
 
     /**
      * Gets line_total
-     * @return double
+     * @return float
      */
     public function getLineTotal()
     {
@@ -336,7 +336,7 @@ class CartLineItem implements ArrayAccess
 
     /**
      * Sets line_total
-     * @param double $line_total
+     * @param float $line_total
      * @return $this
      */
     public function setLineTotal($line_total)
@@ -369,7 +369,7 @@ class CartLineItem implements ArrayAccess
 
     /**
      * Gets original_line_total
-     * @return double
+     * @return float
      */
     public function getOriginalLineTotal()
     {
@@ -378,7 +378,7 @@ class CartLineItem implements ArrayAccess
 
     /**
      * Sets original_line_total
-     * @param double $original_line_total
+     * @param float $original_line_total
      * @return $this
      */
     public function setOriginalLineTotal($original_line_total)
@@ -390,7 +390,7 @@ class CartLineItem implements ArrayAccess
 
     /**
      * Gets original_unit_price
-     * @return double
+     * @return float
      */
     public function getOriginalUnitPrice()
     {
@@ -399,7 +399,7 @@ class CartLineItem implements ArrayAccess
 
     /**
      * Sets original_unit_price
-     * @param double $original_unit_price
+     * @param float $original_unit_price
      * @return $this
      */
     public function setOriginalUnitPrice($original_unit_price)
@@ -579,7 +579,7 @@ class CartLineItem implements ArrayAccess
 
     /**
      * Gets unit_price
-     * @return double
+     * @return float
      */
     public function getUnitPrice()
     {
@@ -588,7 +588,7 @@ class CartLineItem implements ArrayAccess
 
     /**
      * Sets unit_price
-     * @param double $unit_price
+     * @param float $unit_price
      * @return $this
      */
     public function setUnitPrice($unit_price)

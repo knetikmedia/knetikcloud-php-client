@@ -87,7 +87,7 @@ class DevicesApi
      * Add device users
      *
      * @param \KnetikCloud\Model\SimpleUserResource[] $user_resources userResources (required)
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\DeviceResource
@@ -104,7 +104,7 @@ class DevicesApi
      * Add device users
      *
      * @param \KnetikCloud\Model\SimpleUserResource[] $user_resources userResources (required)
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\DeviceResource, HTTP status code, HTTP response headers (array of strings)
@@ -174,7 +174,7 @@ class DevicesApi
      * Add device users
      *
      * @param \KnetikCloud\Model\SimpleUserResource[] $user_resources userResources (required)
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
@@ -191,7 +191,7 @@ class DevicesApi
      * Add device users
      *
      * @param \KnetikCloud\Model\SimpleUserResource[] $user_resources userResources (required)
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
@@ -232,7 +232,7 @@ class DevicesApi
      * Create request for operation 'addDeviceUsers'
      *
      * @param \KnetikCloud\Model\SimpleUserResource[] $user_resources userResources (required)
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
@@ -569,11 +569,244 @@ class DevicesApi
     }
 
     /**
+     * Operation createDeviceTemplate
+     *
+     * Create a device template
+     *
+     * @param \KnetikCloud\Model\TemplateResource $device_template_resource The device template resource object (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\TemplateResource
+     */
+    public function createDeviceTemplate($device_template_resource = null)
+    {
+        list($response) = $this->createDeviceTemplateWithHttpInfo($device_template_resource);
+        return $response;
+    }
+
+    /**
+     * Operation createDeviceTemplateWithHttpInfo
+     *
+     * Create a device template
+     *
+     * @param \KnetikCloud\Model\TemplateResource $device_template_resource The device template resource object (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\TemplateResource, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function createDeviceTemplateWithHttpInfo($device_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->createDeviceTemplateRequest($device_template_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createDeviceTemplateAsync
+     *
+     * Create a device template
+     *
+     * @param \KnetikCloud\Model\TemplateResource $device_template_resource The device template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createDeviceTemplateAsync($device_template_resource = null)
+    {
+        return $this->createDeviceTemplateAsyncWithHttpInfo($device_template_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation createDeviceTemplateAsyncWithHttpInfo
+     *
+     * Create a device template
+     *
+     * @param \KnetikCloud\Model\TemplateResource $device_template_resource The device template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createDeviceTemplateAsyncWithHttpInfo($device_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->createDeviceTemplateRequest($device_template_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'createDeviceTemplate'
+     *
+     * @param \KnetikCloud\Model\TemplateResource $device_template_resource The device template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function createDeviceTemplateRequest($device_template_resource = null)
+    {
+
+        $resourcePath = '/devices/templates';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // body params
+        $_tempBody = null;
+        if (isset($device_template_resource)) {
+            $_tempBody = $device_template_resource;
+        }
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation deleteDevice
      *
      * Delete a device
      *
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
@@ -588,7 +821,7 @@ class DevicesApi
      *
      * Delete a device
      *
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
@@ -639,7 +872,7 @@ class DevicesApi
      *
      * Delete a device
      *
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
@@ -655,7 +888,7 @@ class DevicesApi
      *
      * Delete a device
      *
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
@@ -681,7 +914,7 @@ class DevicesApi
     /**
      * Create request for operation 'deleteDevice'
      *
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
@@ -772,11 +1005,223 @@ class DevicesApi
     }
 
     /**
+     * Operation deleteDeviceTemplate
+     *
+     * Delete an device template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return void
+     */
+    public function deleteDeviceTemplate($id, $cascade = null)
+    {
+        $this->deleteDeviceTemplateWithHttpInfo($id, $cascade);
+    }
+
+    /**
+     * Operation deleteDeviceTemplateWithHttpInfo
+     *
+     * Delete an device template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function deleteDeviceTemplateWithHttpInfo($id, $cascade = null)
+    {
+        $returnType = '';
+        $request = $this->deleteDeviceTemplateRequest($id, $cascade);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteDeviceTemplateAsync
+     *
+     * Delete an device template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteDeviceTemplateAsync($id, $cascade = null)
+    {
+        return $this->deleteDeviceTemplateAsyncWithHttpInfo($id, $cascade)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation deleteDeviceTemplateAsyncWithHttpInfo
+     *
+     * Delete an device template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteDeviceTemplateAsyncWithHttpInfo($id, $cascade = null)
+    {
+        $returnType = '';
+        $request = $this->deleteDeviceTemplateRequest($id, $cascade);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'deleteDeviceTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function deleteDeviceTemplateRequest($id, $cascade = null)
+    {
+        // verify the required parameter 'id' is set
+        if ($id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $id when calling deleteDeviceTemplate');
+        }
+
+        $resourcePath = '/devices/templates/{id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        if ($cascade !== null) {
+            $queryParams['cascade'] = ObjectSerializer::toQueryValue($cascade);
+        }
+
+        // path params
+        if ($id !== null) {
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'DELETE',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation deleteDeviceUser
      *
      * Delete a device user
      *
-     * @param int $id The id of the device (required)
+     * @param string $id The id of the device (required)
      * @param int $user_id The user id of the device user (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -792,7 +1237,7 @@ class DevicesApi
      *
      * Delete a device user
      *
-     * @param int $id The id of the device (required)
+     * @param string $id The id of the device (required)
      * @param int $user_id The user id of the device user (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -844,7 +1289,7 @@ class DevicesApi
      *
      * Delete a device user
      *
-     * @param int $id The id of the device (required)
+     * @param string $id The id of the device (required)
      * @param int $user_id The user id of the device user (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -861,7 +1306,7 @@ class DevicesApi
      *
      * Delete a device user
      *
-     * @param int $id The id of the device (required)
+     * @param string $id The id of the device (required)
      * @param int $user_id The user id of the device user (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -888,7 +1333,7 @@ class DevicesApi
     /**
      * Create request for operation 'deleteDeviceUser'
      *
-     * @param int $id The id of the device (required)
+     * @param string $id The id of the device (required)
      * @param int $user_id The user id of the device user (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -992,7 +1437,7 @@ class DevicesApi
      *
      * Delete all device users
      *
-     * @param int $id The id of the device (required)
+     * @param string $id The id of the device (required)
      * @param string $filter_id Filter for device users to delete with a user id in a given comma separated list of ids (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1008,7 +1453,7 @@ class DevicesApi
      *
      * Delete all device users
      *
-     * @param int $id The id of the device (required)
+     * @param string $id The id of the device (required)
      * @param string $filter_id Filter for device users to delete with a user id in a given comma separated list of ids (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1060,7 +1505,7 @@ class DevicesApi
      *
      * Delete all device users
      *
-     * @param int $id The id of the device (required)
+     * @param string $id The id of the device (required)
      * @param string $filter_id Filter for device users to delete with a user id in a given comma separated list of ids (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1077,7 +1522,7 @@ class DevicesApi
      *
      * Delete all device users
      *
-     * @param int $id The id of the device (required)
+     * @param string $id The id of the device (required)
      * @param string $filter_id Filter for device users to delete with a user id in a given comma separated list of ids (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1104,7 +1549,7 @@ class DevicesApi
     /**
      * Create request for operation 'deleteDeviceUsers'
      *
-     * @param int $id The id of the device (required)
+     * @param string $id The id of the device (required)
      * @param string $filter_id Filter for device users to delete with a user id in a given comma separated list of ids (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -1204,7 +1649,7 @@ class DevicesApi
      *
      * Get a single device
      *
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\DeviceResource
@@ -1220,7 +1665,7 @@ class DevicesApi
      *
      * Get a single device
      *
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\DeviceResource, HTTP status code, HTTP response headers (array of strings)
@@ -1289,7 +1734,7 @@ class DevicesApi
      *
      * Get a single device
      *
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
@@ -1305,7 +1750,7 @@ class DevicesApi
      *
      * Get a single device
      *
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
@@ -1345,7 +1790,7 @@ class DevicesApi
     /**
      * Create request for operation 'getDevice'
      *
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
@@ -1436,12 +1881,502 @@ class DevicesApi
     }
 
     /**
+     * Operation getDeviceTemplate
+     *
+     * Get a single device template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\TemplateResource
+     */
+    public function getDeviceTemplate($id)
+    {
+        list($response) = $this->getDeviceTemplateWithHttpInfo($id);
+        return $response;
+    }
+
+    /**
+     * Operation getDeviceTemplateWithHttpInfo
+     *
+     * Get a single device template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\TemplateResource, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getDeviceTemplateWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->getDeviceTemplateRequest($id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getDeviceTemplateAsync
+     *
+     * Get a single device template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getDeviceTemplateAsync($id)
+    {
+        return $this->getDeviceTemplateAsyncWithHttpInfo($id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getDeviceTemplateAsyncWithHttpInfo
+     *
+     * Get a single device template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getDeviceTemplateAsyncWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->getDeviceTemplateRequest($id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getDeviceTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getDeviceTemplateRequest($id)
+    {
+        // verify the required parameter 'id' is set
+        if ($id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $id when calling getDeviceTemplate');
+        }
+
+        $resourcePath = '/devices/templates/{id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // path params
+        if ($id !== null) {
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getDeviceTemplates
+     *
+     * List and search device templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\PageResourceTemplateResource_
+     */
+    public function getDeviceTemplates($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        list($response) = $this->getDeviceTemplatesWithHttpInfo($size, $page, $order);
+        return $response;
+    }
+
+    /**
+     * Operation getDeviceTemplatesWithHttpInfo
+     *
+     * List and search device templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\PageResourceTemplateResource_, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getDeviceTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceTemplateResource_';
+        $request = $this->getDeviceTemplatesRequest($size, $page, $order);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceTemplateResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getDeviceTemplatesAsync
+     *
+     * List and search device templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getDeviceTemplatesAsync($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        return $this->getDeviceTemplatesAsyncWithHttpInfo($size, $page, $order)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getDeviceTemplatesAsyncWithHttpInfo
+     *
+     * List and search device templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getDeviceTemplatesAsyncWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceTemplateResource_';
+        $request = $this->getDeviceTemplatesRequest($size, $page, $order);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getDeviceTemplates'
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getDeviceTemplatesRequest($size = '25', $page = '1', $order = 'id:ASC')
+    {
+
+        $resourcePath = '/devices/templates';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        if ($size !== null) {
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
+        }
+        // query params
+        if ($page !== null) {
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
+        }
+        // query params
+        if ($order !== null) {
+            $queryParams['order'] = ObjectSerializer::toQueryValue($order);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation getDevices
      *
      * List and search devices
      *
      * @param string $filter_make Filter for devices with specified make (optional)
      * @param string $filter_model Filter for devices with specified model (optional)
+     * @param string $filter_os Filter for devices with specified OS (optional)
+     * @param string $filter_serial Filter for devices with specified serial (optional)
+     * @param string $filter_type Filter for devices with specified type (optional)
+     * @param string $filter_tag A comma separated list without spaces to filter for devices with specified tags (matches any) (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
@@ -1449,9 +2384,9 @@ class DevicesApi
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceDeviceResource_
      */
-    public function getDevices($filter_make = null, $filter_model = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getDevices($filter_make = null, $filter_model = null, $filter_os = null, $filter_serial = null, $filter_type = null, $filter_tag = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
-        list($response) = $this->getDevicesWithHttpInfo($filter_make, $filter_model, $size, $page, $order);
+        list($response) = $this->getDevicesWithHttpInfo($filter_make, $filter_model, $filter_os, $filter_serial, $filter_type, $filter_tag, $size, $page, $order);
         return $response;
     }
 
@@ -1462,6 +2397,10 @@ class DevicesApi
      *
      * @param string $filter_make Filter for devices with specified make (optional)
      * @param string $filter_model Filter for devices with specified model (optional)
+     * @param string $filter_os Filter for devices with specified OS (optional)
+     * @param string $filter_serial Filter for devices with specified serial (optional)
+     * @param string $filter_type Filter for devices with specified type (optional)
+     * @param string $filter_tag A comma separated list without spaces to filter for devices with specified tags (matches any) (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
@@ -1469,10 +2408,10 @@ class DevicesApi
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceDeviceResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getDevicesWithHttpInfo($filter_make = null, $filter_model = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getDevicesWithHttpInfo($filter_make = null, $filter_model = null, $filter_os = null, $filter_serial = null, $filter_type = null, $filter_tag = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceDeviceResource_';
-        $request = $this->getDevicesRequest($filter_make, $filter_model, $size, $page, $order);
+        $request = $this->getDevicesRequest($filter_make, $filter_model, $filter_os, $filter_serial, $filter_type, $filter_tag, $size, $page, $order);
 
         try {
 
@@ -1535,15 +2474,19 @@ class DevicesApi
      *
      * @param string $filter_make Filter for devices with specified make (optional)
      * @param string $filter_model Filter for devices with specified model (optional)
+     * @param string $filter_os Filter for devices with specified OS (optional)
+     * @param string $filter_serial Filter for devices with specified serial (optional)
+     * @param string $filter_type Filter for devices with specified type (optional)
+     * @param string $filter_tag A comma separated list without spaces to filter for devices with specified tags (matches any) (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getDevicesAsync($filter_make = null, $filter_model = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getDevicesAsync($filter_make = null, $filter_model = null, $filter_os = null, $filter_serial = null, $filter_type = null, $filter_tag = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
-        return $this->getDevicesAsyncWithHttpInfo($filter_make, $filter_model, $size, $page, $order)->then(function ($response) {
+        return $this->getDevicesAsyncWithHttpInfo($filter_make, $filter_model, $filter_os, $filter_serial, $filter_type, $filter_tag, $size, $page, $order)->then(function ($response) {
             return $response[0];
         });
     }
@@ -1555,16 +2498,20 @@ class DevicesApi
      *
      * @param string $filter_make Filter for devices with specified make (optional)
      * @param string $filter_model Filter for devices with specified model (optional)
+     * @param string $filter_os Filter for devices with specified OS (optional)
+     * @param string $filter_serial Filter for devices with specified serial (optional)
+     * @param string $filter_type Filter for devices with specified type (optional)
+     * @param string $filter_tag A comma separated list without spaces to filter for devices with specified tags (matches any) (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getDevicesAsyncWithHttpInfo($filter_make = null, $filter_model = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getDevicesAsyncWithHttpInfo($filter_make = null, $filter_model = null, $filter_os = null, $filter_serial = null, $filter_type = null, $filter_tag = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceDeviceResource_';
-        $request = $this->getDevicesRequest($filter_make, $filter_model, $size, $page, $order);
+        $request = $this->getDevicesRequest($filter_make, $filter_model, $filter_os, $filter_serial, $filter_type, $filter_tag, $size, $page, $order);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
@@ -1599,13 +2546,17 @@ class DevicesApi
      *
      * @param string $filter_make Filter for devices with specified make (optional)
      * @param string $filter_model Filter for devices with specified model (optional)
+     * @param string $filter_os Filter for devices with specified OS (optional)
+     * @param string $filter_serial Filter for devices with specified serial (optional)
+     * @param string $filter_type Filter for devices with specified type (optional)
+     * @param string $filter_tag A comma separated list without spaces to filter for devices with specified tags (matches any) (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getDevicesRequest($filter_make = null, $filter_model = null, $size = '25', $page = '1', $order = 'id:ASC')
+    protected function getDevicesRequest($filter_make = null, $filter_model = null, $filter_os = null, $filter_serial = null, $filter_type = null, $filter_tag = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
 
         $resourcePath = '/devices';
@@ -1622,6 +2573,22 @@ class DevicesApi
         // query params
         if ($filter_model !== null) {
             $queryParams['filter_model'] = ObjectSerializer::toQueryValue($filter_model);
+        }
+        // query params
+        if ($filter_os !== null) {
+            $queryParams['filter_os'] = ObjectSerializer::toQueryValue($filter_os);
+        }
+        // query params
+        if ($filter_serial !== null) {
+            $queryParams['filter_serial'] = ObjectSerializer::toQueryValue($filter_serial);
+        }
+        // query params
+        if ($filter_type !== null) {
+            $queryParams['filter_type'] = ObjectSerializer::toQueryValue($filter_type);
+        }
+        // query params
+        if ($filter_tag !== null) {
+            $queryParams['filter_tag'] = ObjectSerializer::toQueryValue($filter_tag);
         }
         // query params
         if ($size !== null) {
@@ -1709,7 +2676,7 @@ class DevicesApi
      * Update a device
      *
      * @param \KnetikCloud\Model\DeviceResource $device device (required)
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\DeviceResource
@@ -1726,7 +2693,7 @@ class DevicesApi
      * Update a device
      *
      * @param \KnetikCloud\Model\DeviceResource $device device (required)
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\DeviceResource, HTTP status code, HTTP response headers (array of strings)
@@ -1796,7 +2763,7 @@ class DevicesApi
      * Update a device
      *
      * @param \KnetikCloud\Model\DeviceResource $device device (required)
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
@@ -1813,7 +2780,7 @@ class DevicesApi
      * Update a device
      *
      * @param \KnetikCloud\Model\DeviceResource $device device (required)
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
@@ -1854,7 +2821,7 @@ class DevicesApi
      * Create request for operation 'updateDevice'
      *
      * @param \KnetikCloud\Model\DeviceResource $device device (required)
-     * @param int $id id (required)
+     * @param string $id id (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
@@ -1886,6 +2853,252 @@ class DevicesApi
         $_tempBody = null;
         if (isset($device)) {
             $_tempBody = $device;
+        }
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation updateDeviceTemplate
+     *
+     * Update an device template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $device_template_resource The device template resource object (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\TemplateResource
+     */
+    public function updateDeviceTemplate($id, $device_template_resource = null)
+    {
+        list($response) = $this->updateDeviceTemplateWithHttpInfo($id, $device_template_resource);
+        return $response;
+    }
+
+    /**
+     * Operation updateDeviceTemplateWithHttpInfo
+     *
+     * Update an device template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $device_template_resource The device template resource object (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\TemplateResource, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function updateDeviceTemplateWithHttpInfo($id, $device_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->updateDeviceTemplateRequest($id, $device_template_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 204:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateDeviceTemplateAsync
+     *
+     * Update an device template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $device_template_resource The device template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateDeviceTemplateAsync($id, $device_template_resource = null)
+    {
+        return $this->updateDeviceTemplateAsyncWithHttpInfo($id, $device_template_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateDeviceTemplateAsyncWithHttpInfo
+     *
+     * Update an device template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $device_template_resource The device template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateDeviceTemplateAsyncWithHttpInfo($id, $device_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->updateDeviceTemplateRequest($id, $device_template_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateDeviceTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $device_template_resource The device template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateDeviceTemplateRequest($id, $device_template_resource = null)
+    {
+        // verify the required parameter 'id' is set
+        if ($id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $id when calling updateDeviceTemplate');
+        }
+
+        $resourcePath = '/devices/templates/{id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // path params
+        if ($id !== null) {
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+        // body params
+        $_tempBody = null;
+        if (isset($device_template_resource)) {
+            $_tempBody = $device_template_resource;
         }
 
         if ($multipart) {

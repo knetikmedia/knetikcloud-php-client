@@ -3,23 +3,22 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**authorization** | **string** | The authorization code for the device | [optional] 
-**condition** | **string** | The current condition of the device (New, Defective, Reconditioned) | [optional] 
+**additional_properties** | [**map[string,\KnetikCloud\Model\Property]**](Property.md) | A map of additional properties, keyed on the property name.  Must match the names and types defined in the template if one is specified | [optional] 
 **created_date** | **int** | The date the device log was created | [optional] 
-**data** | **map[string,string]** | The key/value pairs for extended data | [optional] 
 **description** | **string** | The description of the device | [optional] 
-**device_type** | **string** | The type of the device | [optional] 
-**id** | **int** | The unique ID for this device. Cannot be changed once created | 
-**location** | **string** | The location of the device | [optional] 
+**device_type** | **string** | The type of device. Use mobile to specifically register mobile devices. This particular type will be used to send and receive notifications | [optional] 
+**id** | **string** | The unique ID for this device | [optional] 
+**location** | **string** | The physical location of the device, coordinates or named place (office, living room, etc) | [optional] 
 **mac_address** | **string** | The MAC (media access control) address of the device | [optional] 
 **make** | **string** | The make of the device | [optional] 
 **model** | **string** | The model of the device | [optional] 
 **name** | **string** | The name of the device | [optional] 
 **os** | **string** | The OS (operating system) on the device | [optional] 
+**owner** | [**\KnetikCloud\Model\SimpleUserResource**](SimpleUserResource.md) | The user that owns the device | [optional] 
 **serial** | **string** | The serial number of the device | [optional] 
-**status** | **string** | The current status the device (Active, Pending Active, Inactive, Repair | [optional] 
+**tags** | **string[]** | Random tags to facilitate search | [optional] 
+**template** | **string** | Use to describe and validate custom properties (custom schema). May be null and no validation of additional_properties will be done | [optional] 
 **updated_date** | **int** | The date the device log was updated | [optional] 
-**user** | [**\KnetikCloud\Model\SimpleUserResource**](SimpleUserResource.md) | The user that owns the device | [optional] 
 **users** | [**\KnetikCloud\Model\SimpleUserResource[]**](SimpleUserResource.md) | The users currently using the device | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

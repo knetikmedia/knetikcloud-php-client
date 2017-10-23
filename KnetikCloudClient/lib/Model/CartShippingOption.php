@@ -57,8 +57,8 @@ class CartShippingOption implements ArrayAccess
         'currency_code' => 'string',
         'description' => 'string',
         'name' => 'string',
-        'original_price' => 'double',
-        'price' => 'double',
+        'original_price' => 'float',
+        'price' => 'float',
         'shipping_item_id' => 'int',
         'sku' => 'string',
         'taxable' => 'bool',
@@ -74,8 +74,8 @@ class CartShippingOption implements ArrayAccess
         'currency_code' => null,
         'description' => null,
         'name' => null,
-        'original_price' => 'double',
-        'price' => 'double',
+        'original_price' => null,
+        'price' => null,
         'shipping_item_id' => 'int32',
         'sku' => null,
         'taxable' => null,
@@ -279,7 +279,7 @@ class CartShippingOption implements ArrayAccess
 
     /**
      * Gets original_price
-     * @return double
+     * @return float
      */
     public function getOriginalPrice()
     {
@@ -288,7 +288,7 @@ class CartShippingOption implements ArrayAccess
 
     /**
      * Sets original_price
-     * @param double $original_price
+     * @param float $original_price
      * @return $this
      */
     public function setOriginalPrice($original_price)
@@ -300,7 +300,7 @@ class CartShippingOption implements ArrayAccess
 
     /**
      * Gets price
-     * @return double
+     * @return float
      */
     public function getPrice()
     {
@@ -309,7 +309,7 @@ class CartShippingOption implements ArrayAccess
 
     /**
      * Sets price
-     * @param double $price
+     * @param float $price
      * @return $this
      */
     public function setPrice($price)

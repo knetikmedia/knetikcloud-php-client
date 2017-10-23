@@ -275,7 +275,7 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\GamificationLevelingApi(new \Http\Adapter\Guzzle6\Client());
-$user_id = 56; // int | The id of the user
+$user_id = "user_id_example"; // string | The id of the user or 'me'
 $name = "name_example"; // string | The level schema name
 
 try {
@@ -291,7 +291,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user_id** | **int**| The id of the user |
+ **user_id** | **string**| The id of the user or &#39;me&#39; |
  **name** | **string**| The level schema name |
 
 ### Return type
@@ -327,7 +327,7 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\GamificationLevelingApi(new \Http\Adapter\Guzzle6\Client());
-$user_id = 56; // int | The id of the user
+$user_id = "user_id_example"; // string | The id of the user or 'me'
 $filter_name = "filter_name_example"; // string | Filter for level schemas whose name contains a given string
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
@@ -346,7 +346,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user_id** | **int**| The id of the user |
+ **user_id** | **string**| The id of the user or &#39;me&#39; |
  **filter_name** | **string**| Filter for level schemas whose name contains a given string | [optional]
  **size** | **int**| The number of objects returned per page | [optional] [default to 25]
  **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]

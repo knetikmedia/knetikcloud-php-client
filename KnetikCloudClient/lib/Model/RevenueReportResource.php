@@ -56,8 +56,8 @@ class RevenueReportResource implements ArrayAccess
     protected static $swaggerTypes = [
         'customer_count' => 'int',
         'sale_count' => 'int',
-        'sales_average' => 'double',
-        'sales_total' => 'double'
+        'sales_average' => 'float',
+        'sales_total' => 'float'
     ];
 
     /**
@@ -67,8 +67,8 @@ class RevenueReportResource implements ArrayAccess
     protected static $swaggerFormats = [
         'customer_count' => 'int64',
         'sale_count' => 'int64',
-        'sales_average' => 'double',
-        'sales_total' => 'double'
+        'sales_average' => null,
+        'sales_total' => null
     ];
 
     public static function swaggerTypes()
@@ -222,7 +222,7 @@ class RevenueReportResource implements ArrayAccess
 
     /**
      * Gets sales_average
-     * @return double
+     * @return float
      */
     public function getSalesAverage()
     {
@@ -231,7 +231,7 @@ class RevenueReportResource implements ArrayAccess
 
     /**
      * Sets sales_average
-     * @param double $sales_average
+     * @param float $sales_average
      * @return $this
      */
     public function setSalesAverage($sales_average)
@@ -243,7 +243,7 @@ class RevenueReportResource implements ArrayAccess
 
     /**
      * Gets sales_total
-     * @return double
+     * @return float
      */
     public function getSalesTotal()
     {
@@ -252,7 +252,7 @@ class RevenueReportResource implements ArrayAccess
 
     /**
      * Sets sales_total
-     * @param double $sales_total
+     * @param float $sales_total
      * @return $this
      */
     public function setSalesTotal($sales_total)

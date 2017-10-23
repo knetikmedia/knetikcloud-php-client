@@ -54,6 +54,7 @@ class ItemTemplateResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
+        'allow_additional' => 'bool',
         'behaviors' => '\KnetikCloud\Model\ItemBehaviorDefinitionResource[]',
         'created_date' => 'int',
         'id' => 'string',
@@ -67,6 +68,7 @@ class ItemTemplateResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
+        'allow_additional' => null,
         'behaviors' => null,
         'created_date' => 'int64',
         'id' => null,
@@ -90,6 +92,7 @@ class ItemTemplateResource implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
+        'allow_additional' => 'allow_additional',
         'behaviors' => 'behaviors',
         'created_date' => 'created_date',
         'id' => 'id',
@@ -104,6 +107,7 @@ class ItemTemplateResource implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
+        'allow_additional' => 'setAllowAdditional',
         'behaviors' => 'setBehaviors',
         'created_date' => 'setCreatedDate',
         'id' => 'setId',
@@ -118,6 +122,7 @@ class ItemTemplateResource implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
+        'allow_additional' => 'getAllowAdditional',
         'behaviors' => 'getBehaviors',
         'created_date' => 'getCreatedDate',
         'id' => 'getId',
@@ -157,6 +162,7 @@ class ItemTemplateResource implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['allow_additional'] = isset($data['allow_additional']) ? $data['allow_additional'] : null;
         $this->container['behaviors'] = isset($data['behaviors']) ? $data['behaviors'] : null;
         $this->container['created_date'] = isset($data['created_date']) ? $data['created_date'] : null;
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
@@ -195,6 +201,27 @@ class ItemTemplateResource implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets allow_additional
+     * @return bool
+     */
+    public function getAllowAdditional()
+    {
+        return $this->container['allow_additional'];
+    }
+
+    /**
+     * Sets allow_additional
+     * @param bool $allow_additional Whether to allow additional properties beyond those specified or not
+     * @return $this
+     */
+    public function setAllowAdditional($allow_additional)
+    {
+        $this->container['allow_additional'] = $allow_additional;
+
+        return $this;
+    }
 
     /**
      * Gets behaviors

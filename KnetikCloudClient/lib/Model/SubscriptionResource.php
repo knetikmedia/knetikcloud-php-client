@@ -60,6 +60,7 @@ class SubscriptionResource implements ArrayAccess
         'category' => 'string',
         'consolidation_day_of_month' => 'int',
         'created_date' => 'int',
+        'displayable' => 'bool',
         'geo_country_list' => 'string[]',
         'geo_policy_type' => 'string',
         'id' => 'int',
@@ -88,6 +89,7 @@ class SubscriptionResource implements ArrayAccess
         'category' => null,
         'consolidation_day_of_month' => 'int32',
         'created_date' => 'int64',
+        'displayable' => null,
         'geo_country_list' => null,
         'geo_policy_type' => null,
         'id' => 'int32',
@@ -126,6 +128,7 @@ class SubscriptionResource implements ArrayAccess
         'category' => 'category',
         'consolidation_day_of_month' => 'consolidation_day_of_month',
         'created_date' => 'created_date',
+        'displayable' => 'displayable',
         'geo_country_list' => 'geo_country_list',
         'geo_policy_type' => 'geo_policy_type',
         'id' => 'id',
@@ -155,6 +158,7 @@ class SubscriptionResource implements ArrayAccess
         'category' => 'setCategory',
         'consolidation_day_of_month' => 'setConsolidationDayOfMonth',
         'created_date' => 'setCreatedDate',
+        'displayable' => 'setDisplayable',
         'geo_country_list' => 'setGeoCountryList',
         'geo_policy_type' => 'setGeoPolicyType',
         'id' => 'setId',
@@ -184,6 +188,7 @@ class SubscriptionResource implements ArrayAccess
         'category' => 'getCategory',
         'consolidation_day_of_month' => 'getConsolidationDayOfMonth',
         'created_date' => 'getCreatedDate',
+        'displayable' => 'getDisplayable',
         'geo_country_list' => 'getGeoCountryList',
         'geo_policy_type' => 'getGeoPolicyType',
         'id' => 'getId',
@@ -266,6 +271,7 @@ class SubscriptionResource implements ArrayAccess
         $this->container['category'] = isset($data['category']) ? $data['category'] : null;
         $this->container['consolidation_day_of_month'] = isset($data['consolidation_day_of_month']) ? $data['consolidation_day_of_month'] : null;
         $this->container['created_date'] = isset($data['created_date']) ? $data['created_date'] : null;
+        $this->container['displayable'] = isset($data['displayable']) ? $data['displayable'] : null;
         $this->container['geo_country_list'] = isset($data['geo_country_list']) ? $data['geo_country_list'] : null;
         $this->container['geo_policy_type'] = isset($data['geo_policy_type']) ? $data['geo_policy_type'] : null;
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
@@ -355,7 +361,7 @@ class SubscriptionResource implements ArrayAccess
 
     /**
      * Sets additional_properties
-     * @param map[string,\KnetikCloud\Model\Property] $additional_properties A map of item additional properties, keyed on the property name. Must match the names and types defined in the template for this item type.
+     * @param map[string,\KnetikCloud\Model\Property] $additional_properties The additional properties for the subscription
      * @return $this
      */
     public function setAdditionalProperties($additional_properties)
@@ -427,7 +433,7 @@ class SubscriptionResource implements ArrayAccess
 
     /**
      * Sets category
-     * @param string $category A category for filtering items
+     * @param string $category The category of the subscription
      * @return $this
      */
     public function setCategory($category)
@@ -480,6 +486,27 @@ class SubscriptionResource implements ArrayAccess
     }
 
     /**
+     * Gets displayable
+     * @return bool
+     */
+    public function getDisplayable()
+    {
+        return $this->container['displayable'];
+    }
+
+    /**
+     * Sets displayable
+     * @param bool $displayable Whether or not the item is currently visible to users. Does not block purchase; Use store_start or store_end to block purchase.  Default = true
+     * @return $this
+     */
+    public function setDisplayable($displayable)
+    {
+        $this->container['displayable'] = $displayable;
+
+        return $this;
+    }
+
+    /**
      * Gets geo_country_list
      * @return string[]
      */
@@ -490,7 +517,7 @@ class SubscriptionResource implements ArrayAccess
 
     /**
      * Sets geo_country_list
-     * @param string[] $geo_country_list A list of country iso3 codes to include in the blacklist/whitelist geo policy
+     * @param string[] $geo_country_list The geo country list for the subscription
      * @return $this
      */
     public function setGeoCountryList($geo_country_list)
@@ -511,7 +538,7 @@ class SubscriptionResource implements ArrayAccess
 
     /**
      * Sets geo_policy_type
-     * @param string $geo_policy_type Whether to use the geo_country_list as a black list or white list for item geographical availability
+     * @param string $geo_policy_type The geo policy type for the subscription
      * @return $this
      */
     public function setGeoPolicyType($geo_policy_type)
@@ -709,7 +736,7 @@ class SubscriptionResource implements ArrayAccess
 
     /**
      * Sets tags
-     * @param string[] $tags List of tags used for filtering items
+     * @param string[] $tags The tags for the subscription
      * @return $this
      */
     public function setTags($tags)
@@ -730,7 +757,7 @@ class SubscriptionResource implements ArrayAccess
 
     /**
      * Sets template
-     * @param string $template An item template this item is validated against. May be null and no validation of additional properties will be done.
+     * @param string $template The template being used
      * @return $this
      */
     public function setTemplate($template)
@@ -751,7 +778,7 @@ class SubscriptionResource implements ArrayAccess
 
     /**
      * Sets unique_key
-     * @param string $unique_key The unique key for the item
+     * @param string $unique_key The unique key of the subscription
      * @return $this
      */
     public function setUniqueKey($unique_key)
@@ -793,7 +820,7 @@ class SubscriptionResource implements ArrayAccess
 
     /**
      * Sets vendor_id
-     * @param int $vendor_id The vendor who provides the item
+     * @param int $vendor_id The id of the vendor
      * @return $this
      */
     public function setVendorId($vendor_id)

@@ -97,11 +97,4 @@ class TierResourceTest extends \PHPUnit_Framework_TestCase
     public function testPropertyRequiredProgress()
     {
     }
-
-    /**
-     * Test attribute "trigger_event_name"
-     */
-    public function testPropertyTriggerEventName()
-    {
-    }
 }

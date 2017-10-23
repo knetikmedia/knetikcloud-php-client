@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**balance** | **double** | The new balance of the wallet after the transaction | [optional] 
+**balance** | **float** | The new balance of the wallet after the transaction | [optional] 
 **create_date** | **int** | The unix timestamp in seconds of the transaction | [optional] 
 **currency_code** | **string** | The code of the currency for the transaction | [optional] 
 **details** | **string** | The specific details of the transaction, such as a message from the admin that created it | [optional] 
@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **type** | **string** | The general type of the transaction | [optional] 
 **type_hint** | **string** | The table name of the subclass | [optional] 
 **user** | [**\KnetikCloud\Model\SimpleUserResource**](SimpleUserResource.md) | The owner of the wallet | [optional] 
-**value** | **double** | The amount of the transaction, positive if a gain, negative if an expenditure | [optional] 
+**value** | **float** | The amount of the transaction, positive if a gain, negative if an expenditure | [optional] 
 **wallet_id** | **int** | The id of the wallet this transaction affected | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

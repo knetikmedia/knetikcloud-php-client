@@ -54,7 +54,7 @@ class RefundRequest implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'amount' => 'double',
+        'amount' => 'float',
         'bundle_sku' => 'string',
         'notes' => 'string',
         'sku' => 'string'
@@ -65,7 +65,7 @@ class RefundRequest implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'amount' => 'double',
+        'amount' => null,
         'bundle_sku' => null,
         'notes' => null,
         'sku' => null
@@ -186,7 +186,7 @@ class RefundRequest implements ArrayAccess
 
     /**
      * Gets amount
-     * @return double
+     * @return float
      */
     public function getAmount()
     {
@@ -195,7 +195,7 @@ class RefundRequest implements ArrayAccess
 
     /**
      * Sets amount
-     * @param double $amount The amount to refund. If left off, will refund the remaining balance of the transaction or specific item balance (if SKU provided), whichever is less.
+     * @param float $amount The amount to refund. If left off, will refund the remaining balance of the transaction or specific item balance (if SKU provided), whichever is less.
      * @return $this
      */
     public function setAmount($amount)

@@ -72,46 +72,6 @@ class SearchApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test case for addSearchIndex
-     *
-     * Add a new object to an index.
-     *
-     */
-    public function testAddSearchIndex()
-    {
-    }
-
-    /**
-     * Test case for addSearchMappings
-     *
-     * Register reference mappings.
-     *
-     */
-    public function testAddSearchMappings()
-    {
-    }
-
-    /**
-     * Test case for deleteSearchIndex
-     *
-     * Delete an object.
-     *
-     */
-    public function testDeleteSearchIndex()
-    {
-    }
-
-    /**
-     * Test case for deleteSearchIndexes
-     *
-     * Delete all objects in an index.
-     *
-     */
-    public function testDeleteSearchIndexes()
-    {
-    }
-
-    /**
      * Test case for searchIndex
      *
      * Search an index.

@@ -56,6 +56,7 @@ class OAuth2Resource implements ArrayAccess
     protected static $swaggerTypes = [
         'access_token' => 'string',
         'expires_in' => 'string',
+        'refresh_token' => 'string',
         'scope' => 'string',
         'token_type' => 'string'
     ];
@@ -67,6 +68,7 @@ class OAuth2Resource implements ArrayAccess
     protected static $swaggerFormats = [
         'access_token' => null,
         'expires_in' => null,
+        'refresh_token' => null,
         'scope' => null,
         'token_type' => null
     ];
@@ -88,6 +90,7 @@ class OAuth2Resource implements ArrayAccess
     protected static $attributeMap = [
         'access_token' => 'access_token',
         'expires_in' => 'expires_in',
+        'refresh_token' => 'refresh_token',
         'scope' => 'scope',
         'token_type' => 'token_type'
     ];
@@ -100,6 +103,7 @@ class OAuth2Resource implements ArrayAccess
     protected static $setters = [
         'access_token' => 'setAccessToken',
         'expires_in' => 'setExpiresIn',
+        'refresh_token' => 'setRefreshToken',
         'scope' => 'setScope',
         'token_type' => 'setTokenType'
     ];
@@ -112,6 +116,7 @@ class OAuth2Resource implements ArrayAccess
     protected static $getters = [
         'access_token' => 'getAccessToken',
         'expires_in' => 'getExpiresIn',
+        'refresh_token' => 'getRefreshToken',
         'scope' => 'getScope',
         'token_type' => 'getTokenType'
     ];
@@ -149,6 +154,7 @@ class OAuth2Resource implements ArrayAccess
     {
         $this->container['access_token'] = isset($data['access_token']) ? $data['access_token'] : null;
         $this->container['expires_in'] = isset($data['expires_in']) ? $data['expires_in'] : null;
+        $this->container['refresh_token'] = isset($data['refresh_token']) ? $data['refresh_token'] : null;
         $this->container['scope'] = isset($data['scope']) ? $data['scope'] : null;
         $this->container['token_type'] = isset($data['token_type']) ? $data['token_type'] : null;
     }
@@ -216,6 +222,27 @@ class OAuth2Resource implements ArrayAccess
     public function setExpiresIn($expires_in)
     {
         $this->container['expires_in'] = $expires_in;
+
+        return $this;
+    }
+
+    /**
+     * Gets refresh_token
+     * @return string
+     */
+    public function getRefreshToken()
+    {
+        return $this->container['refresh_token'];
+    }
+
+    /**
+     * Sets refresh_token
+     * @param string $refresh_token The refresh token issued by the authorization server
+     * @return $this
+     */
+    public function setRefreshToken($refresh_token)
+    {
+        $this->container['refresh_token'] = $refresh_token;
 
         return $this;
     }

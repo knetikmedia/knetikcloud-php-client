@@ -92,12 +92,32 @@ class DevicesApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for createDeviceTemplate
+     *
+     * Create a device template.
+     *
+     */
+    public function testCreateDeviceTemplate()
+    {
+    }
+
+    /**
      * Test case for deleteDevice
      *
      * Delete a device.
      *
      */
     public function testDeleteDevice()
+    {
+    }
+
+    /**
+     * Test case for deleteDeviceTemplate
+     *
+     * Delete an device template.
+     *
+     */
+    public function testDeleteDeviceTemplate()
     {
     }
 
@@ -132,6 +152,26 @@ class DevicesApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for getDeviceTemplate
+     *
+     * Get a single device template.
+     *
+     */
+    public function testGetDeviceTemplate()
+    {
+    }
+
+    /**
+     * Test case for getDeviceTemplates
+     *
+     * List and search device templates.
+     *
+     */
+    public function testGetDeviceTemplates()
+    {
+    }
+
+    /**
      * Test case for getDevices
      *
      * List and search devices.
@@ -148,6 +188,16 @@ class DevicesApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function testUpdateDevice()
+    {
+    }
+
+    /**
+     * Test case for updateDeviceTemplate
+     *
+     * Update an device template.
+     *
+     */
+    public function testUpdateDeviceTemplate()
     {
     }
 }

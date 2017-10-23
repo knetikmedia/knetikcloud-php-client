@@ -1240,7 +1240,7 @@ class GamificationLevelingApi
      *
      * Get a user's progress for a given level schema
      *
-     * @param int $user_id The id of the user (required)
+     * @param string $user_id The id of the user or &#39;me&#39; (required)
      * @param string $name The level schema name (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1257,7 +1257,7 @@ class GamificationLevelingApi
      *
      * Get a user's progress for a given level schema
      *
-     * @param int $user_id The id of the user (required)
+     * @param string $user_id The id of the user or &#39;me&#39; (required)
      * @param string $name The level schema name (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1327,7 +1327,7 @@ class GamificationLevelingApi
      *
      * Get a user's progress for a given level schema
      *
-     * @param int $user_id The id of the user (required)
+     * @param string $user_id The id of the user or &#39;me&#39; (required)
      * @param string $name The level schema name (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1344,7 +1344,7 @@ class GamificationLevelingApi
      *
      * Get a user's progress for a given level schema
      *
-     * @param int $user_id The id of the user (required)
+     * @param string $user_id The id of the user or &#39;me&#39; (required)
      * @param string $name The level schema name (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1385,7 +1385,7 @@ class GamificationLevelingApi
     /**
      * Create request for operation 'getUserLevel'
      *
-     * @param int $user_id The id of the user (required)
+     * @param string $user_id The id of the user or &#39;me&#39; (required)
      * @param string $name The level schema name (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -1489,7 +1489,7 @@ class GamificationLevelingApi
      *
      * Get a user's progress for all level schemas
      *
-     * @param int $user_id The id of the user (required)
+     * @param string $user_id The id of the user or &#39;me&#39; (required)
      * @param string $filter_name Filter for level schemas whose name contains a given string (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
@@ -1509,7 +1509,7 @@ class GamificationLevelingApi
      *
      * Get a user's progress for all level schemas
      *
-     * @param int $user_id The id of the user (required)
+     * @param string $user_id The id of the user or &#39;me&#39; (required)
      * @param string $filter_name Filter for level schemas whose name contains a given string (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
@@ -1582,7 +1582,7 @@ class GamificationLevelingApi
      *
      * Get a user's progress for all level schemas
      *
-     * @param int $user_id The id of the user (required)
+     * @param string $user_id The id of the user or &#39;me&#39; (required)
      * @param string $filter_name Filter for level schemas whose name contains a given string (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
@@ -1602,7 +1602,7 @@ class GamificationLevelingApi
      *
      * Get a user's progress for all level schemas
      *
-     * @param int $user_id The id of the user (required)
+     * @param string $user_id The id of the user or &#39;me&#39; (required)
      * @param string $filter_name Filter for level schemas whose name contains a given string (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
@@ -1646,7 +1646,7 @@ class GamificationLevelingApi
     /**
      * Create request for operation 'getUserLevels'
      *
-     * @param int $user_id The id of the user (required)
+     * @param string $user_id The id of the user or &#39;me&#39; (required)
      * @param string $filter_name Filter for level schemas whose name contains a given string (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)

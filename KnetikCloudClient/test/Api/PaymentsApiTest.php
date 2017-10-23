@@ -102,6 +102,26 @@ class PaymentsApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for getPaymentMethodType
+     *
+     * Get a single payment method type.
+     *
+     */
+    public function testGetPaymentMethodType()
+    {
+    }
+
+    /**
+     * Test case for getPaymentMethodTypes
+     *
+     * Get all payment method types.
+     *
+     */
+    public function testGetPaymentMethodTypes()
+    {
+    }
+
+    /**
      * Test case for getPaymentMethods
      *
      * Get all payment methods for a user.

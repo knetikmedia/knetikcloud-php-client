@@ -35,6 +35,7 @@ use \ArrayAccess;
  * LookupResource Class Doc Comment
  *
  * @category    Class
+ * @description Expressions are instructions for the rule engine to resolve certain values. For example instead of &#x60;user 1&#x60; it&#39;d state &#x60;user provided by the event&#x60;. Full list and definitions available at GET /bre/expressions.
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
@@ -54,7 +55,9 @@ class LookupResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
+        'definition' => 'string',
         'lookup_key' => '\KnetikCloud\Model\ExpressionResource',
+        'required_key_type' => 'string',
         'type' => 'string',
         'value_type' => 'string'
     ];
@@ -64,7 +67,9 @@ class LookupResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
+        'definition' => null,
         'lookup_key' => null,
+        'required_key_type' => null,
         'type' => null,
         'value_type' => null
     ];
@@ -84,7 +89,9 @@ class LookupResource implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
+        'definition' => 'definition',
         'lookup_key' => 'lookup_key',
+        'required_key_type' => 'required_key_type',
         'type' => 'type',
         'value_type' => 'value_type'
     ];
@@ -95,7 +102,9 @@ class LookupResource implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
+        'definition' => 'setDefinition',
         'lookup_key' => 'setLookupKey',
+        'required_key_type' => 'setRequiredKeyType',
         'type' => 'setType',
         'value_type' => 'setValueType'
     ];
@@ -106,7 +115,9 @@ class LookupResource implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
+        'definition' => 'getDefinition',
         'lookup_key' => 'getLookupKey',
+        'required_key_type' => 'getRequiredKeyType',
         'type' => 'getType',
         'value_type' => 'getValueType'
     ];
@@ -142,7 +153,9 @@ class LookupResource implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['definition'] = isset($data['definition']) ? $data['definition'] : null;
         $this->container['lookup_key'] = isset($data['lookup_key']) ? $data['lookup_key'] : null;
+        $this->container['required_key_type'] = isset($data['required_key_type']) ? $data['required_key_type'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
         $this->container['value_type'] = isset($data['value_type']) ? $data['value_type'] : null;
     }
@@ -173,6 +186,27 @@ class LookupResource implements ArrayAccess
 
 
     /**
+     * Gets definition
+     * @return string
+     */
+    public function getDefinition()
+    {
+        return $this->container['definition'];
+    }
+
+    /**
+     * Sets definition
+     * @param string $definition
+     * @return $this
+     */
+    public function setDefinition($definition)
+    {
+        $this->container['definition'] = $definition;
+
+        return $this;
+    }
+
+    /**
      * Gets lookup_key
      * @return \KnetikCloud\Model\ExpressionResource
      */
@@ -189,6 +223,27 @@ class LookupResource implements ArrayAccess
     public function setLookupKey($lookup_key)
     {
         $this->container['lookup_key'] = $lookup_key;
+
+        return $this;
+    }
+
+    /**
+     * Gets required_key_type
+     * @return string
+     */
+    public function getRequiredKeyType()
+    {
+        return $this->container['required_key_type'];
+    }
+
+    /**
+     * Sets required_key_type
+     * @param string $required_key_type
+     * @return $this
+     */
+    public function setRequiredKeyType($required_key_type)
+    {
+        $this->container['required_key_type'] = $required_key_type;
 
         return $this;
     }

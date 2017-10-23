@@ -60,6 +60,7 @@ class ActivityResource implements ArrayAccess
         'entitlements' => '\KnetikCloud\Model\ActivityEntitlementResource[]',
         'id' => 'int',
         'launch' => 'string',
+        'leaderboard_strategy' => 'string',
         'long_description' => 'string',
         'name' => 'string',
         'reward_set' => '\KnetikCloud\Model\RewardSetResource',
@@ -82,6 +83,7 @@ class ActivityResource implements ArrayAccess
         'entitlements' => null,
         'id' => 'int64',
         'launch' => null,
+        'leaderboard_strategy' => null,
         'long_description' => null,
         'name' => null,
         'reward_set' => null,
@@ -114,6 +116,7 @@ class ActivityResource implements ArrayAccess
         'entitlements' => 'entitlements',
         'id' => 'id',
         'launch' => 'launch',
+        'leaderboard_strategy' => 'leaderboard_strategy',
         'long_description' => 'long_description',
         'name' => 'name',
         'reward_set' => 'reward_set',
@@ -137,6 +140,7 @@ class ActivityResource implements ArrayAccess
         'entitlements' => 'setEntitlements',
         'id' => 'setId',
         'launch' => 'setLaunch',
+        'leaderboard_strategy' => 'setLeaderboardStrategy',
         'long_description' => 'setLongDescription',
         'name' => 'setName',
         'reward_set' => 'setRewardSet',
@@ -160,6 +164,7 @@ class ActivityResource implements ArrayAccess
         'entitlements' => 'getEntitlements',
         'id' => 'getId',
         'launch' => 'getLaunch',
+        'leaderboard_strategy' => 'getLeaderboardStrategy',
         'long_description' => 'getLongDescription',
         'name' => 'getName',
         'reward_set' => 'getRewardSet',
@@ -208,6 +213,7 @@ class ActivityResource implements ArrayAccess
         $this->container['entitlements'] = isset($data['entitlements']) ? $data['entitlements'] : null;
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
         $this->container['launch'] = isset($data['launch']) ? $data['launch'] : null;
+        $this->container['leaderboard_strategy'] = isset($data['leaderboard_strategy']) ? $data['leaderboard_strategy'] : null;
         $this->container['long_description'] = isset($data['long_description']) ? $data['long_description'] : null;
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
         $this->container['reward_set'] = isset($data['reward_set']) ? $data['reward_set'] : null;
@@ -358,6 +364,27 @@ class ActivityResource implements ArrayAccess
     public function setLaunch($launch)
     {
         $this->container['launch'] = $launch;
+
+        return $this;
+    }
+
+    /**
+     * Gets leaderboard_strategy
+     * @return string
+     */
+    public function getLeaderboardStrategy()
+    {
+        return $this->container['leaderboard_strategy'];
+    }
+
+    /**
+     * Sets leaderboard_strategy
+     * @param string $leaderboard_strategy The strategy for calculating the leaderboard. No strategy means no leaderboard for the top level context. Value MUST come from the list of available strategies from the Leaderboard Service
+     * @return $this
+     */
+    public function setLeaderboardStrategy($leaderboard_strategy)
+    {
+        $this->container['leaderboard_strategy'] = $leaderboard_strategy;
 
         return $this;
     }

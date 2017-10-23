@@ -55,7 +55,7 @@ class WalletTotalResponse implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'currency_code' => 'string',
-        'total' => 'double'
+        'total' => 'float'
     ];
 
     /**
@@ -64,7 +64,7 @@ class WalletTotalResponse implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'currency_code' => null,
-        'total' => 'double'
+        'total' => null
     ];
 
     public static function swaggerTypes()
@@ -189,7 +189,7 @@ class WalletTotalResponse implements ArrayAccess
 
     /**
      * Gets total
-     * @return double
+     * @return float
      */
     public function getTotal()
     {
@@ -198,7 +198,7 @@ class WalletTotalResponse implements ArrayAccess
 
     /**
      * Sets total
-     * @param double $total The sum of all wallets in the system for this currency
+     * @param float $total The sum of all wallets in the system for this currency
      * @return $this
      */
     public function setTotal($total)

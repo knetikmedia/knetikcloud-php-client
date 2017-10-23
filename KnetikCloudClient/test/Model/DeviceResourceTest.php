@@ -78,16 +78,9 @@ class DeviceResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "authorization"
+     * Test attribute "additional_properties"
      */
-    public function testPropertyAuthorization()
-    {
-    }
-
-    /**
-     * Test attribute "condition"
-     */
-    public function testPropertyCondition()
+    public function testPropertyAdditionalProperties()
     {
     }
 
@@ -95,13 +88,6 @@ class DeviceResourceTest extends \PHPUnit_Framework_TestCase
      * Test attribute "created_date"
      */
     public function testPropertyCreatedDate()
-    {
-    }
-
-    /**
-     * Test attribute "data"
-     */
-    public function testPropertyData()
     {
     }
 
@@ -169,6 +155,13 @@ class DeviceResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "owner"
+     */
+    public function testPropertyOwner()
+    {
+    }
+
+    /**
      * Test attribute "serial"
      */
     public function testPropertySerial()
@@ -176,9 +169,16 @@ class DeviceResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "status"
+     * Test attribute "tags"
      */
-    public function testPropertyStatus()
+    public function testPropertyTags()
+    {
+    }
+
+    /**
+     * Test attribute "template"
+     */
+    public function testPropertyTemplate()
     {
     }
 
@@ -186,13 +186,6 @@ class DeviceResourceTest extends \PHPUnit_Framework_TestCase
      * Test attribute "updated_date"
      */
     public function testPropertyUpdatedDate()
-    {
-    }
-
-    /**
-     * Test attribute "user"
-     */
-    public function testPropertyUser()
     {
     }
 

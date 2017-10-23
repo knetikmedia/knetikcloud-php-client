@@ -260,6 +260,13 @@ class InvoiceResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "remaining_balance"
+     */
+    public function testPropertyRemainingBalance()
+    {
+    }
+
+    /**
      * Test attribute "shipping"
      */
     public function testPropertyShipping()

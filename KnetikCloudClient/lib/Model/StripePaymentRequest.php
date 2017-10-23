@@ -54,6 +54,7 @@ class StripePaymentRequest implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
+        'amount' => 'float',
         'invoice_id' => 'int',
         'token' => 'string'
     ];
@@ -63,6 +64,7 @@ class StripePaymentRequest implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
+        'amount' => null,
         'invoice_id' => 'int32',
         'token' => null
     ];
@@ -82,6 +84,7 @@ class StripePaymentRequest implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
+        'amount' => 'amount',
         'invoice_id' => 'invoice_id',
         'token' => 'token'
     ];
@@ -92,6 +95,7 @@ class StripePaymentRequest implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
+        'amount' => 'setAmount',
         'invoice_id' => 'setInvoiceId',
         'token' => 'setToken'
     ];
@@ -102,6 +106,7 @@ class StripePaymentRequest implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
+        'amount' => 'getAmount',
         'invoice_id' => 'getInvoiceId',
         'token' => 'getToken'
     ];
@@ -137,6 +142,7 @@ class StripePaymentRequest implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['amount'] = isset($data['amount']) ? $data['amount'] : null;
         $this->container['invoice_id'] = isset($data['invoice_id']) ? $data['invoice_id'] : null;
         $this->container['token'] = isset($data['token']) ? $data['token'] : null;
     }
@@ -177,6 +183,27 @@ class StripePaymentRequest implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets amount
+     * @return float
+     */
+    public function getAmount()
+    {
+        return $this->container['amount'];
+    }
+
+    /**
+     * Sets amount
+     * @param float $amount The amount to pay, if not the full remaining balance (leave out to pay in full, but be careful no other partial payment has been started)
+     * @return $this
+     */
+    public function setAmount($amount)
+    {
+        $this->container['amount'] = $amount;
+
+        return $this;
+    }
 
     /**
      * Gets invoice_id

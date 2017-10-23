@@ -54,8 +54,8 @@ class BreRule implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'actions' => '\KnetikCloud\Model\ActionResource',
-        'condition' => '\KnetikCloud\Model\PredicateOperation',
+        'actions' => '\KnetikCloud\Model\ActionContextObject_[]',
+        'condition' => '\KnetikCloud\Model\PredicateResource',
         'condition_text' => 'string',
         'description' => 'string',
         'enabled' => 'bool',
@@ -246,7 +246,7 @@ class BreRule implements ArrayAccess
 
     /**
      * Gets actions
-     * @return \KnetikCloud\Model\ActionResource
+     * @return \KnetikCloud\Model\ActionContextObject_[]
      */
     public function getActions()
     {
@@ -255,7 +255,7 @@ class BreRule implements ArrayAccess
 
     /**
      * Sets actions
-     * @param \KnetikCloud\Model\ActionResource $actions A list of actions to execute, and the mapping for their parameters, when the rule runs. Minimum 1
+     * @param \KnetikCloud\Model\ActionContextObject_[] $actions A list of actions to execute, and the mapping for their parameters, when the rule runs. Minimum 1
      * @return $this
      */
     public function setActions($actions)
@@ -267,7 +267,7 @@ class BreRule implements ArrayAccess
 
     /**
      * Gets condition
-     * @return \KnetikCloud\Model\PredicateOperation
+     * @return \KnetikCloud\Model\PredicateResource
      */
     public function getCondition()
     {
@@ -276,7 +276,7 @@ class BreRule implements ArrayAccess
 
     /**
      * Sets condition
-     * @param \KnetikCloud\Model\PredicateOperation $condition A condition expression that must be met in a given event for the rule to run. Empty to always run
+     * @param \KnetikCloud\Model\PredicateResource $condition A condition expression that must be met in a given event for the rule to run. Null to always run.
      * @return $this
      */
     public function setCondition($condition)

@@ -35,6 +35,7 @@ use \ArrayAccess;
  * GlobalResource Class Doc Comment
  *
  * @category    Class
+ * @description Expressions are instructions for the rule engine to resolve certain values. For example instead of &#x60;user 1&#x60; it&#39;d state &#x60;user provided by the event&#x60;. Full list and definitions available at GET /bre/expressions.
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
@@ -54,6 +55,7 @@ class GlobalResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
+        'definition' => 'string',
         'global_def_id' => 'string',
         'scopes' => 'map[string,\KnetikCloud\Model\ExpressionResource]',
         'type' => 'string'
@@ -64,6 +66,7 @@ class GlobalResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
+        'definition' => null,
         'global_def_id' => null,
         'scopes' => null,
         'type' => null
@@ -84,6 +87,7 @@ class GlobalResource implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
+        'definition' => 'definition',
         'global_def_id' => 'global_def_id',
         'scopes' => 'scopes',
         'type' => 'type'
@@ -95,6 +99,7 @@ class GlobalResource implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
+        'definition' => 'setDefinition',
         'global_def_id' => 'setGlobalDefId',
         'scopes' => 'setScopes',
         'type' => 'setType'
@@ -106,6 +111,7 @@ class GlobalResource implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
+        'definition' => 'getDefinition',
         'global_def_id' => 'getGlobalDefId',
         'scopes' => 'getScopes',
         'type' => 'getType'
@@ -142,6 +148,7 @@ class GlobalResource implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['definition'] = isset($data['definition']) ? $data['definition'] : null;
         $this->container['global_def_id'] = isset($data['global_def_id']) ? $data['global_def_id'] : null;
         $this->container['scopes'] = isset($data['scopes']) ? $data['scopes'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
@@ -171,6 +178,27 @@ class GlobalResource implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets definition
+     * @return string
+     */
+    public function getDefinition()
+    {
+        return $this->container['definition'];
+    }
+
+    /**
+     * Sets definition
+     * @param string $definition
+     * @return $this
+     */
+    public function setDefinition($definition)
+    {
+        $this->container['definition'] = $definition;
+
+        return $this;
+    }
 
     /**
      * Gets global_def_id

@@ -59,6 +59,7 @@ class LevelingResource implements ArrayAccess
         'description' => 'string',
         'name' => 'string',
         'tiers' => '\KnetikCloud\Model\TierResource[]',
+        'trigger_event_name' => 'string',
         'updated_date' => 'int'
     ];
 
@@ -72,6 +73,7 @@ class LevelingResource implements ArrayAccess
         'description' => null,
         'name' => null,
         'tiers' => null,
+        'trigger_event_name' => null,
         'updated_date' => 'int64'
     ];
 
@@ -95,6 +97,7 @@ class LevelingResource implements ArrayAccess
         'description' => 'description',
         'name' => 'name',
         'tiers' => 'tiers',
+        'trigger_event_name' => 'trigger_event_name',
         'updated_date' => 'updated_date'
     ];
 
@@ -109,6 +112,7 @@ class LevelingResource implements ArrayAccess
         'description' => 'setDescription',
         'name' => 'setName',
         'tiers' => 'setTiers',
+        'trigger_event_name' => 'setTriggerEventName',
         'updated_date' => 'setUpdatedDate'
     ];
 
@@ -123,6 +127,7 @@ class LevelingResource implements ArrayAccess
         'description' => 'getDescription',
         'name' => 'getName',
         'tiers' => 'getTiers',
+        'trigger_event_name' => 'getTriggerEventName',
         'updated_date' => 'getUpdatedDate'
     ];
 
@@ -162,6 +167,7 @@ class LevelingResource implements ArrayAccess
         $this->container['description'] = isset($data['description']) ? $data['description'] : null;
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
         $this->container['tiers'] = isset($data['tiers']) ? $data['tiers'] : null;
+        $this->container['trigger_event_name'] = isset($data['trigger_event_name']) ? $data['trigger_event_name'] : null;
         $this->container['updated_date'] = isset($data['updated_date']) ? $data['updated_date'] : null;
     }
 
@@ -297,6 +303,27 @@ class LevelingResource implements ArrayAccess
     public function setTiers($tiers)
     {
         $this->container['tiers'] = $tiers;
+
+        return $this;
+    }
+
+    /**
+     * Gets trigger_event_name
+     * @return string
+     */
+    public function getTriggerEventName()
+    {
+        return $this->container['trigger_event_name'];
+    }
+
+    /**
+     * Sets trigger_event_name
+     * @param string $trigger_event_name The name of an event that will add one progress to this level when fired
+     * @return $this
+     */
+    public function setTriggerEventName($trigger_event_name)
+    {
+        $this->container['trigger_event_name'] = $trigger_event_name;
 
         return $this;
     }

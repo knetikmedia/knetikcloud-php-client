@@ -92,6 +92,13 @@ class OAuth2ResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "refresh_token"
+     */
+    public function testPropertyRefreshToken()
+    {
+    }
+
+    /**
      * Test attribute "scope"
      */
     public function testPropertyScope()

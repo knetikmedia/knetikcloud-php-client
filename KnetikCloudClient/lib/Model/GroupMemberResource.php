@@ -54,10 +54,13 @@ class GroupMemberResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
+        'additional_properties' => 'map[string,\KnetikCloud\Model\Property]',
         'avatar_url' => 'string',
         'display_name' => 'string',
         'id' => 'int',
+        'order' => 'string',
         'status' => 'string',
+        'template' => 'string',
         'username' => 'string'
     ];
 
@@ -66,10 +69,13 @@ class GroupMemberResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
+        'additional_properties' => null,
         'avatar_url' => null,
         'display_name' => null,
         'id' => 'int32',
+        'order' => null,
         'status' => null,
+        'template' => null,
         'username' => null
     ];
 
@@ -88,10 +94,13 @@ class GroupMemberResource implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
+        'additional_properties' => 'additional_properties',
         'avatar_url' => 'avatar_url',
         'display_name' => 'display_name',
         'id' => 'id',
+        'order' => 'order',
         'status' => 'status',
+        'template' => 'template',
         'username' => 'username'
     ];
 
@@ -101,10 +110,13 @@ class GroupMemberResource implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
+        'additional_properties' => 'setAdditionalProperties',
         'avatar_url' => 'setAvatarUrl',
         'display_name' => 'setDisplayName',
         'id' => 'setId',
+        'order' => 'setOrder',
         'status' => 'setStatus',
+        'template' => 'setTemplate',
         'username' => 'setUsername'
     ];
 
@@ -114,10 +126,13 @@ class GroupMemberResource implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
+        'additional_properties' => 'getAdditionalProperties',
         'avatar_url' => 'getAvatarUrl',
         'display_name' => 'getDisplayName',
         'id' => 'getId',
+        'order' => 'getOrder',
         'status' => 'getStatus',
+        'template' => 'getTemplate',
         'username' => 'getUsername'
     ];
 
@@ -166,10 +181,13 @@ class GroupMemberResource implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['additional_properties'] = isset($data['additional_properties']) ? $data['additional_properties'] : null;
         $this->container['avatar_url'] = isset($data['avatar_url']) ? $data['avatar_url'] : null;
         $this->container['display_name'] = isset($data['display_name']) ? $data['display_name'] : null;
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
+        $this->container['order'] = isset($data['order']) ? $data['order'] : null;
         $this->container['status'] = isset($data['status']) ? $data['status'] : null;
+        $this->container['template'] = isset($data['template']) ? $data['template'] : null;
         $this->container['username'] = isset($data['username']) ? $data['username'] : null;
     }
 
@@ -215,6 +233,27 @@ class GroupMemberResource implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets additional_properties
+     * @return map[string,\KnetikCloud\Model\Property]
+     */
+    public function getAdditionalProperties()
+    {
+        return $this->container['additional_properties'];
+    }
+
+    /**
+     * Sets additional_properties
+     * @param map[string,\KnetikCloud\Model\Property] $additional_properties A map of additional properties, keyed on the property name (private). Must match the names and types defined in the template for this type, or be an extra not from the template
+     * @return $this
+     */
+    public function setAdditionalProperties($additional_properties)
+    {
+        $this->container['additional_properties'] = $additional_properties;
+
+        return $this;
+    }
 
     /**
      * Gets avatar_url
@@ -280,6 +319,27 @@ class GroupMemberResource implements ArrayAccess
     }
 
     /**
+     * Gets order
+     * @return string
+     */
+    public function getOrder()
+    {
+        return $this->container['order'];
+    }
+
+    /**
+     * Sets order
+     * @param string $order The position of the member in the group if applicable. Read notes for details
+     * @return $this
+     */
+    public function setOrder($order)
+    {
+        $this->container['order'] = $order;
+
+        return $this;
+    }
+
+    /**
      * Gets status
      * @return string
      */
@@ -305,6 +365,27 @@ class GroupMemberResource implements ArrayAccess
             );
         }
         $this->container['status'] = $status;
+
+        return $this;
+    }
+
+    /**
+     * Gets template
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return $this->container['template'];
+    }
+
+    /**
+     * Sets template
+     * @param string $template A template this member additional properties are validated against (private). May be null and no validation of properties will be done
+     * @return $this
+     */
+    public function setTemplate($template)
+    {
+        $this->container['template'] = $template;
 
         return $this;
     }

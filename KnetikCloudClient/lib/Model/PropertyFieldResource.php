@@ -153,6 +153,7 @@ class PropertyFieldResource implements ArrayAccess
     const INNER_TYPE_ENUMERATION = 'enumeration';
     const INNER_TYPE__LIST = 'list';
     const INNER_TYPE_OBJECT = 'object';
+    const INNER_TYPE_DEFINITION = 'definition';
     const TYPE_INTEGER = 'integer';
     const TYPE_NUMBER = 'number';
     const TYPE_BOOL = 'bool';
@@ -160,6 +161,7 @@ class PropertyFieldResource implements ArrayAccess
     const TYPE_ENUMERATION = 'enumeration';
     const TYPE__LIST = 'list';
     const TYPE_OBJECT = 'object';
+    const TYPE_DEFINITION = 'definition';
     
 
     
@@ -177,6 +179,7 @@ class PropertyFieldResource implements ArrayAccess
             self::INNER_TYPE_ENUMERATION,
             self::INNER_TYPE__LIST,
             self::INNER_TYPE_OBJECT,
+            self::INNER_TYPE_DEFINITION,
         ];
     }
     
@@ -194,6 +197,7 @@ class PropertyFieldResource implements ArrayAccess
             self::TYPE_ENUMERATION,
             self::TYPE__LIST,
             self::TYPE_OBJECT,
+            self::TYPE_DEFINITION,
         ];
     }
     

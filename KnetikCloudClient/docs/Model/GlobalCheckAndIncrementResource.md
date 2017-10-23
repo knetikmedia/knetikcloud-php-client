@@ -4,6 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **check_value_resource** | [**\KnetikCloud\Model\ExpressionResource**](ExpressionResource.md) |  | [optional] 
+**definition** | **string** |  | [optional] 
 **global_resource** | [**\KnetikCloud\Model\ExpressionResource**](ExpressionResource.md) |  | [optional] 
 **type** | **string** |  | [optional] 
 

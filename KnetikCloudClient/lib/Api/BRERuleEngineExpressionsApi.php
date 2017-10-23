@@ -82,33 +82,35 @@ class BRERuleEngineExpressionsApi
     }
 
     /**
-     * Operation getBREExpressions
+     * Operation getBREExpression
      *
-     * Get a list of 'lookup' type expressions
+     * Lookup a specific expression
      *
+     * @param string $type Specifiy the type of expression as returned by the listing endpoint (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \KnetikCloud\Model\LookupTypeResource[]
+     * @return \KnetikCloud\Model\ExpressionResource
      */
-    public function getBREExpressions()
+    public function getBREExpression($type)
     {
-        list($response) = $this->getBREExpressionsWithHttpInfo();
+        list($response) = $this->getBREExpressionWithHttpInfo($type);
         return $response;
     }
 
     /**
-     * Operation getBREExpressionsWithHttpInfo
+     * Operation getBREExpressionWithHttpInfo
      *
-     * Get a list of 'lookup' type expressions
+     * Lookup a specific expression
      *
+     * @param string $type Specifiy the type of expression as returned by the listing endpoint (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \KnetikCloud\Model\LookupTypeResource[], HTTP status code, HTTP response headers (array of strings)
+     * @return array of \KnetikCloud\Model\ExpressionResource, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getBREExpressionsWithHttpInfo()
+    public function getBREExpressionWithHttpInfo($type)
     {
-        $returnType = '\KnetikCloud\Model\LookupTypeResource[]';
-        $request = $this->getBREExpressionsRequest();
+        $returnType = '\KnetikCloud\Model\ExpressionResource';
+        $request = $this->getBREExpressionRequest($type);
 
         try {
 
@@ -152,7 +154,243 @@ class BRERuleEngineExpressionsApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\LookupTypeResource[]', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ExpressionResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getBREExpressionAsync
+     *
+     * Lookup a specific expression
+     *
+     * @param string $type Specifiy the type of expression as returned by the listing endpoint (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getBREExpressionAsync($type)
+    {
+        return $this->getBREExpressionAsyncWithHttpInfo($type)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getBREExpressionAsyncWithHttpInfo
+     *
+     * Lookup a specific expression
+     *
+     * @param string $type Specifiy the type of expression as returned by the listing endpoint (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getBREExpressionAsyncWithHttpInfo($type)
+    {
+        $returnType = '\KnetikCloud\Model\ExpressionResource';
+        $request = $this->getBREExpressionRequest($type);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getBREExpression'
+     *
+     * @param string $type Specifiy the type of expression as returned by the listing endpoint (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getBREExpressionRequest($type)
+    {
+        // verify the required parameter 'type' is set
+        if ($type === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $type when calling getBREExpression');
+        }
+
+        $resourcePath = '/bre/expressions/{type}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // path params
+        if ($type !== null) {
+            $resourcePath = str_replace('{' . 'type' . '}', ObjectSerializer::toPathValue($type), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getBREExpressions
+     *
+     * Get a list of supported expressions to use in conditions or actions.
+     *
+     * @param string $filter_type_group Filter for expressions by type group (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\ExpressionResource[]
+     */
+    public function getBREExpressions($filter_type_group = null)
+    {
+        list($response) = $this->getBREExpressionsWithHttpInfo($filter_type_group);
+        return $response;
+    }
+
+    /**
+     * Operation getBREExpressionsWithHttpInfo
+     *
+     * Get a list of supported expressions to use in conditions or actions.
+     *
+     * @param string $filter_type_group Filter for expressions by type group (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\ExpressionResource[], HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getBREExpressionsWithHttpInfo($filter_type_group = null)
+    {
+        $returnType = '\KnetikCloud\Model\ExpressionResource[]';
+        $request = $this->getBREExpressionsRequest($filter_type_group);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ExpressionResource[]', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
@@ -167,14 +405,15 @@ class BRERuleEngineExpressionsApi
     /**
      * Operation getBREExpressionsAsync
      *
-     * Get a list of 'lookup' type expressions
+     * Get a list of supported expressions to use in conditions or actions.
      *
+     * @param string $filter_type_group Filter for expressions by type group (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getBREExpressionsAsync()
+    public function getBREExpressionsAsync($filter_type_group = null)
     {
-        return $this->getBREExpressionsAsyncWithHttpInfo()->then(function ($response) {
+        return $this->getBREExpressionsAsyncWithHttpInfo($filter_type_group)->then(function ($response) {
             return $response[0];
         });
     }
@@ -182,15 +421,16 @@ class BRERuleEngineExpressionsApi
     /**
      * Operation getBREExpressionsAsyncWithHttpInfo
      *
-     * Get a list of 'lookup' type expressions
+     * Get a list of supported expressions to use in conditions or actions.
      *
+     * @param string $filter_type_group Filter for expressions by type group (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getBREExpressionsAsyncWithHttpInfo()
+    public function getBREExpressionsAsyncWithHttpInfo($filter_type_group = null)
     {
-        $returnType = '\KnetikCloud\Model\LookupTypeResource[]';
-        $request = $this->getBREExpressionsRequest();
+        $returnType = '\KnetikCloud\Model\ExpressionResource[]';
+        $request = $this->getBREExpressionsRequest($filter_type_group);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
@@ -223,19 +463,24 @@ class BRERuleEngineExpressionsApi
     /**
      * Create request for operation 'getBREExpressions'
      *
+     * @param string $filter_type_group Filter for expressions by type group (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getBREExpressionsRequest()
+    protected function getBREExpressionsRequest($filter_type_group = null)
     {
 
-        $resourcePath = '/bre/expressions/lookup';
+        $resourcePath = '/bre/expressions';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
 
+        // query params
+        if ($filter_type_group !== null) {
+            $queryParams['filter_type_group'] = ObjectSerializer::toQueryValue($filter_type_group);
+        }
 
 
 
@@ -298,6 +543,239 @@ class BRERuleEngineExpressionsApi
 
         return new Request(
             'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getExpressionAsText
+     *
+     * Returns the textual representation of an expression
+     *
+     * @param \KnetikCloud\Model\ExpressionResource $expression The expression resource to be converted (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\StringWrapper
+     */
+    public function getExpressionAsText($expression = null)
+    {
+        list($response) = $this->getExpressionAsTextWithHttpInfo($expression);
+        return $response;
+    }
+
+    /**
+     * Operation getExpressionAsTextWithHttpInfo
+     *
+     * Returns the textual representation of an expression
+     *
+     * @param \KnetikCloud\Model\ExpressionResource $expression The expression resource to be converted (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\StringWrapper, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getExpressionAsTextWithHttpInfo($expression = null)
+    {
+        $returnType = '\KnetikCloud\Model\StringWrapper';
+        $request = $this->getExpressionAsTextRequest($expression);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\StringWrapper', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getExpressionAsTextAsync
+     *
+     * Returns the textual representation of an expression
+     *
+     * @param \KnetikCloud\Model\ExpressionResource $expression The expression resource to be converted (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getExpressionAsTextAsync($expression = null)
+    {
+        return $this->getExpressionAsTextAsyncWithHttpInfo($expression)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getExpressionAsTextAsyncWithHttpInfo
+     *
+     * Returns the textual representation of an expression
+     *
+     * @param \KnetikCloud\Model\ExpressionResource $expression The expression resource to be converted (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getExpressionAsTextAsyncWithHttpInfo($expression = null)
+    {
+        $returnType = '\KnetikCloud\Model\StringWrapper';
+        $request = $this->getExpressionAsTextRequest($expression);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getExpressionAsText'
+     *
+     * @param \KnetikCloud\Model\ExpressionResource $expression The expression resource to be converted (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getExpressionAsTextRequest($expression = null)
+    {
+
+        $resourcePath = '/bre/expressions';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // body params
+        $_tempBody = null;
+        if (isset($expression)) {
+            $_tempBody = $expression;
+        }
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
             $url,
             $headers,
             $httpBody

@@ -3,6 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**definition** | **string** |  | [optional] 
 **type** | **string** |  | [optional] 
 **value** | **object** |  | [optional] 
 **value_type** | **string** |  | [optional] 

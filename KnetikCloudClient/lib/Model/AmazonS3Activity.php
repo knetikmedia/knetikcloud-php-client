@@ -234,7 +234,7 @@ class AmazonS3Activity implements ArrayAccess
 
     /**
      * Sets cdn_url
-     * @param string $cdn_url URL for accessing the resource via CDN if configured (will default to the main url if not)
+     * @param string $cdn_url URL for accessing the resource. Will use a CDN if configured, or direct to S3 if not
      * @return $this
      */
     public function setCdnUrl($cdn_url)
@@ -339,7 +339,7 @@ class AmazonS3Activity implements ArrayAccess
 
     /**
      * Sets url
-     * @param string $url URL for posting and later accessing the S3 resource
+     * @param string $url URL that one can PUT the file to, to upload it to S3
      * @return $this
      */
     public function setUrl($url)

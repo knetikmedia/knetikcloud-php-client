@@ -64,7 +64,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getFriends**
-> \KnetikCloud\Model\PageResourceSimpleUserResource_ getFriends($user_id, $size, $page)
+> \KnetikCloud\Model\PageResourceSimpleUserResource_ getFriends($user_id, $filter_username, $filter_user_id, $size, $page)
 
 Get friends list
 
@@ -80,11 +80,13 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 
 $api_instance = new KnetikCloud\Api\UsersFriendshipsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user or 'me'
+$filter_username = "filter_username_example"; // string | Filter for friends with the given username
+$filter_user_id = 56; // int | Filter for friends by user id
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 
 try {
-    $result = $api_instance->getFriends($user_id, $size, $page);
+    $result = $api_instance->getFriends($user_id, $filter_username, $filter_user_id, $size, $page);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling UsersFriendshipsApi->getFriends: ', $e->getMessage(), PHP_EOL;
@@ -97,6 +99,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **string**| The id of the user or &#39;me&#39; |
+ **filter_username** | **string**| Filter for friends with the given username | [optional]
+ **filter_user_id** | **int**| Filter for friends by user id | [optional]
  **size** | **int**| The number of objects returned per page | [optional] [default to 25]
  **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]
 

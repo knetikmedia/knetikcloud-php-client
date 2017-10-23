@@ -815,6 +815,239 @@ class UsersGroupsApi
     }
 
     /**
+     * Operation createGroupMemberTemplate
+     *
+     * Create an group member template
+     *
+     * @param \KnetikCloud\Model\TemplateResource $group_member_template_resource The group member template resource object (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\TemplateResource
+     */
+    public function createGroupMemberTemplate($group_member_template_resource = null)
+    {
+        list($response) = $this->createGroupMemberTemplateWithHttpInfo($group_member_template_resource);
+        return $response;
+    }
+
+    /**
+     * Operation createGroupMemberTemplateWithHttpInfo
+     *
+     * Create an group member template
+     *
+     * @param \KnetikCloud\Model\TemplateResource $group_member_template_resource The group member template resource object (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\TemplateResource, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function createGroupMemberTemplateWithHttpInfo($group_member_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->createGroupMemberTemplateRequest($group_member_template_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation createGroupMemberTemplateAsync
+     *
+     * Create an group member template
+     *
+     * @param \KnetikCloud\Model\TemplateResource $group_member_template_resource The group member template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createGroupMemberTemplateAsync($group_member_template_resource = null)
+    {
+        return $this->createGroupMemberTemplateAsyncWithHttpInfo($group_member_template_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation createGroupMemberTemplateAsyncWithHttpInfo
+     *
+     * Create an group member template
+     *
+     * @param \KnetikCloud\Model\TemplateResource $group_member_template_resource The group member template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createGroupMemberTemplateAsyncWithHttpInfo($group_member_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->createGroupMemberTemplateRequest($group_member_template_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'createGroupMemberTemplate'
+     *
+     * @param \KnetikCloud\Model\TemplateResource $group_member_template_resource The group member template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function createGroupMemberTemplateRequest($group_member_template_resource = null)
+    {
+
+        $resourcePath = '/users/groups/members/templates';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // body params
+        $_tempBody = null;
+        if (isset($group_member_template_resource)) {
+            $_tempBody = $group_member_template_resource;
+        }
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation createGroupTemplate
      *
      * Create a group template
@@ -1182,6 +1415,218 @@ class UsersGroupsApi
         // path params
         if ($unique_name !== null) {
             $resourcePath = str_replace('{' . 'unique_name' . '}', ObjectSerializer::toPathValue($unique_name), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'DELETE',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation deleteGroupMemberTemplate
+     *
+     * Delete an group member template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return void
+     */
+    public function deleteGroupMemberTemplate($id, $cascade = null)
+    {
+        $this->deleteGroupMemberTemplateWithHttpInfo($id, $cascade);
+    }
+
+    /**
+     * Operation deleteGroupMemberTemplateWithHttpInfo
+     *
+     * Delete an group member template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function deleteGroupMemberTemplateWithHttpInfo($id, $cascade = null)
+    {
+        $returnType = '';
+        $request = $this->deleteGroupMemberTemplateRequest($id, $cascade);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteGroupMemberTemplateAsync
+     *
+     * Delete an group member template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteGroupMemberTemplateAsync($id, $cascade = null)
+    {
+        return $this->deleteGroupMemberTemplateAsyncWithHttpInfo($id, $cascade)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation deleteGroupMemberTemplateAsyncWithHttpInfo
+     *
+     * Delete an group member template
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteGroupMemberTemplateAsyncWithHttpInfo($id, $cascade = null)
+    {
+        $returnType = '';
+        $request = $this->deleteGroupMemberTemplateRequest($id, $cascade);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'deleteGroupMemberTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @param string $cascade The value needed to delete used templates (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function deleteGroupMemberTemplateRequest($id, $cascade = null)
+    {
+        // verify the required parameter 'id' is set
+        if ($id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $id when calling deleteGroupMemberTemplate');
+        }
+
+        $resourcePath = '/users/groups/members/templates/{id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        if ($cascade !== null) {
+            $queryParams['cascade'] = ObjectSerializer::toQueryValue($cascade);
+        }
+
+        // path params
+        if ($id !== null) {
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
         }
 
 
@@ -1932,6 +2377,492 @@ class UsersGroupsApi
     }
 
     /**
+     * Operation getGroupMemberTemplate
+     *
+     * Get a single group member template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\TemplateResource
+     */
+    public function getGroupMemberTemplate($id)
+    {
+        list($response) = $this->getGroupMemberTemplateWithHttpInfo($id);
+        return $response;
+    }
+
+    /**
+     * Operation getGroupMemberTemplateWithHttpInfo
+     *
+     * Get a single group member template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\TemplateResource, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getGroupMemberTemplateWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->getGroupMemberTemplateRequest($id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getGroupMemberTemplateAsync
+     *
+     * Get a single group member template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getGroupMemberTemplateAsync($id)
+    {
+        return $this->getGroupMemberTemplateAsyncWithHttpInfo($id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getGroupMemberTemplateAsyncWithHttpInfo
+     *
+     * Get a single group member template
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getGroupMemberTemplateAsyncWithHttpInfo($id)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->getGroupMemberTemplateRequest($id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getGroupMemberTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getGroupMemberTemplateRequest($id)
+    {
+        // verify the required parameter 'id' is set
+        if ($id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $id when calling getGroupMemberTemplate');
+        }
+
+        $resourcePath = '/users/groups/members/templates/{id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // path params
+        if ($id !== null) {
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getGroupMemberTemplates
+     *
+     * List and search group member templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\PageResourceTemplateResource_
+     */
+    public function getGroupMemberTemplates($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        list($response) = $this->getGroupMemberTemplatesWithHttpInfo($size, $page, $order);
+        return $response;
+    }
+
+    /**
+     * Operation getGroupMemberTemplatesWithHttpInfo
+     *
+     * List and search group member templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\PageResourceTemplateResource_, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getGroupMemberTemplatesWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceTemplateResource_';
+        $request = $this->getGroupMemberTemplatesRequest($size, $page, $order);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceTemplateResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getGroupMemberTemplatesAsync
+     *
+     * List and search group member templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getGroupMemberTemplatesAsync($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        return $this->getGroupMemberTemplatesAsyncWithHttpInfo($size, $page, $order)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getGroupMemberTemplatesAsyncWithHttpInfo
+     *
+     * List and search group member templates
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getGroupMemberTemplatesAsyncWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceTemplateResource_';
+        $request = $this->getGroupMemberTemplatesRequest($size, $page, $order);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getGroupMemberTemplates'
+     *
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getGroupMemberTemplatesRequest($size = '25', $page = '1', $order = 'id:ASC')
+    {
+
+        $resourcePath = '/users/groups/members/templates';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        if ($size !== null) {
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
+        }
+        // query params
+        if ($page !== null) {
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
+        }
+        // query params
+        if ($order !== null) {
+            $queryParams['order'] = ObjectSerializer::toQueryValue($order);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation getGroupMembers
      *
      * Lists members of the group
@@ -1939,12 +2870,12 @@ class UsersGroupsApi
      * @param string $unique_name The group unique name (required)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to order:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceGroupMemberResource_
      */
-    public function getGroupMembers($unique_name, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getGroupMembers($unique_name, $size = '25', $page = '1', $order = 'order:ASC')
     {
         list($response) = $this->getGroupMembersWithHttpInfo($unique_name, $size, $page, $order);
         return $response;
@@ -1958,12 +2889,12 @@ class UsersGroupsApi
      * @param string $unique_name The group unique name (required)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to order:ASC)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceGroupMemberResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getGroupMembersWithHttpInfo($unique_name, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getGroupMembersWithHttpInfo($unique_name, $size = '25', $page = '1', $order = 'order:ASC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceGroupMemberResource_';
         $request = $this->getGroupMembersRequest($unique_name, $size, $page, $order);
@@ -2030,11 +2961,11 @@ class UsersGroupsApi
      * @param string $unique_name The group unique name (required)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to order:ASC)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getGroupMembersAsync($unique_name, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getGroupMembersAsync($unique_name, $size = '25', $page = '1', $order = 'order:ASC')
     {
         return $this->getGroupMembersAsyncWithHttpInfo($unique_name, $size, $page, $order)->then(function ($response) {
             return $response[0];
@@ -2049,11 +2980,11 @@ class UsersGroupsApi
      * @param string $unique_name The group unique name (required)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to order:ASC)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getGroupMembersAsyncWithHttpInfo($unique_name, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getGroupMembersAsyncWithHttpInfo($unique_name, $size = '25', $page = '1', $order = 'order:ASC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceGroupMemberResource_';
         $request = $this->getGroupMembersRequest($unique_name, $size, $page, $order);
@@ -2092,11 +3023,11 @@ class UsersGroupsApi
      * @param string $unique_name The group unique name (required)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to order:ASC)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getGroupMembersRequest($unique_name, $size = '25', $page = '1', $order = 'id:ASC')
+    protected function getGroupMembersRequest($unique_name, $size = '25', $page = '1', $order = 'order:ASC')
     {
         // verify the required parameter 'unique_name' is set
         if ($unique_name === null) {
@@ -2678,13 +3609,14 @@ class UsersGroupsApi
      * List groups a user is in
      *
      * @param int $user_id The id of the user (required)
+     * @param bool $filter_children Whether to limit group list to children of groups only. If true, shows only groups with parents. If false, shows only groups with no parent. (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return string[]
      */
-    public function getGroupsForUser($user_id)
+    public function getGroupsForUser($user_id, $filter_children = null)
     {
-        list($response) = $this->getGroupsForUserWithHttpInfo($user_id);
+        list($response) = $this->getGroupsForUserWithHttpInfo($user_id, $filter_children);
         return $response;
     }
 
@@ -2694,14 +3626,15 @@ class UsersGroupsApi
      * List groups a user is in
      *
      * @param int $user_id The id of the user (required)
+     * @param bool $filter_children Whether to limit group list to children of groups only. If true, shows only groups with parents. If false, shows only groups with no parent. (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of string[], HTTP status code, HTTP response headers (array of strings)
      */
-    public function getGroupsForUserWithHttpInfo($user_id)
+    public function getGroupsForUserWithHttpInfo($user_id, $filter_children = null)
     {
         $returnType = 'string[]';
-        $request = $this->getGroupsForUserRequest($user_id);
+        $request = $this->getGroupsForUserRequest($user_id, $filter_children);
 
         try {
 
@@ -2763,12 +3696,13 @@ class UsersGroupsApi
      * List groups a user is in
      *
      * @param int $user_id The id of the user (required)
+     * @param bool $filter_children Whether to limit group list to children of groups only. If true, shows only groups with parents. If false, shows only groups with no parent. (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getGroupsForUserAsync($user_id)
+    public function getGroupsForUserAsync($user_id, $filter_children = null)
     {
-        return $this->getGroupsForUserAsyncWithHttpInfo($user_id)->then(function ($response) {
+        return $this->getGroupsForUserAsyncWithHttpInfo($user_id, $filter_children)->then(function ($response) {
             return $response[0];
         });
     }
@@ -2779,13 +3713,14 @@ class UsersGroupsApi
      * List groups a user is in
      *
      * @param int $user_id The id of the user (required)
+     * @param bool $filter_children Whether to limit group list to children of groups only. If true, shows only groups with parents. If false, shows only groups with no parent. (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getGroupsForUserAsyncWithHttpInfo($user_id)
+    public function getGroupsForUserAsyncWithHttpInfo($user_id, $filter_children = null)
     {
         $returnType = 'string[]';
-        $request = $this->getGroupsForUserRequest($user_id);
+        $request = $this->getGroupsForUserRequest($user_id, $filter_children);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
@@ -2819,10 +3754,11 @@ class UsersGroupsApi
      * Create request for operation 'getGroupsForUser'
      *
      * @param int $user_id The id of the user (required)
+     * @param bool $filter_children Whether to limit group list to children of groups only. If true, shows only groups with parents. If false, shows only groups with no parent. (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getGroupsForUserRequest($user_id)
+    protected function getGroupsForUserRequest($user_id, $filter_children = null)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -2836,11 +3772,311 @@ class UsersGroupsApi
         $httpBody = '';
         $multipart = false;
 
+        // query params
+        if ($filter_children !== null) {
+            $queryParams['filter_children'] = ObjectSerializer::toQueryValue($filter_children);
+        }
 
         // path params
         if ($user_id !== null) {
             $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
         }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation listGroups
+     *
+     * List and search groups
+     *
+     * @param string $filter_template Filter for groups using a specific template, by id (optional)
+     * @param string $filter_member_count Filters groups by member count. Multiple values possible for range search. Format: filter_member_count&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count&#x3D;GT,14,LT,17 (optional)
+     * @param string $filter_name Filter for groups with names starting with the given string (optional)
+     * @param string $filter_unique_name Filter for groups whose unique_name starts with provided string (optional)
+     * @param string $filter_parent Filter for groups with a specific parent, by unique name (optional)
+     * @param string $filter_status Filter for groups with a certain status (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\PageResourceGroupResource_
+     */
+    public function listGroups($filter_template = null, $filter_member_count = null, $filter_name = null, $filter_unique_name = null, $filter_parent = null, $filter_status = null, $size = '25', $page = '1', $order = 'name:ASC')
+    {
+        list($response) = $this->listGroupsWithHttpInfo($filter_template, $filter_member_count, $filter_name, $filter_unique_name, $filter_parent, $filter_status, $size, $page, $order);
+        return $response;
+    }
+
+    /**
+     * Operation listGroupsWithHttpInfo
+     *
+     * List and search groups
+     *
+     * @param string $filter_template Filter for groups using a specific template, by id (optional)
+     * @param string $filter_member_count Filters groups by member count. Multiple values possible for range search. Format: filter_member_count&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count&#x3D;GT,14,LT,17 (optional)
+     * @param string $filter_name Filter for groups with names starting with the given string (optional)
+     * @param string $filter_unique_name Filter for groups whose unique_name starts with provided string (optional)
+     * @param string $filter_parent Filter for groups with a specific parent, by unique name (optional)
+     * @param string $filter_status Filter for groups with a certain status (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\PageResourceGroupResource_, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function listGroupsWithHttpInfo($filter_template = null, $filter_member_count = null, $filter_name = null, $filter_unique_name = null, $filter_parent = null, $filter_status = null, $size = '25', $page = '1', $order = 'name:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceGroupResource_';
+        $request = $this->listGroupsRequest($filter_template, $filter_member_count, $filter_name, $filter_unique_name, $filter_parent, $filter_status, $size, $page, $order);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceGroupResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation listGroupsAsync
+     *
+     * List and search groups
+     *
+     * @param string $filter_template Filter for groups using a specific template, by id (optional)
+     * @param string $filter_member_count Filters groups by member count. Multiple values possible for range search. Format: filter_member_count&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count&#x3D;GT,14,LT,17 (optional)
+     * @param string $filter_name Filter for groups with names starting with the given string (optional)
+     * @param string $filter_unique_name Filter for groups whose unique_name starts with provided string (optional)
+     * @param string $filter_parent Filter for groups with a specific parent, by unique name (optional)
+     * @param string $filter_status Filter for groups with a certain status (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function listGroupsAsync($filter_template = null, $filter_member_count = null, $filter_name = null, $filter_unique_name = null, $filter_parent = null, $filter_status = null, $size = '25', $page = '1', $order = 'name:ASC')
+    {
+        return $this->listGroupsAsyncWithHttpInfo($filter_template, $filter_member_count, $filter_name, $filter_unique_name, $filter_parent, $filter_status, $size, $page, $order)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation listGroupsAsyncWithHttpInfo
+     *
+     * List and search groups
+     *
+     * @param string $filter_template Filter for groups using a specific template, by id (optional)
+     * @param string $filter_member_count Filters groups by member count. Multiple values possible for range search. Format: filter_member_count&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count&#x3D;GT,14,LT,17 (optional)
+     * @param string $filter_name Filter for groups with names starting with the given string (optional)
+     * @param string $filter_unique_name Filter for groups whose unique_name starts with provided string (optional)
+     * @param string $filter_parent Filter for groups with a specific parent, by unique name (optional)
+     * @param string $filter_status Filter for groups with a certain status (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function listGroupsAsyncWithHttpInfo($filter_template = null, $filter_member_count = null, $filter_name = null, $filter_unique_name = null, $filter_parent = null, $filter_status = null, $size = '25', $page = '1', $order = 'name:ASC')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceGroupResource_';
+        $request = $this->listGroupsRequest($filter_template, $filter_member_count, $filter_name, $filter_unique_name, $filter_parent, $filter_status, $size, $page, $order);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'listGroups'
+     *
+     * @param string $filter_template Filter for groups using a specific template, by id (optional)
+     * @param string $filter_member_count Filters groups by member count. Multiple values possible for range search. Format: filter_member_count&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count&#x3D;GT,14,LT,17 (optional)
+     * @param string $filter_name Filter for groups with names starting with the given string (optional)
+     * @param string $filter_unique_name Filter for groups whose unique_name starts with provided string (optional)
+     * @param string $filter_parent Filter for groups with a specific parent, by unique name (optional)
+     * @param string $filter_status Filter for groups with a certain status (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function listGroupsRequest($filter_template = null, $filter_member_count = null, $filter_name = null, $filter_unique_name = null, $filter_parent = null, $filter_status = null, $size = '25', $page = '1', $order = 'name:ASC')
+    {
+
+        $resourcePath = '/users/groups';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        if ($filter_template !== null) {
+            $queryParams['filter_template'] = ObjectSerializer::toQueryValue($filter_template);
+        }
+        // query params
+        if ($filter_member_count !== null) {
+            $queryParams['filter_member_count'] = ObjectSerializer::toQueryValue($filter_member_count);
+        }
+        // query params
+        if ($filter_name !== null) {
+            $queryParams['filter_name'] = ObjectSerializer::toQueryValue($filter_name);
+        }
+        // query params
+        if ($filter_unique_name !== null) {
+            $queryParams['filter_unique_name'] = ObjectSerializer::toQueryValue($filter_unique_name);
+        }
+        // query params
+        if ($filter_parent !== null) {
+            $queryParams['filter_parent'] = ObjectSerializer::toQueryValue($filter_parent);
+        }
+        // query params
+        if ($filter_status !== null) {
+            $queryParams['filter_status'] = ObjectSerializer::toQueryValue($filter_status);
+        }
+        // query params
+        if ($size !== null) {
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
+        }
+        // query params
+        if ($page !== null) {
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
+        }
+        // query params
+        if ($order !== null) {
+            $queryParams['order'] = ObjectSerializer::toQueryValue($order);
+        }
+
 
 
         if ($multipart) {
@@ -3330,6 +4566,466 @@ class UsersGroupsApi
     }
 
     /**
+     * Operation updateGroupMemberProperties
+     *
+     * Change a user's order
+     *
+     * @param string $unique_name The group unique name (required)
+     * @param int $user_id The user id of the member to modify (required)
+     * @param \KnetikCloud\Model\StringWrapper $order The new order for the membership (required)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return void
+     */
+    public function updateGroupMemberProperties($unique_name, $user_id, $order)
+    {
+        $this->updateGroupMemberPropertiesWithHttpInfo($unique_name, $user_id, $order);
+    }
+
+    /**
+     * Operation updateGroupMemberPropertiesWithHttpInfo
+     *
+     * Change a user's order
+     *
+     * @param string $unique_name The group unique name (required)
+     * @param int $user_id The user id of the member to modify (required)
+     * @param \KnetikCloud\Model\StringWrapper $order The new order for the membership (required)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function updateGroupMemberPropertiesWithHttpInfo($unique_name, $user_id, $order)
+    {
+        $returnType = '';
+        $request = $this->updateGroupMemberPropertiesRequest($unique_name, $user_id, $order);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateGroupMemberPropertiesAsync
+     *
+     * Change a user's order
+     *
+     * @param string $unique_name The group unique name (required)
+     * @param int $user_id The user id of the member to modify (required)
+     * @param \KnetikCloud\Model\StringWrapper $order The new order for the membership (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateGroupMemberPropertiesAsync($unique_name, $user_id, $order)
+    {
+        return $this->updateGroupMemberPropertiesAsyncWithHttpInfo($unique_name, $user_id, $order)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateGroupMemberPropertiesAsyncWithHttpInfo
+     *
+     * Change a user's order
+     *
+     * @param string $unique_name The group unique name (required)
+     * @param int $user_id The user id of the member to modify (required)
+     * @param \KnetikCloud\Model\StringWrapper $order The new order for the membership (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateGroupMemberPropertiesAsyncWithHttpInfo($unique_name, $user_id, $order)
+    {
+        $returnType = '';
+        $request = $this->updateGroupMemberPropertiesRequest($unique_name, $user_id, $order);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateGroupMemberProperties'
+     *
+     * @param string $unique_name The group unique name (required)
+     * @param int $user_id The user id of the member to modify (required)
+     * @param \KnetikCloud\Model\StringWrapper $order The new order for the membership (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateGroupMemberPropertiesRequest($unique_name, $user_id, $order)
+    {
+        // verify the required parameter 'unique_name' is set
+        if ($unique_name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $unique_name when calling updateGroupMemberProperties');
+        }
+        // verify the required parameter 'user_id' is set
+        if ($user_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $user_id when calling updateGroupMemberProperties');
+        }
+        // verify the required parameter 'order' is set
+        if ($order === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $order when calling updateGroupMemberProperties');
+        }
+
+        $resourcePath = '/users/groups/{unique_name}/members/{user_id}/order';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // path params
+        if ($unique_name !== null) {
+            $resourcePath = str_replace('{' . 'unique_name' . '}', ObjectSerializer::toPathValue($unique_name), $resourcePath);
+        }
+        // path params
+        if ($user_id !== null) {
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
+        }
+
+        // body params
+        $_tempBody = null;
+        if (isset($order)) {
+            $_tempBody = $order;
+        }
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation updateGroupMemberProperties1
+     *
+     * Change a user's membership properties
+     *
+     * @param string $unique_name The group unique name (required)
+     * @param int $user_id The user id of the member to modify (required)
+     * @param object $properties The new properties for the membership (required)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return void
+     */
+    public function updateGroupMemberProperties1($unique_name, $user_id, $properties)
+    {
+        $this->updateGroupMemberProperties1WithHttpInfo($unique_name, $user_id, $properties);
+    }
+
+    /**
+     * Operation updateGroupMemberProperties1WithHttpInfo
+     *
+     * Change a user's membership properties
+     *
+     * @param string $unique_name The group unique name (required)
+     * @param int $user_id The user id of the member to modify (required)
+     * @param object $properties The new properties for the membership (required)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function updateGroupMemberProperties1WithHttpInfo($unique_name, $user_id, $properties)
+    {
+        $returnType = '';
+        $request = $this->updateGroupMemberProperties1Request($unique_name, $user_id, $properties);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateGroupMemberProperties1Async
+     *
+     * Change a user's membership properties
+     *
+     * @param string $unique_name The group unique name (required)
+     * @param int $user_id The user id of the member to modify (required)
+     * @param object $properties The new properties for the membership (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateGroupMemberProperties1Async($unique_name, $user_id, $properties)
+    {
+        return $this->updateGroupMemberProperties1AsyncWithHttpInfo($unique_name, $user_id, $properties)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateGroupMemberProperties1AsyncWithHttpInfo
+     *
+     * Change a user's membership properties
+     *
+     * @param string $unique_name The group unique name (required)
+     * @param int $user_id The user id of the member to modify (required)
+     * @param object $properties The new properties for the membership (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateGroupMemberProperties1AsyncWithHttpInfo($unique_name, $user_id, $properties)
+    {
+        $returnType = '';
+        $request = $this->updateGroupMemberProperties1Request($unique_name, $user_id, $properties);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateGroupMemberProperties1'
+     *
+     * @param string $unique_name The group unique name (required)
+     * @param int $user_id The user id of the member to modify (required)
+     * @param object $properties The new properties for the membership (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateGroupMemberProperties1Request($unique_name, $user_id, $properties)
+    {
+        // verify the required parameter 'unique_name' is set
+        if ($unique_name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $unique_name when calling updateGroupMemberProperties1');
+        }
+        // verify the required parameter 'user_id' is set
+        if ($user_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $user_id when calling updateGroupMemberProperties1');
+        }
+        // verify the required parameter 'properties' is set
+        if ($properties === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $properties when calling updateGroupMemberProperties1');
+        }
+
+        $resourcePath = '/users/groups/{unique_name}/members/{user_id}/properties';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // path params
+        if ($unique_name !== null) {
+            $resourcePath = str_replace('{' . 'unique_name' . '}', ObjectSerializer::toPathValue($unique_name), $resourcePath);
+        }
+        // path params
+        if ($user_id !== null) {
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
+        }
+
+        // body params
+        $_tempBody = null;
+        if (isset($properties)) {
+            $_tempBody = $properties;
+        }
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation updateGroupMemberStatus
      *
      * Change a user's status
@@ -3492,6 +5188,252 @@ class UsersGroupsApi
         $_tempBody = null;
         if (isset($status)) {
             $_tempBody = $status;
+        }
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation updateGroupMemberTemplate
+     *
+     * Update an group member template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $group_member_template_resource The group member template resource object (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\TemplateResource
+     */
+    public function updateGroupMemberTemplate($id, $group_member_template_resource = null)
+    {
+        list($response) = $this->updateGroupMemberTemplateWithHttpInfo($id, $group_member_template_resource);
+        return $response;
+    }
+
+    /**
+     * Operation updateGroupMemberTemplateWithHttpInfo
+     *
+     * Update an group member template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $group_member_template_resource The group member template resource object (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\TemplateResource, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function updateGroupMemberTemplateWithHttpInfo($id, $group_member_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->updateGroupMemberTemplateRequest($id, $group_member_template_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 204:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\TemplateResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation updateGroupMemberTemplateAsync
+     *
+     * Update an group member template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $group_member_template_resource The group member template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateGroupMemberTemplateAsync($id, $group_member_template_resource = null)
+    {
+        return $this->updateGroupMemberTemplateAsyncWithHttpInfo($id, $group_member_template_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation updateGroupMemberTemplateAsyncWithHttpInfo
+     *
+     * Update an group member template
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $group_member_template_resource The group member template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateGroupMemberTemplateAsyncWithHttpInfo($id, $group_member_template_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\TemplateResource';
+        $request = $this->updateGroupMemberTemplateRequest($id, $group_member_template_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'updateGroupMemberTemplate'
+     *
+     * @param string $id The id of the template (required)
+     * @param \KnetikCloud\Model\TemplateResource $group_member_template_resource The group member template resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function updateGroupMemberTemplateRequest($id, $group_member_template_resource = null)
+    {
+        // verify the required parameter 'id' is set
+        if ($id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $id when calling updateGroupMemberTemplate');
+        }
+
+        $resourcePath = '/users/groups/members/templates/{id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // path params
+        if ($id !== null) {
+            $resourcePath = str_replace('{' . 'id' . '}', ObjectSerializer::toPathValue($id), $resourcePath);
+        }
+
+        // body params
+        $_tempBody = null;
+        if (isset($group_member_template_resource)) {
+            $_tempBody = $group_member_template_resource;
         }
 
         if ($multipart) {
@@ -3799,302 +5741,6 @@ class UsersGroupsApi
 
         return new Request(
             'PUT',
-            $url,
-            $headers,
-            $httpBody
-        );
-    }
-
-    /**
-     * Operation updateGroups
-     *
-     * List and search groups
-     *
-     * @param string $filter_template Filter for groups using a specific template, by id (optional)
-     * @param string $filter_member_count Filters groups by member count. Multiple values possible for range search. Format: filter_member_count&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count&#x3D;GT,14,LT,17 (optional)
-     * @param string $filter_name Filter for groups with names starting with the given string (optional)
-     * @param string $filter_unique_name Filter for groups whose unique_name starts with provided string (optional)
-     * @param string $filter_parent Filter for groups with a specific parent, by unique name (optional)
-     * @param string $filter_status Filter for groups with a certain status (optional)
-     * @param int $size The number of objects returned per page (optional, default to 25)
-     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
-     * @throws \KnetikCloud\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
-     * @return \KnetikCloud\Model\PageResourceGroupResource_
-     */
-    public function updateGroups($filter_template = null, $filter_member_count = null, $filter_name = null, $filter_unique_name = null, $filter_parent = null, $filter_status = null, $size = '25', $page = '1', $order = 'name:ASC')
-    {
-        list($response) = $this->updateGroupsWithHttpInfo($filter_template, $filter_member_count, $filter_name, $filter_unique_name, $filter_parent, $filter_status, $size, $page, $order);
-        return $response;
-    }
-
-    /**
-     * Operation updateGroupsWithHttpInfo
-     *
-     * List and search groups
-     *
-     * @param string $filter_template Filter for groups using a specific template, by id (optional)
-     * @param string $filter_member_count Filters groups by member count. Multiple values possible for range search. Format: filter_member_count&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count&#x3D;GT,14,LT,17 (optional)
-     * @param string $filter_name Filter for groups with names starting with the given string (optional)
-     * @param string $filter_unique_name Filter for groups whose unique_name starts with provided string (optional)
-     * @param string $filter_parent Filter for groups with a specific parent, by unique name (optional)
-     * @param string $filter_status Filter for groups with a certain status (optional)
-     * @param int $size The number of objects returned per page (optional, default to 25)
-     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
-     * @throws \KnetikCloud\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
-     * @return array of \KnetikCloud\Model\PageResourceGroupResource_, HTTP status code, HTTP response headers (array of strings)
-     */
-    public function updateGroupsWithHttpInfo($filter_template = null, $filter_member_count = null, $filter_name = null, $filter_unique_name = null, $filter_parent = null, $filter_status = null, $size = '25', $page = '1', $order = 'name:ASC')
-    {
-        $returnType = '\KnetikCloud\Model\PageResourceGroupResource_';
-        $request = $this->updateGroupsRequest($filter_template, $filter_member_count, $filter_name, $filter_unique_name, $filter_parent, $filter_status, $size, $page, $order);
-
-        try {
-
-            try {
-                $response = $this->client->send($request);
-            } catch (RequestException $e) {
-                throw new ApiException(
-                    "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
-                );
-            }
-
-            $statusCode = $response->getStatusCode();
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
-                    $statusCode,
-                    $response->getHeaders(),
-                    $response->getBody()
-                );
-            }
-
-            $responseBody = $response->getBody();
-            if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
-            } else {
-                $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
-            }
-
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceGroupResource_', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-            }
-            throw $e;
-        }
-    }
-
-    /**
-     * Operation updateGroupsAsync
-     *
-     * List and search groups
-     *
-     * @param string $filter_template Filter for groups using a specific template, by id (optional)
-     * @param string $filter_member_count Filters groups by member count. Multiple values possible for range search. Format: filter_member_count&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count&#x3D;GT,14,LT,17 (optional)
-     * @param string $filter_name Filter for groups with names starting with the given string (optional)
-     * @param string $filter_unique_name Filter for groups whose unique_name starts with provided string (optional)
-     * @param string $filter_parent Filter for groups with a specific parent, by unique name (optional)
-     * @param string $filter_status Filter for groups with a certain status (optional)
-     * @param int $size The number of objects returned per page (optional, default to 25)
-     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
-     */
-    public function updateGroupsAsync($filter_template = null, $filter_member_count = null, $filter_name = null, $filter_unique_name = null, $filter_parent = null, $filter_status = null, $size = '25', $page = '1', $order = 'name:ASC')
-    {
-        return $this->updateGroupsAsyncWithHttpInfo($filter_template, $filter_member_count, $filter_name, $filter_unique_name, $filter_parent, $filter_status, $size, $page, $order)->then(function ($response) {
-            return $response[0];
-        });
-    }
-
-    /**
-     * Operation updateGroupsAsyncWithHttpInfo
-     *
-     * List and search groups
-     *
-     * @param string $filter_template Filter for groups using a specific template, by id (optional)
-     * @param string $filter_member_count Filters groups by member count. Multiple values possible for range search. Format: filter_member_count&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count&#x3D;GT,14,LT,17 (optional)
-     * @param string $filter_name Filter for groups with names starting with the given string (optional)
-     * @param string $filter_unique_name Filter for groups whose unique_name starts with provided string (optional)
-     * @param string $filter_parent Filter for groups with a specific parent, by unique name (optional)
-     * @param string $filter_status Filter for groups with a certain status (optional)
-     * @param int $size The number of objects returned per page (optional, default to 25)
-     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
-     */
-    public function updateGroupsAsyncWithHttpInfo($filter_template = null, $filter_member_count = null, $filter_name = null, $filter_unique_name = null, $filter_parent = null, $filter_status = null, $size = '25', $page = '1', $order = 'name:ASC')
-    {
-        $returnType = '\KnetikCloud\Model\PageResourceGroupResource_';
-        $request = $this->updateGroupsRequest($filter_template, $filter_member_count, $filter_name, $filter_unique_name, $filter_parent, $filter_status, $size, $page, $order);
-
-        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
-            $responseBody = $response->getBody();
-            if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
-            } else {
-                $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
-            }
-
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-        }, function ($exception) {
-            $response = $exception->getResponse();
-            $statusCode = $response->getStatusCode();
-            throw new ApiException(
-                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
-                $statusCode,
-                $response->getHeaders(),
-                $response->getBody()
-            );
-        });
-    }
-
-    /**
-     * Create request for operation 'updateGroups'
-     *
-     * @param string $filter_template Filter for groups using a specific template, by id (optional)
-     * @param string $filter_member_count Filters groups by member count. Multiple values possible for range search. Format: filter_member_count&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count&#x3D;GT,14,LT,17 (optional)
-     * @param string $filter_name Filter for groups with names starting with the given string (optional)
-     * @param string $filter_unique_name Filter for groups whose unique_name starts with provided string (optional)
-     * @param string $filter_parent Filter for groups with a specific parent, by unique name (optional)
-     * @param string $filter_status Filter for groups with a certain status (optional)
-     * @param int $size The number of objects returned per page (optional, default to 25)
-     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to name:ASC)
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
-     */
-    protected function updateGroupsRequest($filter_template = null, $filter_member_count = null, $filter_name = null, $filter_unique_name = null, $filter_parent = null, $filter_status = null, $size = '25', $page = '1', $order = 'name:ASC')
-    {
-
-        $resourcePath = '/users/groups';
-        $formParams = [];
-        $queryParams = [];
-        $headerParams = [];
-        $httpBody = '';
-        $multipart = false;
-
-        // query params
-        if ($filter_template !== null) {
-            $queryParams['filter_template'] = ObjectSerializer::toQueryValue($filter_template);
-        }
-        // query params
-        if ($filter_member_count !== null) {
-            $queryParams['filter_member_count'] = ObjectSerializer::toQueryValue($filter_member_count);
-        }
-        // query params
-        if ($filter_name !== null) {
-            $queryParams['filter_name'] = ObjectSerializer::toQueryValue($filter_name);
-        }
-        // query params
-        if ($filter_unique_name !== null) {
-            $queryParams['filter_unique_name'] = ObjectSerializer::toQueryValue($filter_unique_name);
-        }
-        // query params
-        if ($filter_parent !== null) {
-            $queryParams['filter_parent'] = ObjectSerializer::toQueryValue($filter_parent);
-        }
-        // query params
-        if ($filter_status !== null) {
-            $queryParams['filter_status'] = ObjectSerializer::toQueryValue($filter_status);
-        }
-        // query params
-        if ($size !== null) {
-            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
-        }
-        // query params
-        if ($page !== null) {
-            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
-        }
-        // query params
-        if ($order !== null) {
-            $queryParams['order'] = ObjectSerializer::toQueryValue($order);
-        }
-
-
-
-        if ($multipart) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
-                ['application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json'],
-                ['application/json']
-            );
-        }
-
-        // for model (json/xml)
-        if (isset($_tempBody)) {
-            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-
-        } elseif (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
-                }
-                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
-
-            } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
-
-            } else {
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
-            }
-        }
-
-
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
-
-        $defaultHeaders = [];
-        if ($this->config->getUserAgent()) {
-            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
-        }
-
-        $headers = array_merge(
-            $defaultHeaders,
-            $headerParams,
-            $headers
-        );
-
-        return new Request(
-            'GET',
             $url,
             $headers,
             $httpBody

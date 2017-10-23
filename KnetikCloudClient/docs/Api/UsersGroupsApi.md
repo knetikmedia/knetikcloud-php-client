@@ -7,20 +7,27 @@ Method | HTTP request | Description
 [**addMemberToGroup**](UsersGroupsApi.md#addMemberToGroup) | **POST** /users/groups/{unique_name}/members | Adds a new member to the group
 [**addMembersToGroup**](UsersGroupsApi.md#addMembersToGroup) | **POST** /users/groups/{unique_name}/members/batch-add | Adds multiple members to the group
 [**createGroup**](UsersGroupsApi.md#createGroup) | **POST** /users/groups | Create a group
+[**createGroupMemberTemplate**](UsersGroupsApi.md#createGroupMemberTemplate) | **POST** /users/groups/members/templates | Create an group member template
 [**createGroupTemplate**](UsersGroupsApi.md#createGroupTemplate) | **POST** /users/groups/templates | Create a group template
 [**deleteGroup**](UsersGroupsApi.md#deleteGroup) | **DELETE** /users/groups/{unique_name} | Removes a group from the system IF no resources are attached to it
+[**deleteGroupMemberTemplate**](UsersGroupsApi.md#deleteGroupMemberTemplate) | **DELETE** /users/groups/members/templates/{id} | Delete an group member template
 [**deleteGroupTemplate**](UsersGroupsApi.md#deleteGroupTemplate) | **DELETE** /users/groups/templates/{id} | Delete a group template
 [**getGroup**](UsersGroupsApi.md#getGroup) | **GET** /users/groups/{unique_name} | Loads a specific group&#39;s details
 [**getGroupMember**](UsersGroupsApi.md#getGroupMember) | **GET** /users/groups/{unique_name}/members/{user_id} | Get a user from a group
+[**getGroupMemberTemplate**](UsersGroupsApi.md#getGroupMemberTemplate) | **GET** /users/groups/members/templates/{id} | Get a single group member template
+[**getGroupMemberTemplates**](UsersGroupsApi.md#getGroupMemberTemplates) | **GET** /users/groups/members/templates | List and search group member templates
 [**getGroupMembers**](UsersGroupsApi.md#getGroupMembers) | **GET** /users/groups/{unique_name}/members | Lists members of the group
 [**getGroupTemplate**](UsersGroupsApi.md#getGroupTemplate) | **GET** /users/groups/templates/{id} | Get a single group template
 [**getGroupTemplates**](UsersGroupsApi.md#getGroupTemplates) | **GET** /users/groups/templates | List and search group templates
 [**getGroupsForUser**](UsersGroupsApi.md#getGroupsForUser) | **GET** /users/{user_id}/groups | List groups a user is in
+[**listGroups**](UsersGroupsApi.md#listGroups) | **GET** /users/groups | List and search groups
 [**removeGroupMember**](UsersGroupsApi.md#removeGroupMember) | **DELETE** /users/groups/{unique_name}/members/{user_id} | Removes a user from a group
 [**updateGroup**](UsersGroupsApi.md#updateGroup) | **PUT** /users/groups/{unique_name} | Update a group
+[**updateGroupMemberProperties**](UsersGroupsApi.md#updateGroupMemberProperties) | **PUT** /users/groups/{unique_name}/members/{user_id}/order | Change a user&#39;s order
+[**updateGroupMemberProperties1**](UsersGroupsApi.md#updateGroupMemberProperties1) | **PUT** /users/groups/{unique_name}/members/{user_id}/properties | Change a user&#39;s membership properties
 [**updateGroupMemberStatus**](UsersGroupsApi.md#updateGroupMemberStatus) | **PUT** /users/groups/{unique_name}/members/{user_id}/status | Change a user&#39;s status
+[**updateGroupMemberTemplate**](UsersGroupsApi.md#updateGroupMemberTemplate) | **PUT** /users/groups/members/templates/{id} | Update an group member template
 [**updateGroupTemplate**](UsersGroupsApi.md#updateGroupTemplate) | **PUT** /users/groups/templates/{id} | Update a group template
-[**updateGroups**](UsersGroupsApi.md#updateGroups) | **GET** /users/groups | List and search groups
 
 
 # **addMemberToGroup**
@@ -171,6 +178,56 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
+# **createGroupMemberTemplate**
+> \KnetikCloud\Model\TemplateResource createGroupMemberTemplate($group_member_template_resource)
+
+Create an group member template
+
+GroupMember Templates define a type of group member and the properties they have
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
+$group_member_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The group member template resource object
+
+try {
+    $result = $api_instance->createGroupMemberTemplate($group_member_template_resource);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling UsersGroupsApi->createGroupMemberTemplate: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **group_member_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The group member template resource object | [optional]
+
+### Return type
+
+[**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)
+
+### Authorization
+
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
 # **createGroupTemplate**
 > \KnetikCloud\Model\TemplateResource createGroupTemplate($group_template_resource)
 
@@ -252,6 +309,57 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **unique_name** | **string**| The group unique name |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **deleteGroupMemberTemplate**
+> deleteGroupMemberTemplate($id, $cascade)
+
+Delete an group member template
+
+If cascade = 'detach', it will force delete the template even if it's attached to other objects
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
+$id = "id_example"; // string | The id of the template
+$cascade = "cascade_example"; // string | The value needed to delete used templates
+
+try {
+    $api_instance->deleteGroupMemberTemplate($id, $cascade);
+} catch (Exception $e) {
+    echo 'Exception when calling UsersGroupsApi->deleteGroupMemberTemplate: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **string**| The id of the template |
+ **cascade** | **string**| The value needed to delete used templates | [optional]
 
 ### Return type
 
@@ -407,6 +515,106 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
+# **getGroupMemberTemplate**
+> \KnetikCloud\Model\TemplateResource getGroupMemberTemplate($id)
+
+Get a single group member template
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
+$id = "id_example"; // string | The id of the template
+
+try {
+    $result = $api_instance->getGroupMemberTemplate($id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling UsersGroupsApi->getGroupMemberTemplate: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **string**| The id of the template |
+
+### Return type
+
+[**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)
+
+### Authorization
+
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **getGroupMemberTemplates**
+> \KnetikCloud\Model\PageResourceTemplateResource_ getGroupMemberTemplates($size, $page, $order)
+
+List and search group member templates
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
+$size = 25; // int | The number of objects returned per page
+$page = 1; // int | The number of the page returned, starting with 1
+$order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
+
+try {
+    $result = $api_instance->getGroupMemberTemplates($size, $page, $order);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling UsersGroupsApi->getGroupMemberTemplates: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **size** | **int**| The number of objects returned per page | [optional] [default to 25]
+ **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]
+ **order** | **string**| A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] | [optional] [default to id:ASC]
+
+### Return type
+
+[**\KnetikCloud\Model\PageResourceTemplateResource_**](../Model/PageResourceTemplateResource_.md)
+
+### Authorization
+
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
 # **getGroupMembers**
 > \KnetikCloud\Model\PageResourceGroupMemberResource_ getGroupMembers($unique_name, $size, $page, $order)
 
@@ -421,7 +629,7 @@ $api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Cli
 $unique_name = "unique_name_example"; // string | The group unique name
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
-$order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
+$order = "order:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
 
 try {
     $result = $api_instance->getGroupMembers($unique_name, $size, $page, $order);
@@ -439,7 +647,7 @@ Name | Type | Description  | Notes
  **unique_name** | **string**| The group unique name |
  **size** | **int**| The number of objects returned per page | [optional] [default to 25]
  **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]
- **order** | **string**| A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] | [optional] [default to id:ASC]
+ **order** | **string**| A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] | [optional] [default to order:ASC]
 
 ### Return type
 
@@ -557,7 +765,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getGroupsForUser**
-> string[] getGroupsForUser($user_id)
+> string[] getGroupsForUser($user_id, $filter_children)
 
 List groups a user is in
 
@@ -568,9 +776,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = 56; // int | The id of the user
+$filter_children = true; // bool | Whether to limit group list to children of groups only. If true, shows only groups with parents. If false, shows only groups with no parent.
 
 try {
-    $result = $api_instance->getGroupsForUser($user_id);
+    $result = $api_instance->getGroupsForUser($user_id, $filter_children);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling UsersGroupsApi->getGroupsForUser: ', $e->getMessage(), PHP_EOL;
@@ -583,10 +792,70 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **int**| The id of the user |
+ **filter_children** | **bool**| Whether to limit group list to children of groups only. If true, shows only groups with parents. If false, shows only groups with no parent. | [optional]
 
 ### Return type
 
 **string[]**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **listGroups**
+> \KnetikCloud\Model\PageResourceGroupResource_ listGroups($filter_template, $filter_member_count, $filter_name, $filter_unique_name, $filter_parent, $filter_status, $size, $page, $order)
+
+List and search groups
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
+$filter_template = "filter_template_example"; // string | Filter for groups using a specific template, by id
+$filter_member_count = "filter_member_count_example"; // string | Filters groups by member count. Multiple values possible for range search. Format: filter_member_count=OP,ts&... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count=GT,14,LT,17
+$filter_name = "filter_name_example"; // string | Filter for groups with names starting with the given string
+$filter_unique_name = "filter_unique_name_example"; // string | Filter for groups whose unique_name starts with provided string
+$filter_parent = "filter_parent_example"; // string | Filter for groups with a specific parent, by unique name
+$filter_status = "filter_status_example"; // string | Filter for groups with a certain status
+$size = 25; // int | The number of objects returned per page
+$page = 1; // int | The number of the page returned, starting with 1
+$order = "name:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
+
+try {
+    $result = $api_instance->listGroups($filter_template, $filter_member_count, $filter_name, $filter_unique_name, $filter_parent, $filter_status, $size, $page, $order);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling UsersGroupsApi->listGroups: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **filter_template** | **string**| Filter for groups using a specific template, by id | [optional]
+ **filter_member_count** | **string**| Filters groups by member count. Multiple values possible for range search. Format: filter_member_count&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count&#x3D;GT,14,LT,17 | [optional]
+ **filter_name** | **string**| Filter for groups with names starting with the given string | [optional]
+ **filter_unique_name** | **string**| Filter for groups whose unique_name starts with provided string | [optional]
+ **filter_parent** | **string**| Filter for groups with a specific parent, by unique name | [optional]
+ **filter_status** | **string**| Filter for groups with a certain status | [optional]
+ **size** | **int**| The number of objects returned per page | [optional] [default to 25]
+ **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]
+ **order** | **string**| A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] | [optional] [default to name:ASC]
+
+### Return type
+
+[**\KnetikCloud\Model\PageResourceGroupResource_**](../Model/PageResourceGroupResource_.md)
 
 ### Authorization
 
@@ -697,6 +966,108 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
+# **updateGroupMemberProperties**
+> updateGroupMemberProperties($unique_name, $user_id, $order)
+
+Change a user's order
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
+$unique_name = "unique_name_example"; // string | The group unique name
+$user_id = 56; // int | The user id of the member to modify
+$order = new \KnetikCloud\Model\StringWrapper(); // \KnetikCloud\Model\StringWrapper | The new order for the membership
+
+try {
+    $api_instance->updateGroupMemberProperties($unique_name, $user_id, $order);
+} catch (Exception $e) {
+    echo 'Exception when calling UsersGroupsApi->updateGroupMemberProperties: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **unique_name** | **string**| The group unique name |
+ **user_id** | **int**| The user id of the member to modify |
+ **order** | [**\KnetikCloud\Model\StringWrapper**](../Model/StringWrapper.md)| The new order for the membership |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **updateGroupMemberProperties1**
+> updateGroupMemberProperties1($unique_name, $user_id, $properties)
+
+Change a user's membership properties
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
+$unique_name = "unique_name_example"; // string | The group unique name
+$user_id = 56; // int | The user id of the member to modify
+$properties = NULL; // object | The new properties for the membership
+
+try {
+    $api_instance->updateGroupMemberProperties1($unique_name, $user_id, $properties);
+} catch (Exception $e) {
+    echo 'Exception when calling UsersGroupsApi->updateGroupMemberProperties1: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **unique_name** | **string**| The group unique name |
+ **user_id** | **int**| The user id of the member to modify |
+ **properties** | **object**| The new properties for the membership |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
 # **updateGroupMemberStatus**
 > updateGroupMemberStatus($unique_name, $user_id, $status)
 
@@ -736,6 +1107,56 @@ Name | Type | Description  | Notes
 ### Return type
 
 void (empty response body)
+
+### Authorization
+
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **updateGroupMemberTemplate**
+> \KnetikCloud\Model\TemplateResource updateGroupMemberTemplate($id, $group_member_template_resource)
+
+Update an group member template
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
+$id = "id_example"; // string | The id of the template
+$group_member_template_resource = new \KnetikCloud\Model\TemplateResource(); // \KnetikCloud\Model\TemplateResource | The group member template resource object
+
+try {
+    $result = $api_instance->updateGroupMemberTemplate($id, $group_member_template_resource);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling UsersGroupsApi->updateGroupMemberTemplate: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **string**| The id of the template |
+ **group_member_template_resource** | [**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)| The group member template resource object | [optional]
+
+### Return type
+
+[**\KnetikCloud\Model\TemplateResource**](../Model/TemplateResource.md)
 
 ### Authorization
 
@@ -790,65 +1211,6 @@ Name | Type | Description  | Notes
 ### Authorization
 
 [oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
-
-# **updateGroups**
-> \KnetikCloud\Model\PageResourceGroupResource_ updateGroups($filter_template, $filter_member_count, $filter_name, $filter_unique_name, $filter_parent, $filter_status, $size, $page, $order)
-
-List and search groups
-
-### Example
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
-$filter_template = "filter_template_example"; // string | Filter for groups using a specific template, by id
-$filter_member_count = "filter_member_count_example"; // string | Filters groups by member count. Multiple values possible for range search. Format: filter_member_count=OP,ts&... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count=GT,14,LT,17
-$filter_name = "filter_name_example"; // string | Filter for groups with names starting with the given string
-$filter_unique_name = "filter_unique_name_example"; // string | Filter for groups whose unique_name starts with provided string
-$filter_parent = "filter_parent_example"; // string | Filter for groups with a specific parent, by unique name
-$filter_status = "filter_status_example"; // string | Filter for groups with a certain status
-$size = 25; // int | The number of objects returned per page
-$page = 1; // int | The number of the page returned, starting with 1
-$order = "name:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
-
-try {
-    $result = $api_instance->updateGroups($filter_template, $filter_member_count, $filter_name, $filter_unique_name, $filter_parent, $filter_status, $size, $page, $order);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling UsersGroupsApi->updateGroups: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **filter_template** | **string**| Filter for groups using a specific template, by id | [optional]
- **filter_member_count** | **string**| Filters groups by member count. Multiple values possible for range search. Format: filter_member_count&#x3D;OP,ts&amp;... where OP in (GT, LT, GOE, LOE, EQ). Ex: filter_member_count&#x3D;GT,14,LT,17 | [optional]
- **filter_name** | **string**| Filter for groups with names starting with the given string | [optional]
- **filter_unique_name** | **string**| Filter for groups whose unique_name starts with provided string | [optional]
- **filter_parent** | **string**| Filter for groups with a specific parent, by unique name | [optional]
- **filter_status** | **string**| Filter for groups with a certain status | [optional]
- **size** | **int**| The number of objects returned per page | [optional] [default to 25]
- **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]
- **order** | **string**| A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] | [optional] [default to name:ASC]
-
-### Return type
-
-[**\KnetikCloud\Model\PageResourceGroupResource_**](../Model/PageResourceGroupResource_.md)
-
-### Authorization
-
-No authorization required
 
 ### HTTP request headers
 

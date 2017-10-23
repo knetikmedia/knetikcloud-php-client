@@ -56,8 +56,7 @@ class TierResource implements ArrayAccess
     protected static $swaggerTypes = [
         'additional_properties' => 'map[string,\KnetikCloud\Model\Property]',
         'name' => 'string',
-        'required_progress' => 'int',
-        'trigger_event_name' => 'string'
+        'required_progress' => 'int'
     ];
 
     /**
@@ -67,8 +66,7 @@ class TierResource implements ArrayAccess
     protected static $swaggerFormats = [
         'additional_properties' => null,
         'name' => null,
-        'required_progress' => 'int32',
-        'trigger_event_name' => null
+        'required_progress' => 'int32'
     ];
 
     public static function swaggerTypes()
@@ -88,8 +86,7 @@ class TierResource implements ArrayAccess
     protected static $attributeMap = [
         'additional_properties' => 'additional_properties',
         'name' => 'name',
-        'required_progress' => 'required_progress',
-        'trigger_event_name' => 'trigger_event_name'
+        'required_progress' => 'required_progress'
     ];
 
 
@@ -100,8 +97,7 @@ class TierResource implements ArrayAccess
     protected static $setters = [
         'additional_properties' => 'setAdditionalProperties',
         'name' => 'setName',
-        'required_progress' => 'setRequiredProgress',
-        'trigger_event_name' => 'setTriggerEventName'
+        'required_progress' => 'setRequiredProgress'
     ];
 
 
@@ -112,8 +108,7 @@ class TierResource implements ArrayAccess
     protected static $getters = [
         'additional_properties' => 'getAdditionalProperties',
         'name' => 'getName',
-        'required_progress' => 'getRequiredProgress',
-        'trigger_event_name' => 'getTriggerEventName'
+        'required_progress' => 'getRequiredProgress'
     ];
 
     public static function attributeMap()
@@ -150,7 +145,6 @@ class TierResource implements ArrayAccess
         $this->container['additional_properties'] = isset($data['additional_properties']) ? $data['additional_properties'] : null;
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
         $this->container['required_progress'] = isset($data['required_progress']) ? $data['required_progress'] : null;
-        $this->container['trigger_event_name'] = isset($data['trigger_event_name']) ? $data['trigger_event_name'] : null;
     }
 
     /**
@@ -243,27 +237,6 @@ class TierResource implements ArrayAccess
     public function setRequiredProgress($required_progress)
     {
         $this->container['required_progress'] = $required_progress;
-
-        return $this;
-    }
-
-    /**
-     * Gets trigger_event_name
-     * @return string
-     */
-    public function getTriggerEventName()
-    {
-        return $this->container['trigger_event_name'];
-    }
-
-    /**
-     * Sets trigger_event_name
-     * @param string $trigger_event_name The name of the triggered event
-     * @return $this
-     */
-    public function setTriggerEventName($trigger_event_name)
-    {
-        $this->container['trigger_event_name'] = $trigger_event_name;
 
         return $this;
     }

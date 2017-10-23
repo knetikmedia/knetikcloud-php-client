@@ -1707,6 +1707,8 @@ class UsersApi
      * @param string $filter_tag Filter for users who have a given tag (optional)
      * @param string $filter_group Filter for users in a given group, by unique name (optional)
      * @param string $filter_role Filter for users with a given role (optional)
+     * @param string $filter_last_activity A comma separated string without spaces.  First value is the operator to search on, second value is the date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param string $filter_id_list A comma separated list of ids. (optional)
      * @param string $filter_search Filter for users whose display_name starts with the provided string, or username if display_name is null (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
@@ -1715,9 +1717,9 @@ class UsersApi
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceUserBaseResource_
      */
-    public function getUsers($filter_displayname = null, $filter_email = null, $filter_firstname = null, $filter_fullname = null, $filter_lastname = null, $filter_username = null, $filter_tag = null, $filter_group = null, $filter_role = null, $filter_search = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getUsers($filter_displayname = null, $filter_email = null, $filter_firstname = null, $filter_fullname = null, $filter_lastname = null, $filter_username = null, $filter_tag = null, $filter_group = null, $filter_role = null, $filter_last_activity = null, $filter_id_list = null, $filter_search = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
-        list($response) = $this->getUsersWithHttpInfo($filter_displayname, $filter_email, $filter_firstname, $filter_fullname, $filter_lastname, $filter_username, $filter_tag, $filter_group, $filter_role, $filter_search, $size, $page, $order);
+        list($response) = $this->getUsersWithHttpInfo($filter_displayname, $filter_email, $filter_firstname, $filter_fullname, $filter_lastname, $filter_username, $filter_tag, $filter_group, $filter_role, $filter_last_activity, $filter_id_list, $filter_search, $size, $page, $order);
         return $response;
     }
 
@@ -1735,6 +1737,8 @@ class UsersApi
      * @param string $filter_tag Filter for users who have a given tag (optional)
      * @param string $filter_group Filter for users in a given group, by unique name (optional)
      * @param string $filter_role Filter for users with a given role (optional)
+     * @param string $filter_last_activity A comma separated string without spaces.  First value is the operator to search on, second value is the date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param string $filter_id_list A comma separated list of ids. (optional)
      * @param string $filter_search Filter for users whose display_name starts with the provided string, or username if display_name is null (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
@@ -1743,10 +1747,10 @@ class UsersApi
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceUserBaseResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getUsersWithHttpInfo($filter_displayname = null, $filter_email = null, $filter_firstname = null, $filter_fullname = null, $filter_lastname = null, $filter_username = null, $filter_tag = null, $filter_group = null, $filter_role = null, $filter_search = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getUsersWithHttpInfo($filter_displayname = null, $filter_email = null, $filter_firstname = null, $filter_fullname = null, $filter_lastname = null, $filter_username = null, $filter_tag = null, $filter_group = null, $filter_role = null, $filter_last_activity = null, $filter_id_list = null, $filter_search = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceUserBaseResource_';
-        $request = $this->getUsersRequest($filter_displayname, $filter_email, $filter_firstname, $filter_fullname, $filter_lastname, $filter_username, $filter_tag, $filter_group, $filter_role, $filter_search, $size, $page, $order);
+        $request = $this->getUsersRequest($filter_displayname, $filter_email, $filter_firstname, $filter_fullname, $filter_lastname, $filter_username, $filter_tag, $filter_group, $filter_role, $filter_last_activity, $filter_id_list, $filter_search, $size, $page, $order);
 
         try {
 
@@ -1816,6 +1820,8 @@ class UsersApi
      * @param string $filter_tag Filter for users who have a given tag (optional)
      * @param string $filter_group Filter for users in a given group, by unique name (optional)
      * @param string $filter_role Filter for users with a given role (optional)
+     * @param string $filter_last_activity A comma separated string without spaces.  First value is the operator to search on, second value is the date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param string $filter_id_list A comma separated list of ids. (optional)
      * @param string $filter_search Filter for users whose display_name starts with the provided string, or username if display_name is null (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
@@ -1823,9 +1829,9 @@ class UsersApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getUsersAsync($filter_displayname = null, $filter_email = null, $filter_firstname = null, $filter_fullname = null, $filter_lastname = null, $filter_username = null, $filter_tag = null, $filter_group = null, $filter_role = null, $filter_search = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getUsersAsync($filter_displayname = null, $filter_email = null, $filter_firstname = null, $filter_fullname = null, $filter_lastname = null, $filter_username = null, $filter_tag = null, $filter_group = null, $filter_role = null, $filter_last_activity = null, $filter_id_list = null, $filter_search = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
-        return $this->getUsersAsyncWithHttpInfo($filter_displayname, $filter_email, $filter_firstname, $filter_fullname, $filter_lastname, $filter_username, $filter_tag, $filter_group, $filter_role, $filter_search, $size, $page, $order)->then(function ($response) {
+        return $this->getUsersAsyncWithHttpInfo($filter_displayname, $filter_email, $filter_firstname, $filter_fullname, $filter_lastname, $filter_username, $filter_tag, $filter_group, $filter_role, $filter_last_activity, $filter_id_list, $filter_search, $size, $page, $order)->then(function ($response) {
             return $response[0];
         });
     }
@@ -1844,6 +1850,8 @@ class UsersApi
      * @param string $filter_tag Filter for users who have a given tag (optional)
      * @param string $filter_group Filter for users in a given group, by unique name (optional)
      * @param string $filter_role Filter for users with a given role (optional)
+     * @param string $filter_last_activity A comma separated string without spaces.  First value is the operator to search on, second value is the date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param string $filter_id_list A comma separated list of ids. (optional)
      * @param string $filter_search Filter for users whose display_name starts with the provided string, or username if display_name is null (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
@@ -1851,10 +1859,10 @@ class UsersApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getUsersAsyncWithHttpInfo($filter_displayname = null, $filter_email = null, $filter_firstname = null, $filter_fullname = null, $filter_lastname = null, $filter_username = null, $filter_tag = null, $filter_group = null, $filter_role = null, $filter_search = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getUsersAsyncWithHttpInfo($filter_displayname = null, $filter_email = null, $filter_firstname = null, $filter_fullname = null, $filter_lastname = null, $filter_username = null, $filter_tag = null, $filter_group = null, $filter_role = null, $filter_last_activity = null, $filter_id_list = null, $filter_search = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceUserBaseResource_';
-        $request = $this->getUsersRequest($filter_displayname, $filter_email, $filter_firstname, $filter_fullname, $filter_lastname, $filter_username, $filter_tag, $filter_group, $filter_role, $filter_search, $size, $page, $order);
+        $request = $this->getUsersRequest($filter_displayname, $filter_email, $filter_firstname, $filter_fullname, $filter_lastname, $filter_username, $filter_tag, $filter_group, $filter_role, $filter_last_activity, $filter_id_list, $filter_search, $size, $page, $order);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
@@ -1896,6 +1904,8 @@ class UsersApi
      * @param string $filter_tag Filter for users who have a given tag (optional)
      * @param string $filter_group Filter for users in a given group, by unique name (optional)
      * @param string $filter_role Filter for users with a given role (optional)
+     * @param string $filter_last_activity A comma separated string without spaces.  First value is the operator to search on, second value is the date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
+     * @param string $filter_id_list A comma separated list of ids. (optional)
      * @param string $filter_search Filter for users whose display_name starts with the provided string, or username if display_name is null (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
@@ -1903,7 +1913,7 @@ class UsersApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getUsersRequest($filter_displayname = null, $filter_email = null, $filter_firstname = null, $filter_fullname = null, $filter_lastname = null, $filter_username = null, $filter_tag = null, $filter_group = null, $filter_role = null, $filter_search = null, $size = '25', $page = '1', $order = 'id:ASC')
+    protected function getUsersRequest($filter_displayname = null, $filter_email = null, $filter_firstname = null, $filter_fullname = null, $filter_lastname = null, $filter_username = null, $filter_tag = null, $filter_group = null, $filter_role = null, $filter_last_activity = null, $filter_id_list = null, $filter_search = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
 
         $resourcePath = '/users';
@@ -1948,6 +1958,14 @@ class UsersApi
         // query params
         if ($filter_role !== null) {
             $queryParams['filter_role'] = ObjectSerializer::toQueryValue($filter_role);
+        }
+        // query params
+        if ($filter_last_activity !== null) {
+            $queryParams['filter_last_activity'] = ObjectSerializer::toQueryValue($filter_last_activity);
+        }
+        // query params
+        if ($filter_id_list !== null) {
+            $queryParams['filter_id_list'] = ObjectSerializer::toQueryValue($filter_id_list);
         }
         // query params
         if ($filter_search !== null) {

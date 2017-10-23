@@ -78,6 +78,13 @@ class BreTriggerParameterDefinitionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "implicit"
+     */
+    public function testPropertyImplicit()
+    {
+    }
+
+    /**
      * Test attribute "name"
      */
     public function testPropertyName()

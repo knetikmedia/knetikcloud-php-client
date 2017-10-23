@@ -113,6 +113,13 @@ class ActivityResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "leaderboard_strategy"
+     */
+    public function testPropertyLeaderboardStrategy()
+    {
+    }
+
+    /**
      * Test attribute "long_description"
      */
     public function testPropertyLongDescription()

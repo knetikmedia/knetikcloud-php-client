@@ -35,6 +35,7 @@ use \ArrayAccess;
  * ExpressionResource Class Doc Comment
  *
  * @category    Class
+ * @description Expressions are instructions for the rule engine to resolve certain values. For example instead of &#x60;user 1&#x60; it&#39;d state &#x60;user provided by the event&#x60;. Full list and definitions available at GET /bre/expressions.
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
@@ -54,6 +55,7 @@ class ExpressionResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
+        'definition' => 'string',
         'type' => 'string'
     ];
 
@@ -62,6 +64,7 @@ class ExpressionResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
+        'definition' => null,
         'type' => null
     ];
 
@@ -80,6 +83,7 @@ class ExpressionResource implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
+        'definition' => 'definition',
         'type' => 'type'
     ];
 
@@ -89,6 +93,7 @@ class ExpressionResource implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
+        'definition' => 'setDefinition',
         'type' => 'setType'
     ];
 
@@ -98,6 +103,7 @@ class ExpressionResource implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
+        'definition' => 'getDefinition',
         'type' => 'getType'
     ];
 
@@ -132,6 +138,7 @@ class ExpressionResource implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['definition'] = isset($data['definition']) ? $data['definition'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
 
         // Initialize discriminator property with the model name.
@@ -163,6 +170,27 @@ class ExpressionResource implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets definition
+     * @return string
+     */
+    public function getDefinition()
+    {
+        return $this->container['definition'];
+    }
+
+    /**
+     * Sets definition
+     * @param string $definition
+     * @return $this
+     */
+    public function setDefinition($definition)
+    {
+        $this->container['definition'] = $definition;
+
+        return $this;
+    }
 
     /**
      * Gets type

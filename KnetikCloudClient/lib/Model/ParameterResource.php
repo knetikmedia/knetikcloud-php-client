@@ -35,6 +35,7 @@ use \ArrayAccess;
  * ParameterResource Class Doc Comment
  *
  * @category    Class
+ * @description Expressions are instructions for the rule engine to resolve certain values. For example instead of &#x60;user 1&#x60; it&#39;d state &#x60;user provided by the event&#x60;. Full list and definitions available at GET /bre/expressions.
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
@@ -54,6 +55,7 @@ class ParameterResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
+        'definition' => 'string',
         'of' => 'string',
         'type' => 'string',
         'value' => 'object'
@@ -64,6 +66,7 @@ class ParameterResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
+        'definition' => null,
         'of' => null,
         'type' => null,
         'value' => null
@@ -84,6 +87,7 @@ class ParameterResource implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
+        'definition' => 'definition',
         'of' => 'of',
         'type' => 'type',
         'value' => 'value'
@@ -95,6 +99,7 @@ class ParameterResource implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
+        'definition' => 'setDefinition',
         'of' => 'setOf',
         'type' => 'setType',
         'value' => 'setValue'
@@ -106,6 +111,7 @@ class ParameterResource implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
+        'definition' => 'getDefinition',
         'of' => 'getOf',
         'type' => 'getType',
         'value' => 'getValue'
@@ -142,6 +148,7 @@ class ParameterResource implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['definition'] = isset($data['definition']) ? $data['definition'] : null;
         $this->container['of'] = isset($data['of']) ? $data['of'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
         $this->container['value'] = isset($data['value']) ? $data['value'] : null;
@@ -171,6 +178,27 @@ class ParameterResource implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets definition
+     * @return string
+     */
+    public function getDefinition()
+    {
+        return $this->container['definition'];
+    }
+
+    /**
+     * Sets definition
+     * @param string $definition
+     * @return $this
+     */
+    public function setDefinition($definition)
+    {
+        $this->container['definition'] = $definition;
+
+        return $this;
+    }
 
     /**
      * Gets of

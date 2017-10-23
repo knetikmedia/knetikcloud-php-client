@@ -56,6 +56,7 @@ class MetricResource implements ArrayAccess
     protected static $swaggerTypes = [
         'activity_occurence_id' => 'int',
         'tags' => 'string[]',
+        'user_id' => 'int',
         'value' => 'int'
     ];
 
@@ -66,6 +67,7 @@ class MetricResource implements ArrayAccess
     protected static $swaggerFormats = [
         'activity_occurence_id' => 'int64',
         'tags' => null,
+        'user_id' => 'int32',
         'value' => 'int64'
     ];
 
@@ -86,6 +88,7 @@ class MetricResource implements ArrayAccess
     protected static $attributeMap = [
         'activity_occurence_id' => 'activity_occurence_id',
         'tags' => 'tags',
+        'user_id' => 'user_id',
         'value' => 'value'
     ];
 
@@ -97,6 +100,7 @@ class MetricResource implements ArrayAccess
     protected static $setters = [
         'activity_occurence_id' => 'setActivityOccurenceId',
         'tags' => 'setTags',
+        'user_id' => 'setUserId',
         'value' => 'setValue'
     ];
 
@@ -108,6 +112,7 @@ class MetricResource implements ArrayAccess
     protected static $getters = [
         'activity_occurence_id' => 'getActivityOccurenceId',
         'tags' => 'getTags',
+        'user_id' => 'getUserId',
         'value' => 'getValue'
     ];
 
@@ -144,6 +149,7 @@ class MetricResource implements ArrayAccess
     {
         $this->container['activity_occurence_id'] = isset($data['activity_occurence_id']) ? $data['activity_occurence_id'] : null;
         $this->container['tags'] = isset($data['tags']) ? $data['tags'] : null;
+        $this->container['user_id'] = isset($data['user_id']) ? $data['user_id'] : null;
         $this->container['value'] = isset($data['value']) ? $data['value'] : null;
     }
 
@@ -222,6 +228,27 @@ class MetricResource implements ArrayAccess
     public function setTags($tags)
     {
         $this->container['tags'] = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Gets user_id
+     * @return int
+     */
+    public function getUserId()
+    {
+        return $this->container['user_id'];
+    }
+
+    /**
+     * Sets user_id
+     * @param int $user_id The id of the user this metric is for. Default to caller and requires METRICS_ADMIN permission to specify another
+     * @return $this
+     */
+    public function setUserId($user_id)
+    {
+        $this->container['user_id'] = $user_id;
 
         return $this;
     }

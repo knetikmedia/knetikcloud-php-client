@@ -80,14 +80,4 @@ class PaymentsXsollaApiTest extends \PHPUnit_Framework_TestCase
     public function testCreateXsollaTokenUrl()
     {
     }
-
-    /**
-     * Test case for receiveXsollaNotification
-     *
-     * Receives payment response from Xsolla.
-     *
-     */
-    public function testReceiveXsollaNotification()
-    {
-    }
 }

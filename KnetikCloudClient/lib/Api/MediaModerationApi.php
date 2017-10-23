@@ -82,6 +82,724 @@ class MediaModerationApi
     }
 
     /**
+     * Operation addFlag
+     *
+     * Add a flag
+     *
+     * @param \KnetikCloud\Model\FlagResource $flag_resource The flag resource object (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\FlagResource
+     */
+    public function addFlag($flag_resource = null)
+    {
+        list($response) = $this->addFlagWithHttpInfo($flag_resource);
+        return $response;
+    }
+
+    /**
+     * Operation addFlagWithHttpInfo
+     *
+     * Add a flag
+     *
+     * @param \KnetikCloud\Model\FlagResource $flag_resource The flag resource object (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\FlagResource, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function addFlagWithHttpInfo($flag_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\FlagResource';
+        $request = $this->addFlagRequest($flag_resource);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\FlagResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation addFlagAsync
+     *
+     * Add a flag
+     *
+     * @param \KnetikCloud\Model\FlagResource $flag_resource The flag resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function addFlagAsync($flag_resource = null)
+    {
+        return $this->addFlagAsyncWithHttpInfo($flag_resource)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation addFlagAsyncWithHttpInfo
+     *
+     * Add a flag
+     *
+     * @param \KnetikCloud\Model\FlagResource $flag_resource The flag resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function addFlagAsyncWithHttpInfo($flag_resource = null)
+    {
+        $returnType = '\KnetikCloud\Model\FlagResource';
+        $request = $this->addFlagRequest($flag_resource);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'addFlag'
+     *
+     * @param \KnetikCloud\Model\FlagResource $flag_resource The flag resource object (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function addFlagRequest($flag_resource = null)
+    {
+
+        $resourcePath = '/moderation/flags';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // body params
+        $_tempBody = null;
+        if (isset($flag_resource)) {
+            $_tempBody = $flag_resource;
+        }
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation deleteFlag
+     *
+     * Delete a flag
+     *
+     * @param string $context_name The name of the context (optional)
+     * @param string $context_id The id of the context (optional)
+     * @param int $user_id The id of the user (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return void
+     */
+    public function deleteFlag($context_name = null, $context_id = null, $user_id = null)
+    {
+        $this->deleteFlagWithHttpInfo($context_name, $context_id, $user_id);
+    }
+
+    /**
+     * Operation deleteFlagWithHttpInfo
+     *
+     * Delete a flag
+     *
+     * @param string $context_name The name of the context (optional)
+     * @param string $context_id The id of the context (optional)
+     * @param int $user_id The id of the user (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function deleteFlagWithHttpInfo($context_name = null, $context_id = null, $user_id = null)
+    {
+        $returnType = '';
+        $request = $this->deleteFlagRequest($context_name, $context_id, $user_id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation deleteFlagAsync
+     *
+     * Delete a flag
+     *
+     * @param string $context_name The name of the context (optional)
+     * @param string $context_id The id of the context (optional)
+     * @param int $user_id The id of the user (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteFlagAsync($context_name = null, $context_id = null, $user_id = null)
+    {
+        return $this->deleteFlagAsyncWithHttpInfo($context_name, $context_id, $user_id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation deleteFlagAsyncWithHttpInfo
+     *
+     * Delete a flag
+     *
+     * @param string $context_name The name of the context (optional)
+     * @param string $context_id The id of the context (optional)
+     * @param int $user_id The id of the user (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteFlagAsyncWithHttpInfo($context_name = null, $context_id = null, $user_id = null)
+    {
+        $returnType = '';
+        $request = $this->deleteFlagRequest($context_name, $context_id, $user_id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'deleteFlag'
+     *
+     * @param string $context_name The name of the context (optional)
+     * @param string $context_id The id of the context (optional)
+     * @param int $user_id The id of the user (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function deleteFlagRequest($context_name = null, $context_id = null, $user_id = null)
+    {
+
+        $resourcePath = '/moderation/flags';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        if ($context_name !== null) {
+            $queryParams['context_name'] = ObjectSerializer::toQueryValue($context_name);
+        }
+        // query params
+        if ($context_id !== null) {
+            $queryParams['context_id'] = ObjectSerializer::toQueryValue($context_id);
+        }
+        // query params
+        if ($user_id !== null) {
+            $queryParams['user_id'] = ObjectSerializer::toQueryValue($user_id);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'DELETE',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getFlags
+     *
+     * Returns a page of flags
+     *
+     * @param string $filter_context Filter by flag context (optional)
+     * @param string $filter_context_id Filter by flag context ID (optional)
+     * @param int $filter_user_id Filter by user ID (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\PageResourceFlagResource_
+     */
+    public function getFlags($filter_context = null, $filter_context_id = null, $filter_user_id = null, $size = '25', $page = '1')
+    {
+        list($response) = $this->getFlagsWithHttpInfo($filter_context, $filter_context_id, $filter_user_id, $size, $page);
+        return $response;
+    }
+
+    /**
+     * Operation getFlagsWithHttpInfo
+     *
+     * Returns a page of flags
+     *
+     * @param string $filter_context Filter by flag context (optional)
+     * @param string $filter_context_id Filter by flag context ID (optional)
+     * @param int $filter_user_id Filter by user ID (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\PageResourceFlagResource_, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getFlagsWithHttpInfo($filter_context = null, $filter_context_id = null, $filter_user_id = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceFlagResource_';
+        $request = $this->getFlagsRequest($filter_context, $filter_context_id, $filter_user_id, $size, $page);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceFlagResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getFlagsAsync
+     *
+     * Returns a page of flags
+     *
+     * @param string $filter_context Filter by flag context (optional)
+     * @param string $filter_context_id Filter by flag context ID (optional)
+     * @param int $filter_user_id Filter by user ID (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getFlagsAsync($filter_context = null, $filter_context_id = null, $filter_user_id = null, $size = '25', $page = '1')
+    {
+        return $this->getFlagsAsyncWithHttpInfo($filter_context, $filter_context_id, $filter_user_id, $size, $page)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getFlagsAsyncWithHttpInfo
+     *
+     * Returns a page of flags
+     *
+     * @param string $filter_context Filter by flag context (optional)
+     * @param string $filter_context_id Filter by flag context ID (optional)
+     * @param int $filter_user_id Filter by user ID (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getFlagsAsyncWithHttpInfo($filter_context = null, $filter_context_id = null, $filter_user_id = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceFlagResource_';
+        $request = $this->getFlagsRequest($filter_context, $filter_context_id, $filter_user_id, $size, $page);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getFlags'
+     *
+     * @param string $filter_context Filter by flag context (optional)
+     * @param string $filter_context_id Filter by flag context ID (optional)
+     * @param int $filter_user_id Filter by user ID (optional)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getFlagsRequest($filter_context = null, $filter_context_id = null, $filter_user_id = null, $size = '25', $page = '1')
+    {
+
+        $resourcePath = '/moderation/flags';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        if ($filter_context !== null) {
+            $queryParams['filter_context'] = ObjectSerializer::toQueryValue($filter_context);
+        }
+        // query params
+        if ($filter_context_id !== null) {
+            $queryParams['filter_context_id'] = ObjectSerializer::toQueryValue($filter_context_id);
+        }
+        // query params
+        if ($filter_user_id !== null) {
+            $queryParams['filter_user_id'] = ObjectSerializer::toQueryValue($filter_user_id);
+        }
+        // query params
+        if ($size !== null) {
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
+        }
+        // query params
+        if ($page !== null) {
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
+        }
+
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation getModerationReport
      *
      * Get a flag report
@@ -324,15 +1042,16 @@ class MediaModerationApi
      *
      * @param bool $exclude_resolved Ignore resolved context (optional, default to true)
      * @param string $filter_context Filter by moderation context (optional)
+     * @param string $filter_context_id Filter by moderation context ID (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceFlagReportResource_
      */
-    public function getModerationReports($exclude_resolved = 'true', $filter_context = null, $size = '25', $page = '1')
+    public function getModerationReports($exclude_resolved = 'true', $filter_context = null, $filter_context_id = null, $size = '25', $page = '1')
     {
-        list($response) = $this->getModerationReportsWithHttpInfo($exclude_resolved, $filter_context, $size, $page);
+        list($response) = $this->getModerationReportsWithHttpInfo($exclude_resolved, $filter_context, $filter_context_id, $size, $page);
         return $response;
     }
 
@@ -343,16 +1062,17 @@ class MediaModerationApi
      *
      * @param bool $exclude_resolved Ignore resolved context (optional, default to true)
      * @param string $filter_context Filter by moderation context (optional)
+     * @param string $filter_context_id Filter by moderation context ID (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceFlagReportResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getModerationReportsWithHttpInfo($exclude_resolved = 'true', $filter_context = null, $size = '25', $page = '1')
+    public function getModerationReportsWithHttpInfo($exclude_resolved = 'true', $filter_context = null, $filter_context_id = null, $size = '25', $page = '1')
     {
         $returnType = '\KnetikCloud\Model\PageResourceFlagReportResource_';
-        $request = $this->getModerationReportsRequest($exclude_resolved, $filter_context, $size, $page);
+        $request = $this->getModerationReportsRequest($exclude_resolved, $filter_context, $filter_context_id, $size, $page);
 
         try {
 
@@ -415,14 +1135,15 @@ class MediaModerationApi
      *
      * @param bool $exclude_resolved Ignore resolved context (optional, default to true)
      * @param string $filter_context Filter by moderation context (optional)
+     * @param string $filter_context_id Filter by moderation context ID (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getModerationReportsAsync($exclude_resolved = 'true', $filter_context = null, $size = '25', $page = '1')
+    public function getModerationReportsAsync($exclude_resolved = 'true', $filter_context = null, $filter_context_id = null, $size = '25', $page = '1')
     {
-        return $this->getModerationReportsAsyncWithHttpInfo($exclude_resolved, $filter_context, $size, $page)->then(function ($response) {
+        return $this->getModerationReportsAsyncWithHttpInfo($exclude_resolved, $filter_context, $filter_context_id, $size, $page)->then(function ($response) {
             return $response[0];
         });
     }
@@ -434,15 +1155,16 @@ class MediaModerationApi
      *
      * @param bool $exclude_resolved Ignore resolved context (optional, default to true)
      * @param string $filter_context Filter by moderation context (optional)
+     * @param string $filter_context_id Filter by moderation context ID (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getModerationReportsAsyncWithHttpInfo($exclude_resolved = 'true', $filter_context = null, $size = '25', $page = '1')
+    public function getModerationReportsAsyncWithHttpInfo($exclude_resolved = 'true', $filter_context = null, $filter_context_id = null, $size = '25', $page = '1')
     {
         $returnType = '\KnetikCloud\Model\PageResourceFlagReportResource_';
-        $request = $this->getModerationReportsRequest($exclude_resolved, $filter_context, $size, $page);
+        $request = $this->getModerationReportsRequest($exclude_resolved, $filter_context, $filter_context_id, $size, $page);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
@@ -477,12 +1199,13 @@ class MediaModerationApi
      *
      * @param bool $exclude_resolved Ignore resolved context (optional, default to true)
      * @param string $filter_context Filter by moderation context (optional)
+     * @param string $filter_context_id Filter by moderation context ID (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getModerationReportsRequest($exclude_resolved = 'true', $filter_context = null, $size = '25', $page = '1')
+    protected function getModerationReportsRequest($exclude_resolved = 'true', $filter_context = null, $filter_context_id = null, $size = '25', $page = '1')
     {
 
         $resourcePath = '/moderation/reports';
@@ -499,6 +1222,10 @@ class MediaModerationApi
         // query params
         if ($filter_context !== null) {
             $queryParams['filter_context'] = ObjectSerializer::toQueryValue($filter_context);
+        }
+        // query params
+        if ($filter_context_id !== null) {
+            $queryParams['filter_context_id'] = ObjectSerializer::toQueryValue($filter_context_id);
         }
         // query params
         if ($size !== null) {

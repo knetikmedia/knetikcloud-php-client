@@ -54,7 +54,7 @@ class SubscriptionCreditResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'amount' => 'double',
+        'amount' => 'float',
         'created_date' => 'int',
         'id' => 'int',
         'inventory_id' => 'int',
@@ -66,7 +66,7 @@ class SubscriptionCreditResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'amount' => 'double',
+        'amount' => null,
         'created_date' => 'int64',
         'id' => 'int32',
         'inventory_id' => 'int32',
@@ -198,7 +198,7 @@ class SubscriptionCreditResource implements ArrayAccess
 
     /**
      * Gets amount
-     * @return double
+     * @return float
      */
     public function getAmount()
     {
@@ -207,7 +207,7 @@ class SubscriptionCreditResource implements ArrayAccess
 
     /**
      * Sets amount
-     * @param double $amount The amount of the credit, negative for debt
+     * @param float $amount The amount of the credit, negative for debt
      * @return $this
      */
     public function setAmount($amount)

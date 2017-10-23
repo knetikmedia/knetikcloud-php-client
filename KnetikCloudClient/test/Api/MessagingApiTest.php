@@ -82,6 +82,16 @@ class MessagingApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for sendRawPush
+     *
+     * Send a raw push notification.
+     *
+     */
+    public function testSendRawPush()
+    {
+    }
+
+    /**
      * Test case for sendRawSMS
      *
      * Send a raw SMS.
@@ -98,6 +108,16 @@ class MessagingApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function testSendTemplatedEmail()
+    {
+    }
+
+    /**
+     * Test case for sendTemplatedPush
+     *
+     * Send a templated push notification.
+     *
+     */
+    public function testSendTemplatedPush()
     {
     }
 

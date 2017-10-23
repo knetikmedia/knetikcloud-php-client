@@ -56,7 +56,7 @@ class RevenueProductReportResource implements ArrayAccess
     protected static $swaggerTypes = [
         'item_id' => 'int',
         'item_name' => 'string',
-        'revenue' => 'double',
+        'revenue' => 'float',
         'volume' => 'int'
     ];
 
@@ -67,7 +67,7 @@ class RevenueProductReportResource implements ArrayAccess
     protected static $swaggerFormats = [
         'item_id' => 'int32',
         'item_name' => null,
-        'revenue' => 'double',
+        'revenue' => null,
         'volume' => 'int64'
     ];
 
@@ -222,7 +222,7 @@ class RevenueProductReportResource implements ArrayAccess
 
     /**
      * Gets revenue
-     * @return double
+     * @return float
      */
     public function getRevenue()
     {
@@ -231,7 +231,7 @@ class RevenueProductReportResource implements ArrayAccess
 
     /**
      * Sets revenue
-     * @param double $revenue
+     * @param float $revenue
      * @return $this
      */
     public function setRevenue($revenue)

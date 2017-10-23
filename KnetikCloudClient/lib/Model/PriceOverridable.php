@@ -54,8 +54,8 @@ class PriceOverridable extends Behavior implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'max_price' => 'int',
-        'min_price' => 'int'
+        'max_price' => 'float',
+        'min_price' => 'float'
     ];
 
     /**
@@ -63,8 +63,8 @@ class PriceOverridable extends Behavior implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'max_price' => 'int32',
-        'min_price' => 'int32'
+        'max_price' => null,
+        'min_price' => null
     ];
 
     public static function swaggerTypes()
@@ -173,7 +173,7 @@ class PriceOverridable extends Behavior implements ArrayAccess
 
     /**
      * Gets max_price
-     * @return int
+     * @return float
      */
     public function getMaxPrice()
     {
@@ -182,7 +182,7 @@ class PriceOverridable extends Behavior implements ArrayAccess
 
     /**
      * Sets max_price
-     * @param int $max_price The maximum price allowed
+     * @param float $max_price The maximum price allowed
      * @return $this
      */
     public function setMaxPrice($max_price)
@@ -194,7 +194,7 @@ class PriceOverridable extends Behavior implements ArrayAccess
 
     /**
      * Gets min_price
-     * @return int
+     * @return float
      */
     public function getMinPrice()
     {
@@ -203,7 +203,7 @@ class PriceOverridable extends Behavior implements ArrayAccess
 
     /**
      * Sets min_price
-     * @param int $min_price The minimum price allowed
+     * @param float $min_price The minimum price allowed
      * @return $this
      */
     public function setMinPrice($min_price)

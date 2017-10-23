@@ -142,16 +142,6 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test case for getStore
-     *
-     * Get a listing of store items.
-     *
-     */
-    public function testGetStore()
-    {
-    }
-
-    /**
      * Test case for getStoreItem
      *
      * Get a single store item.

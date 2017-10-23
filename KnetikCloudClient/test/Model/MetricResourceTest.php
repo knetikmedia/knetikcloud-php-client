@@ -92,6 +92,13 @@ class MetricResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "user_id"
+     */
+    public function testPropertyUserId()
+    {
+    }
+
+    /**
      * Test attribute "value"
      */
     public function testPropertyValue()

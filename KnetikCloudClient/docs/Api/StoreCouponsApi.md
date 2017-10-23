@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**deleteCouponItem**](StoreCouponsApi.md#deleteCouponItem) | **DELETE** /store/coupons/{id} | Delete a coupon item
 [**deleteCouponTemplate**](StoreCouponsApi.md#deleteCouponTemplate) | **DELETE** /store/coupons/templates/{id} | Delete a coupon template
 [**getCouponItem**](StoreCouponsApi.md#getCouponItem) | **GET** /store/coupons/{id} | Get a single coupon item
+[**getCouponItemBySku**](StoreCouponsApi.md#getCouponItemBySku) | **GET** /store/coupons/skus/{sku} | Get a coupon by sku
 [**getCouponTemplate**](StoreCouponsApi.md#getCouponTemplate) | **GET** /store/coupons/templates/{id} | Get a single coupon template
 [**getCouponTemplates**](StoreCouponsApi.md#getCouponTemplates) | **GET** /store/coupons/templates | List and search coupon templates
 [**updateCouponItem**](StoreCouponsApi.md#updateCouponItem) | **PUT** /store/coupons/{id} | Update a coupon item
@@ -253,6 +254,49 @@ Name | Type | Description  | Notes
 ### Authorization
 
 [oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **getCouponItemBySku**
+> \KnetikCloud\Model\CouponItem getCouponItemBySku($sku)
+
+Get a coupon by sku
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new KnetikCloud\Api\StoreCouponsApi(new \Http\Adapter\Guzzle6\Client());
+$sku = "sku_example"; // string | A sku of the coupon
+
+try {
+    $result = $api_instance->getCouponItemBySku($sku);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling StoreCouponsApi->getCouponItemBySku: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **sku** | **string**| A sku of the coupon |
+
+### Return type
+
+[**\KnetikCloud\Model\CouponItem**](../Model/CouponItem.md)
+
+### Authorization
+
+No authorization required
 
 ### HTTP request headers
 

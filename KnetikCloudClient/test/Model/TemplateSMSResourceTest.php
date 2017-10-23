@@ -85,13 +85,6 @@ class TemplateSMSResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "localizer"
-     */
-    public function testPropertyLocalizer()
-    {
-    }
-
-    /**
      * Test attribute "recipients"
      */
     public function testPropertyRecipients()
@@ -99,9 +92,9 @@ class TemplateSMSResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "template_key"
+     * Test attribute "template"
      */
-    public function testPropertyTemplateKey()
+    public function testPropertyTemplate()
     {
     }
 

@@ -72,6 +72,36 @@ class MediaModerationApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for addFlag
+     *
+     * Add a flag.
+     *
+     */
+    public function testAddFlag()
+    {
+    }
+
+    /**
+     * Test case for deleteFlag
+     *
+     * Delete a flag.
+     *
+     */
+    public function testDeleteFlag()
+    {
+    }
+
+    /**
+     * Test case for getFlags
+     *
+     * Returns a page of flags.
+     *
+     */
+    public function testGetFlags()
+    {
+    }
+
+    /**
      * Test case for getModerationReport
      *
      * Get a flag report.

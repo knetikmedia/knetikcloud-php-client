@@ -916,7 +916,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getChallenges**
-> \KnetikCloud\Model\PageResourceChallengeResource_ getChallenges($filter_template, $filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order)
+> \KnetikCloud\Model\PageResourceChallengeResource_ getChallenges($filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order)
 
 Retrieve a list of challenges
 
@@ -926,7 +926,6 @@ Retrieve a list of challenges
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
-$filter_template = true; // bool | Filter for challenges that are not tied to campaigns (templates)
 $filter_active_campaign = true; // bool | Filter for challenges that are tied to active campaigns
 $filter_start_date = "filter_start_date_example"; // string | A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE).
 $filter_end_date = "filter_end_date_example"; // string | A comma separated string without spaces.  First value is the operator to search on, second value is the challenge end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE).
@@ -935,7 +934,7 @@ $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
 
 try {
-    $result = $api_instance->getChallenges($filter_template, $filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order);
+    $result = $api_instance->getChallenges($filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling CampaignsChallengesApi->getChallenges: ', $e->getMessage(), PHP_EOL;
@@ -947,7 +946,6 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **filter_template** | **bool**| Filter for challenges that are not tied to campaigns (templates) | [optional]
  **filter_active_campaign** | **bool**| Filter for challenges that are tied to active campaigns | [optional]
  **filter_start_date** | **string**| A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). | [optional]
  **filter_end_date** | **string**| A comma separated string without spaces.  First value is the operator to search on, second value is the challenge end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). | [optional]

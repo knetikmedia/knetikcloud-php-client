@@ -66,7 +66,7 @@ class TransactionResource implements ArrayAccess
         'transaction_id' => 'string',
         'type' => 'string',
         'type_hint' => 'string',
-        'value' => 'double'
+        'value' => 'float'
     ];
 
     /**
@@ -86,7 +86,7 @@ class TransactionResource implements ArrayAccess
         'transaction_id' => null,
         'type' => null,
         'type_hint' => null,
-        'value' => 'double'
+        'value' => null
     ];
 
     public static function swaggerTypes()
@@ -521,7 +521,7 @@ class TransactionResource implements ArrayAccess
 
     /**
      * Gets value
-     * @return double
+     * @return float
      */
     public function getValue()
     {
@@ -530,7 +530,7 @@ class TransactionResource implements ArrayAccess
 
     /**
      * Sets value
-     * @param double $value The amount of the transaction, positive if a gain, negative if an expenditure
+     * @param float $value The amount of the transaction, positive if a gain, negative if an expenditure
      * @return $this
      */
     public function setValue($value)

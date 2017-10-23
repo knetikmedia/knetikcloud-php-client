@@ -374,7 +374,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getEntitlementItems**
-> \KnetikCloud\Model\PageResourceEntitlementItem_ getEntitlementItems($size, $page, $order)
+> \KnetikCloud\Model\PageResourceEntitlementItem_ getEntitlementItems($filter_template, $size, $page, $order)
 
 List and search entitlement items
 
@@ -384,12 +384,13 @@ List and search entitlement items
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
+$filter_template = "filter_template_example"; // string | Filter for entitlements using a specified template
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
 
 try {
-    $result = $api_instance->getEntitlementItems($size, $page, $order);
+    $result = $api_instance->getEntitlementItems($filter_template, $size, $page, $order);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling UsersInventoryApi->getEntitlementItems: ', $e->getMessage(), PHP_EOL;
@@ -401,6 +402,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **filter_template** | **string**| Filter for entitlements using a specified template | [optional]
  **size** | **int**| The number of objects returned per page | [optional] [default to 25]
  **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]
  **order** | **string**| A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] | [optional] [default to id:ASC]

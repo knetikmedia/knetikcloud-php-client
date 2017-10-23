@@ -4288,7 +4288,6 @@ class CampaignsChallengesApi
      *
      * Retrieve a list of challenges
      *
-     * @param bool $filter_template Filter for challenges that are not tied to campaigns (templates) (optional)
      * @param bool $filter_active_campaign Filter for challenges that are tied to active campaigns (optional)
      * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
@@ -4299,9 +4298,9 @@ class CampaignsChallengesApi
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceChallengeResource_
      */
-    public function getChallenges($filter_template = null, $filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getChallenges($filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
-        list($response) = $this->getChallengesWithHttpInfo($filter_template, $filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order);
+        list($response) = $this->getChallengesWithHttpInfo($filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order);
         return $response;
     }
 
@@ -4310,7 +4309,6 @@ class CampaignsChallengesApi
      *
      * Retrieve a list of challenges
      *
-     * @param bool $filter_template Filter for challenges that are not tied to campaigns (templates) (optional)
      * @param bool $filter_active_campaign Filter for challenges that are tied to active campaigns (optional)
      * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
@@ -4321,10 +4319,10 @@ class CampaignsChallengesApi
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceChallengeResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getChallengesWithHttpInfo($filter_template = null, $filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getChallengesWithHttpInfo($filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceChallengeResource_';
-        $request = $this->getChallengesRequest($filter_template, $filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order);
+        $request = $this->getChallengesRequest($filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order);
 
         try {
 
@@ -4385,7 +4383,6 @@ class CampaignsChallengesApi
      *
      * Retrieve a list of challenges
      *
-     * @param bool $filter_template Filter for challenges that are not tied to campaigns (templates) (optional)
      * @param bool $filter_active_campaign Filter for challenges that are tied to active campaigns (optional)
      * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
@@ -4395,9 +4392,9 @@ class CampaignsChallengesApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getChallengesAsync($filter_template = null, $filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getChallengesAsync($filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
-        return $this->getChallengesAsyncWithHttpInfo($filter_template, $filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order)->then(function ($response) {
+        return $this->getChallengesAsyncWithHttpInfo($filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order)->then(function ($response) {
             return $response[0];
         });
     }
@@ -4407,7 +4404,6 @@ class CampaignsChallengesApi
      *
      * Retrieve a list of challenges
      *
-     * @param bool $filter_template Filter for challenges that are not tied to campaigns (templates) (optional)
      * @param bool $filter_active_campaign Filter for challenges that are tied to active campaigns (optional)
      * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
@@ -4417,10 +4413,10 @@ class CampaignsChallengesApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getChallengesAsyncWithHttpInfo($filter_template = null, $filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
+    public function getChallengesAsyncWithHttpInfo($filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceChallengeResource_';
-        $request = $this->getChallengesRequest($filter_template, $filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order);
+        $request = $this->getChallengesRequest($filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
@@ -4453,7 +4449,6 @@ class CampaignsChallengesApi
     /**
      * Create request for operation 'getChallenges'
      *
-     * @param bool $filter_template Filter for challenges that are not tied to campaigns (templates) (optional)
      * @param bool $filter_active_campaign Filter for challenges that are tied to active campaigns (optional)
      * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the challenge end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
@@ -4463,7 +4458,7 @@ class CampaignsChallengesApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getChallengesRequest($filter_template = null, $filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
+    protected function getChallengesRequest($filter_active_campaign = null, $filter_start_date = null, $filter_end_date = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
 
         $resourcePath = '/challenges';
@@ -4473,10 +4468,6 @@ class CampaignsChallengesApi
         $httpBody = '';
         $multipart = false;
 
-        // query params
-        if ($filter_template !== null) {
-            $queryParams['filter_template'] = ObjectSerializer::toQueryValue($filter_template);
-        }
         // query params
         if ($filter_active_campaign !== null) {
             $queryParams['filter_active_campaign'] = ObjectSerializer::toQueryValue($filter_active_campaign);

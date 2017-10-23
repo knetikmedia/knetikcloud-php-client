@@ -204,7 +204,7 @@ class SettingOption implements ArrayAccess
 
     /**
      * Sets value
-     * @param string $value The unique ID for the option. Ex: 10
+     * @param string $value The value of the option. Ex: 10
      * @return $this
      */
     public function setValue($value)

@@ -120,6 +120,13 @@ class SubscriptionResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "displayable"
+     */
+    public function testPropertyDisplayable()
+    {
+    }
+
+    /**
      * Test attribute "geo_country_list"
      */
     public function testPropertyGeoCountryList()

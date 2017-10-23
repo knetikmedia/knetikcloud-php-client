@@ -303,15 +303,17 @@ class UsersFriendshipsApi
      * Get friends list
      *
      * @param string $user_id The id of the user or &#39;me&#39; (required)
+     * @param string $filter_username Filter for friends with the given username (optional)
+     * @param int $filter_user_id Filter for friends by user id (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceSimpleUserResource_
      */
-    public function getFriends($user_id, $size = '25', $page = '1')
+    public function getFriends($user_id, $filter_username = null, $filter_user_id = null, $size = '25', $page = '1')
     {
-        list($response) = $this->getFriendsWithHttpInfo($user_id, $size, $page);
+        list($response) = $this->getFriendsWithHttpInfo($user_id, $filter_username, $filter_user_id, $size, $page);
         return $response;
     }
 
@@ -321,16 +323,18 @@ class UsersFriendshipsApi
      * Get friends list
      *
      * @param string $user_id The id of the user or &#39;me&#39; (required)
+     * @param string $filter_username Filter for friends with the given username (optional)
+     * @param int $filter_user_id Filter for friends by user id (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceSimpleUserResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getFriendsWithHttpInfo($user_id, $size = '25', $page = '1')
+    public function getFriendsWithHttpInfo($user_id, $filter_username = null, $filter_user_id = null, $size = '25', $page = '1')
     {
         $returnType = '\KnetikCloud\Model\PageResourceSimpleUserResource_';
-        $request = $this->getFriendsRequest($user_id, $size, $page);
+        $request = $this->getFriendsRequest($user_id, $filter_username, $filter_user_id, $size, $page);
 
         try {
 
@@ -392,14 +396,16 @@ class UsersFriendshipsApi
      * Get friends list
      *
      * @param string $user_id The id of the user or &#39;me&#39; (required)
+     * @param string $filter_username Filter for friends with the given username (optional)
+     * @param int $filter_user_id Filter for friends by user id (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getFriendsAsync($user_id, $size = '25', $page = '1')
+    public function getFriendsAsync($user_id, $filter_username = null, $filter_user_id = null, $size = '25', $page = '1')
     {
-        return $this->getFriendsAsyncWithHttpInfo($user_id, $size, $page)->then(function ($response) {
+        return $this->getFriendsAsyncWithHttpInfo($user_id, $filter_username, $filter_user_id, $size, $page)->then(function ($response) {
             return $response[0];
         });
     }
@@ -410,15 +416,17 @@ class UsersFriendshipsApi
      * Get friends list
      *
      * @param string $user_id The id of the user or &#39;me&#39; (required)
+     * @param string $filter_username Filter for friends with the given username (optional)
+     * @param int $filter_user_id Filter for friends by user id (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getFriendsAsyncWithHttpInfo($user_id, $size = '25', $page = '1')
+    public function getFriendsAsyncWithHttpInfo($user_id, $filter_username = null, $filter_user_id = null, $size = '25', $page = '1')
     {
         $returnType = '\KnetikCloud\Model\PageResourceSimpleUserResource_';
-        $request = $this->getFriendsRequest($user_id, $size, $page);
+        $request = $this->getFriendsRequest($user_id, $filter_username, $filter_user_id, $size, $page);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
@@ -452,12 +460,14 @@ class UsersFriendshipsApi
      * Create request for operation 'getFriends'
      *
      * @param string $user_id The id of the user or &#39;me&#39; (required)
+     * @param string $filter_username Filter for friends with the given username (optional)
+     * @param int $filter_user_id Filter for friends by user id (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getFriendsRequest($user_id, $size = '25', $page = '1')
+    protected function getFriendsRequest($user_id, $filter_username = null, $filter_user_id = null, $size = '25', $page = '1')
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -471,6 +481,14 @@ class UsersFriendshipsApi
         $httpBody = '';
         $multipart = false;
 
+        // query params
+        if ($filter_username !== null) {
+            $queryParams['filter_username'] = ObjectSerializer::toQueryValue($filter_username);
+        }
+        // query params
+        if ($filter_user_id !== null) {
+            $queryParams['filter_user_id'] = ObjectSerializer::toQueryValue($filter_user_id);
+        }
         // query params
         if ($size !== null) {
             $queryParams['size'] = ObjectSerializer::toQueryValue($size);

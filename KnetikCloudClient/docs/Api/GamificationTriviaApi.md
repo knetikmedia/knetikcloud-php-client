@@ -1295,7 +1295,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **searchQuestionTags**
-> \KnetikCloud\Model\CollectionString_ searchQuestionTags($filter_search, $filter_category, $filter_import_id)
+> string[] searchQuestionTags($filter_search, $filter_category, $filter_import_id)
 
 List and search tags by the beginning of the string
 
@@ -1335,7 +1335,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**\KnetikCloud\Model\CollectionString_**](../Model/CollectionString_.md)
+**string[]**
 
 ### Authorization
 

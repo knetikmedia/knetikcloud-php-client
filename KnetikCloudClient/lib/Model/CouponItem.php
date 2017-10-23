@@ -55,10 +55,10 @@ class CouponItem extends StoreItem implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'coupon_type_hint' => 'string',
-        'discount_max' => 'double',
-        'discount_min_cart_value' => 'double',
+        'discount_max' => 'float',
+        'discount_min_cart_value' => 'float',
         'discount_type' => 'string',
-        'discount_value' => 'double',
+        'discount_value' => 'float',
         'exclusive' => 'bool',
         'item_id' => 'int',
         'max_quantity' => 'int',
@@ -72,10 +72,10 @@ class CouponItem extends StoreItem implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'coupon_type_hint' => null,
-        'discount_max' => 'double',
-        'discount_min_cart_value' => 'double',
+        'discount_max' => null,
+        'discount_min_cart_value' => null,
         'discount_type' => null,
-        'discount_value' => 'double',
+        'discount_value' => null,
         'exclusive' => null,
         'item_id' => 'int32',
         'max_quantity' => 'int32',
@@ -327,7 +327,7 @@ class CouponItem extends StoreItem implements ArrayAccess
 
     /**
      * Gets discount_max
-     * @return double
+     * @return float
      */
     public function getDiscountMax()
     {
@@ -336,7 +336,7 @@ class CouponItem extends StoreItem implements ArrayAccess
 
     /**
      * Sets discount_max
-     * @param double $discount_max The amount this coupon is maxed out at.  Applies if coupon_type_hint is coupon_cart
+     * @param float $discount_max The amount this coupon is maxed out at.  Applies if coupon_type_hint is coupon_cart
      * @return $this
      */
     public function setDiscountMax($discount_max)
@@ -348,7 +348,7 @@ class CouponItem extends StoreItem implements ArrayAccess
 
     /**
      * Gets discount_min_cart_value
-     * @return double
+     * @return float
      */
     public function getDiscountMinCartValue()
     {
@@ -357,7 +357,7 @@ class CouponItem extends StoreItem implements ArrayAccess
 
     /**
      * Sets discount_min_cart_value
-     * @param double $discount_min_cart_value The minimium amount needed in the cart for the coupon to apply.  Applies if coupon_type_hint is coupon_cart
+     * @param float $discount_min_cart_value The minimium amount needed in the cart for the coupon to apply.  Applies if coupon_type_hint is coupon_cart
      * @return $this
      */
     public function setDiscountMinCartValue($discount_min_cart_value)
@@ -399,7 +399,7 @@ class CouponItem extends StoreItem implements ArrayAccess
 
     /**
      * Gets discount_value
-     * @return double
+     * @return float
      */
     public function getDiscountValue()
     {
@@ -408,7 +408,7 @@ class CouponItem extends StoreItem implements ArrayAccess
 
     /**
      * Sets discount_value
-     * @param double $discount_value The amount the coupon will discount the item. If discount_type is 'value' this will be a flat amount of currency. If discount type is 'percentage' this will be a fraction (0.2 for 20% off) multiplied by the price of the matching item or items.
+     * @param float $discount_value The amount the coupon will discount the item. If discount_type is 'value' this will be a flat amount of currency. If discount type is 'percentage' this will be a fraction (0.2 for 20% off) multiplied by the price of the matching item or items.
      * @return $this
      */
     public function setDiscountValue($discount_value)

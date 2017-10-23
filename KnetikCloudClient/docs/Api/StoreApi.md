@@ -11,7 +11,6 @@ Method | HTTP request | Description
 [**getBehaviors**](StoreApi.md#getBehaviors) | **GET** /store/items/behaviors | List available item behaviors
 [**getItemTemplate**](StoreApi.md#getItemTemplate) | **GET** /store/items/templates/{id} | Get a single item template
 [**getItemTemplates**](StoreApi.md#getItemTemplates) | **GET** /store/items/templates | List and search item templates
-[**getStore**](StoreApi.md#getStore) | **GET** /store | Get a listing of store items
 [**getStoreItem**](StoreApi.md#getStoreItem) | **GET** /store/items/{id} | Get a single store item
 [**getStoreItems**](StoreApi.md#getStoreItems) | **GET** /store/items | List and search store items
 [**quickBuy**](StoreApi.md#quickBuy) | **POST** /store/quick-buy | One-step purchase and pay for a single SKU item from a user&#39;s wallet
@@ -363,59 +362,6 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **getStore**
-> \KnetikCloud\Model\PageResourceStoreItem_ getStore($limit, $page, $use_catalog, $ignore_location, $in_stock_only)
-
-Get a listing of store items
-
-The exact structure of each items may differ to include fields specific to the type. The same is true for behaviors.
-
-### Example
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-$api_instance = new KnetikCloud\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
-$limit = 56; // int | The amount of items returned
-$page = 56; // int | The page of the request
-$use_catalog = true; // bool | Whether to remove items that are not intended for display or not in date
-$ignore_location = true; // bool | Whether to ignore country restrictions based on the caller's location
-$in_stock_only = false; // bool | Whether only in-stock items should be returned.  Default value is false
-
-try {
-    $result = $api_instance->getStore($limit, $page, $use_catalog, $ignore_location, $in_stock_only);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling StoreApi->getStore: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **limit** | **int**| The amount of items returned | [optional]
- **page** | **int**| The page of the request | [optional]
- **use_catalog** | **bool**| Whether to remove items that are not intended for display or not in date | [optional]
- **ignore_location** | **bool**| Whether to ignore country restrictions based on the caller&#39;s location | [optional]
- **in_stock_only** | **bool**| Whether only in-stock items should be returned.  Default value is false | [optional] [default to false]
-
-### Return type
-
-[**\KnetikCloud\Model\PageResourceStoreItem_**](../Model/PageResourceStoreItem_.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
-
 # **getStoreItem**
 > \KnetikCloud\Model\StoreItem getStoreItem($id)
 
@@ -463,6 +409,8 @@ No authorization required
 > \KnetikCloud\Model\PageResourceStoreItem_ getStoreItems($filter_name_search, $filter_unique_key, $filter_published, $filter_displayable, $filter_start, $filter_end, $filter_start_date, $filter_stop_date, $filter_sku, $filter_price, $filter_tag, $filter_items_by_type, $filter_bundled_skus, $filter_vendor, $size, $page, $order)
 
 List and search store items
+
+If called without permission STORE_ADMIN the only items marked displayable, whose start and end date are null or appropriate to the current date, and whose geo policy allows the caller's country will be returned. Similarly skus will be filtered, possibly resulting in an item returned with no skus the user can purchase.
 
 ### Example
 ```php

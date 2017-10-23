@@ -11,8 +11,10 @@ Method | HTTP request | Description
 [**deleteActivityTemplate**](ActivitiesApi.md#deleteActivityTemplate) | **DELETE** /activities/templates/{id} | Delete a activity template
 [**getActivities**](ActivitiesApi.md#getActivities) | **GET** /activities | List activity definitions
 [**getActivity**](ActivitiesApi.md#getActivity) | **GET** /activities/{id} | Get a single activity
+[**getActivityOccurrenceDetails**](ActivitiesApi.md#getActivityOccurrenceDetails) | **GET** /activity-occurrences/{activity_occurrence_id} | Load a single activity occurrence details
 [**getActivityTemplate**](ActivitiesApi.md#getActivityTemplate) | **GET** /activities/templates/{id} | Get a single activity template
 [**getActivityTemplates**](ActivitiesApi.md#getActivityTemplates) | **GET** /activities/templates | List and search activity templates
+[**listActivityOccurrences**](ActivitiesApi.md#listActivityOccurrences) | **GET** /activity-occurrences | List activity occurrences
 [**setActivityOccurrenceResults**](ActivitiesApi.md#setActivityOccurrenceResults) | **POST** /activity-occurrences/{activity_occurrence_id}/results | Sets the status of an activity occurrence to FINISHED and logs metrics
 [**updateActivity**](ActivitiesApi.md#updateActivity) | **PUT** /activities/{id} | Update an activity
 [**updateActivityOccurrence**](ActivitiesApi.md#updateActivityOccurrence) | **PUT** /activity-occurrences/{activity_occurrence_id}/status | Updated the status of an activity occurrence
@@ -86,7 +88,7 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 
 $api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $test = false; // bool | if true, indicates that the occurrence should NOT be created. This can be used to test for eligibility and valid settings
-$activity_occurrence_resource = new \KnetikCloud\Model\ActivityOccurrenceResource(); // \KnetikCloud\Model\ActivityOccurrenceResource | The activity occurrence object
+$activity_occurrence_resource = new \KnetikCloud\Model\CreateActivityOccurrenceRequest(); // \KnetikCloud\Model\CreateActivityOccurrenceRequest | The activity occurrence object
 
 try {
     $result = $api_instance->createActivityOccurrence($test, $activity_occurrence_resource);
@@ -102,7 +104,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **test** | **bool**| if true, indicates that the occurrence should NOT be created. This can be used to test for eligibility and valid settings | [optional] [default to false]
- **activity_occurrence_resource** | [**\KnetikCloud\Model\ActivityOccurrenceResource**](../Model/ActivityOccurrenceResource.md)| The activity occurrence object | [optional]
+ **activity_occurrence_resource** | [**\KnetikCloud\Model\CreateActivityOccurrenceRequest**](../Model/CreateActivityOccurrenceRequest.md)| The activity occurrence object | [optional]
 
 ### Return type
 
@@ -363,6 +365,54 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
+# **getActivityOccurrenceDetails**
+> \KnetikCloud\Model\ActivityOccurrenceResource getActivityOccurrenceDetails($activity_occurrence_id)
+
+Load a single activity occurrence details
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
+$activity_occurrence_id = 789; // int | The id of the activity occurrence
+
+try {
+    $result = $api_instance->getActivityOccurrenceDetails($activity_occurrence_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ActivitiesApi->getActivityOccurrenceDetails: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **activity_occurrence_id** | **int**| The id of the activity occurrence |
+
+### Return type
+
+[**\KnetikCloud\Model\ActivityOccurrenceResource**](../Model/ActivityOccurrenceResource.md)
+
+### Authorization
+
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
 # **getActivityTemplate**
 > \KnetikCloud\Model\TemplateResource getActivityTemplate($id)
 
@@ -451,6 +501,66 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**\KnetikCloud\Model\PageResourceTemplateResource_**](../Model/PageResourceTemplateResource_.md)
+
+### Authorization
+
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **listActivityOccurrences**
+> \KnetikCloud\Model\PageResourceActivityOccurrenceResource_ listActivityOccurrences($filter_activity, $filter_status, $filter_event, $filter_challenge, $size, $page, $order)
+
+List activity occurrences
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
+$filter_activity = "filter_activity_example"; // string | Filter for occurrences of the given activity ID
+$filter_status = "filter_status_example"; // string | Filter for occurrences of the given activity ID
+$filter_event = 56; // int | Filter for occurrences played during the given event
+$filter_challenge = 56; // int | Filter for occurrences played within the given challenge
+$size = 25; // int | The number of objects returned per page
+$page = 1; // int | The number of the page returned, starting with 1
+$order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
+
+try {
+    $result = $api_instance->listActivityOccurrences($filter_activity, $filter_status, $filter_event, $filter_challenge, $size, $page, $order);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ActivitiesApi->listActivityOccurrences: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **filter_activity** | **string**| Filter for occurrences of the given activity ID | [optional]
+ **filter_status** | **string**| Filter for occurrences of the given activity ID | [optional]
+ **filter_event** | **int**| Filter for occurrences played during the given event | [optional]
+ **filter_challenge** | **int**| Filter for occurrences played within the given challenge | [optional]
+ **size** | **int**| The number of objects returned per page | [optional] [default to 25]
+ **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]
+ **order** | **string**| A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] | [optional] [default to id:ASC]
+
+### Return type
+
+[**\KnetikCloud\Model\PageResourceActivityOccurrenceResource_**](../Model/PageResourceActivityOccurrenceResource_.md)
 
 ### Authorization
 
@@ -564,11 +674,11 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **updateActivityOccurrence**
-> updateActivityOccurrence($activity_occurrence_id, $activity_cccurrence_status)
+> updateActivityOccurrence($activity_occurrence_id, $activity_occurrence_status)
 
 Updated the status of an activity occurrence
 
-If setting to 'FINISHED' you must POST to /results instead to record the metrics and get synchronous reward results
+If setting to 'FINISHED' reward will be run based on current metrics that have been recorded already. Aternatively, see results endpoint to finish and record all metrics at once.
 
 ### Example
 ```php
@@ -582,10 +692,10 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 
 $api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $activity_occurrence_id = 789; // int | The id of the activity occurrence
-$activity_cccurrence_status = "activity_cccurrence_status_example"; // string | The activity occurrence status object
+$activity_occurrence_status = "activity_occurrence_status_example"; // string | The activity occurrence status object
 
 try {
-    $api_instance->updateActivityOccurrence($activity_occurrence_id, $activity_cccurrence_status);
+    $api_instance->updateActivityOccurrence($activity_occurrence_id, $activity_occurrence_status);
 } catch (Exception $e) {
     echo 'Exception when calling ActivitiesApi->updateActivityOccurrence: ', $e->getMessage(), PHP_EOL;
 }
@@ -597,7 +707,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **activity_occurrence_id** | **int**| The id of the activity occurrence |
- **activity_cccurrence_status** | **string**| The activity occurrence status object | [optional]
+ **activity_occurrence_status** | **string**| The activity occurrence status object | [optional]
 
 ### Return type
 

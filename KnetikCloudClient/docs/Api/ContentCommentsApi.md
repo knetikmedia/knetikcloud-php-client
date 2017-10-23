@@ -200,7 +200,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **searchComments**
-> \KnetikCloud\Model\CommentSearch searchComments($query, $size, $page)
+> \KnetikCloud\Model\PageResourceCommentResource_ searchComments($query, $size, $page)
 
 Search the comment index
 
@@ -210,6 +210,11 @@ The body is an ElasticSearch query json. Please see their <a href='https://www.e
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\ContentCommentsApi(new \Http\Adapter\Guzzle6\Client());
 $query = NULL; // object | The search query
@@ -235,11 +240,11 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**\KnetikCloud\Model\CommentSearch**](../Model/CommentSearch.md)
+[**\KnetikCloud\Model\PageResourceCommentResource_**](../Model/PageResourceCommentResource_.md)
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 

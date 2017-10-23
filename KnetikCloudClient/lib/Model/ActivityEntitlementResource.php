@@ -57,7 +57,7 @@ class ActivityEntitlementResource implements ArrayAccess
         'currency_code' => 'string',
         'item_id' => 'int',
         'name' => 'string',
-        'price' => 'double',
+        'price' => 'float',
         'sku' => 'string'
     ];
 
@@ -69,7 +69,7 @@ class ActivityEntitlementResource implements ArrayAccess
         'currency_code' => null,
         'item_id' => 'int32',
         'name' => null,
-        'price' => 'double',
+        'price' => null,
         'sku' => null
     ];
 
@@ -255,7 +255,7 @@ class ActivityEntitlementResource implements ArrayAccess
 
     /**
      * Gets price
-     * @return double
+     * @return float
      */
     public function getPrice()
     {
@@ -264,7 +264,7 @@ class ActivityEntitlementResource implements ArrayAccess
 
     /**
      * Sets price
-     * @param double $price The price of the sku, if available
+     * @param float $price The price of the sku, if available
      * @return $this
      */
     public function setPrice($price)

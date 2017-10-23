@@ -1014,7 +1014,7 @@ class ContentCommentsApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \KnetikCloud\Model\CommentSearch
+     * @return \KnetikCloud\Model\PageResourceCommentResource_
      */
     public function searchComments($query = null, $size = '25', $page = '1')
     {
@@ -1032,11 +1032,11 @@ class ContentCommentsApi
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \KnetikCloud\Model\CommentSearch, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \KnetikCloud\Model\PageResourceCommentResource_, HTTP status code, HTTP response headers (array of strings)
      */
     public function searchCommentsWithHttpInfo($query = null, $size = '25', $page = '1')
     {
-        $returnType = '\KnetikCloud\Model\CommentSearch';
+        $returnType = '\KnetikCloud\Model\PageResourceCommentResource_';
         $request = $this->searchCommentsRequest($query, $size, $page);
 
         try {
@@ -1081,7 +1081,7 @@ class ContentCommentsApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\CommentSearch', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceCommentResource_', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
@@ -1124,7 +1124,7 @@ class ContentCommentsApi
      */
     public function searchCommentsAsyncWithHttpInfo($query = null, $size = '25', $page = '1')
     {
-        $returnType = '\KnetikCloud\Model\CommentSearch';
+        $returnType = '\KnetikCloud\Model\PageResourceCommentResource_';
         $request = $this->searchCommentsRequest($query, $size, $page);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
@@ -1224,6 +1224,14 @@ class ContentCommentsApi
             }
         }
 
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');

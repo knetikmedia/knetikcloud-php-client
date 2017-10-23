@@ -85,9 +85,44 @@ class PaymentMethodTypeResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "invoice_processing_hours"
+     */
+    public function testPropertyInvoiceProcessingHours()
+    {
+    }
+
+    /**
      * Test attribute "name"
      */
     public function testPropertyName()
+    {
+    }
+
+    /**
+     * Test attribute "supports_capture"
+     */
+    public function testPropertySupportsCapture()
+    {
+    }
+
+    /**
+     * Test attribute "supports_partial"
+     */
+    public function testPropertySupportsPartial()
+    {
+    }
+
+    /**
+     * Test attribute "supports_rebill"
+     */
+    public function testPropertySupportsRebill()
+    {
+    }
+
+    /**
+     * Test attribute "supports_refunds"
+     */
+    public function testPropertySupportsRefunds()
     {
     }
 }

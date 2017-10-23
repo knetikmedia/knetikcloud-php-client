@@ -57,7 +57,7 @@ class CurrencyResource implements ArrayAccess
         'active' => 'bool',
         'code' => 'string',
         'created_date' => 'int',
-        'factor' => 'double',
+        'factor' => 'float',
         'icon' => 'string',
         'name' => 'string',
         'type' => 'string',
@@ -72,7 +72,7 @@ class CurrencyResource implements ArrayAccess
         'active' => null,
         'code' => null,
         'created_date' => 'int64',
-        'factor' => 'double',
+        'factor' => null,
         'icon' => null,
         'name' => null,
         'type' => null,
@@ -311,7 +311,7 @@ class CurrencyResource implements ArrayAccess
 
     /**
      * Gets factor
-     * @return double
+     * @return float
      */
     public function getFactor()
     {
@@ -320,7 +320,7 @@ class CurrencyResource implements ArrayAccess
 
     /**
      * Sets factor
-     * @param double $factor The decimal to multiply the system base currency (from config 'currency') to localize to this one. Should be 1 for the base currency itself.
+     * @param float $factor The decimal to multiply the system base currency (from config 'currency') to localize to this one. Should be 1 for the base currency itself.
      * @return $this
      */
     public function setFactor($factor)

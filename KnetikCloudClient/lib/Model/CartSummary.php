@@ -56,12 +56,12 @@ class CartSummary implements ArrayAccess
     protected static $swaggerTypes = [
         'created_date' => 'int',
         'currency_code' => 'string',
-        'grand_total' => 'double',
+        'grand_total' => 'float',
         'id' => 'string',
-        'invoice_id' => 'double',
+        'invoice_id' => 'float',
         'items_in_cart' => 'int',
         'status' => 'string',
-        'subtotal' => 'double'
+        'subtotal' => 'float'
     ];
 
     /**
@@ -71,12 +71,12 @@ class CartSummary implements ArrayAccess
     protected static $swaggerFormats = [
         'created_date' => 'int64',
         'currency_code' => null,
-        'grand_total' => 'double',
+        'grand_total' => null,
         'id' => null,
-        'invoice_id' => 'double',
+        'invoice_id' => null,
         'items_in_cart' => 'int32',
         'status' => null,
-        'subtotal' => 'double'
+        'subtotal' => null
     ];
 
     public static function swaggerTypes()
@@ -276,7 +276,7 @@ class CartSummary implements ArrayAccess
 
     /**
      * Gets grand_total
-     * @return double
+     * @return float
      */
     public function getGrandTotal()
     {
@@ -285,7 +285,7 @@ class CartSummary implements ArrayAccess
 
     /**
      * Sets grand_total
-     * @param double $grand_total The grand total for the cart
+     * @param float $grand_total The grand total for the cart
      * @return $this
      */
     public function setGrandTotal($grand_total)
@@ -318,7 +318,7 @@ class CartSummary implements ArrayAccess
 
     /**
      * Gets invoice_id
-     * @return double
+     * @return float
      */
     public function getInvoiceId()
     {
@@ -327,7 +327,7 @@ class CartSummary implements ArrayAccess
 
     /**
      * Sets invoice_id
-     * @param double $invoice_id The ID of the invoice associated with this cart
+     * @param float $invoice_id The ID of the invoice associated with this cart
      * @return $this
      */
     public function setInvoiceId($invoice_id)
@@ -390,7 +390,7 @@ class CartSummary implements ArrayAccess
 
     /**
      * Gets subtotal
-     * @return double
+     * @return float
      */
     public function getSubtotal()
     {
@@ -399,7 +399,7 @@ class CartSummary implements ArrayAccess
 
     /**
      * Sets subtotal
-     * @param double $subtotal The subtotal of all items in the cart
+     * @param float $subtotal The subtotal of all items in the cart
      * @return $this
      */
     public function setSubtotal($subtotal)

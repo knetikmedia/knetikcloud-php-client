@@ -33,7 +33,7 @@ namespace KnetikCloud;
  * VendorEmailLookupResourceTest Class Doc Comment
  *
  * @category    Class */
-// * @description VendorEmailLookupResource
+// * @description Expressions are instructions for the rule engine to resolve certain values. For example instead of &#x60;user 1&#x60; it&#39;d state &#x60;user provided by the event&#x60;. Full list and definitions available at GET /bre/expressions.
 /**
  * @package     KnetikCloud
  * @author      Swagger Codegen team
@@ -78,9 +78,23 @@ class VendorEmailLookupResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "definition"
+     */
+    public function testPropertyDefinition()
+    {
+    }
+
+    /**
      * Test attribute "lookup_key"
      */
     public function testPropertyLookupKey()
+    {
+    }
+
+    /**
+     * Test attribute "required_key_type"
+     */
+    public function testPropertyRequiredKeyType()
     {
     }
 

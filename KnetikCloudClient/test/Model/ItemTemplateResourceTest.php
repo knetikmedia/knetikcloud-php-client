@@ -78,6 +78,13 @@ class ItemTemplateResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "allow_additional"
+     */
+    public function testPropertyAllowAdditional()
+    {
+    }
+
+    /**
      * Test attribute "behaviors"
      */
     public function testPropertyBehaviors()

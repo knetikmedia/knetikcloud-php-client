@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**balance** | **double** | The current balance of the wallet | [optional] 
+**balance** | **float** | The current balance of the wallet | [optional] 
 **code** | **string** | The ISO currency code for the wallet | [optional] 
 **currency_name** | **string** | The name of the currency stored in the wallet | [optional] 
 **id** | **int** | The unique ID of the wallet | [optional] 

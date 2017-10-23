@@ -366,7 +366,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getUsers**
-> \KnetikCloud\Model\PageResourceUserBaseResource_ getUsers($filter_displayname, $filter_email, $filter_firstname, $filter_fullname, $filter_lastname, $filter_username, $filter_tag, $filter_group, $filter_role, $filter_search, $size, $page, $order)
+> \KnetikCloud\Model\PageResourceUserBaseResource_ getUsers($filter_displayname, $filter_email, $filter_firstname, $filter_fullname, $filter_lastname, $filter_username, $filter_tag, $filter_group, $filter_role, $filter_last_activity, $filter_id_list, $filter_search, $size, $page, $order)
 
 List and search users
 
@@ -387,13 +387,15 @@ $filter_username = "filter_username_example"; // string | Filter for users whose
 $filter_tag = "filter_tag_example"; // string | Filter for users who have a given tag
 $filter_group = "filter_group_example"; // string | Filter for users in a given group, by unique name
 $filter_role = "filter_role_example"; // string | Filter for users with a given role
+$filter_last_activity = "filter_last_activity_example"; // string | A comma separated string without spaces.  First value is the operator to search on, second value is the date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE).
+$filter_id_list = "filter_id_list_example"; // string | A comma separated list of ids.
 $filter_search = "filter_search_example"; // string | Filter for users whose display_name starts with the provided string, or username if display_name is null
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:ASC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
 
 try {
-    $result = $api_instance->getUsers($filter_displayname, $filter_email, $filter_firstname, $filter_fullname, $filter_lastname, $filter_username, $filter_tag, $filter_group, $filter_role, $filter_search, $size, $page, $order);
+    $result = $api_instance->getUsers($filter_displayname, $filter_email, $filter_firstname, $filter_fullname, $filter_lastname, $filter_username, $filter_tag, $filter_group, $filter_role, $filter_last_activity, $filter_id_list, $filter_search, $size, $page, $order);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling UsersApi->getUsers: ', $e->getMessage(), PHP_EOL;
@@ -414,6 +416,8 @@ Name | Type | Description  | Notes
  **filter_tag** | **string**| Filter for users who have a given tag | [optional]
  **filter_group** | **string**| Filter for users in a given group, by unique name | [optional]
  **filter_role** | **string**| Filter for users with a given role | [optional]
+ **filter_last_activity** | **string**| A comma separated string without spaces.  First value is the operator to search on, second value is the date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). | [optional]
+ **filter_id_list** | **string**| A comma separated list of ids. | [optional]
  **filter_search** | **string**| Filter for users whose display_name starts with the provided string, or username if display_name is null | [optional]
  **size** | **int**| The number of objects returned per page | [optional] [default to 25]
  **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]

@@ -56,7 +56,7 @@ class CountryTaxResource implements ArrayAccess
     protected static $swaggerTypes = [
         'country_iso3' => 'string',
         'name' => 'string',
-        'rate' => 'double',
+        'rate' => 'float',
         'tax_shipping' => 'bool'
     ];
 
@@ -67,7 +67,7 @@ class CountryTaxResource implements ArrayAccess
     protected static $swaggerFormats = [
         'country_iso3' => null,
         'name' => null,
-        'rate' => 'double',
+        'rate' => null,
         'tax_shipping' => null
     ];
 
@@ -246,7 +246,7 @@ class CountryTaxResource implements ArrayAccess
 
     /**
      * Gets rate
-     * @return double
+     * @return float
      */
     public function getRate()
     {
@@ -255,7 +255,7 @@ class CountryTaxResource implements ArrayAccess
 
     /**
      * Sets rate
-     * @param double $rate The tax rate as a percentage to a maximum of two decimal places (1.5 means 1.5%)
+     * @param float $rate The tax rate as a percentage to a maximum of two decimal places (1.5 means 1.5%)
      * @return $this
      */
     public function setRate($rate)

@@ -113,6 +113,13 @@ class LevelingResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "trigger_event_name"
+     */
+    public function testPropertyTriggerEventName()
+    {
+    }
+
+    /**
      * Test attribute "updated_date"
      */
     public function testPropertyUpdatedDate()

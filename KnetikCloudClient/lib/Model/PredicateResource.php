@@ -35,6 +35,7 @@ use \ArrayAccess;
  * PredicateResource Class Doc Comment
  *
  * @category    Class
+ * @description Expressions are instructions for the rule engine to resolve certain values. For example instead of &#x60;user 1&#x60; it&#39;d state &#x60;user provided by the event&#x60;. Full list and definitions available at GET /bre/expressions.
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
@@ -55,7 +56,10 @@ class PredicateResource implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'args' => '\KnetikCloud\Model\ExpressionResource[]',
+        'definition' => 'string',
         'op' => 'string',
+        'return_type' => 'string',
+        'supported_operators' => '\KnetikCloud\Model\OperationDefinitionResource[]',
         'type' => 'string'
     ];
 
@@ -65,7 +69,10 @@ class PredicateResource implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'args' => null,
+        'definition' => null,
         'op' => null,
+        'return_type' => null,
+        'supported_operators' => null,
         'type' => null
     ];
 
@@ -85,7 +92,10 @@ class PredicateResource implements ArrayAccess
      */
     protected static $attributeMap = [
         'args' => 'args',
+        'definition' => 'definition',
         'op' => 'op',
+        'return_type' => 'return_type',
+        'supported_operators' => 'supported_operators',
         'type' => 'type'
     ];
 
@@ -96,7 +106,10 @@ class PredicateResource implements ArrayAccess
      */
     protected static $setters = [
         'args' => 'setArgs',
+        'definition' => 'setDefinition',
         'op' => 'setOp',
+        'return_type' => 'setReturnType',
+        'supported_operators' => 'setSupportedOperators',
         'type' => 'setType'
     ];
 
@@ -107,7 +120,10 @@ class PredicateResource implements ArrayAccess
      */
     protected static $getters = [
         'args' => 'getArgs',
+        'definition' => 'getDefinition',
         'op' => 'getOp',
+        'return_type' => 'getReturnType',
+        'supported_operators' => 'getSupportedOperators',
         'type' => 'getType'
     ];
 
@@ -143,7 +159,10 @@ class PredicateResource implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['args'] = isset($data['args']) ? $data['args'] : null;
+        $this->container['definition'] = isset($data['definition']) ? $data['definition'] : null;
         $this->container['op'] = isset($data['op']) ? $data['op'] : null;
+        $this->container['return_type'] = isset($data['return_type']) ? $data['return_type'] : null;
+        $this->container['supported_operators'] = isset($data['supported_operators']) ? $data['supported_operators'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
     }
 
@@ -206,6 +225,27 @@ class PredicateResource implements ArrayAccess
     }
 
     /**
+     * Gets definition
+     * @return string
+     */
+    public function getDefinition()
+    {
+        return $this->container['definition'];
+    }
+
+    /**
+     * Sets definition
+     * @param string $definition
+     * @return $this
+     */
+    public function setDefinition($definition)
+    {
+        $this->container['definition'] = $definition;
+
+        return $this;
+    }
+
+    /**
      * Gets op
      * @return string
      */
@@ -222,6 +262,48 @@ class PredicateResource implements ArrayAccess
     public function setOp($op)
     {
         $this->container['op'] = $op;
+
+        return $this;
+    }
+
+    /**
+     * Gets return_type
+     * @return string
+     */
+    public function getReturnType()
+    {
+        return $this->container['return_type'];
+    }
+
+    /**
+     * Sets return_type
+     * @param string $return_type
+     * @return $this
+     */
+    public function setReturnType($return_type)
+    {
+        $this->container['return_type'] = $return_type;
+
+        return $this;
+    }
+
+    /**
+     * Gets supported_operators
+     * @return \KnetikCloud\Model\OperationDefinitionResource[]
+     */
+    public function getSupportedOperators()
+    {
+        return $this->container['supported_operators'];
+    }
+
+    /**
+     * Sets supported_operators
+     * @param \KnetikCloud\Model\OperationDefinitionResource[] $supported_operators The operators supported by this expression
+     * @return $this
+     */
+    public function setSupportedOperators($supported_operators)
+    {
+        $this->container['supported_operators'] = $supported_operators;
 
         return $this;
     }

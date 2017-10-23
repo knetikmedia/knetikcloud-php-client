@@ -256,7 +256,7 @@ class StoreItem extends Item implements ArrayAccess
 
     /**
      * Sets displayable
-     * @param bool $displayable Whether or not the item is currently displayable.  Default = true
+     * @param bool $displayable Whether or not the item is currently visible to users. Does not block purchase; Use store_start or store_end to block purchase.  Default = true
      * @return $this
      */
     public function setDisplayable($displayable)
@@ -370,7 +370,7 @@ class StoreItem extends Item implements ArrayAccess
 
     /**
      * Sets store_end
-     * @param int $store_end The date the item will leave the store, unix timestamp in seconds.  If set to null, item will never leave the store
+     * @param int $store_end The date the item will become hidden and unavailable for purchase, unix timestamp in seconds.  If set to null, item will never leave the store
      * @return $this
      */
     public function setStoreEnd($store_end)
@@ -391,7 +391,7 @@ class StoreItem extends Item implements ArrayAccess
 
     /**
      * Sets store_start
-     * @param int $store_start The date the item will appear in the store, unix timestamp in seconds.  If set to null, item will appear in store immediately
+     * @param int $store_start The date the item will become visible (if displayable) and available for purchase, unix timestamp in seconds.  If set to null, item will appear in store immediately
      * @return $this
      */
     public function setStoreStart($store_start)

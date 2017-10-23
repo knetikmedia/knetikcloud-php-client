@@ -54,7 +54,7 @@ class SubscriptionPriceOverrideRequest implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'new_price' => 'double',
+        'new_price' => 'float',
         'reason' => 'string'
     ];
 
@@ -63,7 +63,7 @@ class SubscriptionPriceOverrideRequest implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'new_price' => 'double',
+        'new_price' => null,
         'reason' => null
     ];
 
@@ -168,7 +168,7 @@ class SubscriptionPriceOverrideRequest implements ArrayAccess
 
     /**
      * Gets new_price
-     * @return double
+     * @return float
      */
     public function getNewPrice()
     {
@@ -177,7 +177,7 @@ class SubscriptionPriceOverrideRequest implements ArrayAccess
 
     /**
      * Sets new_price
-     * @param double $new_price The recurring price that has been set to override the base price. Null if not overriding
+     * @param float $new_price The recurring price that has been set to override the base price. Null if not overriding
      * @return $this
      */
     public function setNewPrice($new_price)

@@ -113,6 +113,20 @@ class SkuTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "not_available"
+     */
+    public function testPropertyNotAvailable()
+    {
+    }
+
+    /**
+     * Test attribute "not_displayable"
+     */
+    public function testPropertyNotDisplayable()
+    {
+    }
+
+    /**
      * Test attribute "original_price"
      */
     public function testPropertyOriginalPrice()

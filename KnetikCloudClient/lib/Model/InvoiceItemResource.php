@@ -60,16 +60,16 @@ class InvoiceItemResource implements ArrayAccess
         'invoice_id' => 'int',
         'item_id' => 'int',
         'item_name' => 'string',
-        'original_total_price' => 'double',
-        'original_unit_price' => 'double',
+        'original_total_price' => 'float',
+        'original_unit_price' => 'float',
         'qty' => 'int',
         'sale_name' => 'string',
         'sku' => 'string',
         'sku_description' => 'string',
-        'system_price' => 'double',
-        'total_price' => 'double',
+        'system_price' => 'float',
+        'total_price' => 'float',
         'type_hint' => 'string',
-        'unit_price' => 'double'
+        'unit_price' => 'float'
     ];
 
     /**
@@ -83,16 +83,16 @@ class InvoiceItemResource implements ArrayAccess
         'invoice_id' => 'int32',
         'item_id' => 'int32',
         'item_name' => null,
-        'original_total_price' => 'double',
-        'original_unit_price' => 'double',
+        'original_total_price' => null,
+        'original_unit_price' => null,
         'qty' => 'int32',
         'sale_name' => null,
         'sku' => null,
         'sku_description' => null,
-        'system_price' => 'double',
-        'total_price' => 'double',
+        'system_price' => null,
+        'total_price' => null,
         'type_hint' => null,
-        'unit_price' => 'double'
+        'unit_price' => null
     ];
 
     public static function swaggerTypes()
@@ -378,7 +378,7 @@ class InvoiceItemResource implements ArrayAccess
 
     /**
      * Gets original_total_price
-     * @return double
+     * @return float
      */
     public function getOriginalTotalPrice()
     {
@@ -387,7 +387,7 @@ class InvoiceItemResource implements ArrayAccess
 
     /**
      * Sets original_total_price
-     * @param double $original_total_price
+     * @param float $original_total_price
      * @return $this
      */
     public function setOriginalTotalPrice($original_total_price)
@@ -399,7 +399,7 @@ class InvoiceItemResource implements ArrayAccess
 
     /**
      * Gets original_unit_price
-     * @return double
+     * @return float
      */
     public function getOriginalUnitPrice()
     {
@@ -408,7 +408,7 @@ class InvoiceItemResource implements ArrayAccess
 
     /**
      * Sets original_unit_price
-     * @param double $original_unit_price
+     * @param float $original_unit_price
      * @return $this
      */
     public function setOriginalUnitPrice($original_unit_price)
@@ -504,7 +504,7 @@ class InvoiceItemResource implements ArrayAccess
 
     /**
      * Gets system_price
-     * @return double
+     * @return float
      */
     public function getSystemPrice()
     {
@@ -513,7 +513,7 @@ class InvoiceItemResource implements ArrayAccess
 
     /**
      * Sets system_price
-     * @param double $system_price
+     * @param float $system_price
      * @return $this
      */
     public function setSystemPrice($system_price)
@@ -525,7 +525,7 @@ class InvoiceItemResource implements ArrayAccess
 
     /**
      * Gets total_price
-     * @return double
+     * @return float
      */
     public function getTotalPrice()
     {
@@ -534,7 +534,7 @@ class InvoiceItemResource implements ArrayAccess
 
     /**
      * Sets total_price
-     * @param double $total_price
+     * @param float $total_price
      * @return $this
      */
     public function setTotalPrice($total_price)
@@ -567,7 +567,7 @@ class InvoiceItemResource implements ArrayAccess
 
     /**
      * Gets unit_price
-     * @return double
+     * @return float
      */
     public function getUnitPrice()
     {
@@ -576,7 +576,7 @@ class InvoiceItemResource implements ArrayAccess
 
     /**
      * Sets unit_price
-     * @param double $unit_price
+     * @param float $unit_price
      * @return $this
      */
     public function setUnitPrice($unit_price)

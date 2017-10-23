@@ -102,6 +102,16 @@ class UsersGroupsApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for createGroupMemberTemplate
+     *
+     * Create an group member template.
+     *
+     */
+    public function testCreateGroupMemberTemplate()
+    {
+    }
+
+    /**
      * Test case for createGroupTemplate
      *
      * Create a group template.
@@ -118,6 +128,16 @@ class UsersGroupsApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function testDeleteGroup()
+    {
+    }
+
+    /**
+     * Test case for deleteGroupMemberTemplate
+     *
+     * Delete an group member template.
+     *
+     */
+    public function testDeleteGroupMemberTemplate()
     {
     }
 
@@ -148,6 +168,26 @@ class UsersGroupsApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function testGetGroupMember()
+    {
+    }
+
+    /**
+     * Test case for getGroupMemberTemplate
+     *
+     * Get a single group member template.
+     *
+     */
+    public function testGetGroupMemberTemplate()
+    {
+    }
+
+    /**
+     * Test case for getGroupMemberTemplates
+     *
+     * List and search group member templates.
+     *
+     */
+    public function testGetGroupMemberTemplates()
     {
     }
 
@@ -192,6 +232,16 @@ class UsersGroupsApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for listGroups
+     *
+     * List and search groups.
+     *
+     */
+    public function testListGroups()
+    {
+    }
+
+    /**
      * Test case for removeGroupMember
      *
      * Removes a user from a group.
@@ -212,6 +262,26 @@ class UsersGroupsApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for updateGroupMemberProperties
+     *
+     * Change a user's order.
+     *
+     */
+    public function testUpdateGroupMemberProperties()
+    {
+    }
+
+    /**
+     * Test case for updateGroupMemberProperties1
+     *
+     * Change a user's membership properties.
+     *
+     */
+    public function testUpdateGroupMemberProperties1()
+    {
+    }
+
+    /**
      * Test case for updateGroupMemberStatus
      *
      * Change a user's status.
@@ -222,22 +292,22 @@ class UsersGroupsApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for updateGroupMemberTemplate
+     *
+     * Update an group member template.
+     *
+     */
+    public function testUpdateGroupMemberTemplate()
+    {
+    }
+
+    /**
      * Test case for updateGroupTemplate
      *
      * Update a group template.
      *
      */
     public function testUpdateGroupTemplate()
-    {
-    }
-
-    /**
-     * Test case for updateGroups
-     *
-     * List and search groups.
-     *
-     */
-    public function testUpdateGroups()
     {
     }
 }

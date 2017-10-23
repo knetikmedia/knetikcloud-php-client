@@ -55,25 +55,25 @@ class Cart implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'available_shipping_options' => '\KnetikCloud\Model\CartShippingOption[]',
-        'country_tax' => 'double',
+        'country_tax' => 'float',
         'coupons' => '\KnetikCloud\Model\CouponDefinition[]',
         'created' => 'int',
         'currency_code' => 'string',
-        'discount_total' => 'double',
+        'discount_total' => 'float',
         'error_code' => 'int',
         'error_message' => 'string',
-        'grand_total' => 'double',
+        'grand_total' => 'float',
         'id' => 'string',
-        'invoice_id' => 'double',
+        'invoice_id' => 'float',
         'items' => '\KnetikCloud\Model\CartLineItem[]',
         'owner' => 'int',
         'selected_shipping_options' => '\KnetikCloud\Model\CartShippingOption[]',
         'shippable' => 'bool',
         'shipping_address' => '\KnetikCloud\Model\CartShippingAddressRequest',
-        'shipping_cost' => 'double',
-        'state_tax' => 'double',
+        'shipping_cost' => 'float',
+        'state_tax' => 'float',
         'status' => 'string',
-        'subtotal' => 'double',
+        'subtotal' => 'float',
         'updated' => 'int'
     ];
 
@@ -83,25 +83,25 @@ class Cart implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'available_shipping_options' => null,
-        'country_tax' => 'double',
+        'country_tax' => null,
         'coupons' => null,
         'created' => 'int64',
         'currency_code' => null,
-        'discount_total' => 'double',
+        'discount_total' => null,
         'error_code' => 'int32',
         'error_message' => null,
-        'grand_total' => 'double',
+        'grand_total' => null,
         'id' => null,
-        'invoice_id' => 'double',
+        'invoice_id' => null,
         'items' => null,
         'owner' => 'int32',
         'selected_shipping_options' => null,
         'shippable' => null,
         'shipping_address' => null,
-        'shipping_cost' => 'double',
-        'state_tax' => 'double',
+        'shipping_cost' => null,
+        'state_tax' => null,
         'status' => null,
-        'subtotal' => 'double',
+        'subtotal' => null,
         'updated' => 'int64'
     ];
 
@@ -333,7 +333,7 @@ class Cart implements ArrayAccess
 
     /**
      * Gets country_tax
-     * @return double
+     * @return float
      */
     public function getCountryTax()
     {
@@ -342,7 +342,7 @@ class Cart implements ArrayAccess
 
     /**
      * Sets country_tax
-     * @param double $country_tax
+     * @param float $country_tax
      * @return $this
      */
     public function setCountryTax($country_tax)
@@ -417,7 +417,7 @@ class Cart implements ArrayAccess
 
     /**
      * Gets discount_total
-     * @return double
+     * @return float
      */
     public function getDiscountTotal()
     {
@@ -426,7 +426,7 @@ class Cart implements ArrayAccess
 
     /**
      * Sets discount_total
-     * @param double $discount_total
+     * @param float $discount_total
      * @return $this
      */
     public function setDiscountTotal($discount_total)
@@ -480,7 +480,7 @@ class Cart implements ArrayAccess
 
     /**
      * Gets grand_total
-     * @return double
+     * @return float
      */
     public function getGrandTotal()
     {
@@ -489,7 +489,7 @@ class Cart implements ArrayAccess
 
     /**
      * Sets grand_total
-     * @param double $grand_total
+     * @param float $grand_total
      * @return $this
      */
     public function setGrandTotal($grand_total)
@@ -522,7 +522,7 @@ class Cart implements ArrayAccess
 
     /**
      * Gets invoice_id
-     * @return double
+     * @return float
      */
     public function getInvoiceId()
     {
@@ -531,7 +531,7 @@ class Cart implements ArrayAccess
 
     /**
      * Sets invoice_id
-     * @param double $invoice_id
+     * @param float $invoice_id
      * @return $this
      */
     public function setInvoiceId($invoice_id)
@@ -648,7 +648,7 @@ class Cart implements ArrayAccess
 
     /**
      * Gets shipping_cost
-     * @return double
+     * @return float
      */
     public function getShippingCost()
     {
@@ -657,7 +657,7 @@ class Cart implements ArrayAccess
 
     /**
      * Sets shipping_cost
-     * @param double $shipping_cost
+     * @param float $shipping_cost
      * @return $this
      */
     public function setShippingCost($shipping_cost)
@@ -669,7 +669,7 @@ class Cart implements ArrayAccess
 
     /**
      * Gets state_tax
-     * @return double
+     * @return float
      */
     public function getStateTax()
     {
@@ -678,7 +678,7 @@ class Cart implements ArrayAccess
 
     /**
      * Sets state_tax
-     * @param double $state_tax
+     * @param float $state_tax
      * @return $this
      */
     public function setStateTax($state_tax)
@@ -720,7 +720,7 @@ class Cart implements ArrayAccess
 
     /**
      * Gets subtotal
-     * @return double
+     * @return float
      */
     public function getSubtotal()
     {
@@ -729,7 +729,7 @@ class Cart implements ArrayAccess
 
     /**
      * Sets subtotal
-     * @param double $subtotal
+     * @param float $subtotal
      * @return $this
      */
     public function setSubtotal($subtotal)

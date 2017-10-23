@@ -5966,7 +5966,7 @@ class GamificationTriviaApi
      * @param int $filter_import_id Filter for tags on questions from a specific import job (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \KnetikCloud\Model\CollectionString_
+     * @return string[]
      */
     public function searchQuestionTags($filter_search = null, $filter_category = null, $filter_import_id = null)
     {
@@ -5984,11 +5984,11 @@ class GamificationTriviaApi
      * @param int $filter_import_id Filter for tags on questions from a specific import job (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \KnetikCloud\Model\CollectionString_, HTTP status code, HTTP response headers (array of strings)
+     * @return array of string[], HTTP status code, HTTP response headers (array of strings)
      */
     public function searchQuestionTagsWithHttpInfo($filter_search = null, $filter_category = null, $filter_import_id = null)
     {
-        $returnType = '\KnetikCloud\Model\CollectionString_';
+        $returnType = 'string[]';
         $request = $this->searchQuestionTagsRequest($filter_search, $filter_category, $filter_import_id);
 
         try {
@@ -6033,7 +6033,7 @@ class GamificationTriviaApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\CollectionString_', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), 'string[]', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
                 case 400:
@@ -6076,7 +6076,7 @@ class GamificationTriviaApi
      */
     public function searchQuestionTagsAsyncWithHttpInfo($filter_search = null, $filter_category = null, $filter_import_id = null)
     {
-        $returnType = '\KnetikCloud\Model\CollectionString_';
+        $returnType = 'string[]';
         $request = $this->searchQuestionTagsRequest($filter_search, $filter_category, $filter_import_id);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {

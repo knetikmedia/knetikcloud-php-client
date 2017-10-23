@@ -72,12 +72,32 @@ class BRERuleEngineExpressionsApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for getBREExpression
+     *
+     * Lookup a specific expression.
+     *
+     */
+    public function testGetBREExpression()
+    {
+    }
+
+    /**
      * Test case for getBREExpressions
      *
-     * Get a list of 'lookup' type expressions.
+     * Get a list of supported expressions to use in conditions or actions..
      *
      */
     public function testGetBREExpressions()
+    {
+    }
+
+    /**
+     * Test case for getExpressionAsText
+     *
+     * Returns the textual representation of an expression.
+     *
+     */
+    public function testGetExpressionAsText()
     {
     }
 }

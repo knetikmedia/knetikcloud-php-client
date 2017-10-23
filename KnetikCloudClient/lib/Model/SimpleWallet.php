@@ -54,7 +54,7 @@ class SimpleWallet implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'balance' => 'double',
+        'balance' => 'float',
         'code' => 'string',
         'currency_name' => 'string',
         'id' => 'int',
@@ -66,7 +66,7 @@ class SimpleWallet implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'balance' => 'double',
+        'balance' => null,
         'code' => null,
         'currency_name' => null,
         'id' => 'int32',
@@ -186,7 +186,7 @@ class SimpleWallet implements ArrayAccess
 
     /**
      * Gets balance
-     * @return double
+     * @return float
      */
     public function getBalance()
     {
@@ -195,7 +195,7 @@ class SimpleWallet implements ArrayAccess
 
     /**
      * Sets balance
-     * @param double $balance The current balance of the wallet
+     * @param float $balance The current balance of the wallet
      * @return $this
      */
     public function setBalance($balance)

@@ -41,7 +41,7 @@ use \ArrayAccess;
  */
 class DeviceResource implements ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    const DISCRIMINATOR = 'device_type';
 
     /**
       * The original name of the model.
@@ -54,23 +54,22 @@ class DeviceResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'authorization' => 'string',
-        'condition' => 'string',
+        'additional_properties' => 'map[string,\KnetikCloud\Model\Property]',
         'created_date' => 'int',
-        'data' => 'map[string,string]',
         'description' => 'string',
         'device_type' => 'string',
-        'id' => 'int',
+        'id' => 'string',
         'location' => 'string',
         'mac_address' => 'string',
         'make' => 'string',
         'model' => 'string',
         'name' => 'string',
         'os' => 'string',
+        'owner' => '\KnetikCloud\Model\SimpleUserResource',
         'serial' => 'string',
-        'status' => 'string',
+        'tags' => 'string[]',
+        'template' => 'string',
         'updated_date' => 'int',
-        'user' => '\KnetikCloud\Model\SimpleUserResource',
         'users' => '\KnetikCloud\Model\SimpleUserResource[]'
     ];
 
@@ -79,23 +78,22 @@ class DeviceResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'authorization' => null,
-        'condition' => null,
+        'additional_properties' => null,
         'created_date' => 'int64',
-        'data' => null,
         'description' => null,
         'device_type' => null,
-        'id' => 'int32',
+        'id' => null,
         'location' => null,
         'mac_address' => null,
         'make' => null,
         'model' => null,
         'name' => null,
         'os' => null,
+        'owner' => null,
         'serial' => null,
-        'status' => null,
+        'tags' => null,
+        'template' => null,
         'updated_date' => 'int64',
-        'user' => null,
         'users' => null
     ];
 
@@ -114,10 +112,8 @@ class DeviceResource implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'authorization' => 'authorization',
-        'condition' => 'condition',
+        'additional_properties' => 'additional_properties',
         'created_date' => 'created_date',
-        'data' => 'data',
         'description' => 'description',
         'device_type' => 'device_type',
         'id' => 'id',
@@ -127,10 +123,11 @@ class DeviceResource implements ArrayAccess
         'model' => 'model',
         'name' => 'name',
         'os' => 'os',
+        'owner' => 'owner',
         'serial' => 'serial',
-        'status' => 'status',
+        'tags' => 'tags',
+        'template' => 'template',
         'updated_date' => 'updated_date',
-        'user' => 'user',
         'users' => 'users'
     ];
 
@@ -140,10 +137,8 @@ class DeviceResource implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'authorization' => 'setAuthorization',
-        'condition' => 'setCondition',
+        'additional_properties' => 'setAdditionalProperties',
         'created_date' => 'setCreatedDate',
-        'data' => 'setData',
         'description' => 'setDescription',
         'device_type' => 'setDeviceType',
         'id' => 'setId',
@@ -153,10 +148,11 @@ class DeviceResource implements ArrayAccess
         'model' => 'setModel',
         'name' => 'setName',
         'os' => 'setOs',
+        'owner' => 'setOwner',
         'serial' => 'setSerial',
-        'status' => 'setStatus',
+        'tags' => 'setTags',
+        'template' => 'setTemplate',
         'updated_date' => 'setUpdatedDate',
-        'user' => 'setUser',
         'users' => 'setUsers'
     ];
 
@@ -166,10 +162,8 @@ class DeviceResource implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'authorization' => 'getAuthorization',
-        'condition' => 'getCondition',
+        'additional_properties' => 'getAdditionalProperties',
         'created_date' => 'getCreatedDate',
-        'data' => 'getData',
         'description' => 'getDescription',
         'device_type' => 'getDeviceType',
         'id' => 'getId',
@@ -179,10 +173,11 @@ class DeviceResource implements ArrayAccess
         'model' => 'getModel',
         'name' => 'getName',
         'os' => 'getOs',
+        'owner' => 'getOwner',
         'serial' => 'getSerial',
-        'status' => 'getStatus',
+        'tags' => 'getTags',
+        'template' => 'getTemplate',
         'updated_date' => 'getUpdatedDate',
-        'user' => 'getUser',
         'users' => 'getUsers'
     ];
 
@@ -201,42 +196,8 @@ class DeviceResource implements ArrayAccess
         return self::$getters;
     }
 
-    const CONDITION__NEW = 'New';
-    const CONDITION_DEFECTIVE = 'Defective';
-    const CONDITION_RECONDITIONED = 'Reconditioned';
-    const STATUS_ACTIVE = 'Active';
-    const STATUS_PENDING_ACTIVE = 'PendingActive';
-    const STATUS_INACTIVE = 'Inactive';
-    const STATUS_REPAIR = 'Repair';
     
 
-    
-    /**
-     * Gets allowable values of the enum
-     * @return string[]
-     */
-    public function getConditionAllowableValues()
-    {
-        return [
-            self::CONDITION__NEW,
-            self::CONDITION_DEFECTIVE,
-            self::CONDITION_RECONDITIONED,
-        ];
-    }
-    
-    /**
-     * Gets allowable values of the enum
-     * @return string[]
-     */
-    public function getStatusAllowableValues()
-    {
-        return [
-            self::STATUS_ACTIVE,
-            self::STATUS_PENDING_ACTIVE,
-            self::STATUS_INACTIVE,
-            self::STATUS_REPAIR,
-        ];
-    }
     
 
     /**
@@ -251,10 +212,8 @@ class DeviceResource implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['authorization'] = isset($data['authorization']) ? $data['authorization'] : null;
-        $this->container['condition'] = isset($data['condition']) ? $data['condition'] : null;
+        $this->container['additional_properties'] = isset($data['additional_properties']) ? $data['additional_properties'] : null;
         $this->container['created_date'] = isset($data['created_date']) ? $data['created_date'] : null;
-        $this->container['data'] = isset($data['data']) ? $data['data'] : null;
         $this->container['description'] = isset($data['description']) ? $data['description'] : null;
         $this->container['device_type'] = isset($data['device_type']) ? $data['device_type'] : null;
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
@@ -264,11 +223,16 @@ class DeviceResource implements ArrayAccess
         $this->container['model'] = isset($data['model']) ? $data['model'] : null;
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
         $this->container['os'] = isset($data['os']) ? $data['os'] : null;
+        $this->container['owner'] = isset($data['owner']) ? $data['owner'] : null;
         $this->container['serial'] = isset($data['serial']) ? $data['serial'] : null;
-        $this->container['status'] = isset($data['status']) ? $data['status'] : null;
+        $this->container['tags'] = isset($data['tags']) ? $data['tags'] : null;
+        $this->container['template'] = isset($data['template']) ? $data['template'] : null;
         $this->container['updated_date'] = isset($data['updated_date']) ? $data['updated_date'] : null;
-        $this->container['user'] = isset($data['user']) ? $data['user'] : null;
         $this->container['users'] = isset($data['users']) ? $data['users'] : null;
+
+        // Initialize discriminator property with the model name.
+        $discriminator = array_search('device_type', self::$attributeMap);
+        $this->container[$discriminator] = static::$swaggerModelName;
     }
 
     /**
@@ -279,25 +243,6 @@ class DeviceResource implements ArrayAccess
     public function listInvalidProperties()
     {
         $invalid_properties = [];
-
-        $allowed_values = $this->getConditionAllowableValues();
-        if (!in_array($this->container['condition'], $allowed_values)) {
-            $invalid_properties[] = sprintf(
-                "invalid value for 'condition', must be one of '%s'",
-                implode("', '", $allowed_values)
-            );
-        }
-
-        if ($this->container['id'] === null) {
-            $invalid_properties[] = "'id' can't be null";
-        }
-        $allowed_values = $this->getStatusAllowableValues();
-        if (!in_array($this->container['status'], $allowed_values)) {
-            $invalid_properties[] = sprintf(
-                "invalid value for 'status', must be one of '%s'",
-                implode("', '", $allowed_values)
-            );
-        }
 
         return $invalid_properties;
     }
@@ -311,68 +256,27 @@ class DeviceResource implements ArrayAccess
     public function valid()
     {
 
-        $allowed_values = $this->getConditionAllowableValues();
-        if (!in_array($this->container['condition'], $allowed_values)) {
-            return false;
-        }
-        if ($this->container['id'] === null) {
-            return false;
-        }
-        $allowed_values = $this->getStatusAllowableValues();
-        if (!in_array($this->container['status'], $allowed_values)) {
-            return false;
-        }
         return true;
     }
 
 
     /**
-     * Gets authorization
-     * @return string
+     * Gets additional_properties
+     * @return map[string,\KnetikCloud\Model\Property]
      */
-    public function getAuthorization()
+    public function getAdditionalProperties()
     {
-        return $this->container['authorization'];
+        return $this->container['additional_properties'];
     }
 
     /**
-     * Sets authorization
-     * @param string $authorization The authorization code for the device
+     * Sets additional_properties
+     * @param map[string,\KnetikCloud\Model\Property] $additional_properties A map of additional properties, keyed on the property name.  Must match the names and types defined in the template if one is specified
      * @return $this
      */
-    public function setAuthorization($authorization)
+    public function setAdditionalProperties($additional_properties)
     {
-        $this->container['authorization'] = $authorization;
-
-        return $this;
-    }
-
-    /**
-     * Gets condition
-     * @return string
-     */
-    public function getCondition()
-    {
-        return $this->container['condition'];
-    }
-
-    /**
-     * Sets condition
-     * @param string $condition The current condition of the device (New, Defective, Reconditioned)
-     * @return $this
-     */
-    public function setCondition($condition)
-    {
-        $allowed_values = $this->getConditionAllowableValues();
-        if (!is_null($condition) && !in_array($condition, $allowed_values)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value for 'condition', must be one of '%s'",
-                    implode("', '", $allowed_values)
-                )
-            );
-        }
-        $this->container['condition'] = $condition;
+        $this->container['additional_properties'] = $additional_properties;
 
         return $this;
     }
@@ -394,27 +298,6 @@ class DeviceResource implements ArrayAccess
     public function setCreatedDate($created_date)
     {
         $this->container['created_date'] = $created_date;
-
-        return $this;
-    }
-
-    /**
-     * Gets data
-     * @return map[string,string]
-     */
-    public function getData()
-    {
-        return $this->container['data'];
-    }
-
-    /**
-     * Sets data
-     * @param map[string,string] $data The key/value pairs for extended data
-     * @return $this
-     */
-    public function setData($data)
-    {
-        $this->container['data'] = $data;
 
         return $this;
     }
@@ -451,7 +334,7 @@ class DeviceResource implements ArrayAccess
 
     /**
      * Sets device_type
-     * @param string $device_type The type of the device
+     * @param string $device_type The type of device. Use mobile to specifically register mobile devices. This particular type will be used to send and receive notifications
      * @return $this
      */
     public function setDeviceType($device_type)
@@ -463,7 +346,7 @@ class DeviceResource implements ArrayAccess
 
     /**
      * Gets id
-     * @return int
+     * @return string
      */
     public function getId()
     {
@@ -472,7 +355,7 @@ class DeviceResource implements ArrayAccess
 
     /**
      * Sets id
-     * @param int $id The unique ID for this device. Cannot be changed once created
+     * @param string $id The unique ID for this device
      * @return $this
      */
     public function setId($id)
@@ -493,7 +376,7 @@ class DeviceResource implements ArrayAccess
 
     /**
      * Sets location
-     * @param string $location The location of the device
+     * @param string $location The physical location of the device, coordinates or named place (office, living room, etc)
      * @return $this
      */
     public function setLocation($location)
@@ -609,6 +492,27 @@ class DeviceResource implements ArrayAccess
     }
 
     /**
+     * Gets owner
+     * @return \KnetikCloud\Model\SimpleUserResource
+     */
+    public function getOwner()
+    {
+        return $this->container['owner'];
+    }
+
+    /**
+     * Sets owner
+     * @param \KnetikCloud\Model\SimpleUserResource $owner The user that owns the device
+     * @return $this
+     */
+    public function setOwner($owner)
+    {
+        $this->container['owner'] = $owner;
+
+        return $this;
+    }
+
+    /**
      * Gets serial
      * @return string
      */
@@ -630,31 +534,43 @@ class DeviceResource implements ArrayAccess
     }
 
     /**
-     * Gets status
-     * @return string
+     * Gets tags
+     * @return string[]
      */
-    public function getStatus()
+    public function getTags()
     {
-        return $this->container['status'];
+        return $this->container['tags'];
     }
 
     /**
-     * Sets status
-     * @param string $status The current status the device (Active, Pending Active, Inactive, Repair
+     * Sets tags
+     * @param string[] $tags Random tags to facilitate search
      * @return $this
      */
-    public function setStatus($status)
+    public function setTags($tags)
     {
-        $allowed_values = $this->getStatusAllowableValues();
-        if (!is_null($status) && !in_array($status, $allowed_values)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value for 'status', must be one of '%s'",
-                    implode("', '", $allowed_values)
-                )
-            );
-        }
-        $this->container['status'] = $status;
+        $this->container['tags'] = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Gets template
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return $this->container['template'];
+    }
+
+    /**
+     * Sets template
+     * @param string $template Use to describe and validate custom properties (custom schema). May be null and no validation of additional_properties will be done
+     * @return $this
+     */
+    public function setTemplate($template)
+    {
+        $this->container['template'] = $template;
 
         return $this;
     }
@@ -676,27 +592,6 @@ class DeviceResource implements ArrayAccess
     public function setUpdatedDate($updated_date)
     {
         $this->container['updated_date'] = $updated_date;
-
-        return $this;
-    }
-
-    /**
-     * Gets user
-     * @return \KnetikCloud\Model\SimpleUserResource
-     */
-    public function getUser()
-    {
-        return $this->container['user'];
-    }
-
-    /**
-     * Sets user
-     * @param \KnetikCloud\Model\SimpleUserResource $user The user that owns the device
-     * @return $this
-     */
-    public function setUser($user)
-    {
-        $this->container['user'] = $user;
 
         return $this;
     }

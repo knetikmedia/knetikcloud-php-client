@@ -66,11 +66,11 @@ class InvoiceResource implements ArrayAccess
         'currency' => 'string',
         'current_fulfillment_status' => 'string',
         'current_payment_status' => 'string',
-        'discount' => 'double',
+        'discount' => 'float',
         'email' => 'string',
         'external_ref' => 'string',
-        'fed_tax' => 'double',
-        'grand_total' => 'double',
+        'fed_tax' => 'float',
+        'grand_total' => 'float',
         'id' => 'int',
         'invoice_number' => 'string',
         'items' => '\KnetikCloud\Model\InvoiceItemResource[]',
@@ -80,7 +80,8 @@ class InvoiceResource implements ArrayAccess
         'payment_method_id' => 'int',
         'phone' => 'string',
         'phone_number' => 'string',
-        'shipping' => 'double',
+        'remaining_balance' => 'float',
+        'shipping' => 'float',
         'shipping_address1' => 'string',
         'shipping_address2' => 'string',
         'shipping_city_name' => 'string',
@@ -89,8 +90,8 @@ class InvoiceResource implements ArrayAccess
         'shipping_postal_code' => 'string',
         'shipping_state_name' => 'string',
         'sort' => 'int',
-        'state_tax' => 'double',
-        'subtotal' => 'double',
+        'state_tax' => 'float',
+        'subtotal' => 'float',
         'updated_date' => 'int',
         'user' => '\KnetikCloud\Model\SimpleUserResource',
         'vendor_id' => 'int',
@@ -114,11 +115,11 @@ class InvoiceResource implements ArrayAccess
         'currency' => null,
         'current_fulfillment_status' => null,
         'current_payment_status' => null,
-        'discount' => 'double',
+        'discount' => null,
         'email' => null,
         'external_ref' => null,
-        'fed_tax' => 'double',
-        'grand_total' => 'double',
+        'fed_tax' => null,
+        'grand_total' => null,
         'id' => 'int32',
         'invoice_number' => null,
         'items' => null,
@@ -128,7 +129,8 @@ class InvoiceResource implements ArrayAccess
         'payment_method_id' => 'int32',
         'phone' => null,
         'phone_number' => null,
-        'shipping' => 'double',
+        'remaining_balance' => null,
+        'shipping' => null,
         'shipping_address1' => null,
         'shipping_address2' => null,
         'shipping_city_name' => null,
@@ -137,8 +139,8 @@ class InvoiceResource implements ArrayAccess
         'shipping_postal_code' => null,
         'shipping_state_name' => null,
         'sort' => 'int32',
-        'state_tax' => 'double',
-        'subtotal' => 'double',
+        'state_tax' => null,
+        'subtotal' => null,
         'updated_date' => 'int64',
         'user' => null,
         'vendor_id' => 'int32',
@@ -186,6 +188,7 @@ class InvoiceResource implements ArrayAccess
         'payment_method_id' => 'payment_method_id',
         'phone' => 'phone',
         'phone_number' => 'phone_number',
+        'remaining_balance' => 'remaining_balance',
         'shipping' => 'shipping',
         'shipping_address1' => 'shipping_address1',
         'shipping_address2' => 'shipping_address2',
@@ -235,6 +238,7 @@ class InvoiceResource implements ArrayAccess
         'payment_method_id' => 'setPaymentMethodId',
         'phone' => 'setPhone',
         'phone_number' => 'setPhoneNumber',
+        'remaining_balance' => 'setRemainingBalance',
         'shipping' => 'setShipping',
         'shipping_address1' => 'setShippingAddress1',
         'shipping_address2' => 'setShippingAddress2',
@@ -284,6 +288,7 @@ class InvoiceResource implements ArrayAccess
         'payment_method_id' => 'getPaymentMethodId',
         'phone' => 'getPhone',
         'phone_number' => 'getPhoneNumber',
+        'remaining_balance' => 'getRemainingBalance',
         'shipping' => 'getShipping',
         'shipping_address1' => 'getShippingAddress1',
         'shipping_address2' => 'getShippingAddress2',
@@ -358,6 +363,7 @@ class InvoiceResource implements ArrayAccess
         $this->container['payment_method_id'] = isset($data['payment_method_id']) ? $data['payment_method_id'] : null;
         $this->container['phone'] = isset($data['phone']) ? $data['phone'] : null;
         $this->container['phone_number'] = isset($data['phone_number']) ? $data['phone_number'] : null;
+        $this->container['remaining_balance'] = isset($data['remaining_balance']) ? $data['remaining_balance'] : null;
         $this->container['shipping'] = isset($data['shipping']) ? $data['shipping'] : null;
         $this->container['shipping_address1'] = isset($data['shipping_address1']) ? $data['shipping_address1'] : null;
         $this->container['shipping_address2'] = isset($data['shipping_address2']) ? $data['shipping_address2'] : null;
@@ -654,7 +660,7 @@ class InvoiceResource implements ArrayAccess
 
     /**
      * Gets discount
-     * @return double
+     * @return float
      */
     public function getDiscount()
     {
@@ -663,7 +669,7 @@ class InvoiceResource implements ArrayAccess
 
     /**
      * Sets discount
-     * @param double $discount The amount of money saved through coupons
+     * @param float $discount The amount of money saved through coupons
      * @return $this
      */
     public function setDiscount($discount)
@@ -717,7 +723,7 @@ class InvoiceResource implements ArrayAccess
 
     /**
      * Gets fed_tax
-     * @return double
+     * @return float
      */
     public function getFedTax()
     {
@@ -726,7 +732,7 @@ class InvoiceResource implements ArrayAccess
 
     /**
      * Sets fed_tax
-     * @param double $fed_tax The amount of federal tax added
+     * @param float $fed_tax The amount of federal tax added
      * @return $this
      */
     public function setFedTax($fed_tax)
@@ -738,7 +744,7 @@ class InvoiceResource implements ArrayAccess
 
     /**
      * Gets grand_total
-     * @return double
+     * @return float
      */
     public function getGrandTotal()
     {
@@ -747,7 +753,7 @@ class InvoiceResource implements ArrayAccess
 
     /**
      * Sets grand_total
-     * @param double $grand_total The final price of the invoice
+     * @param float $grand_total The final price of the invoice
      * @return $this
      */
     public function setGrandTotal($grand_total)
@@ -947,8 +953,29 @@ class InvoiceResource implements ArrayAccess
     }
 
     /**
+     * Gets remaining_balance
+     * @return float
+     */
+    public function getRemainingBalance()
+    {
+        return $this->container['remaining_balance'];
+    }
+
+    /**
+     * Sets remaining_balance
+     * @param float $remaining_balance The remaining price of the invoice (after any payments made so far)
+     * @return $this
+     */
+    public function setRemainingBalance($remaining_balance)
+    {
+        $this->container['remaining_balance'] = $remaining_balance;
+
+        return $this;
+    }
+
+    /**
      * Gets shipping
-     * @return double
+     * @return float
      */
     public function getShipping()
     {
@@ -957,7 +984,7 @@ class InvoiceResource implements ArrayAccess
 
     /**
      * Sets shipping
-     * @param double $shipping The shipping cost
+     * @param float $shipping The shipping cost
      * @return $this
      */
     public function setShipping($shipping)
@@ -1137,7 +1164,7 @@ class InvoiceResource implements ArrayAccess
 
     /**
      * Gets state_tax
-     * @return double
+     * @return float
      */
     public function getStateTax()
     {
@@ -1146,7 +1173,7 @@ class InvoiceResource implements ArrayAccess
 
     /**
      * Sets state_tax
-     * @param double $state_tax The amount of state tax added
+     * @param float $state_tax The amount of state tax added
      * @return $this
      */
     public function setStateTax($state_tax)
@@ -1158,7 +1185,7 @@ class InvoiceResource implements ArrayAccess
 
     /**
      * Gets subtotal
-     * @return double
+     * @return float
      */
     public function getSubtotal()
     {
@@ -1167,7 +1194,7 @@ class InvoiceResource implements ArrayAccess
 
     /**
      * Sets subtotal
-     * @param double $subtotal The sum price of all items before shipping, coupons and tax
+     * @param float $subtotal The sum price of all items before shipping, coupons and tax
      * @return $this
      */
     public function setSubtotal($subtotal)

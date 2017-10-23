@@ -3,8 +3,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**actions** | [**\KnetikCloud\Model\ActionResource**](ActionResource.md) | A list of actions to execute, and the mapping for their parameters, when the rule runs. Minimum 1 | 
-**condition** | [**\KnetikCloud\Model\PredicateOperation**](PredicateOperation.md) | A condition expression that must be met in a given event for the rule to run. Empty to always run | [optional] 
+**actions** | [**\KnetikCloud\Model\ActionContextObject_[]**](ActionContextObject_.md) | A list of actions to execute, and the mapping for their parameters, when the rule runs. Minimum 1 | 
+**condition** | [**\KnetikCloud\Model\PredicateResource**](PredicateResource.md) | A condition expression that must be met in a given event for the rule to run. Null to always run. | [optional] 
 **condition_text** | **string** | The condition as a readable string. Filled in by the system from the condition | [optional] 
 **description** | **string** | The human readable description of the rule | [optional] 
 **enabled** | **bool** | Whether the rule is enabled to run (in conjunction with dates). Default true | [optional] 

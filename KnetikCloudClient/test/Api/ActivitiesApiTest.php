@@ -142,6 +142,16 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for getActivityOccurrenceDetails
+     *
+     * Load a single activity occurrence details.
+     *
+     */
+    public function testGetActivityOccurrenceDetails()
+    {
+    }
+
+    /**
      * Test case for getActivityTemplate
      *
      * Get a single activity template.
@@ -158,6 +168,16 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function testGetActivityTemplates()
+    {
+    }
+
+    /**
+     * Test case for listActivityOccurrences
+     *
+     * List activity occurrences.
+     *
+     */
+    public function testListActivityOccurrences()
     {
     }
 

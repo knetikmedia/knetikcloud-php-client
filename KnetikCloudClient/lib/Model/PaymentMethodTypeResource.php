@@ -55,7 +55,12 @@ class PaymentMethodTypeResource implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'id' => 'int',
-        'name' => 'string'
+        'invoice_processing_hours' => 'int',
+        'name' => 'string',
+        'supports_capture' => 'bool',
+        'supports_partial' => 'bool',
+        'supports_rebill' => 'bool',
+        'supports_refunds' => 'bool'
     ];
 
     /**
@@ -64,7 +69,12 @@ class PaymentMethodTypeResource implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'id' => 'int32',
-        'name' => null
+        'invoice_processing_hours' => 'int32',
+        'name' => null,
+        'supports_capture' => null,
+        'supports_partial' => null,
+        'supports_rebill' => null,
+        'supports_refunds' => null
     ];
 
     public static function swaggerTypes()
@@ -83,7 +93,12 @@ class PaymentMethodTypeResource implements ArrayAccess
      */
     protected static $attributeMap = [
         'id' => 'id',
-        'name' => 'name'
+        'invoice_processing_hours' => 'invoice_processing_hours',
+        'name' => 'name',
+        'supports_capture' => 'supports_capture',
+        'supports_partial' => 'supports_partial',
+        'supports_rebill' => 'supports_rebill',
+        'supports_refunds' => 'supports_refunds'
     ];
 
 
@@ -93,7 +108,12 @@ class PaymentMethodTypeResource implements ArrayAccess
      */
     protected static $setters = [
         'id' => 'setId',
-        'name' => 'setName'
+        'invoice_processing_hours' => 'setInvoiceProcessingHours',
+        'name' => 'setName',
+        'supports_capture' => 'setSupportsCapture',
+        'supports_partial' => 'setSupportsPartial',
+        'supports_rebill' => 'setSupportsRebill',
+        'supports_refunds' => 'setSupportsRefunds'
     ];
 
 
@@ -103,7 +123,12 @@ class PaymentMethodTypeResource implements ArrayAccess
      */
     protected static $getters = [
         'id' => 'getId',
-        'name' => 'getName'
+        'invoice_processing_hours' => 'getInvoiceProcessingHours',
+        'name' => 'getName',
+        'supports_capture' => 'getSupportsCapture',
+        'supports_partial' => 'getSupportsPartial',
+        'supports_rebill' => 'getSupportsRebill',
+        'supports_refunds' => 'getSupportsRefunds'
     ];
 
     public static function attributeMap()
@@ -138,7 +163,12 @@ class PaymentMethodTypeResource implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
+        $this->container['invoice_processing_hours'] = isset($data['invoice_processing_hours']) ? $data['invoice_processing_hours'] : null;
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
+        $this->container['supports_capture'] = isset($data['supports_capture']) ? $data['supports_capture'] : null;
+        $this->container['supports_partial'] = isset($data['supports_partial']) ? $data['supports_partial'] : null;
+        $this->container['supports_rebill'] = isset($data['supports_rebill']) ? $data['supports_rebill'] : null;
+        $this->container['supports_refunds'] = isset($data['supports_refunds']) ? $data['supports_refunds'] : null;
     }
 
     /**
@@ -200,6 +230,27 @@ class PaymentMethodTypeResource implements ArrayAccess
     }
 
     /**
+     * Gets invoice_processing_hours
+     * @return int
+     */
+    public function getInvoiceProcessingHours()
+    {
+        return $this->container['invoice_processing_hours'];
+    }
+
+    /**
+     * Sets invoice_processing_hours
+     * @param int $invoice_processing_hours The maximum timelimit in hours for an invoice in the processing status while waiting on this payment method type. Defaults to the global config invoice.processing_expiration_hours if null
+     * @return $this
+     */
+    public function setInvoiceProcessingHours($invoice_processing_hours)
+    {
+        $this->container['invoice_processing_hours'] = $invoice_processing_hours;
+
+        return $this;
+    }
+
+    /**
      * Gets name
      * @return string
      */
@@ -216,6 +267,90 @@ class PaymentMethodTypeResource implements ArrayAccess
     public function setName($name)
     {
         $this->container['name'] = $name;
+
+        return $this;
+    }
+
+    /**
+     * Gets supports_capture
+     * @return bool
+     */
+    public function getSupportsCapture()
+    {
+        return $this->container['supports_capture'];
+    }
+
+    /**
+     * Sets supports_capture
+     * @param bool $supports_capture Whether the payment handler supports the authorize and capture flow
+     * @return $this
+     */
+    public function setSupportsCapture($supports_capture)
+    {
+        $this->container['supports_capture'] = $supports_capture;
+
+        return $this;
+    }
+
+    /**
+     * Gets supports_partial
+     * @return bool
+     */
+    public function getSupportsPartial()
+    {
+        return $this->container['supports_partial'];
+    }
+
+    /**
+     * Sets supports_partial
+     * @param bool $supports_partial Whether the payment handler supports paying for part of an invoice, rather than the full grand_total
+     * @return $this
+     */
+    public function setSupportsPartial($supports_partial)
+    {
+        $this->container['supports_partial'] = $supports_partial;
+
+        return $this;
+    }
+
+    /**
+     * Gets supports_rebill
+     * @return bool
+     */
+    public function getSupportsRebill()
+    {
+        return $this->container['supports_rebill'];
+    }
+
+    /**
+     * Sets supports_rebill
+     * @param bool $supports_rebill Whether the payment handler supports rebilling the method later (for saved payments or subscriptions)
+     * @return $this
+     */
+    public function setSupportsRebill($supports_rebill)
+    {
+        $this->container['supports_rebill'] = $supports_rebill;
+
+        return $this;
+    }
+
+    /**
+     * Gets supports_refunds
+     * @return bool
+     */
+    public function getSupportsRefunds()
+    {
+        return $this->container['supports_refunds'];
+    }
+
+    /**
+     * Sets supports_refunds
+     * @param bool $supports_refunds Whether the payment handler supports refunding
+     * @return $this
+     */
+    public function setSupportsRefunds($supports_refunds)
+    {
+        $this->container['supports_refunds'] = $supports_refunds;
 
         return $this;
     }

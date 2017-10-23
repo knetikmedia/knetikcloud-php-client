@@ -56,7 +56,7 @@ class AggregateInvoiceReportResource implements ArrayAccess
     protected static $swaggerTypes = [
         'count' => 'int',
         'date' => 'string',
-        'revenue' => 'double',
+        'revenue' => 'float',
         'user_count' => 'int'
     ];
 
@@ -67,7 +67,7 @@ class AggregateInvoiceReportResource implements ArrayAccess
     protected static $swaggerFormats = [
         'count' => 'int64',
         'date' => null,
-        'revenue' => 'double',
+        'revenue' => null,
         'user_count' => 'int64'
     ];
 
@@ -222,7 +222,7 @@ class AggregateInvoiceReportResource implements ArrayAccess
 
     /**
      * Gets revenue
-     * @return double
+     * @return float
      */
     public function getRevenue()
     {
@@ -231,7 +231,7 @@ class AggregateInvoiceReportResource implements ArrayAccess
 
     /**
      * Sets revenue
-     * @param double $revenue
+     * @param float $revenue
      * @return $this
      */
     public function setRevenue($revenue)

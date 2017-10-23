@@ -60,7 +60,8 @@ class AvailableSettingResource implements ArrayAccess
         'description' => 'string',
         'key' => 'string',
         'name' => 'string',
-        'options' => '\KnetikCloud\Model\SettingOption[]'
+        'options' => '\KnetikCloud\Model\SettingOption[]',
+        'type' => 'string'
     ];
 
     /**
@@ -73,7 +74,8 @@ class AvailableSettingResource implements ArrayAccess
         'description' => null,
         'key' => null,
         'name' => null,
-        'options' => null
+        'options' => null,
+        'type' => null
     ];
 
     public static function swaggerTypes()
@@ -96,7 +98,8 @@ class AvailableSettingResource implements ArrayAccess
         'description' => 'description',
         'key' => 'key',
         'name' => 'name',
-        'options' => 'options'
+        'options' => 'options',
+        'type' => 'type'
     ];
 
 
@@ -110,7 +113,8 @@ class AvailableSettingResource implements ArrayAccess
         'description' => 'setDescription',
         'key' => 'setKey',
         'name' => 'setName',
-        'options' => 'setOptions'
+        'options' => 'setOptions',
+        'type' => 'setType'
     ];
 
 
@@ -124,7 +128,8 @@ class AvailableSettingResource implements ArrayAccess
         'description' => 'getDescription',
         'key' => 'getKey',
         'name' => 'getName',
-        'options' => 'getOptions'
+        'options' => 'getOptions',
+        'type' => 'getType'
     ];
 
     public static function attributeMap()
@@ -164,6 +169,7 @@ class AvailableSettingResource implements ArrayAccess
         $this->container['key'] = isset($data['key']) ? $data['key'] : null;
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
         $this->container['options'] = isset($data['options']) ? $data['options'] : null;
+        $this->container['type'] = isset($data['type']) ? $data['type'] : null;
     }
 
     /**
@@ -175,17 +181,14 @@ class AvailableSettingResource implements ArrayAccess
     {
         $invalid_properties = [];
 
-        if ($this->container['default_value'] === null) {
-            $invalid_properties[] = "'default_value' can't be null";
-        }
         if ($this->container['key'] === null) {
             $invalid_properties[] = "'key' can't be null";
         }
         if ($this->container['name'] === null) {
             $invalid_properties[] = "'name' can't be null";
         }
-        if ($this->container['options'] === null) {
-            $invalid_properties[] = "'options' can't be null";
+        if ($this->container['type'] === null) {
+            $invalid_properties[] = "'type' can't be null";
         }
         return $invalid_properties;
     }
@@ -199,16 +202,13 @@ class AvailableSettingResource implements ArrayAccess
     public function valid()
     {
 
-        if ($this->container['default_value'] === null) {
-            return false;
-        }
         if ($this->container['key'] === null) {
             return false;
         }
         if ($this->container['name'] === null) {
             return false;
         }
-        if ($this->container['options'] === null) {
+        if ($this->container['type'] === null) {
             return false;
         }
         return true;
@@ -337,6 +337,27 @@ class AvailableSettingResource implements ArrayAccess
     public function setOptions($options)
     {
         $this->container['options'] = $options;
+
+        return $this;
+    }
+
+    /**
+     * Gets type
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->container['type'];
+    }
+
+    /**
+     * Sets type
+     * @param string $type The type of the setting value: Ex: TEXT
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->container['type'] = $type;
 
         return $this;
     }

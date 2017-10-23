@@ -54,6 +54,7 @@ class QuestionTemplateResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
+        'allow_additional' => 'bool',
         'answer_property' => '\KnetikCloud\Model\PropertyDefinitionResource',
         'created_date' => 'int',
         'id' => 'string',
@@ -68,6 +69,7 @@ class QuestionTemplateResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
+        'allow_additional' => null,
         'answer_property' => null,
         'created_date' => 'int64',
         'id' => null,
@@ -92,6 +94,7 @@ class QuestionTemplateResource implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
+        'allow_additional' => 'allow_additional',
         'answer_property' => 'answer_property',
         'created_date' => 'created_date',
         'id' => 'id',
@@ -107,6 +110,7 @@ class QuestionTemplateResource implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
+        'allow_additional' => 'setAllowAdditional',
         'answer_property' => 'setAnswerProperty',
         'created_date' => 'setCreatedDate',
         'id' => 'setId',
@@ -122,6 +126,7 @@ class QuestionTemplateResource implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
+        'allow_additional' => 'getAllowAdditional',
         'answer_property' => 'getAnswerProperty',
         'created_date' => 'getCreatedDate',
         'id' => 'getId',
@@ -162,6 +167,7 @@ class QuestionTemplateResource implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['allow_additional'] = isset($data['allow_additional']) ? $data['allow_additional'] : null;
         $this->container['answer_property'] = isset($data['answer_property']) ? $data['answer_property'] : null;
         $this->container['created_date'] = isset($data['created_date']) ? $data['created_date'] : null;
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
@@ -201,6 +207,27 @@ class QuestionTemplateResource implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets allow_additional
+     * @return bool
+     */
+    public function getAllowAdditional()
+    {
+        return $this->container['allow_additional'];
+    }
+
+    /**
+     * Sets allow_additional
+     * @param bool $allow_additional Whether to allow additional properties beyond those specified or not
+     * @return $this
+     */
+    public function setAllowAdditional($allow_additional)
+    {
+        $this->container['allow_additional'] = $allow_additional;
+
+        return $this;
+    }
 
     /**
      * Gets answer_property

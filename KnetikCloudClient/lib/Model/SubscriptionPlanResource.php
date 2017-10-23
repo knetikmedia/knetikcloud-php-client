@@ -64,9 +64,9 @@ class SubscriptionPlanResource implements ArrayAccess
         'first_billing_cycle_unit' => 'string',
         'grace_period' => 'int',
         'id' => 'string',
-        'initial_fee' => 'double',
+        'initial_fee' => 'float',
         'initial_sku' => 'string',
-        'late_payment_fee' => 'double',
+        'late_payment_fee' => 'float',
         'late_payment_sku' => 'string',
         'locked' => 'bool',
         'max_bill_attempts' => 'int',
@@ -75,9 +75,9 @@ class SubscriptionPlanResource implements ArrayAccess
         'min_cycles' => 'int',
         'name' => 'string',
         'published' => 'bool',
-        'reactivation_fee' => 'double',
+        'reactivation_fee' => 'float',
         'reactivation_sku' => 'string',
-        'recurring_fee' => 'double',
+        'recurring_fee' => 'float',
         'recurring_sku' => 'string',
         'start_date' => 'int'
     ];
@@ -97,9 +97,9 @@ class SubscriptionPlanResource implements ArrayAccess
         'first_billing_cycle_unit' => null,
         'grace_period' => 'int32',
         'id' => null,
-        'initial_fee' => 'double',
+        'initial_fee' => null,
         'initial_sku' => null,
-        'late_payment_fee' => 'double',
+        'late_payment_fee' => null,
         'late_payment_sku' => null,
         'locked' => null,
         'max_bill_attempts' => 'int32',
@@ -108,9 +108,9 @@ class SubscriptionPlanResource implements ArrayAccess
         'min_cycles' => 'int32',
         'name' => null,
         'published' => null,
-        'reactivation_fee' => 'double',
+        'reactivation_fee' => null,
         'reactivation_sku' => null,
-        'recurring_fee' => 'double',
+        'recurring_fee' => null,
         'recurring_sku' => null,
         'start_date' => 'int64'
     ];
@@ -688,7 +688,7 @@ class SubscriptionPlanResource implements ArrayAccess
 
     /**
      * Gets initial_fee
-     * @return double
+     * @return float
      */
     public function getInitialFee()
     {
@@ -697,7 +697,7 @@ class SubscriptionPlanResource implements ArrayAccess
 
     /**
      * Sets initial_fee
-     * @param double $initial_fee The fee charged when the subscription is purchased
+     * @param float $initial_fee The fee charged when the subscription is purchased
      * @return $this
      */
     public function setInitialFee($initial_fee)
@@ -730,7 +730,7 @@ class SubscriptionPlanResource implements ArrayAccess
 
     /**
      * Gets late_payment_fee
-     * @return double
+     * @return float
      */
     public function getLatePaymentFee()
     {
@@ -739,7 +739,7 @@ class SubscriptionPlanResource implements ArrayAccess
 
     /**
      * Sets late_payment_fee
-     * @param double $late_payment_fee The fee to add to the bill when an invoice has gone unpaid passed the grace period
+     * @param float $late_payment_fee The fee to add to the bill when an invoice has gone unpaid passed the grace period
      * @return $this
      */
     public function setLatePaymentFee($late_payment_fee)
@@ -919,7 +919,7 @@ class SubscriptionPlanResource implements ArrayAccess
 
     /**
      * Gets reactivation_fee
-     * @return double
+     * @return float
      */
     public function getReactivationFee()
     {
@@ -928,7 +928,7 @@ class SubscriptionPlanResource implements ArrayAccess
 
     /**
      * Sets reactivation_fee
-     * @param double $reactivation_fee The fee to charge when a suspended subscription is to be re-activated
+     * @param float $reactivation_fee The fee to charge when a suspended subscription is to be re-activated
      * @return $this
      */
     public function setReactivationFee($reactivation_fee)
@@ -961,7 +961,7 @@ class SubscriptionPlanResource implements ArrayAccess
 
     /**
      * Gets recurring_fee
-     * @return double
+     * @return float
      */
     public function getRecurringFee()
     {
@@ -970,7 +970,7 @@ class SubscriptionPlanResource implements ArrayAccess
 
     /**
      * Sets recurring_fee
-     * @param double $recurring_fee The recurring fee to charge for each renewal
+     * @param float $recurring_fee The recurring fee to charge for each renewal
      * @return $this
      */
     public function setRecurringFee($recurring_fee)

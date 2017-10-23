@@ -78,6 +78,13 @@ class StripePaymentRequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "amount"
+     */
+    public function testPropertyAmount()
+    {
+    }
+
+    /**
      * Test attribute "invoice_id"
      */
     public function testPropertyInvoiceId()

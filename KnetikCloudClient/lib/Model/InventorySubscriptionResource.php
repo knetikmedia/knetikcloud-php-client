@@ -55,16 +55,16 @@ class InventorySubscriptionResource implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'bill_date' => 'int',
-        'credit' => 'double',
+        'credit' => 'float',
         'credit_log' => '\KnetikCloud\Model\SubscriptionCreditResource[]',
         'grace_end' => 'int',
         'inventory_id' => 'int',
         'inventory_status' => 'string',
         'item_id' => 'int',
         'payment_method' => '\KnetikCloud\Model\PaymentMethodResource',
-        'price_override' => 'double',
+        'price_override' => 'float',
         'price_override_reason' => 'string',
-        'recurring_price' => 'double',
+        'recurring_price' => 'float',
         'sku' => 'string',
         'start_date' => 'int',
         'subscription_status' => 'int',
@@ -77,16 +77,16 @@ class InventorySubscriptionResource implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'bill_date' => 'int64',
-        'credit' => 'double',
+        'credit' => null,
         'credit_log' => null,
         'grace_end' => 'int64',
         'inventory_id' => 'int32',
         'inventory_status' => null,
         'item_id' => 'int32',
         'payment_method' => null,
-        'price_override' => 'double',
+        'price_override' => null,
         'price_override_reason' => null,
-        'recurring_price' => 'double',
+        'recurring_price' => null,
         'sku' => null,
         'start_date' => 'int64',
         'subscription_status' => 'int32',
@@ -295,7 +295,7 @@ class InventorySubscriptionResource implements ArrayAccess
 
     /**
      * Gets credit
-     * @return double
+     * @return float
      */
     public function getCredit()
     {
@@ -304,7 +304,7 @@ class InventorySubscriptionResource implements ArrayAccess
 
     /**
      * Sets credit
-     * @param double $credit A credit of money already applied to a subscription for the next bill, or a debt if negative
+     * @param float $credit A credit of money already applied to a subscription for the next bill, or a debt if negative
      * @return $this
      */
     public function setCredit($credit)
@@ -451,7 +451,7 @@ class InventorySubscriptionResource implements ArrayAccess
 
     /**
      * Gets price_override
-     * @return double
+     * @return float
      */
     public function getPriceOverride()
     {
@@ -460,7 +460,7 @@ class InventorySubscriptionResource implements ArrayAccess
 
     /**
      * Sets price_override
-     * @param double $price_override The recurring price that has been set to override the base price. Null if not overriding
+     * @param float $price_override The recurring price that has been set to override the base price. Null if not overriding
      * @return $this
      */
     public function setPriceOverride($price_override)
@@ -493,7 +493,7 @@ class InventorySubscriptionResource implements ArrayAccess
 
     /**
      * Gets recurring_price
-     * @return double
+     * @return float
      */
     public function getRecurringPrice()
     {
@@ -502,7 +502,7 @@ class InventorySubscriptionResource implements ArrayAccess
 
     /**
      * Sets recurring_price
-     * @param double $recurring_price The default recurring price
+     * @param float $recurring_price The default recurring price
      * @return $this
      */
     public function setRecurringPrice($recurring_price)

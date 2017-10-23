@@ -54,6 +54,7 @@ class BreTriggerParameterDefinition implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
+        'implicit' => 'bool',
         'name' => 'string',
         'optional' => 'bool',
         'type' => 'string'
@@ -64,6 +65,7 @@ class BreTriggerParameterDefinition implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
+        'implicit' => null,
         'name' => null,
         'optional' => null,
         'type' => null
@@ -84,6 +86,7 @@ class BreTriggerParameterDefinition implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
+        'implicit' => 'implicit',
         'name' => 'name',
         'optional' => 'optional',
         'type' => 'type'
@@ -95,6 +98,7 @@ class BreTriggerParameterDefinition implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
+        'implicit' => 'setImplicit',
         'name' => 'setName',
         'optional' => 'setOptional',
         'type' => 'setType'
@@ -106,6 +110,7 @@ class BreTriggerParameterDefinition implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
+        'implicit' => 'getImplicit',
         'name' => 'getName',
         'optional' => 'getOptional',
         'type' => 'getType'
@@ -142,6 +147,7 @@ class BreTriggerParameterDefinition implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['implicit'] = isset($data['implicit']) ? $data['implicit'] : null;
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
         $this->container['optional'] = isset($data['optional']) ? $data['optional'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
@@ -183,6 +189,27 @@ class BreTriggerParameterDefinition implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets implicit
+     * @return bool
+     */
+    public function getImplicit()
+    {
+        return $this->container['implicit'];
+    }
+
+    /**
+     * Sets implicit
+     * @param bool $implicit Whether this parameter is implicitely derived from another. Internal use only.
+     * @return $this
+     */
+    public function setImplicit($implicit)
+    {
+        $this->container['implicit'] = $implicit;
+
+        return $this;
+    }
 
     /**
      * Gets name

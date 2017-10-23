@@ -35,6 +35,7 @@ use \ArrayAccess;
  * ConstantResource Class Doc Comment
  *
  * @category    Class
+ * @description Expressions are instructions for the rule engine to resolve certain values. For example instead of &#x60;user 1&#x60; it&#39;d state &#x60;user provided by the event&#x60;. Full list and definitions available at GET /bre/expressions.
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
@@ -54,6 +55,7 @@ class ConstantResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
+        'definition' => 'string',
         'type' => 'string',
         'value' => 'object',
         'value_type' => 'string'
@@ -64,6 +66,7 @@ class ConstantResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
+        'definition' => null,
         'type' => null,
         'value' => null,
         'value_type' => null
@@ -84,6 +87,7 @@ class ConstantResource implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
+        'definition' => 'definition',
         'type' => 'type',
         'value' => 'value',
         'value_type' => 'value_type'
@@ -95,6 +99,7 @@ class ConstantResource implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
+        'definition' => 'setDefinition',
         'type' => 'setType',
         'value' => 'setValue',
         'value_type' => 'setValueType'
@@ -106,6 +111,7 @@ class ConstantResource implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
+        'definition' => 'getDefinition',
         'type' => 'getType',
         'value' => 'getValue',
         'value_type' => 'getValueType'
@@ -142,6 +148,7 @@ class ConstantResource implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['definition'] = isset($data['definition']) ? $data['definition'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
         $this->container['value'] = isset($data['value']) ? $data['value'] : null;
         $this->container['value_type'] = isset($data['value_type']) ? $data['value_type'] : null;
@@ -171,6 +178,27 @@ class ConstantResource implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets definition
+     * @return string
+     */
+    public function getDefinition()
+    {
+        return $this->container['definition'];
+    }
+
+    /**
+     * Sets definition
+     * @param string $definition
+     * @return $this
+     */
+    public function setDefinition($definition)
+    {
+        $this->container['definition'] = $definition;
+
+        return $this;
+    }
 
     /**
      * Gets type

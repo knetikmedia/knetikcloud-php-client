@@ -35,6 +35,7 @@ use \ArrayAccess;
  * GlobalCheckAndIncrementResource Class Doc Comment
  *
  * @category    Class
+ * @description Expressions are instructions for the rule engine to resolve certain values. For example instead of &#x60;user 1&#x60; it&#39;d state &#x60;user provided by the event&#x60;. Full list and definitions available at GET /bre/expressions.
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
@@ -55,6 +56,7 @@ class GlobalCheckAndIncrementResource implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'check_value_resource' => '\KnetikCloud\Model\ExpressionResource',
+        'definition' => 'string',
         'global_resource' => '\KnetikCloud\Model\ExpressionResource',
         'type' => 'string'
     ];
@@ -65,6 +67,7 @@ class GlobalCheckAndIncrementResource implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'check_value_resource' => null,
+        'definition' => null,
         'global_resource' => null,
         'type' => null
     ];
@@ -85,6 +88,7 @@ class GlobalCheckAndIncrementResource implements ArrayAccess
      */
     protected static $attributeMap = [
         'check_value_resource' => 'check_value_resource',
+        'definition' => 'definition',
         'global_resource' => 'global_resource',
         'type' => 'type'
     ];
@@ -96,6 +100,7 @@ class GlobalCheckAndIncrementResource implements ArrayAccess
      */
     protected static $setters = [
         'check_value_resource' => 'setCheckValueResource',
+        'definition' => 'setDefinition',
         'global_resource' => 'setGlobalResource',
         'type' => 'setType'
     ];
@@ -107,6 +112,7 @@ class GlobalCheckAndIncrementResource implements ArrayAccess
      */
     protected static $getters = [
         'check_value_resource' => 'getCheckValueResource',
+        'definition' => 'getDefinition',
         'global_resource' => 'getGlobalResource',
         'type' => 'getType'
     ];
@@ -143,6 +149,7 @@ class GlobalCheckAndIncrementResource implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['check_value_resource'] = isset($data['check_value_resource']) ? $data['check_value_resource'] : null;
+        $this->container['definition'] = isset($data['definition']) ? $data['definition'] : null;
         $this->container['global_resource'] = isset($data['global_resource']) ? $data['global_resource'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
     }
@@ -189,6 +196,27 @@ class GlobalCheckAndIncrementResource implements ArrayAccess
     public function setCheckValueResource($check_value_resource)
     {
         $this->container['check_value_resource'] = $check_value_resource;
+
+        return $this;
+    }
+
+    /**
+     * Gets definition
+     * @return string
+     */
+    public function getDefinition()
+    {
+        return $this->container['definition'];
+    }
+
+    /**
+     * Sets definition
+     * @param string $definition
+     * @return $this
+     */
+    public function setDefinition($definition)
+    {
+        $this->container['definition'] = $definition;
 
         return $this;
     }

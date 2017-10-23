@@ -33,7 +33,7 @@ namespace KnetikCloud;
  * EventContextResourceTest Class Doc Comment
  *
  * @category    Class */
-// * @description EventContextResource
+// * @description Expressions are instructions for the rule engine to resolve certain values. For example instead of &#x60;user 1&#x60; it&#39;d state &#x60;user provided by the event&#x60;. Full list and definitions available at GET /bre/expressions.
 /**
  * @package     KnetikCloud
  * @author      Swagger Codegen team
@@ -74,6 +74,13 @@ class EventContextResourceTest extends \PHPUnit_Framework_TestCase
      * Test "EventContextResource"
      */
     public function testEventContextResource()
+    {
+    }
+
+    /**
+     * Test attribute "definition"
+     */
+    public function testPropertyDefinition()
     {
     }
 

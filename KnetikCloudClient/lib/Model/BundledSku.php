@@ -54,7 +54,7 @@ class BundledSku implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'price_override' => 'double',
+        'price_override' => 'float',
         'quantity' => 'int',
         'sku' => 'string'
     ];
@@ -64,7 +64,7 @@ class BundledSku implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'price_override' => 'double',
+        'price_override' => null,
         'quantity' => 'int32',
         'sku' => null
     ];
@@ -186,7 +186,7 @@ class BundledSku implements ArrayAccess
 
     /**
      * Gets price_override
-     * @return double
+     * @return float
      */
     public function getPriceOverride()
     {
@@ -195,7 +195,7 @@ class BundledSku implements ArrayAccess
 
     /**
      * Sets price_override
-     * @param double $price_override The amount this item will cost inside the bundle instead of its regular price
+     * @param float $price_override The amount this item will cost inside the bundle instead of its regular price
      * @return $this
      */
     public function setPriceOverride($price_override)

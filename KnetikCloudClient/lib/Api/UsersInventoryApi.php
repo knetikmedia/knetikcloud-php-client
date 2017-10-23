@@ -1675,6 +1675,7 @@ class UsersInventoryApi
      *
      * List and search entitlement items
      *
+     * @param string $filter_template Filter for entitlements using a specified template (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
@@ -1682,9 +1683,9 @@ class UsersInventoryApi
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceEntitlementItem_
      */
-    public function getEntitlementItems($size = '25', $page = '1', $order = 'id:ASC')
+    public function getEntitlementItems($filter_template = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
-        list($response) = $this->getEntitlementItemsWithHttpInfo($size, $page, $order);
+        list($response) = $this->getEntitlementItemsWithHttpInfo($filter_template, $size, $page, $order);
         return $response;
     }
 
@@ -1693,6 +1694,7 @@ class UsersInventoryApi
      *
      * List and search entitlement items
      *
+     * @param string $filter_template Filter for entitlements using a specified template (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
@@ -1700,10 +1702,10 @@ class UsersInventoryApi
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceEntitlementItem_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getEntitlementItemsWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
+    public function getEntitlementItemsWithHttpInfo($filter_template = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceEntitlementItem_';
-        $request = $this->getEntitlementItemsRequest($size, $page, $order);
+        $request = $this->getEntitlementItemsRequest($filter_template, $size, $page, $order);
 
         try {
 
@@ -1764,15 +1766,16 @@ class UsersInventoryApi
      *
      * List and search entitlement items
      *
+     * @param string $filter_template Filter for entitlements using a specified template (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getEntitlementItemsAsync($size = '25', $page = '1', $order = 'id:ASC')
+    public function getEntitlementItemsAsync($filter_template = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
-        return $this->getEntitlementItemsAsyncWithHttpInfo($size, $page, $order)->then(function ($response) {
+        return $this->getEntitlementItemsAsyncWithHttpInfo($filter_template, $size, $page, $order)->then(function ($response) {
             return $response[0];
         });
     }
@@ -1782,16 +1785,17 @@ class UsersInventoryApi
      *
      * List and search entitlement items
      *
+     * @param string $filter_template Filter for entitlements using a specified template (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getEntitlementItemsAsyncWithHttpInfo($size = '25', $page = '1', $order = 'id:ASC')
+    public function getEntitlementItemsAsyncWithHttpInfo($filter_template = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceEntitlementItem_';
-        $request = $this->getEntitlementItemsRequest($size, $page, $order);
+        $request = $this->getEntitlementItemsRequest($filter_template, $size, $page, $order);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
@@ -1824,13 +1828,14 @@ class UsersInventoryApi
     /**
      * Create request for operation 'getEntitlementItems'
      *
+     * @param string $filter_template Filter for entitlements using a specified template (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:ASC)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getEntitlementItemsRequest($size = '25', $page = '1', $order = 'id:ASC')
+    protected function getEntitlementItemsRequest($filter_template = null, $size = '25', $page = '1', $order = 'id:ASC')
     {
 
         $resourcePath = '/entitlements';
@@ -1840,6 +1845,10 @@ class UsersInventoryApi
         $httpBody = '';
         $multipart = false;
 
+        // query params
+        if ($filter_template !== null) {
+            $queryParams['filter_template'] = ObjectSerializer::toQueryValue($filter_template);
+        }
         // query params
         if ($size !== null) {
             $queryParams['size'] = ObjectSerializer::toQueryValue($size);

@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **entitlements** | [**\KnetikCloud\Model\ActivityEntitlementResource[]**](ActivityEntitlementResource.md) | The list of items that can be used for entitlement (wager amounts/etc) | [optional] 
 **id** | **int** | The unique ID for that resource | [optional] 
 **launch** | **string** | Details about how to launch the activity | [optional] 
+**leaderboard_strategy** | **string** | The strategy for calculating the leaderboard. No strategy means no leaderboard for the top level context. Value MUST come from the list of available strategies from the Leaderboard Service | [optional] 
 **long_description** | **string** | The user friendly name of that resource. Defaults to blank string | [optional] 
 **name** | **string** | The user friendly name of that resource | 
 **reward_set** | [**\KnetikCloud\Model\RewardSetResource**](RewardSetResource.md) | The rewards to give at the end of each occurence of the activity. When creating/updating only id is used. Reward set must be pre-existing | [optional] 

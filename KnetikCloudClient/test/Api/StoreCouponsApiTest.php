@@ -122,6 +122,16 @@ class StoreCouponsApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for getCouponItemBySku
+     *
+     * Get a coupon by sku.
+     *
+     */
+    public function testGetCouponItemBySku()
+    {
+    }
+
+    /**
      * Test case for getCouponTemplate
      *
      * Get a single coupon template.

@@ -55,10 +55,9 @@ class TemplateSMSResource implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'from' => 'string',
-        'localizer' => '\KnetikCloud\Model\Localizer',
         'recipients' => 'int[]',
-        'template_key' => 'string',
-        'template_vars' => 'string[]'
+        'template' => 'string',
+        'template_vars' => 'object'
     ];
 
     /**
@@ -67,9 +66,8 @@ class TemplateSMSResource implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'from' => null,
-        'localizer' => null,
         'recipients' => 'int32',
-        'template_key' => null,
+        'template' => null,
         'template_vars' => null
     ];
 
@@ -89,9 +87,8 @@ class TemplateSMSResource implements ArrayAccess
      */
     protected static $attributeMap = [
         'from' => 'from',
-        'localizer' => 'localizer',
         'recipients' => 'recipients',
-        'template_key' => 'template_key',
+        'template' => 'template',
         'template_vars' => 'template_vars'
     ];
 
@@ -102,9 +99,8 @@ class TemplateSMSResource implements ArrayAccess
      */
     protected static $setters = [
         'from' => 'setFrom',
-        'localizer' => 'setLocalizer',
         'recipients' => 'setRecipients',
-        'template_key' => 'setTemplateKey',
+        'template' => 'setTemplate',
         'template_vars' => 'setTemplateVars'
     ];
 
@@ -115,9 +111,8 @@ class TemplateSMSResource implements ArrayAccess
      */
     protected static $getters = [
         'from' => 'getFrom',
-        'localizer' => 'getLocalizer',
         'recipients' => 'getRecipients',
-        'template_key' => 'getTemplateKey',
+        'template' => 'getTemplate',
         'template_vars' => 'getTemplateVars'
     ];
 
@@ -153,9 +148,8 @@ class TemplateSMSResource implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['from'] = isset($data['from']) ? $data['from'] : null;
-        $this->container['localizer'] = isset($data['localizer']) ? $data['localizer'] : null;
         $this->container['recipients'] = isset($data['recipients']) ? $data['recipients'] : null;
-        $this->container['template_key'] = isset($data['template_key']) ? $data['template_key'] : null;
+        $this->container['template'] = isset($data['template']) ? $data['template'] : null;
         $this->container['template_vars'] = isset($data['template_vars']) ? $data['template_vars'] : null;
     }
 
@@ -171,8 +165,8 @@ class TemplateSMSResource implements ArrayAccess
         if ($this->container['recipients'] === null) {
             $invalid_properties[] = "'recipients' can't be null";
         }
-        if ($this->container['template_key'] === null) {
-            $invalid_properties[] = "'template_key' can't be null";
+        if ($this->container['template'] === null) {
+            $invalid_properties[] = "'template' can't be null";
         }
         return $invalid_properties;
     }
@@ -189,7 +183,7 @@ class TemplateSMSResource implements ArrayAccess
         if ($this->container['recipients'] === null) {
             return false;
         }
-        if ($this->container['template_key'] === null) {
+        if ($this->container['template'] === null) {
             return false;
         }
         return true;
@@ -218,27 +212,6 @@ class TemplateSMSResource implements ArrayAccess
     }
 
     /**
-     * Gets localizer
-     * @return \KnetikCloud\Model\Localizer
-     */
-    public function getLocalizer()
-    {
-        return $this->container['localizer'];
-    }
-
-    /**
-     * Sets localizer
-     * @param \KnetikCloud\Model\Localizer $localizer
-     * @return $this
-     */
-    public function setLocalizer($localizer)
-    {
-        $this->container['localizer'] = $localizer;
-
-        return $this;
-    }
-
-    /**
      * Gets recipients
      * @return int[]
      */
@@ -260,29 +233,29 @@ class TemplateSMSResource implements ArrayAccess
     }
 
     /**
-     * Gets template_key
+     * Gets template
      * @return string
      */
-    public function getTemplateKey()
+    public function getTemplate()
     {
-        return $this->container['template_key'];
+        return $this->container['template'];
     }
 
     /**
-     * Sets template_key
-     * @param string $template_key The key for the template.
+     * Sets template
+     * @param string $template A mustache template
      * @return $this
      */
-    public function setTemplateKey($template_key)
+    public function setTemplate($template)
     {
-        $this->container['template_key'] = $template_key;
+        $this->container['template'] = $template;
 
         return $this;
     }
 
     /**
      * Gets template_vars
-     * @return string[]
+     * @return object
      */
     public function getTemplateVars()
     {
@@ -291,7 +264,7 @@ class TemplateSMSResource implements ArrayAccess
 
     /**
      * Sets template_vars
-     * @param string[] $template_vars A list of values to fill in the template. Order matters.
+     * @param object $template_vars A map of values to fill in the template
      * @return $this
      */
     public function setTemplateVars($template_vars)

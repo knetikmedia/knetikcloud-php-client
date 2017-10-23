@@ -58,16 +58,16 @@ class CouponDefinition implements ArrayAccess
         'description' => 'string',
         'discount_type' => 'string',
         'exclusive' => 'bool',
-        'max_discount' => 'double',
+        'max_discount' => 'float',
         'max_quantity' => 'int',
-        'min_cart_total' => 'double',
+        'min_cart_total' => 'float',
         'name' => 'string',
         'self_exclusive' => 'bool',
         'target_item_id' => 'int',
         'type' => 'string',
         'unique_key' => 'string',
         'valid_for_tags' => 'string[]',
-        'value' => 'double',
+        'value' => 'float',
         'vendor_id' => 'int'
     ];
 
@@ -80,16 +80,16 @@ class CouponDefinition implements ArrayAccess
         'description' => null,
         'discount_type' => null,
         'exclusive' => null,
-        'max_discount' => 'double',
+        'max_discount' => null,
         'max_quantity' => 'int32',
-        'min_cart_total' => 'double',
+        'min_cart_total' => null,
         'name' => null,
         'self_exclusive' => null,
         'target_item_id' => 'int32',
         'type' => null,
         'unique_key' => null,
         'valid_for_tags' => null,
-        'value' => 'double',
+        'value' => null,
         'vendor_id' => 'int32'
     ];
 
@@ -433,7 +433,7 @@ class CouponDefinition implements ArrayAccess
 
     /**
      * Gets max_discount
-     * @return double
+     * @return float
      */
     public function getMaxDiscount()
     {
@@ -442,7 +442,7 @@ class CouponDefinition implements ArrayAccess
 
     /**
      * Sets max_discount
-     * @param double $max_discount For coupon_cart, a minimum total price that the cart must meet to be valid.
+     * @param float $max_discount For coupon_cart, a minimum total price that the cart must meet to be valid.
      * @return $this
      */
     public function setMaxDiscount($max_discount)
@@ -475,7 +475,7 @@ class CouponDefinition implements ArrayAccess
 
     /**
      * Gets min_cart_total
-     * @return double
+     * @return float
      */
     public function getMinCartTotal()
     {
@@ -484,7 +484,7 @@ class CouponDefinition implements ArrayAccess
 
     /**
      * Sets min_cart_total
-     * @param double $min_cart_total For coupon_cart, a minimum total price that the cart must meet to be valid.
+     * @param float $min_cart_total For coupon_cart, a minimum total price that the cart must meet to be valid.
      * @return $this
      */
     public function setMinCartTotal($min_cart_total)
@@ -631,7 +631,7 @@ class CouponDefinition implements ArrayAccess
 
     /**
      * Gets value
-     * @return double
+     * @return float
      */
     public function getValue()
     {
@@ -640,7 +640,7 @@ class CouponDefinition implements ArrayAccess
 
     /**
      * Sets value
-     * @param double $value The amount of the discount. If discount_type is value then this is the raw currency amount to remove. If discount_type is percentage then this will be multiplied by the cart total or item price to get the discount amount (0.5 is half price).
+     * @param float $value The amount of the discount. If discount_type is value then this is the raw currency amount to remove. If discount_type is percentage then this will be multiplied by the cart total or item price to get the discount amount (0.5 is half price).
      * @return $this
      */
     public function setValue($value)

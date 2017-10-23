@@ -56,7 +56,7 @@ class CartItemRequest implements ArrayAccess
     protected static $swaggerTypes = [
         'affiliate_key' => 'string',
         'catalog_sku' => 'string',
-        'price_override' => 'double',
+        'price_override' => 'float',
         'quantity' => 'int'
     ];
 
@@ -67,7 +67,7 @@ class CartItemRequest implements ArrayAccess
     protected static $swaggerFormats = [
         'affiliate_key' => null,
         'catalog_sku' => null,
-        'price_override' => 'double',
+        'price_override' => null,
         'quantity' => 'int32'
     ];
 
@@ -240,7 +240,7 @@ class CartItemRequest implements ArrayAccess
 
     /**
      * Gets price_override
-     * @return double
+     * @return float
      */
     public function getPriceOverride()
     {
@@ -249,7 +249,7 @@ class CartItemRequest implements ArrayAccess
 
     /**
      * Sets price_override
-     * @param double $price_override Allows to override the price of an item, if the behavior configuration permits it
+     * @param float $price_override Allows to override the price of an item, if the behavior configuration permits it
      * @return $this
      */
     public function setPriceOverride($price_override)

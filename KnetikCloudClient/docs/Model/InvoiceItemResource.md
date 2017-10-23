@@ -9,16 +9,16 @@ Name | Type | Description | Notes
 **invoice_id** | **int** |  | [optional] 
 **item_id** | **int** |  | [optional] 
 **item_name** | **string** |  | [optional] 
-**original_total_price** | **double** |  | [optional] 
-**original_unit_price** | **double** |  | [optional] 
+**original_total_price** | **float** |  | [optional] 
+**original_unit_price** | **float** |  | [optional] 
 **qty** | **int** |  | [optional] 
 **sale_name** | **string** |  | [optional] 
 **sku** | **string** |  | [optional] 
 **sku_description** | **string** |  | [optional] 
-**system_price** | **double** |  | [optional] 
-**total_price** | **double** |  | [optional] 
+**system_price** | **float** |  | [optional] 
+**total_price** | **float** |  | [optional] 
 **type_hint** | **string** |  | [optional] 
-**unit_price** | **double** |  | [optional] 
+**unit_price** | **float** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

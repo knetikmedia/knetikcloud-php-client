@@ -54,7 +54,7 @@ class WalletTransactionResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'balance' => 'double',
+        'balance' => 'float',
         'create_date' => 'int',
         'currency_code' => 'string',
         'details' => 'string',
@@ -68,7 +68,7 @@ class WalletTransactionResource implements ArrayAccess
         'type' => 'string',
         'type_hint' => 'string',
         'user' => '\KnetikCloud\Model\SimpleUserResource',
-        'value' => 'double',
+        'value' => 'float',
         'wallet_id' => 'int'
     ];
 
@@ -77,7 +77,7 @@ class WalletTransactionResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'balance' => 'double',
+        'balance' => null,
         'create_date' => 'int64',
         'currency_code' => null,
         'details' => null,
@@ -91,7 +91,7 @@ class WalletTransactionResource implements ArrayAccess
         'type' => null,
         'type_hint' => null,
         'user' => null,
-        'value' => 'double',
+        'value' => null,
         'wallet_id' => 'int32'
     ];
 
@@ -278,7 +278,7 @@ class WalletTransactionResource implements ArrayAccess
 
     /**
      * Gets balance
-     * @return double
+     * @return float
      */
     public function getBalance()
     {
@@ -287,7 +287,7 @@ class WalletTransactionResource implements ArrayAccess
 
     /**
      * Sets balance
-     * @param double $balance The new balance of the wallet after the transaction
+     * @param float $balance The new balance of the wallet after the transaction
      * @return $this
      */
     public function setBalance($balance)
@@ -581,7 +581,7 @@ class WalletTransactionResource implements ArrayAccess
 
     /**
      * Gets value
-     * @return double
+     * @return float
      */
     public function getValue()
     {
@@ -590,7 +590,7 @@ class WalletTransactionResource implements ArrayAccess
 
     /**
      * Sets value
-     * @param double $value The amount of the transaction, positive if a gain, negative if an expenditure
+     * @param float $value The amount of the transaction, positive if a gain, negative if an expenditure
      * @return $this
      */
     public function setValue($value)

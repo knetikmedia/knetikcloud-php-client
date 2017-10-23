@@ -7,6 +7,8 @@ Method | HTTP request | Description
 [**createPaymentMethod**](PaymentsApi.md#createPaymentMethod) | **POST** /users/{user_id}/payment-methods | Create a new payment method for a user
 [**deletePaymentMethod**](PaymentsApi.md#deletePaymentMethod) | **DELETE** /users/{user_id}/payment-methods/{id} | Delete an existing payment method for a user
 [**getPaymentMethod**](PaymentsApi.md#getPaymentMethod) | **GET** /users/{user_id}/payment-methods/{id} | Get a single payment method for a user
+[**getPaymentMethodType**](PaymentsApi.md#getPaymentMethodType) | **GET** /payment/types/{id} | Get a single payment method type
+[**getPaymentMethodTypes**](PaymentsApi.md#getPaymentMethodTypes) | **GET** /payment/types | Get all payment method types
 [**getPaymentMethods**](PaymentsApi.md#getPaymentMethods) | **GET** /users/{user_id}/payment-methods | Get all payment methods for a user
 [**paymentAuthorization**](PaymentsApi.md#paymentAuthorization) | **POST** /payment/authorizations | Authorize payment of an invoice for later capture
 [**paymentCapture**](PaymentsApi.md#paymentCapture) | **POST** /payment/authorizations/{id}/capture | Capture an existing invoice payment authorization
@@ -154,6 +156,98 @@ Name | Type | Description  | Notes
 ### Authorization
 
 [oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **getPaymentMethodType**
+> \KnetikCloud\Model\PaymentMethodTypeResource getPaymentMethodType($id)
+
+Get a single payment method type
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new KnetikCloud\Api\PaymentsApi(new \Http\Adapter\Guzzle6\Client());
+$id = 56; // int | ID of the payment method type being retrieved
+
+try {
+    $result = $api_instance->getPaymentMethodType($id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling PaymentsApi->getPaymentMethodType: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **int**| ID of the payment method type being retrieved |
+
+### Return type
+
+[**\KnetikCloud\Model\PaymentMethodTypeResource**](../Model/PaymentMethodTypeResource.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **getPaymentMethodTypes**
+> \KnetikCloud\Model\PageResourcePaymentMethodTypeResource_ getPaymentMethodTypes($filter_name, $size, $page, $order)
+
+Get all payment method types
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new KnetikCloud\Api\PaymentsApi(new \Http\Adapter\Guzzle6\Client());
+$filter_name = "filter_name_example"; // string | Filter for payment method types whose name matches a given string
+$size = 25; // int | The number of objects returned per page
+$page = 1; // int | The number of the page returned, starting with 1
+$order = "id:ASC"; // string | a comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
+
+try {
+    $result = $api_instance->getPaymentMethodTypes($filter_name, $size, $page, $order);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling PaymentsApi->getPaymentMethodTypes: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **filter_name** | **string**| Filter for payment method types whose name matches a given string | [optional]
+ **size** | **int**| The number of objects returned per page | [optional] [default to 25]
+ **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]
+ **order** | **string**| a comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] | [optional] [default to id:ASC]
+
+### Return type
+
+[**\KnetikCloud\Model\PageResourcePaymentMethodTypeResource_**](../Model/PageResourcePaymentMethodTypeResource_.md)
+
+### Authorization
+
+No authorization required
 
 ### HTTP request headers
 

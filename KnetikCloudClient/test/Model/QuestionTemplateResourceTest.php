@@ -78,6 +78,13 @@ class QuestionTemplateResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "allow_additional"
+     */
+    public function testPropertyAllowAdditional()
+    {
+    }
+
+    /**
      * Test attribute "answer_property"
      */
     public function testPropertyAnswerProperty()

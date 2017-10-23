@@ -58,7 +58,7 @@ class Discount implements ArrayAccess
         'name' => 'string',
         'sku' => 'string',
         'unique_key' => 'string',
-        'value' => 'double'
+        'value' => 'float'
     ];
 
     /**
@@ -70,7 +70,7 @@ class Discount implements ArrayAccess
         'name' => null,
         'sku' => null,
         'unique_key' => null,
-        'value' => 'double'
+        'value' => null
     ];
 
     public static function swaggerTypes()
@@ -270,7 +270,7 @@ class Discount implements ArrayAccess
 
     /**
      * Gets value
-     * @return double
+     * @return float
      */
     public function getValue()
     {
@@ -279,7 +279,7 @@ class Discount implements ArrayAccess
 
     /**
      * Sets value
-     * @param double $value
+     * @param float $value
      * @return $this
      */
     public function setValue($value)

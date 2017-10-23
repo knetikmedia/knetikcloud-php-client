@@ -78,6 +78,13 @@ class GroupMemberResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "additional_properties"
+     */
+    public function testPropertyAdditionalProperties()
+    {
+    }
+
+    /**
      * Test attribute "avatar_url"
      */
     public function testPropertyAvatarUrl()
@@ -99,9 +106,23 @@ class GroupMemberResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "order"
+     */
+    public function testPropertyOrder()
+    {
+    }
+
+    /**
      * Test attribute "status"
      */
     public function testPropertyStatus()
+    {
+    }
+
+    /**
+     * Test attribute "template"
+     */
+    public function testPropertyTemplate()
     {
     }
 

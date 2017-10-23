@@ -13,9 +13,9 @@ Name | Type | Description | Notes
 **first_billing_cycle_unit** | **string** | The time period unit to apply to the length of the first billing cycle. Required when first_billing_cycle_length is specified | [optional] 
 **grace_period** | **int** | The number of late payment days before a subscription is canceled | 
 **id** | **string** | The id of the plan used to generate the SKUs | [optional] 
-**initial_fee** | **double** | The fee charged when the subscription is purchased | 
+**initial_fee** | **float** | The fee charged when the subscription is purchased | 
 **initial_sku** | **string** | The SKU to be used when purchasing the subscription through the cart | [optional] 
-**late_payment_fee** | **double** | The fee to add to the bill when an invoice has gone unpaid passed the grace period | 
+**late_payment_fee** | **float** | The fee to add to the bill when an invoice has gone unpaid passed the grace period | 
 **late_payment_sku** | **string** | The SKU that will show on the invoice when the subscription is delinquent | [optional] 
 **locked** | **bool** | Whether this plan is locked because it has been purchased by at least one user.  When locked, a number of properties can no longer be changed | [optional] 
 **max_bill_attempts** | **int** | The number of charge attempts before the subscription becomes delinquent | 
@@ -24,9 +24,9 @@ Name | Type | Description | Notes
 **min_cycles** | **int** | The minimum number of renewals to charge for | [optional] 
 **name** | **string** | The name of the plan used to generate the SKUs | 
 **published** | **bool** | Whether this plan is currently available | 
-**reactivation_fee** | **double** | The fee to charge when a suspended subscription is to be re-activated | 
+**reactivation_fee** | **float** | The fee to charge when a suspended subscription is to be re-activated | 
 **reactivation_sku** | **string** | The SKU that will show on the invoice when the subscription is re-activated after a suspension | [optional] 
-**recurring_fee** | **double** | The recurring fee to charge for each renewal | 
+**recurring_fee** | **float** | The recurring fee to charge for each renewal | 
 **recurring_sku** | **string** | The SKU that will show on the invoice when the subscription is activated | [optional] 
 **start_date** | **int** | Used to schedule plan availability start date | [optional] 
 

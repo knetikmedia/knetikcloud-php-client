@@ -35,6 +35,7 @@ use \ArrayAccess;
  * MapResource Class Doc Comment
  *
  * @category    Class
+ * @description Expressions are instructions for the rule engine to resolve certain values. For example instead of &#x60;user 1&#x60; it&#39;d state &#x60;user provided by the event&#x60;. Full list and definitions available at GET /bre/expressions.
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
@@ -54,6 +55,7 @@ class MapResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
+        'definition' => 'string',
         'map' => 'map[string,\KnetikCloud\Model\ExpressionResource]',
         'type' => 'string'
     ];
@@ -63,6 +65,7 @@ class MapResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
+        'definition' => null,
         'map' => null,
         'type' => null
     ];
@@ -82,6 +85,7 @@ class MapResource implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
+        'definition' => 'definition',
         'map' => 'map',
         'type' => 'type'
     ];
@@ -92,6 +96,7 @@ class MapResource implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
+        'definition' => 'setDefinition',
         'map' => 'setMap',
         'type' => 'setType'
     ];
@@ -102,6 +107,7 @@ class MapResource implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
+        'definition' => 'getDefinition',
         'map' => 'getMap',
         'type' => 'getType'
     ];
@@ -137,6 +143,7 @@ class MapResource implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['definition'] = isset($data['definition']) ? $data['definition'] : null;
         $this->container['map'] = isset($data['map']) ? $data['map'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
     }
@@ -165,6 +172,27 @@ class MapResource implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets definition
+     * @return string
+     */
+    public function getDefinition()
+    {
+        return $this->container['definition'];
+    }
+
+    /**
+     * Sets definition
+     * @param string $definition
+     * @return $this
+     */
+    public function setDefinition($definition)
+    {
+        $this->container['definition'] = $definition;
+
+        return $this;
+    }
 
     /**
      * Gets map
