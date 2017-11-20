@@ -488,6 +488,11 @@ Retrieve a challenge
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 $api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The challenge id
 
@@ -512,7 +517,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -530,6 +535,11 @@ List and search challenge activities
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $challenge_id = 789; // int | The challenge id
@@ -561,7 +571,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -581,6 +591,11 @@ A challenge can have multiple instances of the same activity and thus the id use
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The challenge_activity id
@@ -608,7 +623,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -727,6 +742,11 @@ Retrieve a single challenge event details
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 $api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $id = 789; // int | The challenge event id
 
@@ -751,7 +771,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -769,6 +789,11 @@ Retrieve a list of challenge events
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $filter_start_date = "filter_start_date_example"; // string | A comma separated string without spaces.  First value is the operator to search on, second value is the event start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE).
@@ -806,7 +831,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -925,6 +950,11 @@ Retrieve a list of challenges
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 $api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guzzle6\Client());
 $filter_active_campaign = true; // bool | Filter for challenges that are tied to active campaigns
 $filter_start_date = "filter_start_date_example"; // string | A comma separated string without spaces.  First value is the operator to search on, second value is the challenge start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE).
@@ -959,7 +989,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
@@ -1021,7 +1051,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **updateChallengeActivity**
-> \KnetikCloud\Model\ChallengeActivityResource updateChallengeActivity($id, $challenge_id, $challenge_activity_resource)
+> \KnetikCloud\Model\ChallengeActivityResource updateChallengeActivity($id, $challenge_id, $challenge_activity_resource, $validate_settings)
 
 Update a challenge activity
 
@@ -1041,9 +1071,10 @@ $api_instance = new KnetikCloud\Api\CampaignsChallengesApi(new \Http\Adapter\Guz
 $id = 789; // int | The challenge_activity id
 $challenge_id = 789; // int | The challenge id
 $challenge_activity_resource = new \KnetikCloud\Model\ChallengeActivityResource(); // \KnetikCloud\Model\ChallengeActivityResource | The challenge activity resource object
+$validate_settings = false; // bool | Whether to validate the settings being sent against the available settings on the base activity.
 
 try {
-    $result = $api_instance->updateChallengeActivity($id, $challenge_id, $challenge_activity_resource);
+    $result = $api_instance->updateChallengeActivity($id, $challenge_id, $challenge_activity_resource, $validate_settings);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling CampaignsChallengesApi->updateChallengeActivity: ', $e->getMessage(), PHP_EOL;
@@ -1058,6 +1089,7 @@ Name | Type | Description  | Notes
  **id** | **int**| The challenge_activity id |
  **challenge_id** | **int**| The challenge id |
  **challenge_activity_resource** | [**\KnetikCloud\Model\ChallengeActivityResource**](../Model/ChallengeActivityResource.md)| The challenge activity resource object | [optional]
+ **validate_settings** | **bool**| Whether to validate the settings being sent against the available settings on the base activity. | [optional] [default to false]
 
 ### Return type
 

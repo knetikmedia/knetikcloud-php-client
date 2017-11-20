@@ -490,7 +490,7 @@ class CampaignsChallengesApi
 
         // query params
         if ($validate_settings !== null) {
-            $queryParams['validateSettings'] = ObjectSerializer::toQueryValue($validate_settings);
+            $queryParams['validate_settings'] = ObjectSerializer::toQueryValue($validate_settings);
         }
 
         // path params
@@ -2286,6 +2286,14 @@ class CampaignsChallengesApi
             }
         }
 
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
@@ -2541,6 +2549,14 @@ class CampaignsChallengesApi
             }
         }
 
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
@@ -2782,6 +2798,14 @@ class CampaignsChallengesApi
             }
         }
 
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
@@ -3496,6 +3520,14 @@ class CampaignsChallengesApi
             }
         }
 
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
@@ -3774,6 +3806,14 @@ class CampaignsChallengesApi
             }
         }
 
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
@@ -4529,6 +4569,14 @@ class CampaignsChallengesApi
             }
         }
 
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
@@ -4806,13 +4854,14 @@ class CampaignsChallengesApi
      * @param int $id The challenge_activity id (required)
      * @param int $challenge_id The challenge id (required)
      * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
+     * @param bool $validate_settings Whether to validate the settings being sent against the available settings on the base activity. (optional, default to false)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ChallengeActivityResource
      */
-    public function updateChallengeActivity($id, $challenge_id, $challenge_activity_resource = null)
+    public function updateChallengeActivity($id, $challenge_id, $challenge_activity_resource = null, $validate_settings = 'false')
     {
-        list($response) = $this->updateChallengeActivityWithHttpInfo($id, $challenge_id, $challenge_activity_resource);
+        list($response) = $this->updateChallengeActivityWithHttpInfo($id, $challenge_id, $challenge_activity_resource, $validate_settings);
         return $response;
     }
 
@@ -4824,14 +4873,15 @@ class CampaignsChallengesApi
      * @param int $id The challenge_activity id (required)
      * @param int $challenge_id The challenge id (required)
      * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
+     * @param bool $validate_settings Whether to validate the settings being sent against the available settings on the base activity. (optional, default to false)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ChallengeActivityResource, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateChallengeActivityWithHttpInfo($id, $challenge_id, $challenge_activity_resource = null)
+    public function updateChallengeActivityWithHttpInfo($id, $challenge_id, $challenge_activity_resource = null, $validate_settings = 'false')
     {
         $returnType = '\KnetikCloud\Model\ChallengeActivityResource';
-        $request = $this->updateChallengeActivityRequest($id, $challenge_id, $challenge_activity_resource);
+        $request = $this->updateChallengeActivityRequest($id, $challenge_id, $challenge_activity_resource, $validate_settings);
 
         try {
 
@@ -4895,12 +4945,13 @@ class CampaignsChallengesApi
      * @param int $id The challenge_activity id (required)
      * @param int $challenge_id The challenge id (required)
      * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
+     * @param bool $validate_settings Whether to validate the settings being sent against the available settings on the base activity. (optional, default to false)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateChallengeActivityAsync($id, $challenge_id, $challenge_activity_resource = null)
+    public function updateChallengeActivityAsync($id, $challenge_id, $challenge_activity_resource = null, $validate_settings = 'false')
     {
-        return $this->updateChallengeActivityAsyncWithHttpInfo($id, $challenge_id, $challenge_activity_resource)->then(function ($response) {
+        return $this->updateChallengeActivityAsyncWithHttpInfo($id, $challenge_id, $challenge_activity_resource, $validate_settings)->then(function ($response) {
             return $response[0];
         });
     }
@@ -4913,13 +4964,14 @@ class CampaignsChallengesApi
      * @param int $id The challenge_activity id (required)
      * @param int $challenge_id The challenge id (required)
      * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
+     * @param bool $validate_settings Whether to validate the settings being sent against the available settings on the base activity. (optional, default to false)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateChallengeActivityAsyncWithHttpInfo($id, $challenge_id, $challenge_activity_resource = null)
+    public function updateChallengeActivityAsyncWithHttpInfo($id, $challenge_id, $challenge_activity_resource = null, $validate_settings = 'false')
     {
         $returnType = '\KnetikCloud\Model\ChallengeActivityResource';
-        $request = $this->updateChallengeActivityRequest($id, $challenge_id, $challenge_activity_resource);
+        $request = $this->updateChallengeActivityRequest($id, $challenge_id, $challenge_activity_resource, $validate_settings);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
@@ -4955,10 +5007,11 @@ class CampaignsChallengesApi
      * @param int $id The challenge_activity id (required)
      * @param int $challenge_id The challenge id (required)
      * @param \KnetikCloud\Model\ChallengeActivityResource $challenge_activity_resource The challenge activity resource object (optional)
+     * @param bool $validate_settings Whether to validate the settings being sent against the available settings on the base activity. (optional, default to false)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function updateChallengeActivityRequest($id, $challenge_id, $challenge_activity_resource = null)
+    protected function updateChallengeActivityRequest($id, $challenge_id, $challenge_activity_resource = null, $validate_settings = 'false')
     {
         // verify the required parameter 'id' is set
         if ($id === null) {
@@ -4976,6 +5029,10 @@ class CampaignsChallengesApi
         $httpBody = '';
         $multipart = false;
 
+        // query params
+        if ($validate_settings !== null) {
+            $queryParams['validateSettings'] = ObjectSerializer::toQueryValue($validate_settings);
+        }
 
         // path params
         if ($id !== null) {
