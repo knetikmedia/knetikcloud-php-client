@@ -74,10 +74,20 @@ class SearchApiTest extends \PHPUnit_Framework_TestCase
     /**
      * Test case for searchIndex
      *
-     * Search an index.
+     * Search an index with no template.
      *
      */
     public function testSearchIndex()
+    {
+    }
+
+    /**
+     * Test case for searchIndexWithTemplate
+     *
+     * Search an index with a template.
+     *
+     */
+    public function testSearchIndexWithTemplate()
     {
     }
 }

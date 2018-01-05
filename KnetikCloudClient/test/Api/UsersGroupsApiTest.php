@@ -124,7 +124,7 @@ class UsersGroupsApiTest extends \PHPUnit_Framework_TestCase
     /**
      * Test case for deleteGroup
      *
-     * Removes a group from the system IF no resources are attached to it.
+     * Removes a group from the system.
      *
      */
     public function testDeleteGroup()
@@ -158,6 +158,16 @@ class UsersGroupsApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function testGetGroup()
+    {
+    }
+
+    /**
+     * Test case for getGroupAncestors
+     *
+     * Get group ancestors.
+     *
+     */
+    public function testGetGroupAncestors()
     {
     }
 

@@ -120,6 +120,13 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "evaluation_count"
+     */
+    public function testPropertyEvaluationCount()
+    {
+    }
+
+    /**
      * Test attribute "event_name"
      */
     public function testPropertyEventName()
@@ -137,6 +144,13 @@ class BreRuleTest extends \PHPUnit_Framework_TestCase
      * Test attribute "name"
      */
     public function testPropertyName()
+    {
+    }
+
+    /**
+     * Test attribute "run_count"
+     */
+    public function testPropertyRunCount()
     {
     }
 

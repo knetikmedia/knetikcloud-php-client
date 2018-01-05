@@ -62,6 +62,7 @@ class GroupResource implements ArrayAccess
         'parent' => 'string',
         'status' => 'string',
         'sub_member_count' => 'int',
+        'tags' => 'string[]',
         'template' => 'string',
         'unique_name' => 'string'
     ];
@@ -79,6 +80,7 @@ class GroupResource implements ArrayAccess
         'parent' => null,
         'status' => null,
         'sub_member_count' => 'int32',
+        'tags' => null,
         'template' => null,
         'unique_name' => null
     ];
@@ -106,6 +108,7 @@ class GroupResource implements ArrayAccess
         'parent' => 'parent',
         'status' => 'status',
         'sub_member_count' => 'sub_member_count',
+        'tags' => 'tags',
         'template' => 'template',
         'unique_name' => 'unique_name'
     ];
@@ -124,6 +127,7 @@ class GroupResource implements ArrayAccess
         'parent' => 'setParent',
         'status' => 'setStatus',
         'sub_member_count' => 'setSubMemberCount',
+        'tags' => 'setTags',
         'template' => 'setTemplate',
         'unique_name' => 'setUniqueName'
     ];
@@ -142,6 +146,7 @@ class GroupResource implements ArrayAccess
         'parent' => 'getParent',
         'status' => 'getStatus',
         'sub_member_count' => 'getSubMemberCount',
+        'tags' => 'getTags',
         'template' => 'getTemplate',
         'unique_name' => 'getUniqueName'
     ];
@@ -199,6 +204,7 @@ class GroupResource implements ArrayAccess
         $this->container['parent'] = isset($data['parent']) ? $data['parent'] : null;
         $this->container['status'] = isset($data['status']) ? $data['status'] : null;
         $this->container['sub_member_count'] = isset($data['sub_member_count']) ? $data['sub_member_count'] : null;
+        $this->container['tags'] = isset($data['tags']) ? $data['tags'] : null;
         $this->container['template'] = isset($data['template']) ? $data['template'] : null;
         $this->container['unique_name'] = isset($data['unique_name']) ? $data['unique_name'] : null;
     }
@@ -226,9 +232,6 @@ class GroupResource implements ArrayAccess
             );
         }
 
-        if ($this->container['unique_name'] === null) {
-            $invalid_properties[] = "'unique_name' can't be null";
-        }
         return $invalid_properties;
     }
 
@@ -249,9 +252,6 @@ class GroupResource implements ArrayAccess
         }
         $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
-            return false;
-        }
-        if ($this->container['unique_name'] === null) {
             return false;
         }
         return true;
@@ -436,6 +436,27 @@ class GroupResource implements ArrayAccess
     }
 
     /**
+     * Gets tags
+     * @return string[]
+     */
+    public function getTags()
+    {
+        return $this->container['tags'];
+    }
+
+    /**
+     * Sets tags
+     * @param string[] $tags Tags for search
+     * @return $this
+     */
+    public function setTags($tags)
+    {
+        $this->container['tags'] = $tags;
+
+        return $this;
+    }
+
+    /**
      * Gets template
      * @return string
      */
@@ -467,7 +488,7 @@ class GroupResource implements ArrayAccess
 
     /**
      * Sets unique_name
-     * @param string $unique_name Unique name used in url and references. Uppercase, lowercase, numbers and hyphens only. Max 50 characters. Cannot be altered once created
+     * @param string $unique_name Unique name used in url and references. Uppercase, lowercase, numbers and hyphens only. Max 50 characters. Cannot be altered once created. Default: random UUID
      * @return $this
      */
     public function setUniqueName($unique_name)

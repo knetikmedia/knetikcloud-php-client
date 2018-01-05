@@ -57,6 +57,7 @@ class CurrencyResource implements ArrayAccess
         'active' => 'bool',
         'code' => 'string',
         'created_date' => 'int',
+        'default_currency' => 'bool',
         'factor' => 'float',
         'icon' => 'string',
         'name' => 'string',
@@ -72,6 +73,7 @@ class CurrencyResource implements ArrayAccess
         'active' => null,
         'code' => null,
         'created_date' => 'int64',
+        'default_currency' => null,
         'factor' => null,
         'icon' => null,
         'name' => null,
@@ -97,6 +99,7 @@ class CurrencyResource implements ArrayAccess
         'active' => 'active',
         'code' => 'code',
         'created_date' => 'created_date',
+        'default_currency' => 'default_currency',
         'factor' => 'factor',
         'icon' => 'icon',
         'name' => 'name',
@@ -113,6 +116,7 @@ class CurrencyResource implements ArrayAccess
         'active' => 'setActive',
         'code' => 'setCode',
         'created_date' => 'setCreatedDate',
+        'default_currency' => 'setDefaultCurrency',
         'factor' => 'setFactor',
         'icon' => 'setIcon',
         'name' => 'setName',
@@ -129,6 +133,7 @@ class CurrencyResource implements ArrayAccess
         'active' => 'getActive',
         'code' => 'getCode',
         'created_date' => 'getCreatedDate',
+        'default_currency' => 'getDefaultCurrency',
         'factor' => 'getFactor',
         'icon' => 'getIcon',
         'name' => 'getName',
@@ -184,6 +189,7 @@ class CurrencyResource implements ArrayAccess
         $this->container['active'] = isset($data['active']) ? $data['active'] : null;
         $this->container['code'] = isset($data['code']) ? $data['code'] : null;
         $this->container['created_date'] = isset($data['created_date']) ? $data['created_date'] : null;
+        $this->container['default_currency'] = isset($data['default_currency']) ? $data['default_currency'] : null;
         $this->container['factor'] = isset($data['factor']) ? $data['factor'] : null;
         $this->container['icon'] = isset($data['icon']) ? $data['icon'] : null;
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
@@ -310,6 +316,27 @@ class CurrencyResource implements ArrayAccess
     }
 
     /**
+     * Gets default_currency
+     * @return bool
+     */
+    public function getDefaultCurrency()
+    {
+        return $this->container['default_currency'];
+    }
+
+    /**
+     * Sets default_currency
+     * @param bool $default_currency Whether this is the default currency. All real money wallets will be in this currency, and the 'factor' on each currency is in relation to the default. There must be one default currency and the current will be changed if you set another as the default. Cannot be combined with virtual currency. Take extreme caution when changing
+     * @return $this
+     */
+    public function setDefaultCurrency($default_currency)
+    {
+        $this->container['default_currency'] = $default_currency;
+
+        return $this;
+    }
+
+    /**
      * Gets factor
      * @return float
      */
@@ -320,7 +347,7 @@ class CurrencyResource implements ArrayAccess
 
     /**
      * Sets factor
-     * @param float $factor The decimal to multiply the system base currency (from config 'currency') to localize to this one. Should be 1 for the base currency itself.
+     * @param float $factor The decimal to multiply the default currency to localize to this one. Should be 1 for the default currency itself.
      * @return $this
      */
     public function setFactor($factor)

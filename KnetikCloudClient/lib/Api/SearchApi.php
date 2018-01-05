@@ -84,7 +84,7 @@ class SearchApi
     /**
      * Operation searchIndex
      *
-     * Search an index
+     * Search an index with no template
      *
      * @param string $type The index type (required)
      * @param object $query The query to be used for the search (optional)
@@ -103,7 +103,7 @@ class SearchApi
     /**
      * Operation searchIndexWithHttpInfo
      *
-     * Search an index
+     * Search an index with no template
      *
      * @param string $type The index type (required)
      * @param object $query The query to be used for the search (optional)
@@ -175,7 +175,7 @@ class SearchApi
     /**
      * Operation searchIndexAsync
      *
-     * Search an index
+     * Search an index with no template
      *
      * @param string $type The index type (required)
      * @param object $query The query to be used for the search (optional)
@@ -194,7 +194,7 @@ class SearchApi
     /**
      * Operation searchIndexAsyncWithHttpInfo
      *
-     * Search an index
+     * Search an index with no template
      *
      * @param string $type The index type (required)
      * @param object $query The query to be used for the search (optional)
@@ -322,6 +322,275 @@ class SearchApi
         if ($this->config->getAccessToken() !== null) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation searchIndexWithTemplate
+     *
+     * Search an index with a template
+     *
+     * @param string $type The index type (required)
+     * @param string $template The index template (required)
+     * @param object $query The query to be used for the search (optional)
+     * @param int $size The number of documents returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\PageResourceMapStringObject_
+     */
+    public function searchIndexWithTemplate($type, $template, $query = null, $size = '25', $page = '1')
+    {
+        list($response) = $this->searchIndexWithTemplateWithHttpInfo($type, $template, $query, $size, $page);
+        return $response;
+    }
+
+    /**
+     * Operation searchIndexWithTemplateWithHttpInfo
+     *
+     * Search an index with a template
+     *
+     * @param string $type The index type (required)
+     * @param string $template The index template (required)
+     * @param object $query The query to be used for the search (optional)
+     * @param int $size The number of documents returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\PageResourceMapStringObject_, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function searchIndexWithTemplateWithHttpInfo($type, $template, $query = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceMapStringObject_';
+        $request = $this->searchIndexWithTemplateRequest($type, $template, $query, $size, $page);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceMapStringObject_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation searchIndexWithTemplateAsync
+     *
+     * Search an index with a template
+     *
+     * @param string $type The index type (required)
+     * @param string $template The index template (required)
+     * @param object $query The query to be used for the search (optional)
+     * @param int $size The number of documents returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function searchIndexWithTemplateAsync($type, $template, $query = null, $size = '25', $page = '1')
+    {
+        return $this->searchIndexWithTemplateAsyncWithHttpInfo($type, $template, $query, $size, $page)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation searchIndexWithTemplateAsyncWithHttpInfo
+     *
+     * Search an index with a template
+     *
+     * @param string $type The index type (required)
+     * @param string $template The index template (required)
+     * @param object $query The query to be used for the search (optional)
+     * @param int $size The number of documents returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function searchIndexWithTemplateAsyncWithHttpInfo($type, $template, $query = null, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceMapStringObject_';
+        $request = $this->searchIndexWithTemplateRequest($type, $template, $query, $size, $page);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'searchIndexWithTemplate'
+     *
+     * @param string $type The index type (required)
+     * @param string $template The index template (required)
+     * @param object $query The query to be used for the search (optional)
+     * @param int $size The number of documents returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function searchIndexWithTemplateRequest($type, $template, $query = null, $size = '25', $page = '1')
+    {
+        // verify the required parameter 'type' is set
+        if ($type === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $type when calling searchIndexWithTemplate');
+        }
+        // verify the required parameter 'template' is set
+        if ($template === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $template when calling searchIndexWithTemplate');
+        }
+
+        $resourcePath = '/search/index/{type}/{template}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        if ($size !== null) {
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
+        }
+        // query params
+        if ($page !== null) {
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
+        }
+
+        // path params
+        if ($type !== null) {
+            $resourcePath = str_replace('{' . 'type' . '}', ObjectSerializer::toPathValue($type), $resourcePath);
+        }
+        // path params
+        if ($template !== null) {
+            $resourcePath = str_replace('{' . 'template' . '}', ObjectSerializer::toPathValue($template), $resourcePath);
+        }
+
+        // body params
+        $_tempBody = null;
+        if (isset($query)) {
+            $_tempBody = $query;
+        }
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');

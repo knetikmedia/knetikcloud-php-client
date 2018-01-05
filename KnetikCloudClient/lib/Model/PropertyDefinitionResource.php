@@ -54,8 +54,13 @@ class PropertyDefinitionResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
+        'description' => 'string',
         'field_list' => '\KnetikCloud\Model\PropertyFieldListResource',
+        'friendly_name' => 'string',
         'name' => 'string',
+        'option_label_path' => 'string',
+        'option_value_path' => 'string',
+        'options_url' => 'string',
         'required' => 'bool',
         'type' => 'string'
     ];
@@ -65,8 +70,13 @@ class PropertyDefinitionResource implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
+        'description' => null,
         'field_list' => null,
+        'friendly_name' => null,
         'name' => null,
+        'option_label_path' => null,
+        'option_value_path' => null,
+        'options_url' => null,
         'required' => null,
         'type' => null
     ];
@@ -86,8 +96,13 @@ class PropertyDefinitionResource implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
+        'description' => 'description',
         'field_list' => 'field_list',
+        'friendly_name' => 'friendly_name',
         'name' => 'name',
+        'option_label_path' => 'option_label_path',
+        'option_value_path' => 'option_value_path',
+        'options_url' => 'options_url',
         'required' => 'required',
         'type' => 'type'
     ];
@@ -98,8 +113,13 @@ class PropertyDefinitionResource implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
+        'description' => 'setDescription',
         'field_list' => 'setFieldList',
+        'friendly_name' => 'setFriendlyName',
         'name' => 'setName',
+        'option_label_path' => 'setOptionLabelPath',
+        'option_value_path' => 'setOptionValuePath',
+        'options_url' => 'setOptionsUrl',
         'required' => 'setRequired',
         'type' => 'setType'
     ];
@@ -110,8 +130,13 @@ class PropertyDefinitionResource implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
+        'description' => 'getDescription',
         'field_list' => 'getFieldList',
+        'friendly_name' => 'getFriendlyName',
         'name' => 'getName',
+        'option_label_path' => 'getOptionLabelPath',
+        'option_value_path' => 'getOptionValuePath',
+        'options_url' => 'getOptionsUrl',
         'required' => 'getRequired',
         'type' => 'getType'
     ];
@@ -147,8 +172,13 @@ class PropertyDefinitionResource implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['description'] = isset($data['description']) ? $data['description'] : null;
         $this->container['field_list'] = isset($data['field_list']) ? $data['field_list'] : null;
+        $this->container['friendly_name'] = isset($data['friendly_name']) ? $data['friendly_name'] : null;
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
+        $this->container['option_label_path'] = isset($data['option_label_path']) ? $data['option_label_path'] : null;
+        $this->container['option_value_path'] = isset($data['option_value_path']) ? $data['option_value_path'] : null;
+        $this->container['options_url'] = isset($data['options_url']) ? $data['options_url'] : null;
         $this->container['required'] = isset($data['required']) ? $data['required'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
 
@@ -201,6 +231,27 @@ class PropertyDefinitionResource implements ArrayAccess
 
 
     /**
+     * Gets description
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->container['description'];
+    }
+
+    /**
+     * Sets description
+     * @param string $description The description of the property
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->container['description'] = $description;
+
+        return $this;
+    }
+
+    /**
      * Gets field_list
      * @return \KnetikCloud\Model\PropertyFieldListResource
      */
@@ -222,6 +273,27 @@ class PropertyDefinitionResource implements ArrayAccess
     }
 
     /**
+     * Gets friendly_name
+     * @return string
+     */
+    public function getFriendlyName()
+    {
+        return $this->container['friendly_name'];
+    }
+
+    /**
+     * Sets friendly_name
+     * @param string $friendly_name The friendly front-facing name of the property
+     * @return $this
+     */
+    public function setFriendlyName($friendly_name)
+    {
+        $this->container['friendly_name'] = $friendly_name;
+
+        return $this;
+    }
+
+    /**
      * Gets name
      * @return string
      */
@@ -238,6 +310,69 @@ class PropertyDefinitionResource implements ArrayAccess
     public function setName($name)
     {
         $this->container['name'] = $name;
+
+        return $this;
+    }
+
+    /**
+     * Gets option_label_path
+     * @return string
+     */
+    public function getOptionLabelPath()
+    {
+        return $this->container['option_label_path'];
+    }
+
+    /**
+     * Sets option_label_path
+     * @param string $option_label_path The JSON path to the option label
+     * @return $this
+     */
+    public function setOptionLabelPath($option_label_path)
+    {
+        $this->container['option_label_path'] = $option_label_path;
+
+        return $this;
+    }
+
+    /**
+     * Gets option_value_path
+     * @return string
+     */
+    public function getOptionValuePath()
+    {
+        return $this->container['option_value_path'];
+    }
+
+    /**
+     * Sets option_value_path
+     * @param string $option_value_path The JSON path to the option value
+     * @return $this
+     */
+    public function setOptionValuePath($option_value_path)
+    {
+        $this->container['option_value_path'] = $option_value_path;
+
+        return $this;
+    }
+
+    /**
+     * Gets options_url
+     * @return string
+     */
+    public function getOptionsUrl()
+    {
+        return $this->container['options_url'];
+    }
+
+    /**
+     * Sets options_url
+     * @param string $options_url URL of service containing the property options (assumed JSON array)
+     * @return $this
+     */
+    public function setOptionsUrl($options_url)
+    {
+        $this->container['options_url'] = $options_url;
 
         return $this;
     }

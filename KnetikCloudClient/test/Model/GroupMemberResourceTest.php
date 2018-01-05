@@ -85,23 +85,23 @@ class GroupMemberResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "avatar_url"
+     * Test attribute "group"
      */
-    public function testPropertyAvatarUrl()
+    public function testPropertyGroup()
     {
     }
 
     /**
-     * Test attribute "display_name"
+     * Test attribute "implicit"
      */
-    public function testPropertyDisplayName()
+    public function testPropertyImplicit()
     {
     }
 
     /**
-     * Test attribute "id"
+     * Test attribute "membership_id"
      */
-    public function testPropertyId()
+    public function testPropertyMembershipId()
     {
     }
 
@@ -127,9 +127,9 @@ class GroupMemberResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "username"
+     * Test attribute "user"
      */
-    public function testPropertyUsername()
+    public function testPropertyUser()
     {
     }
 }

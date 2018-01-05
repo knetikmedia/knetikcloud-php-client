@@ -99,6 +99,13 @@ class CurrencyResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "default_currency"
+     */
+    public function testPropertyDefaultCurrency()
+    {
+    }
+
+    /**
      * Test attribute "factor"
      */
     public function testPropertyFactor()

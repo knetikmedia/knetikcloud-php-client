@@ -60,9 +60,11 @@ class BreRule implements ArrayAccess
         'description' => 'string',
         'enabled' => 'bool',
         'end_date' => 'int',
+        'evaluation_count' => 'int',
         'event_name' => 'string',
         'id' => 'string',
         'name' => 'string',
+        'run_count' => 'int',
         'sort' => 'int',
         'start_date' => 'int',
         'system_rule' => 'bool'
@@ -79,9 +81,11 @@ class BreRule implements ArrayAccess
         'description' => null,
         'enabled' => null,
         'end_date' => 'int64',
+        'evaluation_count' => 'int64',
         'event_name' => null,
         'id' => null,
         'name' => null,
+        'run_count' => 'int64',
         'sort' => 'int32',
         'start_date' => 'int64',
         'system_rule' => null
@@ -108,9 +112,11 @@ class BreRule implements ArrayAccess
         'description' => 'description',
         'enabled' => 'enabled',
         'end_date' => 'end_date',
+        'evaluation_count' => 'evaluation_count',
         'event_name' => 'event_name',
         'id' => 'id',
         'name' => 'name',
+        'run_count' => 'run_count',
         'sort' => 'sort',
         'start_date' => 'start_date',
         'system_rule' => 'system_rule'
@@ -128,9 +134,11 @@ class BreRule implements ArrayAccess
         'description' => 'setDescription',
         'enabled' => 'setEnabled',
         'end_date' => 'setEndDate',
+        'evaluation_count' => 'setEvaluationCount',
         'event_name' => 'setEventName',
         'id' => 'setId',
         'name' => 'setName',
+        'run_count' => 'setRunCount',
         'sort' => 'setSort',
         'start_date' => 'setStartDate',
         'system_rule' => 'setSystemRule'
@@ -148,9 +156,11 @@ class BreRule implements ArrayAccess
         'description' => 'getDescription',
         'enabled' => 'getEnabled',
         'end_date' => 'getEndDate',
+        'evaluation_count' => 'getEvaluationCount',
         'event_name' => 'getEventName',
         'id' => 'getId',
         'name' => 'getName',
+        'run_count' => 'getRunCount',
         'sort' => 'getSort',
         'start_date' => 'getStartDate',
         'system_rule' => 'getSystemRule'
@@ -193,9 +203,11 @@ class BreRule implements ArrayAccess
         $this->container['description'] = isset($data['description']) ? $data['description'] : null;
         $this->container['enabled'] = isset($data['enabled']) ? $data['enabled'] : null;
         $this->container['end_date'] = isset($data['end_date']) ? $data['end_date'] : null;
+        $this->container['evaluation_count'] = isset($data['evaluation_count']) ? $data['evaluation_count'] : null;
         $this->container['event_name'] = isset($data['event_name']) ? $data['event_name'] : null;
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
+        $this->container['run_count'] = isset($data['run_count']) ? $data['run_count'] : null;
         $this->container['sort'] = isset($data['sort']) ? $data['sort'] : null;
         $this->container['start_date'] = isset($data['start_date']) ? $data['start_date'] : null;
         $this->container['system_rule'] = isset($data['system_rule']) ? $data['system_rule'] : null;
@@ -371,6 +383,27 @@ class BreRule implements ArrayAccess
     }
 
     /**
+     * Gets evaluation_count
+     * @return int
+     */
+    public function getEvaluationCount()
+    {
+        return $this->container['evaluation_count'];
+    }
+
+    /**
+     * Sets evaluation_count
+     * @param int $evaluation_count How many times the rule has been evaluated (it's conditions checked, whether it then runs or not)
+     * @return $this
+     */
+    public function setEvaluationCount($evaluation_count)
+    {
+        $this->container['evaluation_count'] = $evaluation_count;
+
+        return $this;
+    }
+
+    /**
      * Gets event_name
      * @return string
      */
@@ -429,6 +462,27 @@ class BreRule implements ArrayAccess
     public function setName($name)
     {
         $this->container['name'] = $name;
+
+        return $this;
+    }
+
+    /**
+     * Gets run_count
+     * @return int
+     */
+    public function getRunCount()
+    {
+        return $this->container['run_count'];
+    }
+
+    /**
+     * Sets run_count
+     * @param int $run_count How many times the rule has run
+     * @return $this
+     */
+    public function setRunCount($run_count)
+    {
+        $this->container['run_count'] = $run_count;
 
         return $this;
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * PropertyDefinitionResourceTest
+ * SimpleGroupResourceTest
  *
  * PHP version 5
  *
@@ -30,16 +30,16 @@
 namespace KnetikCloud;
 
 /**
- * PropertyDefinitionResourceTest Class Doc Comment
+ * SimpleGroupResourceTest Class Doc Comment
  *
  * @category    Class */
-// * @description PropertyDefinitionResource
+// * @description SimpleGroupResource
 /**
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class PropertyDefinitionResourceTest extends \PHPUnit_Framework_TestCase
+class SimpleGroupResourceTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -71,30 +71,9 @@ class PropertyDefinitionResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test "PropertyDefinitionResource"
+     * Test "SimpleGroupResource"
      */
-    public function testPropertyDefinitionResource()
-    {
-    }
-
-    /**
-     * Test attribute "description"
-     */
-    public function testPropertyDescription()
-    {
-    }
-
-    /**
-     * Test attribute "field_list"
-     */
-    public function testPropertyFieldList()
-    {
-    }
-
-    /**
-     * Test attribute "friendly_name"
-     */
-    public function testPropertyFriendlyName()
+    public function testSimpleGroupResource()
     {
     }
 
@@ -106,37 +85,9 @@ class PropertyDefinitionResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "option_label_path"
+     * Test attribute "unique_name"
      */
-    public function testPropertyOptionLabelPath()
-    {
-    }
-
-    /**
-     * Test attribute "option_value_path"
-     */
-    public function testPropertyOptionValuePath()
-    {
-    }
-
-    /**
-     * Test attribute "options_url"
-     */
-    public function testPropertyOptionsUrl()
-    {
-    }
-
-    /**
-     * Test attribute "required"
-     */
-    public function testPropertyRequired()
-    {
-    }
-
-    /**
-     * Test attribute "type"
-     */
-    public function testPropertyType()
+    public function testPropertyUniqueName()
     {
     }
 }

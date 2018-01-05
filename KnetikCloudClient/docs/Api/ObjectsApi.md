@@ -423,7 +423,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **updateObjectItem**
-> updateObjectItem($template_id, $entitlement_id, $cascade, $object_item)
+> updateObjectItem($template_id, $object_id, $cascade, $object_item)
 
 Update an object
 
@@ -439,12 +439,12 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 
 $api_instance = new KnetikCloud\Api\ObjectsApi(new \Http\Adapter\Guzzle6\Client());
 $template_id = "template_id_example"; // string | The id of the template this object is part of
-$entitlement_id = 56; // int | The id of the entitlement
+$object_id = 56; // int | The id of the object
 $cascade = false; // bool | Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values.
-$object_item = new \KnetikCloud\Model\EntitlementItem(); // \KnetikCloud\Model\EntitlementItem | The object item object
+$object_item = new \KnetikCloud\Model\ObjectResource(); // \KnetikCloud\Model\ObjectResource | The object item object
 
 try {
-    $api_instance->updateObjectItem($template_id, $entitlement_id, $cascade, $object_item);
+    $api_instance->updateObjectItem($template_id, $object_id, $cascade, $object_item);
 } catch (Exception $e) {
     echo 'Exception when calling ObjectsApi->updateObjectItem: ', $e->getMessage(), PHP_EOL;
 }
@@ -456,9 +456,9 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **template_id** | **string**| The id of the template this object is part of |
- **entitlement_id** | **int**| The id of the entitlement |
+ **object_id** | **int**| The id of the object |
  **cascade** | **bool**| Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. | [optional] [default to false]
- **object_item** | [**\KnetikCloud\Model\EntitlementItem**](../Model/EntitlementItem.md)| The object item object | [optional]
+ **object_item** | [**\KnetikCloud\Model\ObjectResource**](../Model/ObjectResource.md)| The object item object | [optional]
 
 ### Return type
 

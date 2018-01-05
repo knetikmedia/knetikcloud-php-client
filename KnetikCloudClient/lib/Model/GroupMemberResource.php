@@ -55,13 +55,13 @@ class GroupMemberResource implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'additional_properties' => 'map[string,\KnetikCloud\Model\Property]',
-        'avatar_url' => 'string',
-        'display_name' => 'string',
-        'id' => 'int',
+        'group' => '\KnetikCloud\Model\SimpleGroupResource',
+        'implicit' => 'bool',
+        'membership_id' => 'int',
         'order' => 'string',
         'status' => 'string',
         'template' => 'string',
-        'username' => 'string'
+        'user' => '\KnetikCloud\Model\SimpleUserResource'
     ];
 
     /**
@@ -70,13 +70,13 @@ class GroupMemberResource implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'additional_properties' => null,
-        'avatar_url' => null,
-        'display_name' => null,
-        'id' => 'int32',
+        'group' => null,
+        'implicit' => null,
+        'membership_id' => 'int64',
         'order' => null,
         'status' => null,
         'template' => null,
-        'username' => null
+        'user' => null
     ];
 
     public static function swaggerTypes()
@@ -95,13 +95,13 @@ class GroupMemberResource implements ArrayAccess
      */
     protected static $attributeMap = [
         'additional_properties' => 'additional_properties',
-        'avatar_url' => 'avatar_url',
-        'display_name' => 'display_name',
-        'id' => 'id',
+        'group' => 'group',
+        'implicit' => 'implicit',
+        'membership_id' => 'membership_id',
         'order' => 'order',
         'status' => 'status',
         'template' => 'template',
-        'username' => 'username'
+        'user' => 'user'
     ];
 
 
@@ -111,13 +111,13 @@ class GroupMemberResource implements ArrayAccess
      */
     protected static $setters = [
         'additional_properties' => 'setAdditionalProperties',
-        'avatar_url' => 'setAvatarUrl',
-        'display_name' => 'setDisplayName',
-        'id' => 'setId',
+        'group' => 'setGroup',
+        'implicit' => 'setImplicit',
+        'membership_id' => 'setMembershipId',
         'order' => 'setOrder',
         'status' => 'setStatus',
         'template' => 'setTemplate',
-        'username' => 'setUsername'
+        'user' => 'setUser'
     ];
 
 
@@ -127,13 +127,13 @@ class GroupMemberResource implements ArrayAccess
      */
     protected static $getters = [
         'additional_properties' => 'getAdditionalProperties',
-        'avatar_url' => 'getAvatarUrl',
-        'display_name' => 'getDisplayName',
-        'id' => 'getId',
+        'group' => 'getGroup',
+        'implicit' => 'getImplicit',
+        'membership_id' => 'getMembershipId',
         'order' => 'getOrder',
         'status' => 'getStatus',
         'template' => 'getTemplate',
-        'username' => 'getUsername'
+        'user' => 'getUser'
     ];
 
     public static function attributeMap()
@@ -182,13 +182,13 @@ class GroupMemberResource implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['additional_properties'] = isset($data['additional_properties']) ? $data['additional_properties'] : null;
-        $this->container['avatar_url'] = isset($data['avatar_url']) ? $data['avatar_url'] : null;
-        $this->container['display_name'] = isset($data['display_name']) ? $data['display_name'] : null;
-        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
+        $this->container['group'] = isset($data['group']) ? $data['group'] : null;
+        $this->container['implicit'] = isset($data['implicit']) ? $data['implicit'] : null;
+        $this->container['membership_id'] = isset($data['membership_id']) ? $data['membership_id'] : null;
         $this->container['order'] = isset($data['order']) ? $data['order'] : null;
         $this->container['status'] = isset($data['status']) ? $data['status'] : null;
         $this->container['template'] = isset($data['template']) ? $data['template'] : null;
-        $this->container['username'] = isset($data['username']) ? $data['username'] : null;
+        $this->container['user'] = isset($data['user']) ? $data['user'] : null;
     }
 
     /**
@@ -200,9 +200,6 @@ class GroupMemberResource implements ArrayAccess
     {
         $invalid_properties = [];
 
-        if ($this->container['id'] === null) {
-            $invalid_properties[] = "'id' can't be null";
-        }
         $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
             $invalid_properties[] = sprintf(
@@ -211,6 +208,9 @@ class GroupMemberResource implements ArrayAccess
             );
         }
 
+        if ($this->container['user'] === null) {
+            $invalid_properties[] = "'user' can't be null";
+        }
         return $invalid_properties;
     }
 
@@ -223,11 +223,11 @@ class GroupMemberResource implements ArrayAccess
     public function valid()
     {
 
-        if ($this->container['id'] === null) {
-            return false;
-        }
         $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
+            return false;
+        }
+        if ($this->container['user'] === null) {
             return false;
         }
         return true;
@@ -256,64 +256,64 @@ class GroupMemberResource implements ArrayAccess
     }
 
     /**
-     * Gets avatar_url
-     * @return string
+     * Gets group
+     * @return \KnetikCloud\Model\SimpleGroupResource
      */
-    public function getAvatarUrl()
+    public function getGroup()
     {
-        return $this->container['avatar_url'];
+        return $this->container['group'];
     }
 
     /**
-     * Sets avatar_url
-     * @param string $avatar_url The url of the user's avatar image
+     * Sets group
+     * @param \KnetikCloud\Model\SimpleGroupResource $group The group. Id is the unique name
      * @return $this
      */
-    public function setAvatarUrl($avatar_url)
+    public function setGroup($group)
     {
-        $this->container['avatar_url'] = $avatar_url;
+        $this->container['group'] = $group;
 
         return $this;
     }
 
     /**
-     * Gets display_name
-     * @return string
+     * Gets implicit
+     * @return bool
      */
-    public function getDisplayName()
+    public function getImplicit()
     {
-        return $this->container['display_name'];
+        return $this->container['implicit'];
     }
 
     /**
-     * Sets display_name
-     * @param string $display_name The public username of the user
+     * Sets implicit
+     * @param bool $implicit Whether this membership is explicit (the user was added directly to the group) or implicit (the user was added only to one or more child groups)
      * @return $this
      */
-    public function setDisplayName($display_name)
+    public function setImplicit($implicit)
     {
-        $this->container['display_name'] = $display_name;
+        $this->container['implicit'] = $implicit;
 
         return $this;
     }
 
     /**
-     * Gets id
+     * Gets membership_id
      * @return int
      */
-    public function getId()
+    public function getMembershipId()
     {
-        return $this->container['id'];
+        return $this->container['membership_id'];
     }
 
     /**
-     * Sets id
-     * @param int $id The id of the user
+     * Sets membership_id
+     * @param int $membership_id The id of the membership entry
      * @return $this
      */
-    public function setId($id)
+    public function setMembershipId($membership_id)
     {
-        $this->container['id'] = $id;
+        $this->container['membership_id'] = $membership_id;
 
         return $this;
     }
@@ -391,22 +391,22 @@ class GroupMemberResource implements ArrayAccess
     }
 
     /**
-     * Gets username
-     * @return string
+     * Gets user
+     * @return \KnetikCloud\Model\SimpleUserResource
      */
-    public function getUsername()
+    public function getUser()
     {
-        return $this->container['username'];
+        return $this->container['user'];
     }
 
     /**
-     * Sets username
-     * @param string $username The username of the user
+     * Sets user
+     * @param \KnetikCloud\Model\SimpleUserResource $user The user
      * @return $this
      */
-    public function setUsername($username)
+    public function setUser($user)
     {
-        $this->container['username'] = $username;
+        $this->container['user'] = $user;
 
         return $this;
     }

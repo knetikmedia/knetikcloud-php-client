@@ -522,6 +522,7 @@ class CurrenciesApi
      *
      * List and search currencies
      *
+     * @param bool $filter_default Filter for the one currency that is set as default (true), or all that are not (false) (optional)
      * @param bool $filter_enabled_currencies Filter for alternate currencies setup explicitely in system config (optional)
      * @param string $filter_type Filter currencies by type.  Allowable values: (&#39;virtual&#39;, &#39;real&#39;) (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
@@ -531,9 +532,9 @@ class CurrenciesApi
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceCurrencyResource_
      */
-    public function getCurrencies($filter_enabled_currencies = null, $filter_type = null, $size = '25', $page = '1', $order = 'name:ASC')
+    public function getCurrencies($filter_default = null, $filter_enabled_currencies = null, $filter_type = null, $size = '25', $page = '1', $order = 'name:ASC')
     {
-        list($response) = $this->getCurrenciesWithHttpInfo($filter_enabled_currencies, $filter_type, $size, $page, $order);
+        list($response) = $this->getCurrenciesWithHttpInfo($filter_default, $filter_enabled_currencies, $filter_type, $size, $page, $order);
         return $response;
     }
 
@@ -542,6 +543,7 @@ class CurrenciesApi
      *
      * List and search currencies
      *
+     * @param bool $filter_default Filter for the one currency that is set as default (true), or all that are not (false) (optional)
      * @param bool $filter_enabled_currencies Filter for alternate currencies setup explicitely in system config (optional)
      * @param string $filter_type Filter currencies by type.  Allowable values: (&#39;virtual&#39;, &#39;real&#39;) (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
@@ -551,10 +553,10 @@ class CurrenciesApi
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceCurrencyResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getCurrenciesWithHttpInfo($filter_enabled_currencies = null, $filter_type = null, $size = '25', $page = '1', $order = 'name:ASC')
+    public function getCurrenciesWithHttpInfo($filter_default = null, $filter_enabled_currencies = null, $filter_type = null, $size = '25', $page = '1', $order = 'name:ASC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceCurrencyResource_';
-        $request = $this->getCurrenciesRequest($filter_enabled_currencies, $filter_type, $size, $page, $order);
+        $request = $this->getCurrenciesRequest($filter_default, $filter_enabled_currencies, $filter_type, $size, $page, $order);
 
         try {
 
@@ -615,6 +617,7 @@ class CurrenciesApi
      *
      * List and search currencies
      *
+     * @param bool $filter_default Filter for the one currency that is set as default (true), or all that are not (false) (optional)
      * @param bool $filter_enabled_currencies Filter for alternate currencies setup explicitely in system config (optional)
      * @param string $filter_type Filter currencies by type.  Allowable values: (&#39;virtual&#39;, &#39;real&#39;) (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
@@ -623,9 +626,9 @@ class CurrenciesApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getCurrenciesAsync($filter_enabled_currencies = null, $filter_type = null, $size = '25', $page = '1', $order = 'name:ASC')
+    public function getCurrenciesAsync($filter_default = null, $filter_enabled_currencies = null, $filter_type = null, $size = '25', $page = '1', $order = 'name:ASC')
     {
-        return $this->getCurrenciesAsyncWithHttpInfo($filter_enabled_currencies, $filter_type, $size, $page, $order)->then(function ($response) {
+        return $this->getCurrenciesAsyncWithHttpInfo($filter_default, $filter_enabled_currencies, $filter_type, $size, $page, $order)->then(function ($response) {
             return $response[0];
         });
     }
@@ -635,6 +638,7 @@ class CurrenciesApi
      *
      * List and search currencies
      *
+     * @param bool $filter_default Filter for the one currency that is set as default (true), or all that are not (false) (optional)
      * @param bool $filter_enabled_currencies Filter for alternate currencies setup explicitely in system config (optional)
      * @param string $filter_type Filter currencies by type.  Allowable values: (&#39;virtual&#39;, &#39;real&#39;) (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
@@ -643,10 +647,10 @@ class CurrenciesApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getCurrenciesAsyncWithHttpInfo($filter_enabled_currencies = null, $filter_type = null, $size = '25', $page = '1', $order = 'name:ASC')
+    public function getCurrenciesAsyncWithHttpInfo($filter_default = null, $filter_enabled_currencies = null, $filter_type = null, $size = '25', $page = '1', $order = 'name:ASC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceCurrencyResource_';
-        $request = $this->getCurrenciesRequest($filter_enabled_currencies, $filter_type, $size, $page, $order);
+        $request = $this->getCurrenciesRequest($filter_default, $filter_enabled_currencies, $filter_type, $size, $page, $order);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
@@ -679,6 +683,7 @@ class CurrenciesApi
     /**
      * Create request for operation 'getCurrencies'
      *
+     * @param bool $filter_default Filter for the one currency that is set as default (true), or all that are not (false) (optional)
      * @param bool $filter_enabled_currencies Filter for alternate currencies setup explicitely in system config (optional)
      * @param string $filter_type Filter currencies by type.  Allowable values: (&#39;virtual&#39;, &#39;real&#39;) (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
@@ -687,7 +692,7 @@ class CurrenciesApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getCurrenciesRequest($filter_enabled_currencies = null, $filter_type = null, $size = '25', $page = '1', $order = 'name:ASC')
+    protected function getCurrenciesRequest($filter_default = null, $filter_enabled_currencies = null, $filter_type = null, $size = '25', $page = '1', $order = 'name:ASC')
     {
 
         $resourcePath = '/currencies';
@@ -697,6 +702,10 @@ class CurrenciesApi
         $httpBody = '';
         $multipart = false;
 
+        // query params
+        if ($filter_default !== null) {
+            $queryParams['filter_default'] = ObjectSerializer::toQueryValue($filter_default);
+        }
         // query params
         if ($filter_enabled_currencies !== null) {
             $queryParams['filter_enabled_currencies'] = ObjectSerializer::toQueryValue($filter_enabled_currencies);

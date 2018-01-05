@@ -78,16 +78,9 @@ class CacheClearEventTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "customer_setup"
+     * Test attribute "teardown"
      */
-    public function testPropertyCustomerSetup()
-    {
-    }
-
-    /**
-     * Test attribute "customer_teardown"
-     */
-    public function testPropertyCustomerTeardown()
+    public function testPropertyTeardown()
     {
     }
 }

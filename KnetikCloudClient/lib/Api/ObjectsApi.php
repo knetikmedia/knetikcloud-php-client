@@ -2001,16 +2001,16 @@ class ObjectsApi
      * Update an object
      *
      * @param string $template_id The id of the template this object is part of (required)
-     * @param int $entitlement_id The id of the entitlement (required)
+     * @param int $object_id The id of the object (required)
      * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
-     * @param \KnetikCloud\Model\EntitlementItem $object_item The object item object (optional)
+     * @param \KnetikCloud\Model\ObjectResource $object_item The object item object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function updateObjectItem($template_id, $entitlement_id, $cascade = 'false', $object_item = null)
+    public function updateObjectItem($template_id, $object_id, $cascade = 'false', $object_item = null)
     {
-        $this->updateObjectItemWithHttpInfo($template_id, $entitlement_id, $cascade, $object_item);
+        $this->updateObjectItemWithHttpInfo($template_id, $object_id, $cascade, $object_item);
     }
 
     /**
@@ -2019,17 +2019,17 @@ class ObjectsApi
      * Update an object
      *
      * @param string $template_id The id of the template this object is part of (required)
-     * @param int $entitlement_id The id of the entitlement (required)
+     * @param int $object_id The id of the object (required)
      * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
-     * @param \KnetikCloud\Model\EntitlementItem $object_item The object item object (optional)
+     * @param \KnetikCloud\Model\ObjectResource $object_item The object item object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateObjectItemWithHttpInfo($template_id, $entitlement_id, $cascade = 'false', $object_item = null)
+    public function updateObjectItemWithHttpInfo($template_id, $object_id, $cascade = 'false', $object_item = null)
     {
         $returnType = '';
-        $request = $this->updateObjectItemRequest($template_id, $entitlement_id, $cascade, $object_item);
+        $request = $this->updateObjectItemRequest($template_id, $object_id, $cascade, $object_item);
 
         try {
 
@@ -2073,15 +2073,15 @@ class ObjectsApi
      * Update an object
      *
      * @param string $template_id The id of the template this object is part of (required)
-     * @param int $entitlement_id The id of the entitlement (required)
+     * @param int $object_id The id of the object (required)
      * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
-     * @param \KnetikCloud\Model\EntitlementItem $object_item The object item object (optional)
+     * @param \KnetikCloud\Model\ObjectResource $object_item The object item object (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateObjectItemAsync($template_id, $entitlement_id, $cascade = 'false', $object_item = null)
+    public function updateObjectItemAsync($template_id, $object_id, $cascade = 'false', $object_item = null)
     {
-        return $this->updateObjectItemAsyncWithHttpInfo($template_id, $entitlement_id, $cascade, $object_item)->then(function ($response) {
+        return $this->updateObjectItemAsyncWithHttpInfo($template_id, $object_id, $cascade, $object_item)->then(function ($response) {
             return $response[0];
         });
     }
@@ -2092,16 +2092,16 @@ class ObjectsApi
      * Update an object
      *
      * @param string $template_id The id of the template this object is part of (required)
-     * @param int $entitlement_id The id of the entitlement (required)
+     * @param int $object_id The id of the object (required)
      * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
-     * @param \KnetikCloud\Model\EntitlementItem $object_item The object item object (optional)
+     * @param \KnetikCloud\Model\ObjectResource $object_item The object item object (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateObjectItemAsyncWithHttpInfo($template_id, $entitlement_id, $cascade = 'false', $object_item = null)
+    public function updateObjectItemAsyncWithHttpInfo($template_id, $object_id, $cascade = 'false', $object_item = null)
     {
         $returnType = '';
-        $request = $this->updateObjectItemRequest($template_id, $entitlement_id, $cascade, $object_item);
+        $request = $this->updateObjectItemRequest($template_id, $object_id, $cascade, $object_item);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
@@ -2121,21 +2121,21 @@ class ObjectsApi
      * Create request for operation 'updateObjectItem'
      *
      * @param string $template_id The id of the template this object is part of (required)
-     * @param int $entitlement_id The id of the entitlement (required)
+     * @param int $object_id The id of the object (required)
      * @param bool $cascade Whether to cascade group changes, such as in the limited gettable behavior. A 400 error will return otherwise if the group is already in use with different values. (optional, default to false)
-     * @param \KnetikCloud\Model\EntitlementItem $object_item The object item object (optional)
+     * @param \KnetikCloud\Model\ObjectResource $object_item The object item object (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function updateObjectItemRequest($template_id, $entitlement_id, $cascade = 'false', $object_item = null)
+    protected function updateObjectItemRequest($template_id, $object_id, $cascade = 'false', $object_item = null)
     {
         // verify the required parameter 'template_id' is set
         if ($template_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $template_id when calling updateObjectItem');
         }
-        // verify the required parameter 'entitlement_id' is set
-        if ($entitlement_id === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $entitlement_id when calling updateObjectItem');
+        // verify the required parameter 'object_id' is set
+        if ($object_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $object_id when calling updateObjectItem');
         }
 
         $resourcePath = '/objects/{template_id}/{object_id}';
@@ -2155,8 +2155,8 @@ class ObjectsApi
             $resourcePath = str_replace('{' . 'template_id' . '}', ObjectSerializer::toPathValue($template_id), $resourcePath);
         }
         // path params
-        if ($entitlement_id !== null) {
-            $resourcePath = str_replace('{' . 'entitlement_id' . '}', ObjectSerializer::toPathValue($entitlement_id), $resourcePath);
+        if ($object_id !== null) {
+            $resourcePath = str_replace('{' . 'object_id' . '}', ObjectSerializer::toPathValue($object_id), $resourcePath);
         }
 
         // body params

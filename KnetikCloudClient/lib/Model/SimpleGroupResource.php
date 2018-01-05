@@ -1,6 +1,6 @@
 <?php
 /**
- * CacheClearEvent
+ * SimpleGroupResource
  *
  * PHP version 5
  *
@@ -32,14 +32,14 @@ namespace KnetikCloud\Model;
 use \ArrayAccess;
 
 /**
- * CacheClearEvent Class Doc Comment
+ * SimpleGroupResource Class Doc Comment
  *
  * @category    Class
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class CacheClearEvent extends BroadcastableEvent implements ArrayAccess
+class SimpleGroupResource implements ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -47,14 +47,15 @@ class CacheClearEvent extends BroadcastableEvent implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    protected static $swaggerModelName = 'CacheClearEvent';
+    protected static $swaggerModelName = 'SimpleGroupResource';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'teardown' => 'bool'
+        'name' => 'string',
+        'unique_name' => 'string'
     ];
 
     /**
@@ -62,17 +63,18 @@ class CacheClearEvent extends BroadcastableEvent implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'teardown' => null
+        'name' => null,
+        'unique_name' => null
     ];
 
     public static function swaggerTypes()
     {
-        return self::$swaggerTypes + parent::swaggerTypes();
+        return self::$swaggerTypes;
     }
 
     public static function swaggerFormats()
     {
-        return self::$swaggerFormats + parent::swaggerFormats();
+        return self::$swaggerFormats;
     }
 
     /**
@@ -80,7 +82,8 @@ class CacheClearEvent extends BroadcastableEvent implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'teardown' => 'teardown'
+        'name' => 'name',
+        'unique_name' => 'unique_name'
     ];
 
 
@@ -89,7 +92,8 @@ class CacheClearEvent extends BroadcastableEvent implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'teardown' => 'setTeardown'
+        'name' => 'setName',
+        'unique_name' => 'setUniqueName'
     ];
 
 
@@ -98,22 +102,23 @@ class CacheClearEvent extends BroadcastableEvent implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'teardown' => 'getTeardown'
+        'name' => 'getName',
+        'unique_name' => 'getUniqueName'
     ];
 
     public static function attributeMap()
     {
-        return parent::attributeMap() + self::$attributeMap;
+        return self::$attributeMap;
     }
 
     public static function setters()
     {
-        return parent::setters() + self::$setters;
+        return self::$setters;
     }
 
     public static function getters()
     {
-        return parent::getters() + self::$getters;
+        return self::$getters;
     }
 
     
@@ -132,9 +137,8 @@ class CacheClearEvent extends BroadcastableEvent implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        parent::__construct($data);
-
-        $this->container['teardown'] = isset($data['teardown']) ? $data['teardown'] : null;
+        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
+        $this->container['unique_name'] = isset($data['unique_name']) ? $data['unique_name'] : null;
     }
 
     /**
@@ -144,8 +148,11 @@ class CacheClearEvent extends BroadcastableEvent implements ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalid_properties = parent::listInvalidProperties();
+        $invalid_properties = [];
 
+        if ($this->container['name'] === null) {
+            $invalid_properties[] = "'name' can't be null";
+        }
         return $invalid_properties;
     }
 
@@ -157,31 +164,52 @@ class CacheClearEvent extends BroadcastableEvent implements ArrayAccess
      */
     public function valid()
     {
-        if (!parent::valid()) {
+
+        if ($this->container['name'] === null) {
             return false;
         }
-
         return true;
     }
 
 
     /**
-     * Gets teardown
-     * @return bool
+     * Gets name
+     * @return string
      */
-    public function getTeardown()
+    public function getName()
     {
-        return $this->container['teardown'];
+        return $this->container['name'];
     }
 
     /**
-     * Sets teardown
-     * @param bool $teardown
+     * Sets name
+     * @param string $name The name of the group. Max 50 characters
      * @return $this
      */
-    public function setTeardown($teardown)
+    public function setName($name)
     {
-        $this->container['teardown'] = $teardown;
+        $this->container['name'] = $name;
+
+        return $this;
+    }
+
+    /**
+     * Gets unique_name
+     * @return string
+     */
+    public function getUniqueName()
+    {
+        return $this->container['unique_name'];
+    }
+
+    /**
+     * Sets unique_name
+     * @param string $unique_name Unique name used in url and references. Uppercase, lowercase, numbers and hyphens only. Max 50 characters. Cannot be altered once created. Default: random UUID
+     * @return $this
+     */
+    public function setUniqueName($unique_name)
+    {
+        $this->container['unique_name'] = $unique_name;
 
         return $this;
     }
