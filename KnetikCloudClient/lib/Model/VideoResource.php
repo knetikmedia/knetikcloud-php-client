@@ -55,6 +55,7 @@ class VideoResource implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'active' => 'bool',
+        'additional_properties' => 'map[string,\KnetikCloud\Model\Property]',
         'author' => '\KnetikCloud\Model\SimpleReferenceResourceLong_',
         'authored' => 'int',
         'banned' => 'bool',
@@ -77,6 +78,7 @@ class VideoResource implements ArrayAccess
         'short_description' => 'string',
         'size' => 'int',
         'tags' => 'string[]',
+        'template' => 'string',
         'thumbnail' => 'string',
         'updated_date' => 'int',
         'uploader' => '\KnetikCloud\Model\SimpleUserResource',
@@ -90,6 +92,7 @@ class VideoResource implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'active' => null,
+        'additional_properties' => null,
         'author' => null,
         'authored' => 'int64',
         'banned' => null,
@@ -112,6 +115,7 @@ class VideoResource implements ArrayAccess
         'short_description' => null,
         'size' => 'int64',
         'tags' => null,
+        'template' => null,
         'thumbnail' => null,
         'updated_date' => 'int64',
         'uploader' => null,
@@ -135,6 +139,7 @@ class VideoResource implements ArrayAccess
      */
     protected static $attributeMap = [
         'active' => 'active',
+        'additional_properties' => 'additional_properties',
         'author' => 'author',
         'authored' => 'authored',
         'banned' => 'banned',
@@ -157,6 +162,7 @@ class VideoResource implements ArrayAccess
         'short_description' => 'short_description',
         'size' => 'size',
         'tags' => 'tags',
+        'template' => 'template',
         'thumbnail' => 'thumbnail',
         'updated_date' => 'updated_date',
         'uploader' => 'uploader',
@@ -171,6 +177,7 @@ class VideoResource implements ArrayAccess
      */
     protected static $setters = [
         'active' => 'setActive',
+        'additional_properties' => 'setAdditionalProperties',
         'author' => 'setAuthor',
         'authored' => 'setAuthored',
         'banned' => 'setBanned',
@@ -193,6 +200,7 @@ class VideoResource implements ArrayAccess
         'short_description' => 'setShortDescription',
         'size' => 'setSize',
         'tags' => 'setTags',
+        'template' => 'setTemplate',
         'thumbnail' => 'setThumbnail',
         'updated_date' => 'setUpdatedDate',
         'uploader' => 'setUploader',
@@ -207,6 +215,7 @@ class VideoResource implements ArrayAccess
      */
     protected static $getters = [
         'active' => 'getActive',
+        'additional_properties' => 'getAdditionalProperties',
         'author' => 'getAuthor',
         'authored' => 'getAuthored',
         'banned' => 'getBanned',
@@ -229,6 +238,7 @@ class VideoResource implements ArrayAccess
         'short_description' => 'getShortDescription',
         'size' => 'getSize',
         'tags' => 'getTags',
+        'template' => 'getTemplate',
         'thumbnail' => 'getThumbnail',
         'updated_date' => 'getUpdatedDate',
         'uploader' => 'getUploader',
@@ -284,6 +294,7 @@ class VideoResource implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['active'] = isset($data['active']) ? $data['active'] : null;
+        $this->container['additional_properties'] = isset($data['additional_properties']) ? $data['additional_properties'] : null;
         $this->container['author'] = isset($data['author']) ? $data['author'] : null;
         $this->container['authored'] = isset($data['authored']) ? $data['authored'] : null;
         $this->container['banned'] = isset($data['banned']) ? $data['banned'] : null;
@@ -306,6 +317,7 @@ class VideoResource implements ArrayAccess
         $this->container['short_description'] = isset($data['short_description']) ? $data['short_description'] : null;
         $this->container['size'] = isset($data['size']) ? $data['size'] : null;
         $this->container['tags'] = isset($data['tags']) ? $data['tags'] : null;
+        $this->container['template'] = isset($data['template']) ? $data['template'] : null;
         $this->container['thumbnail'] = isset($data['thumbnail']) ? $data['thumbnail'] : null;
         $this->container['updated_date'] = isset($data['updated_date']) ? $data['updated_date'] : null;
         $this->container['uploader'] = isset($data['uploader']) ? $data['uploader'] : null;
@@ -409,6 +421,27 @@ class VideoResource implements ArrayAccess
     public function setActive($active)
     {
         $this->container['active'] = $active;
+
+        return $this;
+    }
+
+    /**
+     * Gets additional_properties
+     * @return map[string,\KnetikCloud\Model\Property]
+     */
+    public function getAdditionalProperties()
+    {
+        return $this->container['additional_properties'];
+    }
+
+    /**
+     * Sets additional_properties
+     * @param map[string,\KnetikCloud\Model\Property] $additional_properties A map of additional properties, keyed on the property name.  Must match the names and types defined in the template for this item type
+     * @return $this
+     */
+    public function setAdditionalProperties($additional_properties)
+    {
+        $this->container['additional_properties'] = $additional_properties;
 
         return $this;
     }
@@ -880,6 +913,27 @@ class VideoResource implements ArrayAccess
     public function setTags($tags)
     {
         $this->container['tags'] = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Gets template
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return $this->container['template'];
+    }
+
+    /**
+     * Sets template
+     * @param string $template A video template this video is validated against (private). May be null and no validation of additional_properties will be done
+     * @return $this
+     */
+    public function setTemplate($template)
+    {
+        $this->container['template'] = $template;
 
         return $this;
     }

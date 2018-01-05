@@ -85,6 +85,13 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "additional_properties"
+     */
+    public function testPropertyAdditionalProperties()
+    {
+    }
+
+    /**
      * Test attribute "author"
      */
     public function testPropertyAuthor()
@@ -235,6 +242,13 @@ class VideoResourceTest extends \PHPUnit_Framework_TestCase
      * Test attribute "tags"
      */
     public function testPropertyTags()
+    {
+    }
+
+    /**
+     * Test attribute "template"
+     */
+    public function testPropertyTemplate()
     {
     }
 

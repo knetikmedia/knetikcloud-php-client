@@ -4,6 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **active** | **bool** | Whether the video is available, based on various factors | [optional] 
+**additional_properties** | [**map[string,\KnetikCloud\Model\Property]**](Property.md) | A map of additional properties, keyed on the property name.  Must match the names and types defined in the template for this item type | [optional] 
 **author** | [**\KnetikCloud\Model\SimpleReferenceResourceLong_**](SimpleReferenceResourceLong_.md) | The original artist of the media | [optional] 
 **authored** | **int** | The date the media was created as a unix timestamp in seconds | [optional] 
 **banned** | **bool** | Whether the video has been banned or not | [optional] 
@@ -26,6 +27,7 @@ Name | Type | Description | Notes
 **short_description** | **string** | The user friendly name of that resource. Defaults to blank string | [optional] 
 **size** | **int** | The size of the media. Minimum 0 if supplied | [optional] 
 **tags** | **string[]** | The tags for the video | [optional] 
+**template** | **string** | A video template this video is validated against (private). May be null and no validation of additional_properties will be done | [optional] 
 **thumbnail** | **string** | The country of a thumbnail version. Typically a url | [optional] 
 **updated_date** | **int** | The date/time this resource was last updated in seconds since unix epoch | [optional] 
 **uploader** | [**\KnetikCloud\Model\SimpleUserResource**](SimpleUserResource.md) | The user the media was uploaded by. May be null for system uploaded media. May only be set to a user other than the current caller if VIDEOS_ADMIN permission. Null will mean the caller is the uploader unless the caller has VIDEOS_ADMIN permission, in which case it will be set to null | [optional] 

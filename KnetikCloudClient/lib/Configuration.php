@@ -81,14 +81,14 @@ class Configuration
      *
      * @var string
      */
-    protected $host = 'https://sandbox.knetikcloud.com';
+    protected $host = 'https://devsandbox.knetikcloud.com';
 
     /**
      * User agent of the HTTP request, set to "PHP-Swagger" by default
      *
      * @var string
      */
-    protected $userAgent = 'Swagger-Codegen/3.0.8/php';
+    protected $userAgent = 'Swagger-Codegen/3.0.9/php';
 
     /**
      * Debug switch (default set to false)
@@ -397,7 +397,7 @@ class Configuration
         $report .= '    OS: ' . php_uname() . PHP_EOL;
         $report .= '    PHP Version: ' . PHP_VERSION . PHP_EOL;
         $report .= '    OpenAPI Spec Version: latest' . PHP_EOL;
-        $report .= '    SDK Package Version: 3.0.8' . PHP_EOL;
+        $report .= '    SDK Package Version: 3.0.9' . PHP_EOL;
         $report .= '    Temp Folder Path: ' . self::getDefaultConfiguration()->getTempFolderPath() . PHP_EOL;
 
         return $report;

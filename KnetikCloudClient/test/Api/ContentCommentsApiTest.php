@@ -112,16 +112,6 @@ class ContentCommentsApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test case for searchComments
-     *
-     * Search the comment index.
-     *
-     */
-    public function testSearchComments()
-    {
-    }
-
-    /**
      * Test case for updateComment
      *
      * Update a comment.

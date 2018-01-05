@@ -72,6 +72,106 @@ class SearchApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for searchCountGET
+     *
+     * Count matches with no template.
+     *
+     */
+    public function testSearchCountGET()
+    {
+    }
+
+    /**
+     * Test case for searchCountPOST
+     *
+     * Count matches with no template.
+     *
+     */
+    public function testSearchCountPOST()
+    {
+    }
+
+    /**
+     * Test case for searchCountWithTemplateGET
+     *
+     * Count matches with a template.
+     *
+     */
+    public function testSearchCountWithTemplateGET()
+    {
+    }
+
+    /**
+     * Test case for searchCountWithTemplatePOST
+     *
+     * Count matches with a template.
+     *
+     */
+    public function testSearchCountWithTemplatePOST()
+    {
+    }
+
+    /**
+     * Test case for searchDocumentGET
+     *
+     * Get document with no template.
+     *
+     */
+    public function testSearchDocumentGET()
+    {
+    }
+
+    /**
+     * Test case for searchDocumentWithTemplateGET
+     *
+     * Get document with a template.
+     *
+     */
+    public function testSearchDocumentWithTemplateGET()
+    {
+    }
+
+    /**
+     * Test case for searchExplainGET
+     *
+     * Explain matches with no template.
+     *
+     */
+    public function testSearchExplainGET()
+    {
+    }
+
+    /**
+     * Test case for searchExplainPOST
+     *
+     * Explain matches with no template.
+     *
+     */
+    public function testSearchExplainPOST()
+    {
+    }
+
+    /**
+     * Test case for searchExplainWithTemplateGET
+     *
+     * Explain matches with a template.
+     *
+     */
+    public function testSearchExplainWithTemplateGET()
+    {
+    }
+
+    /**
+     * Test case for searchExplainWithTemplatePOST
+     *
+     * Explain matches with a template.
+     *
+     */
+    public function testSearchExplainWithTemplatePOST()
+    {
+    }
+
+    /**
      * Test case for searchIndex
      *
      * Search an index with no template.
@@ -82,12 +182,102 @@ class SearchApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test case for searchIndexWithTemplate
+     * Test case for searchIndexGET
+     *
+     * Search an index with no template.
+     *
+     */
+    public function testSearchIndexGET()
+    {
+    }
+
+    /**
+     * Test case for searchIndexWithTemplateGET
      *
      * Search an index with a template.
      *
      */
-    public function testSearchIndexWithTemplate()
+    public function testSearchIndexWithTemplateGET()
+    {
+    }
+
+    /**
+     * Test case for searchIndexWithTemplatePOST
+     *
+     * Search an index with a template.
+     *
+     */
+    public function testSearchIndexWithTemplatePOST()
+    {
+    }
+
+    /**
+     * Test case for searchIndicesGET
+     *
+     * Get indices.
+     *
+     */
+    public function testSearchIndicesGET()
+    {
+    }
+
+    /**
+     * Test case for searchMappingsGET
+     *
+     * Get mapping with no template.
+     *
+     */
+    public function testSearchMappingsGET()
+    {
+    }
+
+    /**
+     * Test case for searchMappingsWithTemplateGET
+     *
+     * Get mapping with a template.
+     *
+     */
+    public function testSearchMappingsWithTemplateGET()
+    {
+    }
+
+    /**
+     * Test case for searchValidateGET
+     *
+     * Validate matches with no template.
+     *
+     */
+    public function testSearchValidateGET()
+    {
+    }
+
+    /**
+     * Test case for searchValidatePOST
+     *
+     * Validate matches with no template.
+     *
+     */
+    public function testSearchValidatePOST()
+    {
+    }
+
+    /**
+     * Test case for searchValidateWithTemplateGET
+     *
+     * Validate matches with a template.
+     *
+     */
+    public function testSearchValidateWithTemplateGET()
+    {
+    }
+
+    /**
+     * Test case for searchValidateWithTemplatePOST
+     *
+     * Validate matches with a template.
+     *
+     */
+    public function testSearchValidateWithTemplatePOST()
     {
     }
 }

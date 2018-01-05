@@ -142,6 +142,16 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for createVideoTemplate
+     *
+     * Create a video template.
+     *
+     */
+    public function testCreateVideoTemplate()
+    {
+    }
+
+    /**
      * Test case for deleteVideo
      *
      * Deletes a video from the system if no resources are attached to it.
@@ -192,6 +202,16 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for deleteVideoTemplate
+     *
+     * Delete a video template.
+     *
+     */
+    public function testDeleteVideoTemplate()
+    {
+    }
+
+    /**
      * Test case for getUserVideos
      *
      * Get user videos.
@@ -238,6 +258,26 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function testGetVideoRelationships()
+    {
+    }
+
+    /**
+     * Test case for getVideoTemplate
+     *
+     * Get a single video template.
+     *
+     */
+    public function testGetVideoTemplate()
+    {
+    }
+
+    /**
+     * Test case for getVideoTemplates
+     *
+     * List and search video templates.
+     *
+     */
+    public function testGetVideoTemplates()
     {
     }
 
@@ -298,6 +338,16 @@ class MediaVideosApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function testUpdateVideoRelationship()
+    {
+    }
+
+    /**
+     * Test case for updateVideoTemplate
+     *
+     * Update a video template.
+     *
+     */
+    public function testUpdateVideoTemplate()
     {
     }
 
