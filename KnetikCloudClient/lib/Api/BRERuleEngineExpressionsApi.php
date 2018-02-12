@@ -259,7 +259,7 @@ class BRERuleEngineExpressionsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -320,7 +320,7 @@ class BRERuleEngineExpressionsApi
     /**
      * Operation getBREExpressions
      *
-     * Get a list of supported expressions to use in conditions or actions.
+     * Get a list of supported expressions to use in conditions or actions
      *
      * @param string $filter_type_group Filter for expressions by type group (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
@@ -336,7 +336,7 @@ class BRERuleEngineExpressionsApi
     /**
      * Operation getBREExpressionsWithHttpInfo
      *
-     * Get a list of supported expressions to use in conditions or actions.
+     * Get a list of supported expressions to use in conditions or actions
      *
      * @param string $filter_type_group Filter for expressions by type group (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
@@ -405,7 +405,7 @@ class BRERuleEngineExpressionsApi
     /**
      * Operation getBREExpressionsAsync
      *
-     * Get a list of supported expressions to use in conditions or actions.
+     * Get a list of supported expressions to use in conditions or actions
      *
      * @param string $filter_type_group Filter for expressions by type group (optional)
      * @throws \InvalidArgumentException
@@ -421,7 +421,7 @@ class BRERuleEngineExpressionsApi
     /**
      * Operation getBREExpressionsAsyncWithHttpInfo
      *
-     * Get a list of supported expressions to use in conditions or actions.
+     * Get a list of supported expressions to use in conditions or actions
      *
      * @param string $filter_type_group Filter for expressions by type group (optional)
      * @throws \InvalidArgumentException
@@ -491,7 +491,7 @@ class BRERuleEngineExpressionsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 

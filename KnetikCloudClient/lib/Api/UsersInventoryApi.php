@@ -494,7 +494,7 @@ class UsersInventoryApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1172,7 +1172,7 @@ class UsersInventoryApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1384,7 +1384,7 @@ class UsersInventoryApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1620,7 +1620,7 @@ class UsersInventoryApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1879,7 +1879,7 @@ class UsersInventoryApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -2115,7 +2115,7 @@ class UsersInventoryApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -2365,7 +2365,7 @@ class UsersInventoryApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -2673,7 +2673,7 @@ class UsersInventoryApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -2736,7 +2736,7 @@ class UsersInventoryApi
      *
      * Get an inventory entry
      *
-     * @param int $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
+     * @param string $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
      * @param int $id The id of the user inventory (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -2753,7 +2753,7 @@ class UsersInventoryApi
      *
      * Get an inventory entry
      *
-     * @param int $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
+     * @param string $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
      * @param int $id The id of the user inventory (required)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -2823,7 +2823,7 @@ class UsersInventoryApi
      *
      * Get an inventory entry
      *
-     * @param int $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
+     * @param string $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
      * @param int $id The id of the user inventory (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -2840,7 +2840,7 @@ class UsersInventoryApi
      *
      * Get an inventory entry
      *
-     * @param int $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
+     * @param string $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
      * @param int $id The id of the user inventory (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -2881,7 +2881,7 @@ class UsersInventoryApi
     /**
      * Create request for operation 'getUserInventory'
      *
-     * @param int $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
+     * @param string $user_id The id of the inventory owner or &#39;me&#39; for the logged in user (required)
      * @param int $id The id of the user inventory (required)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -2922,7 +2922,7 @@ class UsersInventoryApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -3189,7 +3189,7 @@ class UsersInventoryApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -3484,7 +3484,7 @@ class UsersInventoryApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 

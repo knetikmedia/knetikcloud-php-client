@@ -102,6 +102,16 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for getDirectMessages1
+     *
+     * Get a list of direct messages with this user.
+     *
+     */
+    public function testGetDirectMessages1()
+    {
+    }
+
+    /**
      * Test case for getUser
      *
      * Get a single user.
@@ -158,6 +168,16 @@ class UsersApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function testPasswordReset()
+    {
+    }
+
+    /**
+     * Test case for postUserMessage
+     *
+     * Send a user message.
+     *
+     */
+    public function testPostUserMessage()
     {
     }
 

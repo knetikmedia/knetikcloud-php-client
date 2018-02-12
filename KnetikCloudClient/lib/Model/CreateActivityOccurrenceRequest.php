@@ -57,8 +57,10 @@ class CreateActivityOccurrenceRequest implements ArrayAccess
     protected static $swaggerTypes = [
         'activity_id' => 'int',
         'challenge_activity_id' => 'int',
+        'core_settings' => '\KnetikCloud\Model\CoreActivityOccurrenceSettings',
         'entitlement' => '\KnetikCloud\Model\ItemIdRequest',
         'event_id' => 'int',
+        'host' => 'int',
         'settings' => '\KnetikCloud\Model\SelectedSettingRequest[]',
         'simulated' => 'bool',
         'status' => 'string',
@@ -72,8 +74,10 @@ class CreateActivityOccurrenceRequest implements ArrayAccess
     protected static $swaggerFormats = [
         'activity_id' => 'int64',
         'challenge_activity_id' => 'int64',
+        'core_settings' => null,
         'entitlement' => null,
         'event_id' => 'int64',
+        'host' => 'int32',
         'settings' => null,
         'simulated' => null,
         'status' => null,
@@ -97,8 +101,10 @@ class CreateActivityOccurrenceRequest implements ArrayAccess
     protected static $attributeMap = [
         'activity_id' => 'activity_id',
         'challenge_activity_id' => 'challenge_activity_id',
+        'core_settings' => 'core_settings',
         'entitlement' => 'entitlement',
         'event_id' => 'event_id',
+        'host' => 'host',
         'settings' => 'settings',
         'simulated' => 'simulated',
         'status' => 'status',
@@ -113,8 +119,10 @@ class CreateActivityOccurrenceRequest implements ArrayAccess
     protected static $setters = [
         'activity_id' => 'setActivityId',
         'challenge_activity_id' => 'setChallengeActivityId',
+        'core_settings' => 'setCoreSettings',
         'entitlement' => 'setEntitlement',
         'event_id' => 'setEventId',
+        'host' => 'setHost',
         'settings' => 'setSettings',
         'simulated' => 'setSimulated',
         'status' => 'setStatus',
@@ -129,8 +137,10 @@ class CreateActivityOccurrenceRequest implements ArrayAccess
     protected static $getters = [
         'activity_id' => 'getActivityId',
         'challenge_activity_id' => 'getChallengeActivityId',
+        'core_settings' => 'getCoreSettings',
         'entitlement' => 'getEntitlement',
         'event_id' => 'getEventId',
+        'host' => 'getHost',
         'settings' => 'getSettings',
         'simulated' => 'getSimulated',
         'status' => 'getStatus',
@@ -154,6 +164,7 @@ class CreateActivityOccurrenceRequest implements ArrayAccess
 
     const STATUS_SETUP = 'SETUP';
     const STATUS_OPEN = 'OPEN';
+    const STATUS_LAUNCHING = 'LAUNCHING';
     const STATUS_PLAYING = 'PLAYING';
     const STATUS_FINISHED = 'FINISHED';
     const STATUS_ABANDONED = 'ABANDONED';
@@ -169,6 +180,7 @@ class CreateActivityOccurrenceRequest implements ArrayAccess
         return [
             self::STATUS_SETUP,
             self::STATUS_OPEN,
+            self::STATUS_LAUNCHING,
             self::STATUS_PLAYING,
             self::STATUS_FINISHED,
             self::STATUS_ABANDONED,
@@ -190,8 +202,10 @@ class CreateActivityOccurrenceRequest implements ArrayAccess
     {
         $this->container['activity_id'] = isset($data['activity_id']) ? $data['activity_id'] : null;
         $this->container['challenge_activity_id'] = isset($data['challenge_activity_id']) ? $data['challenge_activity_id'] : null;
+        $this->container['core_settings'] = isset($data['core_settings']) ? $data['core_settings'] : null;
         $this->container['entitlement'] = isset($data['entitlement']) ? $data['entitlement'] : null;
         $this->container['event_id'] = isset($data['event_id']) ? $data['event_id'] : null;
+        $this->container['host'] = isset($data['host']) ? $data['host'] : null;
         $this->container['settings'] = isset($data['settings']) ? $data['settings'] : null;
         $this->container['simulated'] = isset($data['simulated']) ? $data['simulated'] : null;
         $this->container['status'] = isset($data['status']) ? $data['status'] : null;
@@ -278,6 +292,27 @@ class CreateActivityOccurrenceRequest implements ArrayAccess
     }
 
     /**
+     * Gets core_settings
+     * @return \KnetikCloud\Model\CoreActivityOccurrenceSettings
+     */
+    public function getCoreSettings()
+    {
+        return $this->container['core_settings'];
+    }
+
+    /**
+     * Sets core_settings
+     * @param \KnetikCloud\Model\CoreActivityOccurrenceSettings $core_settings Defines core settings about the activity that affect how it can be created/played by users.
+     * @return $this
+     */
+    public function setCoreSettings($core_settings)
+    {
+        $this->container['core_settings'] = $core_settings;
+
+        return $this;
+    }
+
+    /**
      * Gets entitlement
      * @return \KnetikCloud\Model\ItemIdRequest
      */
@@ -315,6 +350,27 @@ class CreateActivityOccurrenceRequest implements ArrayAccess
     public function setEventId($event_id)
     {
         $this->container['event_id'] = $event_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets host
+     * @return int
+     */
+    public function getHost()
+    {
+        return $this->container['host'];
+    }
+
+    /**
+     * Sets host
+     * @param int $host The host of the occurrence, if not a participant (will be left out of users array). Must be the caller that creates the occurrence unless admin. Requires activity/challenge to allow host_option of 'non_player' if not admin as well
+     * @return $this
+     */
+    public function setHost($host)
+    {
+        $this->container['host'] = $host;
 
         return $this;
     }

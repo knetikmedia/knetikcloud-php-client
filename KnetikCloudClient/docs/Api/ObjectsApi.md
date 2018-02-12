@@ -1,6 +1,6 @@
 # KnetikCloud\ObjectsApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -20,6 +20,8 @@ Method | HTTP request | Description
 > \KnetikCloud\Model\ObjectResource createObjectItem($template_id, $cascade, $object_item)
 
 Create an object
+
+<b>Permissions Needed:</b> INVENTORY_ADMIN
 
 ### Example
 ```php
@@ -73,7 +75,7 @@ Name | Type | Description  | Notes
 
 Create an object template
 
-Object templates define a type of entitlement and the properties they have
+Object templates define a type of entitlement and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -123,6 +125,8 @@ Name | Type | Description  | Notes
 
 Delete an object
 
+<b>Permissions Needed:</b> INVENTORY_ADMIN
+
 ### Example
 ```php
 <?php
@@ -162,7 +166,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -172,7 +176,7 @@ void (empty response body)
 
 Delete an entitlement template
 
-If cascade = 'detach', it will force delete the template even if it's attached to other objects
+If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -213,7 +217,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -222,6 +226,8 @@ void (empty response body)
 > \KnetikCloud\Model\ObjectResource getObjectItem($template_id, $object_id)
 
 Get a single object
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -263,7 +269,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -272,6 +278,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceObjectResource_ getObjectItems($template_id, $size, $page, $order)
 
 List and search objects
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -317,7 +325,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -326,6 +334,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\ItemTemplateResource getObjectTemplate($id)
 
 Get a single entitlement template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or ACHIEVEMENTS_ADMIN
 
 ### Example
 ```php
@@ -365,7 +375,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -374,6 +384,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceItemTemplateResource_ getObjectTemplates($size, $page, $order)
 
 List and search entitlement templates
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or ACHIEVEMENTS_ADMIN
 
 ### Example
 ```php
@@ -417,7 +429,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -426,6 +438,8 @@ Name | Type | Description  | Notes
 > updateObjectItem($template_id, $object_id, $cascade, $object_item)
 
 Update an object
+
+<b>Permissions Needed:</b> INVENTORY_ADMIN
 
 ### Example
 ```php
@@ -479,6 +493,8 @@ void (empty response body)
 > \KnetikCloud\Model\ItemTemplateResource updateObjectTemplate($id, $template)
 
 Update an entitlement template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php

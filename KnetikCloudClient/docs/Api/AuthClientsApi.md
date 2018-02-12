@@ -1,6 +1,6 @@
 # KnetikCloud\AuthClientsApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -18,6 +18,8 @@ Method | HTTP request | Description
 > \KnetikCloud\Model\ClientResource createClient($client_resource)
 
 Create a new client
+
+<b>Permissions Needed:</b> CLIENTS_ADMIN
 
 ### Example
 ```php
@@ -67,6 +69,8 @@ Name | Type | Description  | Notes
 
 Delete a client
 
+<b>Permissions Needed:</b> CLIENTS_ADMIN
+
 ### Example
 ```php
 <?php
@@ -104,7 +108,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -113,6 +117,8 @@ void (empty response body)
 > \KnetikCloud\Model\ClientResource getClient($client_key)
 
 Get a single client
+
+<b>Permissions Needed:</b> CLIENTS_ADMIN
 
 ### Example
 ```php
@@ -152,7 +158,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -161,6 +167,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\GrantTypeResource[] getClientGrantTypes()
 
 List available client grant types
+
+<b>Permissions Needed:</b> CLIENTS_ADMIN
 
 ### Example
 ```php
@@ -196,7 +204,7 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -205,6 +213,8 @@ This endpoint does not need any parameter.
 > \KnetikCloud\Model\PageResourceClientResource_ getClients($size, $page, $order)
 
 List and search clients
+
+<b>Permissions Needed:</b> CLIENTS_ADMIN
 
 ### Example
 ```php
@@ -248,7 +258,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -257,6 +267,8 @@ Name | Type | Description  | Notes
 > setClientGrantTypes($client_key, $grant_list)
 
 Set grant types for a client
+
+<b>Permissions Needed:</b> CLIENTS_ADMIN
 
 ### Example
 ```php
@@ -307,6 +319,8 @@ void (empty response body)
 
 Set redirect uris for a client
 
+<b>Permissions Needed:</b> CLIENTS_ADMIN
+
 ### Example
 ```php
 <?php
@@ -355,6 +369,8 @@ void (empty response body)
 > \KnetikCloud\Model\ClientResource updateClient($client_key, $client_resource)
 
 Update a client
+
+<b>Permissions Needed:</b> CLIENTS_ADMIN
 
 ### Example
 ```php

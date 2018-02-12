@@ -1,6 +1,6 @@
 # KnetikCloud\UsersInventoryApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -32,7 +32,7 @@ Method | HTTP request | Description
 
 Adds an item to the user inventory
 
-The inventory is fulfilled asynchronously UNLESS the invoice is explicitely skipped. Depending on the use case, it might require the client to verify that the entitlement was added after the fact or configure a BRE rule to get a notification in real time
+The inventory is fulfilled asynchronously UNLESS the invoice is explicitely skipped. Depending on the use case, it might require the client to verify that the entitlement was added after the fact or configure a BRE rule to get a notification in real time. <br><br><b>Permissions Needed:</b> INVENTORY_ADMIN
 
 ### Example
 ```php
@@ -84,7 +84,7 @@ Name | Type | Description  | Notes
 
 Check for access to an item without consuming
 
-Useful for pre-check and accounts for all various buisness rules
+Useful for pre-check and accounts for all various buisness rules. <br><br><b>Permissions Needed:</b> INVENTORY_ADMIN or owner
 
 ### Example
 ```php
@@ -127,7 +127,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -136,6 +136,8 @@ void (empty response body)
 > \KnetikCloud\Model\EntitlementItem createEntitlementItem($cascade, $entitlement_item)
 
 Create an entitlement item
+
+<b>Permissions Needed:</b> INVENTORY_ADMIN
 
 ### Example
 ```php
@@ -187,7 +189,7 @@ Name | Type | Description  | Notes
 
 Create an entitlement template
 
-Entitlement templates define a type of entitlement and the properties they have
+Entitlement templates define a type of entitlement and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -237,6 +239,8 @@ Name | Type | Description  | Notes
 
 Delete an entitlement item
 
+<b>Permissions Needed:</b> INVENTORY_ADMIN
+
 ### Example
 ```php
 <?php
@@ -274,7 +278,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -284,7 +288,7 @@ void (empty response body)
 
 Delete an entitlement template
 
-If cascade = 'detach', it will force delete the template even if it's attached to other objects
+If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -325,7 +329,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -334,6 +338,8 @@ void (empty response body)
 > \KnetikCloud\Model\EntitlementItem getEntitlementItem($entitlement_id)
 
 Get a single entitlement item
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -373,7 +379,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -382,6 +388,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceEntitlementItem_ getEntitlementItems($filter_template, $size, $page, $order)
 
 List and search entitlement items
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -427,7 +435,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -436,6 +444,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\ItemTemplateResource getEntitlementTemplate($id)
 
 Get a single entitlement template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or ACHIEVEMENTS_ADMIN
 
 ### Example
 ```php
@@ -475,7 +485,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -484,6 +494,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceItemTemplateResource_ getEntitlementTemplates($size, $page, $order)
 
 List and search entitlement templates
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or ACHIEVEMENTS_ADMIN
 
 ### Example
 ```php
@@ -527,7 +539,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -536,6 +548,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceUserInventoryResource_ getUserInventories($id, $inactive, $size, $page, $filter_item_name, $filter_item_id, $filter_username, $filter_group, $filter_date)
 
 List the user inventory entries for a given user
+
+<b>Permissions Needed:</b> INVENTORY_ADMIN or owner
 
 ### Example
 ```php
@@ -591,7 +605,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -600,6 +614,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\UserInventoryResource getUserInventory($user_id, $id)
 
 Get an inventory entry
+
+<b>Permissions Needed:</b> INVENTORY_ADMIN
 
 ### Example
 ```php
@@ -612,7 +628,7 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\UsersInventoryApi(new \Http\Adapter\Guzzle6\Client());
-$user_id = 56; // int | The id of the inventory owner or 'me' for the logged in user
+$user_id = "user_id_example"; // string | The id of the inventory owner or 'me' for the logged in user
 $id = 56; // int | The id of the user inventory
 
 try {
@@ -628,7 +644,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user_id** | **int**| The id of the inventory owner or &#39;me&#39; for the logged in user |
+ **user_id** | **string**| The id of the inventory owner or &#39;me&#39; for the logged in user |
  **id** | **int**| The id of the user inventory |
 
 ### Return type
@@ -641,7 +657,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -650,6 +666,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceUserItemLogResource_ getUserInventoryLog($user_id, $id, $size, $page)
 
 List the log entries for this inventory entry
+
+<b>Permissions Needed:</b> INVENTORY_ADMIN or owner
 
 ### Example
 ```php
@@ -695,7 +713,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -704,6 +722,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceUserInventoryResource_ getUsersInventory($inactive, $size, $page, $filter_item_name, $filter_item_id, $filter_username, $filter_group, $filter_date)
 
 List the user inventory entries for all users
+
+<b>Permissions Needed:</b> INVENTORY_ADMIN
 
 ### Example
 ```php
@@ -757,7 +777,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -766,6 +786,8 @@ Name | Type | Description  | Notes
 > grantUserEntitlement($user_id, $grant_request)
 
 Grant an entitlement
+
+<b>Permissions Needed:</b> INVENTORY_ADMIN
 
 ### Example
 ```php
@@ -815,6 +837,8 @@ void (empty response body)
 > updateEntitlementItem($entitlement_id, $cascade, $entitlement_item)
 
 Update an entitlement item
+
+<b>Permissions Needed:</b> INVENTORY_ADMIN
 
 ### Example
 ```php
@@ -867,6 +891,8 @@ void (empty response body)
 
 Update an entitlement template
 
+<b>Permissions Needed:</b> TEMPLATE_ADMIN
+
 ### Example
 ```php
 <?php
@@ -916,6 +942,8 @@ Name | Type | Description  | Notes
 > updateUserInventoryBehaviorData($user_id, $id, $data)
 
 Set the behavior data for an inventory entry
+
+<b>Permissions Needed:</b> INVENTORY_ADMIN
 
 ### Example
 ```php
@@ -968,7 +996,7 @@ void (empty response body)
 
 Set the expiration date
 
-Will change the current grace period for a subscription but not the bill date (possibly even ending before having the chance to re-bill)
+Will change the current grace period for a subscription but not the bill date (possibly even ending before having the chance to re-bill). <br><br><b>Permissions Needed:</b> INVENTORY_ADMIN
 
 ### Example
 ```php
@@ -1021,6 +1049,8 @@ void (empty response body)
 
 Set the status for an inventory entry
 
+<b>Permissions Needed:</b> INVENTORY_ADMIN
+
 ### Example
 ```php
 <?php
@@ -1071,6 +1101,8 @@ void (empty response body)
 > useUserEntitlementItem($user_id, $item_id, $sku, $info)
 
 Use an item
+
+<b>Permissions Needed:</b> INVENTORY_ADMIN or owner
 
 ### Example
 ```php

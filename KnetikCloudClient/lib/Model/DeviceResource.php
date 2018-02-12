@@ -334,7 +334,7 @@ class DeviceResource implements ArrayAccess
 
     /**
      * Sets device_type
-     * @param string $device_type The type of device. Use mobile to specifically register mobile devices. This particular type will be used to send and receive notifications
+     * @param string $device_type The type of device. Use mobile_device to specifically register mobile devices. This particular type will be used to send and receive notifications
      * @return $this
      */
     public function setDeviceType($device_type)
@@ -355,7 +355,7 @@ class DeviceResource implements ArrayAccess
 
     /**
      * Sets id
-     * @param string $id The unique ID for this device
+     * @param string $id The unique ID for this device. Cannot be changed after creation. Default: random
      * @return $this
      */
     public function setId($id)

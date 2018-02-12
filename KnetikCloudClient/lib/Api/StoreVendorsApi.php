@@ -692,7 +692,7 @@ class StoreVendorsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -904,7 +904,7 @@ class StoreVendorsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1140,7 +1140,7 @@ class StoreVendorsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1376,7 +1376,7 @@ class StoreVendorsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1441,12 +1441,12 @@ class StoreVendorsApi
      *
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceItemTemplateResource_
      */
-    public function getVendorTemplates($size = '25', $page = '1', $order = '1')
+    public function getVendorTemplates($size = '25', $page = '1', $order = null)
     {
         list($response) = $this->getVendorTemplatesWithHttpInfo($size, $page, $order);
         return $response;
@@ -1459,12 +1459,12 @@ class StoreVendorsApi
      *
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceItemTemplateResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getVendorTemplatesWithHttpInfo($size = '25', $page = '1', $order = '1')
+    public function getVendorTemplatesWithHttpInfo($size = '25', $page = '1', $order = null)
     {
         $returnType = '\KnetikCloud\Model\PageResourceItemTemplateResource_';
         $request = $this->getVendorTemplatesRequest($size, $page, $order);
@@ -1530,11 +1530,11 @@ class StoreVendorsApi
      *
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getVendorTemplatesAsync($size = '25', $page = '1', $order = '1')
+    public function getVendorTemplatesAsync($size = '25', $page = '1', $order = null)
     {
         return $this->getVendorTemplatesAsyncWithHttpInfo($size, $page, $order)->then(function ($response) {
             return $response[0];
@@ -1548,11 +1548,11 @@ class StoreVendorsApi
      *
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getVendorTemplatesAsyncWithHttpInfo($size = '25', $page = '1', $order = '1')
+    public function getVendorTemplatesAsyncWithHttpInfo($size = '25', $page = '1', $order = null)
     {
         $returnType = '\KnetikCloud\Model\PageResourceItemTemplateResource_';
         $request = $this->getVendorTemplatesRequest($size, $page, $order);
@@ -1590,11 +1590,11 @@ class StoreVendorsApi
      *
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getVendorTemplatesRequest($size = '25', $page = '1', $order = '1')
+    protected function getVendorTemplatesRequest($size = '25', $page = '1', $order = null)
     {
 
         $resourcePath = '/vendors/templates';
@@ -1626,7 +1626,7 @@ class StoreVendorsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1885,7 +1885,7 @@ class StoreVendorsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 

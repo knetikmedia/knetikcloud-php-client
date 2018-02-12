@@ -479,7 +479,7 @@ class InvoicesApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -715,7 +715,7 @@ class InvoicesApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -969,7 +969,7 @@ class InvoicesApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1048,12 +1048,12 @@ class InvoicesApi
      * @param string $filter_sku Filters invoices by item sku (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceInvoiceResource_
      */
-    public function getInvoices($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = '1')
+    public function getInvoices($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = null)
     {
         list($response) = $this->getInvoicesWithHttpInfo($filter_user, $filter_email, $filter_fulfillment_status, $filter_payment_status, $filter_item_name, $filter_external_ref, $filter_created_date, $filter_vendor_ids, $filter_currency, $filter_shipping_state_name, $filter_shipping_country_name, $filter_shipping, $filter_vendor_name, $filter_sku, $size, $page, $order);
         return $response;
@@ -1080,12 +1080,12 @@ class InvoicesApi
      * @param string $filter_sku Filters invoices by item sku (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceInvoiceResource_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getInvoicesWithHttpInfo($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = '1')
+    public function getInvoicesWithHttpInfo($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = null)
     {
         $returnType = '\KnetikCloud\Model\PageResourceInvoiceResource_';
         $request = $this->getInvoicesRequest($filter_user, $filter_email, $filter_fulfillment_status, $filter_payment_status, $filter_item_name, $filter_external_ref, $filter_created_date, $filter_vendor_ids, $filter_currency, $filter_shipping_state_name, $filter_shipping_country_name, $filter_shipping, $filter_vendor_name, $filter_sku, $size, $page, $order);
@@ -1165,11 +1165,11 @@ class InvoicesApi
      * @param string $filter_sku Filters invoices by item sku (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getInvoicesAsync($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = '1')
+    public function getInvoicesAsync($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = null)
     {
         return $this->getInvoicesAsyncWithHttpInfo($filter_user, $filter_email, $filter_fulfillment_status, $filter_payment_status, $filter_item_name, $filter_external_ref, $filter_created_date, $filter_vendor_ids, $filter_currency, $filter_shipping_state_name, $filter_shipping_country_name, $filter_shipping, $filter_vendor_name, $filter_sku, $size, $page, $order)->then(function ($response) {
             return $response[0];
@@ -1197,11 +1197,11 @@ class InvoicesApi
      * @param string $filter_sku Filters invoices by item sku (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getInvoicesAsyncWithHttpInfo($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = '1')
+    public function getInvoicesAsyncWithHttpInfo($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = null)
     {
         $returnType = '\KnetikCloud\Model\PageResourceInvoiceResource_';
         $request = $this->getInvoicesRequest($filter_user, $filter_email, $filter_fulfillment_status, $filter_payment_status, $filter_item_name, $filter_external_ref, $filter_created_date, $filter_vendor_ids, $filter_currency, $filter_shipping_state_name, $filter_shipping_country_name, $filter_shipping, $filter_vendor_name, $filter_sku, $size, $page, $order);
@@ -1253,11 +1253,11 @@ class InvoicesApi
      * @param string $filter_sku Filters invoices by item sku (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getInvoicesRequest($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = '1')
+    protected function getInvoicesRequest($filter_user = null, $filter_email = null, $filter_fulfillment_status = null, $filter_payment_status = null, $filter_item_name = null, $filter_external_ref = null, $filter_created_date = null, $filter_vendor_ids = null, $filter_currency = null, $filter_shipping_state_name = null, $filter_shipping_country_name = null, $filter_shipping = null, $filter_vendor_name = null, $filter_sku = null, $size = '25', $page = '1', $order = null)
     {
 
         $resourcePath = '/invoices';
@@ -1345,7 +1345,7 @@ class InvoicesApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1568,7 +1568,7 @@ class InvoicesApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 

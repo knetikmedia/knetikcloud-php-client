@@ -1,6 +1,6 @@
 # KnetikCloud\BRERuleEngineCategoriesApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -19,7 +19,7 @@ Method | HTTP request | Description
 
 Create a BRE category template
 
-Templates define a type of BRE category and the properties they have
+Templates define a type of BRE category and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -69,7 +69,7 @@ Name | Type | Description  | Notes
 
 Delete a BRE category template
 
-If cascade = 'detach', it will force delete the template even if it's attached to other objects
+If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -110,7 +110,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -119,6 +119,8 @@ void (empty response body)
 > \KnetikCloud\Model\PageResourceBreCategoryResource_ getBRECategories($size, $page)
 
 List categories
+
+<b>Permissions Needed:</b> BRE_RULE_ENGINE_CATEGORIES_USER
 
 ### Example
 ```php
@@ -160,7 +162,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -169,6 +171,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\BreCategoryResource getBRECategory($name)
 
 Get a single category
+
+<b>Permissions Needed:</b> BRE_RULE_ENGINE_CATEGORIES_USER
 
 ### Example
 ```php
@@ -208,7 +212,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -217,6 +221,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\TemplateResource getBRECategoryTemplate($id)
 
 Get a single BRE category template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or BRE_RULE_ENGINE_CATEGORIES_ADMIN
 
 ### Example
 ```php
@@ -256,7 +262,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -265,6 +271,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceTemplateResource_ getBRECategoryTemplates($size, $page, $order)
 
 List and search BRE category templates
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or BRE_RULE_ENGINE_CATEGORIES_ADMIN
 
 ### Example
 ```php
@@ -308,7 +316,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -317,6 +325,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\BreCategoryResource updateBRECategory($name, $category)
 
 Update a category
+
+<b>Permissions Needed:</b> BRE_RULE_ENGINE_CATEGORIES_ADMIN
 
 ### Example
 ```php
@@ -367,6 +377,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\TemplateResource updateBRECategoryTemplate($id, $template)
 
 Update a BRE category template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php

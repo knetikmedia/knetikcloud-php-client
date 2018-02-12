@@ -84,7 +84,7 @@ class BRERuleEngineExpressionsApiTest extends \PHPUnit_Framework_TestCase
     /**
      * Test case for getBREExpressions
      *
-     * Get a list of supported expressions to use in conditions or actions..
+     * Get a list of supported expressions to use in conditions or actions.
      *
      */
     public function testGetBREExpressions()

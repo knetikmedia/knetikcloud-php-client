@@ -1,6 +1,6 @@
 # KnetikCloud\LogsApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -17,6 +17,8 @@ Method | HTTP request | Description
 > addUserLog($log_entry)
 
 Add a user log entry
+
+<b>Permissions Needed:</b> owner
 
 ### Example
 ```php
@@ -65,6 +67,8 @@ void (empty response body)
 
 Get an existing BRE event log entry by id
 
+<b>Permissions Needed:</b> BRE_RULE_ENGINE_EVENTS_ADMIN
+
 ### Example
 ```php
 <?php
@@ -103,15 +107,17 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getBREEventLogs**
-> \KnetikCloud\Model\PageResourceBreEventLog_ getBREEventLogs($filter_start_date, $filter_event_name, $filter_event_id, $size, $page, $order)
+> \KnetikCloud\Model\PageResourceBreEventLog_ getBREEventLogs($filter_start_date, $filter_event_name, $filter_event_id, $size, $page, $order, $filter_rule_id)
 
 Returns a list of BRE event log entries
+
+<b>Permissions Needed:</b> BRE_RULE_ENGINE_EVENTS_ADMIN
 
 ### Example
 ```php
@@ -130,9 +136,10 @@ $filter_event_id = "filter_event_id_example"; // string | Filter event logs by r
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:DESC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
+$filter_rule_id = "filter_rule_id_example"; // string | Filter event logs by request id
 
 try {
-    $result = $api_instance->getBREEventLogs($filter_start_date, $filter_event_name, $filter_event_id, $size, $page, $order);
+    $result = $api_instance->getBREEventLogs($filter_start_date, $filter_event_name, $filter_event_id, $size, $page, $order, $filter_rule_id);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling LogsApi->getBREEventLogs: ', $e->getMessage(), PHP_EOL;
@@ -150,6 +157,7 @@ Name | Type | Description  | Notes
  **size** | **int**| The number of objects returned per page | [optional] [default to 25]
  **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]
  **order** | **string**| A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] | [optional] [default to id:DESC]
+ **filter_rule_id** | **string**| Filter event logs by request id | [optional]
 
 ### Return type
 
@@ -161,7 +169,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -170,6 +178,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\ForwardLog getBREForwardLog($id)
 
 Get an existing forward log entry by id
+
+<b>Permissions Needed:</b> BRE_RULE_ENGINE_EVENTS_ADMIN
 
 ### Example
 ```php
@@ -209,15 +219,17 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getBREForwardLogs**
-> \KnetikCloud\Model\PageResourceForwardLog_ getBREForwardLogs($filter_start_date, $filter_end_date, $filter_status_code, $size, $page, $order)
+> \KnetikCloud\Model\PageResourceForwardLog_ getBREForwardLogs($filter_start_date, $filter_end_date, $filter_status_code, $filter_url, $size, $page, $order)
 
 Returns a list of forward log entries
+
+<b>Permissions Needed:</b> BRE_RULE_ENGINE_EVENTS_ADMIN
 
 ### Example
 ```php
@@ -233,12 +245,13 @@ $api_instance = new KnetikCloud\Api\LogsApi(new \Http\Adapter\Guzzle6\Client());
 $filter_start_date = "filter_start_date_example"; // string | A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE).
 $filter_end_date = "filter_end_date_example"; // string | A comma separated string without spaces.  First value is the operator to search on, second value is the log end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE).
 $filter_status_code = 56; // int | Filter forward logs by http status code
+$filter_url = 56; // int | Filter forward logs by URL starting with...
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
 $order = "id:DESC"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
 
 try {
-    $result = $api_instance->getBREForwardLogs($filter_start_date, $filter_end_date, $filter_status_code, $size, $page, $order);
+    $result = $api_instance->getBREForwardLogs($filter_start_date, $filter_end_date, $filter_status_code, $filter_url, $size, $page, $order);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling LogsApi->getBREForwardLogs: ', $e->getMessage(), PHP_EOL;
@@ -253,6 +266,7 @@ Name | Type | Description  | Notes
  **filter_start_date** | **string**| A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). | [optional]
  **filter_end_date** | **string**| A comma separated string without spaces.  First value is the operator to search on, second value is the log end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). | [optional]
  **filter_status_code** | **int**| Filter forward logs by http status code | [optional]
+ **filter_url** | **int**| Filter forward logs by URL starting with... | [optional]
  **size** | **int**| The number of objects returned per page | [optional] [default to 25]
  **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]
  **order** | **string**| A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] | [optional] [default to id:DESC]
@@ -267,7 +281,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -276,6 +290,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\UserActionLog getUserLog($id)
 
 Returns a user log entry by id
+
+<b>Permissions Needed:</b> LOGS_ADMIN or owner
 
 ### Example
 ```php
@@ -315,7 +331,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -324,6 +340,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceUserActionLog_ getUserLogs($filter_user, $filter_action_name, $size, $page, $order)
 
 Returns a page of user logs entries
+
+<b>Permissions Needed:</b> LOGS_ADMIN or owner
 
 ### Example
 ```php
@@ -371,7 +389,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)

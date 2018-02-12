@@ -1,6 +1,6 @@
 # KnetikCloud\AuthRolesApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -20,6 +20,8 @@ Method | HTTP request | Description
 > \KnetikCloud\Model\RoleResource createRole($role_resource)
 
 Create a new role
+
+<b>Permissions Needed:</b> ROLES_ADMIN
 
 ### Example
 ```php
@@ -69,6 +71,8 @@ Name | Type | Description  | Notes
 
 Delete a role
 
+<b>Permissions Needed:</b> ROLES_ADMIN
+
 ### Example
 ```php
 <?php
@@ -108,7 +112,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -117,6 +121,8 @@ void (empty response body)
 > \KnetikCloud\Model\RoleResource[] getClientRoles($client_key)
 
 Get roles for a client
+
+<b>Permissions Needed:</b> ROLES_ADMIN
 
 ### Example
 ```php
@@ -156,7 +162,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -165,6 +171,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\RoleResource getRole($role)
 
 Get a single role
+
+<b>Permissions Needed:</b> ROLES_ADMIN
 
 ### Example
 ```php
@@ -204,7 +212,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -213,6 +221,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceRoleResource_ getRoles($filter_name, $filter_role, $size, $page, $order)
 
 List and search roles
+
+<b>Permissions Needed:</b> ROLES_ADMIN
 
 ### Example
 ```php
@@ -260,7 +270,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -269,6 +279,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\RoleResource[] getUserRoles($user_id)
 
 Get roles for a user
+
+<b>Permissions Needed:</b> ROLES_ADMIN
 
 ### Example
 ```php
@@ -308,7 +320,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -317,6 +329,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\ClientResource setClientRoles($client_key, $roles_list)
 
 Set roles for a client
+
+<b>Permissions Needed:</b> ROLES_ADMIN
 
 ### Example
 ```php
@@ -368,6 +382,8 @@ Name | Type | Description  | Notes
 
 Set permissions for a role
 
+<b>Permissions Needed:</b> ROLES_ADMIN
+
 ### Example
 ```php
 <?php
@@ -418,6 +434,8 @@ Name | Type | Description  | Notes
 
 Set roles for a user
 
+<b>Permissions Needed:</b> ROLES_ADMIN
+
 ### Example
 ```php
 <?php
@@ -467,6 +485,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\RoleResource updateRole($role, $role_resource)
 
 Update a role
+
+<b>Permissions Needed:</b> ROLES_ADMIN
 
 ### Example
 ```php

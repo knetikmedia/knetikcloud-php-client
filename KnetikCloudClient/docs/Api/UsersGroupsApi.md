@@ -1,6 +1,6 @@
 # KnetikCloud\UsersGroupsApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -12,16 +12,19 @@ Method | HTTP request | Description
 [**deleteGroup**](UsersGroupsApi.md#deleteGroup) | **DELETE** /users/groups/{unique_name} | Removes a group from the system
 [**deleteGroupMemberTemplate**](UsersGroupsApi.md#deleteGroupMemberTemplate) | **DELETE** /users/groups/members/templates/{id} | Delete an group member template
 [**deleteGroupTemplate**](UsersGroupsApi.md#deleteGroupTemplate) | **DELETE** /users/groups/templates/{id} | Delete a group template
+[**disableGroupNotification**](UsersGroupsApi.md#disableGroupNotification) | **PUT** /users/groups/{unique_name}/members/{user_id}/messages/disabled | Enable or disable notification of group messages
 [**getGroup**](UsersGroupsApi.md#getGroup) | **GET** /users/groups/{unique_name} | Loads a specific group&#39;s details
 [**getGroupAncestors**](UsersGroupsApi.md#getGroupAncestors) | **GET** /users/groups/{unique_name}/ancestors | Get group ancestors
 [**getGroupMember**](UsersGroupsApi.md#getGroupMember) | **GET** /users/groups/{unique_name}/members/{user_id} | Get a user from a group
 [**getGroupMemberTemplate**](UsersGroupsApi.md#getGroupMemberTemplate) | **GET** /users/groups/members/templates/{id} | Get a single group member template
 [**getGroupMemberTemplates**](UsersGroupsApi.md#getGroupMemberTemplates) | **GET** /users/groups/members/templates | List and search group member templates
 [**getGroupMembers**](UsersGroupsApi.md#getGroupMembers) | **GET** /users/groups/{unique_name}/members | Lists members of the group
+[**getGroupMessages**](UsersGroupsApi.md#getGroupMessages) | **GET** /users/groups/{unique_name}/messages | Get a list of group messages
 [**getGroupTemplate**](UsersGroupsApi.md#getGroupTemplate) | **GET** /users/groups/templates/{id} | Get a single group template
 [**getGroupTemplates**](UsersGroupsApi.md#getGroupTemplates) | **GET** /users/groups/templates | List and search group templates
 [**getGroupsForUser**](UsersGroupsApi.md#getGroupsForUser) | **GET** /users/{user_id}/groups | List groups a user is in
 [**listGroups**](UsersGroupsApi.md#listGroups) | **GET** /users/groups | List and search groups
+[**postGroupMessage**](UsersGroupsApi.md#postGroupMessage) | **POST** /users/groups/{unique_name}/messages | Send a group message
 [**removeGroupMember**](UsersGroupsApi.md#removeGroupMember) | **DELETE** /users/groups/{unique_name}/members/{user_id} | Removes a user from a group
 [**updateGroup**](UsersGroupsApi.md#updateGroup) | **PUT** /users/groups/{unique_name} | Update a group
 [**updateGroupMemberProperties**](UsersGroupsApi.md#updateGroupMemberProperties) | **PUT** /users/groups/{unique_name}/members/{user_id}/order | Change a user&#39;s order
@@ -35,6 +38,8 @@ Method | HTTP request | Description
 > \KnetikCloud\Model\GroupMemberResource addMemberToGroup($unique_name, $user)
 
 Adds a new member to the group
+
+<b>Permissions Needed:</b> GROUP_ADMIN or self if open
 
 ### Example
 ```php
@@ -86,6 +91,8 @@ Name | Type | Description  | Notes
 
 Adds multiple members to the group
 
+<b>Permissions Needed:</b> GROUP_ADMIN
+
 ### Example
 ```php
 <?php
@@ -136,6 +143,8 @@ Name | Type | Description  | Notes
 
 Create a group
 
+<b>Permissions Needed:</b> GROUP_ADMIN
+
 ### Example
 ```php
 <?php
@@ -184,7 +193,7 @@ Name | Type | Description  | Notes
 
 Create an group member template
 
-GroupMember Templates define a type of group member and the properties they have
+GroupMember Templates define a type of group member and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -234,7 +243,7 @@ Name | Type | Description  | Notes
 
 Create a group template
 
-Group Templates define a type of group and the properties they have
+Group Templates define a type of group and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -284,7 +293,7 @@ Name | Type | Description  | Notes
 
 Removes a group from the system
 
-All groups listing this as the parent are also removed and users are in turn removed from this and those groups. This may result in users no longer being in this group's parent if they were not added to it directly as well.
+All groups listing this as the parent are also removed and users are in turn removed from this and those groups. This may result in users no longer being in this group's parent if they were not added to it directly as well. <br><br><b>Permissions Needed:</b> GROUP_ADMIN
 
 ### Example
 ```php
@@ -323,7 +332,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -333,7 +342,7 @@ void (empty response body)
 
 Delete an group member template
 
-If cascade = 'detach', it will force delete the template even if it's attached to other objects
+If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -374,7 +383,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -384,7 +393,7 @@ void (empty response body)
 
 Delete a group template
 
-If cascade = 'detach', it will force delete the template even if it's attached to other objects
+If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -425,6 +434,57 @@ void (empty response body)
 
 ### HTTP request headers
 
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **disableGroupNotification**
+> disableGroupNotification($unique_name, $user_id, $disabled)
+
+Enable or disable notification of group messages
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
+$unique_name = "unique_name_example"; // string | The group unique name
+$user_id = "user_id_example"; // string | The user id of the member or 'me'
+$disabled = new \KnetikCloud\Model\ValueWrapperBoolean_(); // \KnetikCloud\Model\ValueWrapperBoolean_ | disabled
+
+try {
+    $api_instance->disableGroupNotification($unique_name, $user_id, $disabled);
+} catch (Exception $e) {
+    echo 'Exception when calling UsersGroupsApi->disableGroupNotification: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **unique_name** | **string**| The group unique name |
+ **user_id** | **string**| The user id of the member or &#39;me&#39; |
+ **disabled** | [**\KnetikCloud\Model\ValueWrapperBoolean_**](../Model/ValueWrapperBoolean_.md)| disabled |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
+
+### HTTP request headers
+
  - **Content-Type**: application/json
  - **Accept**: application/json
 
@@ -434,6 +494,8 @@ void (empty response body)
 > \KnetikCloud\Model\GroupResource getGroup($unique_name)
 
 Loads a specific group's details
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -473,7 +535,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -483,12 +545,17 @@ Name | Type | Description  | Notes
 
 Get group ancestors
 
-Returns a list of ancestor groups in reverse order (parent, then grandparent, etc
+Returns a list of ancestor groups in reverse order (parent, then grandparent, etc). <br><br><b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
 $unique_name = "unique_name_example"; // string | The group unique name
@@ -514,11 +581,11 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -527,6 +594,8 @@ No authorization required
 > \KnetikCloud\Model\GroupMemberResource getGroupMember($unique_name, $user_id)
 
 Get a user from a group
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -568,7 +637,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -577,6 +646,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\TemplateResource getGroupMemberTemplate($id)
 
 Get a single group member template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or GROUP_ADMIN
 
 ### Example
 ```php
@@ -616,7 +687,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -625,6 +696,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceTemplateResource_ getGroupMemberTemplates($size, $page, $order)
 
 List and search group member templates
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or GROUP_ADMIN
 
 ### Example
 ```php
@@ -668,7 +741,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -677,6 +750,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceGroupMemberResource_ getGroupMembers($unique_name, $size, $page, $order)
 
 Lists members of the group
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -722,7 +797,61 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **getGroupMessages**
+> \KnetikCloud\Model\PageResourceChatMessageResource_ getGroupMessages($unique_name, $size, $page)
+
+Get a list of group messages
+
+<b>Permissions Needed:</b> ANY
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: oauth2_client_credentials_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+// Configure OAuth2 access token for authorization: oauth2_password_grant
+KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
+$unique_name = "unique_name_example"; // string | The group unique name
+$size = 25; // int | The number of objects returned per page
+$page = 1; // int | The number of the page returned, starting with 1
+
+try {
+    $result = $api_instance->getGroupMessages($unique_name, $size, $page);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling UsersGroupsApi->getGroupMessages: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **unique_name** | **string**| The group unique name |
+ **size** | **int**| The number of objects returned per page | [optional] [default to 25]
+ **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]
+
+### Return type
+
+[**\KnetikCloud\Model\PageResourceChatMessageResource_**](../Model/PageResourceChatMessageResource_.md)
+
+### Authorization
+
+[oauth2_client_credentials_grant](../../README.md#oauth2_client_credentials_grant), [oauth2_password_grant](../../README.md#oauth2_password_grant)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -731,6 +860,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\TemplateResource getGroupTemplate($id)
 
 Get a single group template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or GROUP_ADMIN
 
 ### Example
 ```php
@@ -770,7 +901,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -779,6 +910,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceTemplateResource_ getGroupTemplates($size, $page, $order)
 
 List and search group templates
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or GROUP_ADMIN
 
 ### Example
 ```php
@@ -822,7 +955,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -831,6 +964,8 @@ Name | Type | Description  | Notes
 > string[] getGroupsForUser($user_id, $filter_children)
 
 List groups a user is in
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -872,7 +1007,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -881,6 +1016,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceGroupResource_ listGroups($filter_template, $filter_member_count, $filter_name, $filter_unique_name, $filter_parent, $filter_status, $size, $page, $order)
 
 List and search groups
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -936,6 +1073,51 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **postGroupMessage**
+> \KnetikCloud\Model\ChatMessageResource postGroupMessage($unique_name, $chat_message_request)
+
+Send a group message
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new KnetikCloud\Api\UsersGroupsApi(new \Http\Adapter\Guzzle6\Client());
+$unique_name = "unique_name_example"; // string | The group unique name
+$chat_message_request = new \KnetikCloud\Model\ChatMessageRequest(); // \KnetikCloud\Model\ChatMessageRequest | The chat message request
+
+try {
+    $result = $api_instance->postGroupMessage($unique_name, $chat_message_request);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling UsersGroupsApi->postGroupMessage: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **unique_name** | **string**| The group unique name |
+ **chat_message_request** | [**\KnetikCloud\Model\ChatMessageRequest**](../Model/ChatMessageRequest.md)| The chat message request | [optional]
+
+### Return type
+
+[**\KnetikCloud\Model\ChatMessageResource**](../Model/ChatMessageResource.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
  - **Content-Type**: application/json
  - **Accept**: application/json
 
@@ -945,6 +1127,8 @@ Name | Type | Description  | Notes
 > removeGroupMember($unique_name, $user_id)
 
 Removes a user from a group
+
+<b>Permissions Needed:</b> GROUP_ADMIN or self if open
 
 ### Example
 ```php
@@ -985,7 +1169,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -995,7 +1179,7 @@ void (empty response body)
 
 Update a group
 
-If adding/removing/changing parent, user membership in group/new parent groups may be modified. The parent being removed will remove members from this sub group unless they were added explicitly to the parent and the new parent will gain members unless they were already a part of it.
+If adding/removing/changing parent, user membership in group/new parent groups may be modified. The parent being removed will remove members from this sub group unless they were added explicitly to the parent and the new parent will gain members unless they were already a part of it. <br><br><b>Permissions Needed:</b> GROUP_ADMIN or admin of the group
 
 ### Example
 ```php
@@ -1045,6 +1229,8 @@ void (empty response body)
 > updateGroupMemberProperties($unique_name, $user_id, $order)
 
 Change a user's order
+
+<b>Permissions Needed:</b> GROUP_ADMIN
 
 ### Example
 ```php
@@ -1097,6 +1283,8 @@ void (empty response body)
 
 Change a user's membership properties
 
+<b>Permissions Needed:</b> GROUP_ADMIN
+
 ### Example
 ```php
 <?php
@@ -1147,6 +1335,8 @@ void (empty response body)
 > updateGroupMemberStatus($unique_name, $user_id, $status)
 
 Change a user's status
+
+<b>Permissions Needed:</b> GROUP_ADMIN
 
 ### Example
 ```php
@@ -1199,6 +1389,8 @@ void (empty response body)
 
 Update an group member template
 
+<b>Permissions Needed:</b> TEMPLATE_ADMIN
+
 ### Example
 ```php
 <?php
@@ -1248,6 +1440,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\TemplateResource updateGroupTemplate($id, $group_template_resource)
 
 Update a group template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php

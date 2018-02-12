@@ -459,7 +459,7 @@ class ConfigsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -695,7 +695,7 @@ class ConfigsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -761,12 +761,12 @@ class ConfigsApi
      * @param string $filter_search Filter for configs whose name contains the given string (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceConfig_
      */
-    public function getConfigs($filter_search = null, $size = '25', $page = '1', $order = '1')
+    public function getConfigs($filter_search = null, $size = '25', $page = '1', $order = null)
     {
         list($response) = $this->getConfigsWithHttpInfo($filter_search, $size, $page, $order);
         return $response;
@@ -780,12 +780,12 @@ class ConfigsApi
      * @param string $filter_search Filter for configs whose name contains the given string (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceConfig_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getConfigsWithHttpInfo($filter_search = null, $size = '25', $page = '1', $order = '1')
+    public function getConfigsWithHttpInfo($filter_search = null, $size = '25', $page = '1', $order = null)
     {
         $returnType = '\KnetikCloud\Model\PageResourceConfig_';
         $request = $this->getConfigsRequest($filter_search, $size, $page, $order);
@@ -852,11 +852,11 @@ class ConfigsApi
      * @param string $filter_search Filter for configs whose name contains the given string (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getConfigsAsync($filter_search = null, $size = '25', $page = '1', $order = '1')
+    public function getConfigsAsync($filter_search = null, $size = '25', $page = '1', $order = null)
     {
         return $this->getConfigsAsyncWithHttpInfo($filter_search, $size, $page, $order)->then(function ($response) {
             return $response[0];
@@ -871,11 +871,11 @@ class ConfigsApi
      * @param string $filter_search Filter for configs whose name contains the given string (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getConfigsAsyncWithHttpInfo($filter_search = null, $size = '25', $page = '1', $order = '1')
+    public function getConfigsAsyncWithHttpInfo($filter_search = null, $size = '25', $page = '1', $order = null)
     {
         $returnType = '\KnetikCloud\Model\PageResourceConfig_';
         $request = $this->getConfigsRequest($filter_search, $size, $page, $order);
@@ -914,11 +914,11 @@ class ConfigsApi
      * @param string $filter_search Filter for configs whose name contains the given string (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned (optional, default to 1)
-     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to 1)
+     * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getConfigsRequest($filter_search = null, $size = '25', $page = '1', $order = '1')
+    protected function getConfigsRequest($filter_search = null, $size = '25', $page = '1', $order = null)
     {
 
         $resourcePath = '/configs';
@@ -954,7 +954,7 @@ class ConfigsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 

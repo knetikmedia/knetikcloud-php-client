@@ -1,6 +1,6 @@
 <?php
 /**
- * IOConfigTest
+ * ChatThreadResourceTest
  *
  * PHP version 5
  *
@@ -30,16 +30,16 @@
 namespace KnetikCloud;
 
 /**
- * IOConfigTest Class Doc Comment
+ * ChatThreadResourceTest Class Doc Comment
  *
  * @category    Class */
-// * @description IOConfig
+// * @description ChatThreadResource
 /**
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class IOConfigTest extends \PHPUnit_Framework_TestCase
+class ChatThreadResourceTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -71,37 +71,65 @@ class IOConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test "IOConfig"
+     * Test "ChatThreadResource"
      */
-    public function testIOConfig()
+    public function testChatThreadResource()
     {
     }
 
     /**
-     * Test attribute "customer"
+     * Test attribute "active_users"
      */
-    public function testPropertyCustomer()
+    public function testPropertyActiveUsers()
     {
     }
 
     /**
-     * Test attribute "enabled"
+     * Test attribute "count"
      */
-    public function testPropertyEnabled()
+    public function testPropertyCount()
     {
     }
 
     /**
-     * Test attribute "environment"
+     * Test attribute "created_date"
      */
-    public function testPropertyEnvironment()
+    public function testPropertyCreatedDate()
     {
     }
 
     /**
-     * Test attribute "product"
+     * Test attribute "id"
      */
-    public function testPropertyProduct()
+    public function testPropertyId()
+    {
+    }
+
+    /**
+     * Test attribute "recipient_id"
+     */
+    public function testPropertyRecipientId()
+    {
+    }
+
+    /**
+     * Test attribute "recipient_type"
+     */
+    public function testPropertyRecipientType()
+    {
+    }
+
+    /**
+     * Test attribute "subject"
+     */
+    public function testPropertySubject()
+    {
+    }
+
+    /**
+     * Test attribute "updated_date"
+     */
+    public function testPropertyUpdatedDate()
     {
     }
 }

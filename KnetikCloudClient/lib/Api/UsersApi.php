@@ -685,7 +685,7 @@ class UsersApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -737,6 +737,260 @@ class UsersApi
 
         return new Request(
             'DELETE',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getDirectMessages1
+     *
+     * Get a list of direct messages with this user
+     *
+     * @param int $recipient_id The user id (required)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\PageResourceChatMessageResource_
+     */
+    public function getDirectMessages1($recipient_id, $size = '25', $page = '1')
+    {
+        list($response) = $this->getDirectMessages1WithHttpInfo($recipient_id, $size, $page);
+        return $response;
+    }
+
+    /**
+     * Operation getDirectMessages1WithHttpInfo
+     *
+     * Get a list of direct messages with this user
+     *
+     * @param int $recipient_id The user id (required)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\PageResourceChatMessageResource_, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getDirectMessages1WithHttpInfo($recipient_id, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceChatMessageResource_';
+        $request = $this->getDirectMessages1Request($recipient_id, $size, $page);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\PageResourceChatMessageResource_', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getDirectMessages1Async
+     *
+     * Get a list of direct messages with this user
+     *
+     * @param int $recipient_id The user id (required)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getDirectMessages1Async($recipient_id, $size = '25', $page = '1')
+    {
+        return $this->getDirectMessages1AsyncWithHttpInfo($recipient_id, $size, $page)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation getDirectMessages1AsyncWithHttpInfo
+     *
+     * Get a list of direct messages with this user
+     *
+     * @param int $recipient_id The user id (required)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getDirectMessages1AsyncWithHttpInfo($recipient_id, $size = '25', $page = '1')
+    {
+        $returnType = '\KnetikCloud\Model\PageResourceChatMessageResource_';
+        $request = $this->getDirectMessages1Request($recipient_id, $size, $page);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'getDirectMessages1'
+     *
+     * @param int $recipient_id The user id (required)
+     * @param int $size The number of objects returned per page (optional, default to 25)
+     * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getDirectMessages1Request($recipient_id, $size = '25', $page = '1')
+    {
+        // verify the required parameter 'recipient_id' is set
+        if ($recipient_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $recipient_id when calling getDirectMessages1');
+        }
+
+        $resourcePath = '/users/users/{recipient_id}/messages';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        if ($size !== null) {
+            $queryParams['size'] = ObjectSerializer::toQueryValue($size);
+        }
+        // query params
+        if ($page !== null) {
+            $queryParams['page'] = ObjectSerializer::toQueryValue($page);
+        }
+
+        // path params
+        if ($recipient_id !== null) {
+            $resourcePath = str_replace('{' . 'recipient_id' . '}', ObjectSerializer::toPathValue($recipient_id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                []
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'GET',
             $url,
             $headers,
             $httpBody
@@ -921,7 +1175,7 @@ class UsersApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1157,7 +1411,7 @@ class UsersApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1393,7 +1647,7 @@ class UsersApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1643,7 +1897,7 @@ class UsersApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -2001,7 +2255,7 @@ class UsersApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -2266,6 +2520,244 @@ class UsersApi
 
         return new Request(
             'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation postUserMessage
+     *
+     * Send a user message
+     *
+     * @param int $recipient_id The user id (required)
+     * @param \KnetikCloud\Model\ChatMessageRequest $chat_message_request The chat message request (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\ChatMessageResource
+     */
+    public function postUserMessage($recipient_id, $chat_message_request = null)
+    {
+        list($response) = $this->postUserMessageWithHttpInfo($recipient_id, $chat_message_request);
+        return $response;
+    }
+
+    /**
+     * Operation postUserMessageWithHttpInfo
+     *
+     * Send a user message
+     *
+     * @param int $recipient_id The user id (required)
+     * @param \KnetikCloud\Model\ChatMessageRequest $chat_message_request The chat message request (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\ChatMessageResource, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function postUserMessageWithHttpInfo($recipient_id, $chat_message_request = null)
+    {
+        $returnType = '\KnetikCloud\Model\ChatMessageResource';
+        $request = $this->postUserMessageRequest($recipient_id, $chat_message_request);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ChatMessageResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation postUserMessageAsync
+     *
+     * Send a user message
+     *
+     * @param int $recipient_id The user id (required)
+     * @param \KnetikCloud\Model\ChatMessageRequest $chat_message_request The chat message request (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function postUserMessageAsync($recipient_id, $chat_message_request = null)
+    {
+        return $this->postUserMessageAsyncWithHttpInfo($recipient_id, $chat_message_request)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation postUserMessageAsyncWithHttpInfo
+     *
+     * Send a user message
+     *
+     * @param int $recipient_id The user id (required)
+     * @param \KnetikCloud\Model\ChatMessageRequest $chat_message_request The chat message request (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function postUserMessageAsyncWithHttpInfo($recipient_id, $chat_message_request = null)
+    {
+        $returnType = '\KnetikCloud\Model\ChatMessageResource';
+        $request = $this->postUserMessageRequest($recipient_id, $chat_message_request);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'postUserMessage'
+     *
+     * @param int $recipient_id The user id (required)
+     * @param \KnetikCloud\Model\ChatMessageRequest $chat_message_request The chat message request (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function postUserMessageRequest($recipient_id, $chat_message_request = null)
+    {
+        // verify the required parameter 'recipient_id' is set
+        if ($recipient_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $recipient_id when calling postUserMessage');
+        }
+
+        $resourcePath = '/users/{recipient_id}/messages';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // path params
+        if ($recipient_id !== null) {
+            $resourcePath = str_replace('{' . 'recipient_id' . '}', ObjectSerializer::toPathValue($recipient_id), $resourcePath);
+        }
+
+        // body params
+        $_tempBody = null;
+        if (isset($chat_message_request)) {
+            $_tempBody = $chat_message_request;
+        }
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
             $url,
             $headers,
             $httpBody
@@ -2663,7 +3155,7 @@ class UsersApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 

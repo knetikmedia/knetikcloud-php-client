@@ -152,6 +152,16 @@ class UsersGroupsApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for disableGroupNotification
+     *
+     * Enable or disable notification of group messages.
+     *
+     */
+    public function testDisableGroupNotification()
+    {
+    }
+
+    /**
      * Test case for getGroup
      *
      * Loads a specific group's details.
@@ -212,6 +222,16 @@ class UsersGroupsApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for getGroupMessages
+     *
+     * Get a list of group messages.
+     *
+     */
+    public function testGetGroupMessages()
+    {
+    }
+
+    /**
      * Test case for getGroupTemplate
      *
      * Get a single group template.
@@ -248,6 +268,16 @@ class UsersGroupsApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function testListGroups()
+    {
+    }
+
+    /**
+     * Test case for postGroupMessage
+     *
+     * Send a group message.
+     *
+     */
+    public function testPostGroupMessage()
     {
     }
 

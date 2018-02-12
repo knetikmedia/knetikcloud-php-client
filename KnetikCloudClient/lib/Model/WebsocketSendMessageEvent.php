@@ -1,6 +1,6 @@
 <?php
 /**
- * IOConfig
+ * WebsocketSendMessageEvent
  *
  * PHP version 5
  *
@@ -32,14 +32,14 @@ namespace KnetikCloud\Model;
 use \ArrayAccess;
 
 /**
- * IOConfig Class Doc Comment
+ * WebsocketSendMessageEvent Class Doc Comment
  *
  * @category    Class
  * @package     KnetikCloud
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class IOConfig implements ArrayAccess
+class WebsocketSendMessageEvent extends BroadcastableEvent implements ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -47,17 +47,15 @@ class IOConfig implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    protected static $swaggerModelName = 'IOConfig';
+    protected static $swaggerModelName = 'WebsocketSendMessageEvent';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'customer' => 'string',
-        'enabled' => 'bool',
-        'environment' => 'string',
-        'product' => 'string'
+        'content' => 'object',
+        'usernames' => 'string[]'
     ];
 
     /**
@@ -65,20 +63,18 @@ class IOConfig implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'customer' => null,
-        'enabled' => null,
-        'environment' => null,
-        'product' => null
+        'content' => null,
+        'usernames' => null
     ];
 
     public static function swaggerTypes()
     {
-        return self::$swaggerTypes;
+        return self::$swaggerTypes + parent::swaggerTypes();
     }
 
     public static function swaggerFormats()
     {
-        return self::$swaggerFormats;
+        return self::$swaggerFormats + parent::swaggerFormats();
     }
 
     /**
@@ -86,10 +82,8 @@ class IOConfig implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'customer' => 'customer',
-        'enabled' => 'enabled',
-        'environment' => 'environment',
-        'product' => 'product'
+        'content' => 'content',
+        'usernames' => 'usernames'
     ];
 
 
@@ -98,10 +92,8 @@ class IOConfig implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'customer' => 'setCustomer',
-        'enabled' => 'setEnabled',
-        'environment' => 'setEnvironment',
-        'product' => 'setProduct'
+        'content' => 'setContent',
+        'usernames' => 'setUsernames'
     ];
 
 
@@ -110,25 +102,23 @@ class IOConfig implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'customer' => 'getCustomer',
-        'enabled' => 'getEnabled',
-        'environment' => 'getEnvironment',
-        'product' => 'getProduct'
+        'content' => 'getContent',
+        'usernames' => 'getUsernames'
     ];
 
     public static function attributeMap()
     {
-        return self::$attributeMap;
+        return parent::attributeMap() + self::$attributeMap;
     }
 
     public static function setters()
     {
-        return self::$setters;
+        return parent::setters() + self::$setters;
     }
 
     public static function getters()
     {
-        return self::$getters;
+        return parent::getters() + self::$getters;
     }
 
     
@@ -147,10 +137,10 @@ class IOConfig implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['customer'] = isset($data['customer']) ? $data['customer'] : null;
-        $this->container['enabled'] = isset($data['enabled']) ? $data['enabled'] : null;
-        $this->container['environment'] = isset($data['environment']) ? $data['environment'] : null;
-        $this->container['product'] = isset($data['product']) ? $data['product'] : null;
+        parent::__construct($data);
+
+        $this->container['content'] = isset($data['content']) ? $data['content'] : null;
+        $this->container['usernames'] = isset($data['usernames']) ? $data['usernames'] : null;
     }
 
     /**
@@ -160,7 +150,7 @@ class IOConfig implements ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalid_properties = [];
+        $invalid_properties = parent::listInvalidProperties();
 
         return $invalid_properties;
     }
@@ -173,91 +163,52 @@ class IOConfig implements ArrayAccess
      */
     public function valid()
     {
+        if (!parent::valid()) {
+            return false;
+        }
 
         return true;
     }
 
 
     /**
-     * Gets customer
-     * @return string
+     * Gets content
+     * @return object
      */
-    public function getCustomer()
+    public function getContent()
     {
-        return $this->container['customer'];
+        return $this->container['content'];
     }
 
     /**
-     * Sets customer
-     * @param string $customer
+     * Sets content
+     * @param object $content
      * @return $this
      */
-    public function setCustomer($customer)
+    public function setContent($content)
     {
-        $this->container['customer'] = $customer;
+        $this->container['content'] = $content;
 
         return $this;
     }
 
     /**
-     * Gets enabled
-     * @return bool
+     * Gets usernames
+     * @return string[]
      */
-    public function getEnabled()
+    public function getUsernames()
     {
-        return $this->container['enabled'];
+        return $this->container['usernames'];
     }
 
     /**
-     * Sets enabled
-     * @param bool $enabled
+     * Sets usernames
+     * @param string[] $usernames
      * @return $this
      */
-    public function setEnabled($enabled)
+    public function setUsernames($usernames)
     {
-        $this->container['enabled'] = $enabled;
-
-        return $this;
-    }
-
-    /**
-     * Gets environment
-     * @return string
-     */
-    public function getEnvironment()
-    {
-        return $this->container['environment'];
-    }
-
-    /**
-     * Sets environment
-     * @param string $environment
-     * @return $this
-     */
-    public function setEnvironment($environment)
-    {
-        $this->container['environment'] = $environment;
-
-        return $this;
-    }
-
-    /**
-     * Gets product
-     * @return string
-     */
-    public function getProduct()
-    {
-        return $this->container['product'];
-    }
-
-    /**
-     * Sets product
-     * @param string $product
-     * @return $this
-     */
-    public function setProduct($product)
-    {
-        $this->container['product'] = $product;
+        $this->container['usernames'] = $usernames;
 
         return $this;
     }

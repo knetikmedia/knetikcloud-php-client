@@ -54,6 +54,7 @@ class BreRuleLog implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
+        'actions' => '\KnetikCloud\Model\BreActionLog[]',
         'ran' => 'bool',
         'reason' => 'string',
         'rule_end_date' => 'int',
@@ -67,6 +68,7 @@ class BreRuleLog implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
+        'actions' => null,
         'ran' => null,
         'reason' => null,
         'rule_end_date' => 'int64',
@@ -90,6 +92,7 @@ class BreRuleLog implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
+        'actions' => 'actions',
         'ran' => 'ran',
         'reason' => 'reason',
         'rule_end_date' => 'rule_end_date',
@@ -104,6 +107,7 @@ class BreRuleLog implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
+        'actions' => 'setActions',
         'ran' => 'setRan',
         'reason' => 'setReason',
         'rule_end_date' => 'setRuleEndDate',
@@ -118,6 +122,7 @@ class BreRuleLog implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
+        'actions' => 'getActions',
         'ran' => 'getRan',
         'reason' => 'getReason',
         'rule_end_date' => 'getRuleEndDate',
@@ -157,6 +162,7 @@ class BreRuleLog implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['actions'] = isset($data['actions']) ? $data['actions'] : null;
         $this->container['ran'] = isset($data['ran']) ? $data['ran'] : null;
         $this->container['reason'] = isset($data['reason']) ? $data['reason'] : null;
         $this->container['rule_end_date'] = isset($data['rule_end_date']) ? $data['rule_end_date'] : null;
@@ -189,6 +195,27 @@ class BreRuleLog implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets actions
+     * @return \KnetikCloud\Model\BreActionLog[]
+     */
+    public function getActions()
+    {
+        return $this->container['actions'];
+    }
+
+    /**
+     * Sets actions
+     * @param \KnetikCloud\Model\BreActionLog[] $actions The actions of the BRE rule
+     * @return $this
+     */
+    public function setActions($actions)
+    {
+        $this->container['actions'] = $actions;
+
+        return $this;
+    }
 
     /**
      * Gets ran

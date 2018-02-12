@@ -1,6 +1,6 @@
 # KnetikCloud\UsersAddressesApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -15,6 +15,8 @@ Method | HTTP request | Description
 > \KnetikCloud\Model\SavedAddressResource createAddress($user_id, $saved_address_resource)
 
 Create a new address
+
+<b>Permissions Needed:</b> USERS_ADMIN or owner
 
 ### Example
 ```php
@@ -66,6 +68,8 @@ Name | Type | Description  | Notes
 
 Delete an address
 
+<b>Permissions Needed:</b> USERS_ADMIN or owner
+
 ### Example
 ```php
 <?php
@@ -105,7 +109,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -114,6 +118,8 @@ void (empty response body)
 > \KnetikCloud\Model\SavedAddressResource getAddress($user_id, $id)
 
 Get a single address
+
+<b>Permissions Needed:</b> USERS_ADMIN or owner
 
 ### Example
 ```php
@@ -155,7 +161,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -164,6 +170,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceSavedAddressResource_ getAddresses($user_id, $size, $page, $order)
 
 List and search addresses
+
+<b>Permissions Needed:</b> USERS_ADMIN or owner
 
 ### Example
 ```php
@@ -209,7 +217,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -218,6 +226,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\SavedAddressResource updateAddress($user_id, $id, $saved_address_resource)
 
 Update an address
+
+<b>Permissions Needed:</b> USERS_ADMIN or owner
 
 ### Example
 ```php

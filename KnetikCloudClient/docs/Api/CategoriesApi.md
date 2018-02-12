@@ -1,6 +1,6 @@
 # KnetikCloud\CategoriesApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -21,6 +21,8 @@ Method | HTTP request | Description
 > \KnetikCloud\Model\CategoryResource createCategory($category)
 
 Create a new category
+
+<b>Permissions Needed:</b> CATEGORIES_ADMIN
 
 ### Example
 ```php
@@ -70,7 +72,7 @@ Name | Type | Description  | Notes
 
 Create a category template
 
-Templates define a type of category and the properties they have
+Templates define a type of category and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -120,6 +122,8 @@ Name | Type | Description  | Notes
 
 Delete an existing category
 
+<b>Permissions Needed:</b> CATEGORIES_ADMIN
+
 ### Example
 ```php
 <?php
@@ -157,7 +161,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -167,7 +171,7 @@ void (empty response body)
 
 Delete a category template
 
-If cascade = 'detach', it will force delete the template even if it's attached to other objects
+If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -208,7 +212,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -217,6 +221,8 @@ void (empty response body)
 > \KnetikCloud\Model\PageResourceCategoryResource_ getCategories($filter_search, $filter_active, $size, $page, $order)
 
 List and search categories with optional filters
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -264,7 +270,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -273,6 +279,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\CategoryResource getCategory($id)
 
 Get a single category
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -312,7 +320,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -321,6 +329,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\TemplateResource getCategoryTemplate($id)
 
 Get a single category template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or CATEGORIES_ADMIN
 
 ### Example
 ```php
@@ -360,7 +370,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -369,6 +379,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceTemplateResource_ getCategoryTemplates($size, $page, $order)
 
 List and search category templates
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or CATEGORIES_ADMIN
 
 ### Example
 ```php
@@ -412,7 +424,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -421,6 +433,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceString_ getTags($size, $page)
 
 List all trivia tags in the system
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -462,7 +476,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -471,6 +485,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\CategoryResource updateCategory($id, $category)
 
 Update an existing category
+
+<b>Permissions Needed:</b> CATEGORIES_ADMIN
 
 ### Example
 ```php
@@ -521,6 +537,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\TemplateResource updateCategoryTemplate($id, $template)
 
 Update a category template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php

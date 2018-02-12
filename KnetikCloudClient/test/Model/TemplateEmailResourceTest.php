@@ -92,6 +92,13 @@ class TemplateEmailResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "subject"
+     */
+    public function testPropertySubject()
+    {
+    }
+
+    /**
      * Test attribute "template_key"
      */
     public function testPropertyTemplateKey()

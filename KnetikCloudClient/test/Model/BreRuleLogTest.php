@@ -78,6 +78,13 @@ class BreRuleLogTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "actions"
+     */
+    public function testPropertyActions()
+    {
+    }
+
+    /**
      * Test attribute "ran"
      */
     public function testPropertyRan()

@@ -195,7 +195,7 @@ class Config implements ArrayAccess
 
     /**
      * Sets description
-     * @param string $description The description of the config.  Max 140 characters
+     * @param string $description The description of the config.  Max 255 characters
      * @return $this
      */
     public function setDescription($description)

@@ -56,7 +56,6 @@ class CustomerConfig implements ArrayAccess
     protected static $swaggerTypes = [
         'aliases' => 'string',
         'database' => '\KnetikCloud\Model\DatabaseConfig',
-        'io' => '\KnetikCloud\Model\IOConfig',
         'name' => 'string',
         's3_config' => '\KnetikCloud\Model\S3Config'
     ];
@@ -68,7 +67,6 @@ class CustomerConfig implements ArrayAccess
     protected static $swaggerFormats = [
         'aliases' => null,
         'database' => null,
-        'io' => null,
         'name' => null,
         's3_config' => null
     ];
@@ -90,7 +88,6 @@ class CustomerConfig implements ArrayAccess
     protected static $attributeMap = [
         'aliases' => 'aliases',
         'database' => 'database',
-        'io' => 'io',
         'name' => 'name',
         's3_config' => 's3_config'
     ];
@@ -103,7 +100,6 @@ class CustomerConfig implements ArrayAccess
     protected static $setters = [
         'aliases' => 'setAliases',
         'database' => 'setDatabase',
-        'io' => 'setIo',
         'name' => 'setName',
         's3_config' => 'setS3Config'
     ];
@@ -116,7 +112,6 @@ class CustomerConfig implements ArrayAccess
     protected static $getters = [
         'aliases' => 'getAliases',
         'database' => 'getDatabase',
-        'io' => 'getIo',
         'name' => 'getName',
         's3_config' => 'getS3Config'
     ];
@@ -154,7 +149,6 @@ class CustomerConfig implements ArrayAccess
     {
         $this->container['aliases'] = isset($data['aliases']) ? $data['aliases'] : null;
         $this->container['database'] = isset($data['database']) ? $data['database'] : null;
-        $this->container['io'] = isset($data['io']) ? $data['io'] : null;
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
         $this->container['s3_config'] = isset($data['s3_config']) ? $data['s3_config'] : null;
     }
@@ -222,27 +216,6 @@ class CustomerConfig implements ArrayAccess
     public function setDatabase($database)
     {
         $this->container['database'] = $database;
-
-        return $this;
-    }
-
-    /**
-     * Gets io
-     * @return \KnetikCloud\Model\IOConfig
-     */
-    public function getIo()
-    {
-        return $this->container['io'];
-    }
-
-    /**
-     * Sets io
-     * @param \KnetikCloud\Model\IOConfig $io
-     * @return $this
-     */
-    public function setIo($io)
-    {
-        $this->container['io'] = $io;
 
         return $this;
     }

@@ -1,6 +1,6 @@
 # KnetikCloud\StoreCouponsApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -21,7 +21,7 @@ Method | HTTP request | Description
 
 Create a coupon item
 
-SKUs have to be unique in the entire store.
+SKUs have to be unique in the entire store. <br><br><b>Permissions Needed:</b> COUPONS_ADMIN
 
 ### Example
 ```php
@@ -73,7 +73,7 @@ Name | Type | Description  | Notes
 
 Create a coupon template
 
-Coupon Templates define a type of coupon and the properties they have.
+Coupon Templates define a type of coupon and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -123,6 +123,8 @@ Name | Type | Description  | Notes
 
 Delete a coupon item
 
+<b>Permissions Needed:</b> COUPONS_ADMIN
+
 ### Example
 ```php
 <?php
@@ -160,7 +162,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -169,6 +171,8 @@ void (empty response body)
 > deleteCouponTemplate($id, $cascade)
 
 Delete a coupon template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -209,7 +213,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -218,6 +222,8 @@ void (empty response body)
 > \KnetikCloud\Model\CouponItem getCouponItem($id)
 
 Get a single coupon item
+
+<b>Permissions Needed:</b> COUPONS_ADMIN
 
 ### Example
 ```php
@@ -257,7 +263,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -266,6 +272,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\CouponItem getCouponItemBySku($sku)
 
 Get a coupon by sku
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -305,7 +313,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -315,7 +323,7 @@ Name | Type | Description  | Notes
 
 Get a single coupon template
 
-Coupon Templates define a type of coupon and the properties they have.
+Coupon Templates define a type of coupon and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN or COUPONS_ADMIN
 
 ### Example
 ```php
@@ -355,7 +363,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -364,6 +372,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceItemTemplateResource_ getCouponTemplates($size, $page, $order)
 
 List and search coupon templates
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or COUPONS_ADMIN
 
 ### Example
 ```php
@@ -407,7 +417,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -416,6 +426,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\CouponItem updateCouponItem($id, $cascade, $coupon_item)
 
 Update a coupon item
+
+<b>Permissions Needed:</b> COUPONS_ADMIN
 
 ### Example
 ```php
@@ -468,6 +480,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\ItemTemplateResource updateCouponTemplate($id, $coupon_template_resource)
 
 Update a coupon template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php

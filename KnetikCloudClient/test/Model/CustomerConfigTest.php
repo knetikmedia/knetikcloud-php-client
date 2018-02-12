@@ -92,13 +92,6 @@ class CustomerConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "io"
-     */
-    public function testPropertyIo()
-    {
-    }
-
-    /**
      * Test attribute "name"
      */
     public function testPropertyName()

@@ -1,6 +1,6 @@
 # KnetikCloud\PaymentsWalletsApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -17,6 +17,8 @@ Method | HTTP request | Description
 > \KnetikCloud\Model\SimpleWallet getUserWallet($user_id, $currency_code)
 
 Returns the user's wallet for the given currency code
+
+<b>Permissions Needed:</b> WALLETS_ADMIN or owner
 
 ### Example
 ```php
@@ -58,7 +60,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -67,6 +69,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceWalletTransactionResource_ getUserWalletTransactions($user_id, $currency_code, $filter_type, $filter_max_date, $filter_min_date, $filter_sign, $size, $page, $order)
 
 Retrieve a user's wallet transactions
+
+<b>Permissions Needed:</b> WALLETS_ADMIN or owner
 
 ### Example
 ```php
@@ -122,7 +126,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -131,6 +135,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\SimpleWallet[] getUserWallets($user_id)
 
 List all of a user's wallets
+
+<b>Permissions Needed:</b> WALLETS_ADMIN or owner
 
 ### Example
 ```php
@@ -170,7 +176,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -179,6 +185,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceWalletTotalResponse_ getWalletBalances()
 
 Retrieves a summation of wallet balances by currency code
+
+<b>Permissions Needed:</b> WALLETS_ADMIN
 
 ### Example
 ```php
@@ -214,7 +222,7 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -223,6 +231,8 @@ This endpoint does not need any parameter.
 > \KnetikCloud\Model\PageResourceWalletTransactionResource_ getWalletTransactions($filter_invoice, $filter_type, $filter_date, $filter_sign, $filter_user_id, $filter_username, $filter_details, $filter_currency_code, $size, $page, $order)
 
 Retrieve wallet transactions across the system
+
+<b>Permissions Needed:</b> WALLETS_ADMIN
 
 ### Example
 ```php
@@ -282,7 +292,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -291,6 +301,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceSimpleWallet_ getWallets($size, $page, $order)
 
 Retrieve a list of wallets across the system
+
+<b>Permissions Needed:</b> WALLETS_ADMIN
 
 ### Example
 ```php
@@ -334,7 +346,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -343,6 +355,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\WalletTransactionResource updateWalletBalance($user_id, $currency_code, $request)
 
 Updates the balance for a user's wallet
+
+<b>Permissions Needed:</b> WALLETS_ADMIN
 
 ### Example
 ```php

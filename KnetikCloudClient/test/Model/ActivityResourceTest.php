@@ -85,6 +85,13 @@ class ActivityResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "core_settings"
+     */
+    public function testPropertyCoreSettings()
+    {
+    }
+
+    /**
      * Test attribute "created_date"
      */
     public function testPropertyCreatedDate()

@@ -57,6 +57,7 @@ class ChallengeActivityResource implements ArrayAccess
         'activity_id' => 'int',
         'additional_properties' => 'map[string,\KnetikCloud\Model\Property]',
         'challenge_id' => 'int',
+        'core_settings' => '\KnetikCloud\Model\CoreChallengeActivitySettings',
         'entitlement' => '\KnetikCloud\Model\ActivityEntitlementResource',
         'id' => 'int',
         'reward_set' => '\KnetikCloud\Model\RewardSetResource',
@@ -72,6 +73,7 @@ class ChallengeActivityResource implements ArrayAccess
         'activity_id' => 'int64',
         'additional_properties' => null,
         'challenge_id' => 'int64',
+        'core_settings' => null,
         'entitlement' => null,
         'id' => 'int64',
         'reward_set' => null,
@@ -97,6 +99,7 @@ class ChallengeActivityResource implements ArrayAccess
         'activity_id' => 'activity_id',
         'additional_properties' => 'additional_properties',
         'challenge_id' => 'challenge_id',
+        'core_settings' => 'core_settings',
         'entitlement' => 'entitlement',
         'id' => 'id',
         'reward_set' => 'reward_set',
@@ -113,6 +116,7 @@ class ChallengeActivityResource implements ArrayAccess
         'activity_id' => 'setActivityId',
         'additional_properties' => 'setAdditionalProperties',
         'challenge_id' => 'setChallengeId',
+        'core_settings' => 'setCoreSettings',
         'entitlement' => 'setEntitlement',
         'id' => 'setId',
         'reward_set' => 'setRewardSet',
@@ -129,6 +133,7 @@ class ChallengeActivityResource implements ArrayAccess
         'activity_id' => 'getActivityId',
         'additional_properties' => 'getAdditionalProperties',
         'challenge_id' => 'getChallengeId',
+        'core_settings' => 'getCoreSettings',
         'entitlement' => 'getEntitlement',
         'id' => 'getId',
         'reward_set' => 'getRewardSet',
@@ -170,6 +175,7 @@ class ChallengeActivityResource implements ArrayAccess
         $this->container['activity_id'] = isset($data['activity_id']) ? $data['activity_id'] : null;
         $this->container['additional_properties'] = isset($data['additional_properties']) ? $data['additional_properties'] : null;
         $this->container['challenge_id'] = isset($data['challenge_id']) ? $data['challenge_id'] : null;
+        $this->container['core_settings'] = isset($data['core_settings']) ? $data['core_settings'] : null;
         $this->container['entitlement'] = isset($data['entitlement']) ? $data['entitlement'] : null;
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
         $this->container['reward_set'] = isset($data['reward_set']) ? $data['reward_set'] : null;
@@ -267,6 +273,27 @@ class ChallengeActivityResource implements ArrayAccess
     public function setChallengeId($challenge_id)
     {
         $this->container['challenge_id'] = $challenge_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets core_settings
+     * @return \KnetikCloud\Model\CoreChallengeActivitySettings
+     */
+    public function getCoreSettings()
+    {
+        return $this->container['core_settings'];
+    }
+
+    /**
+     * Sets core_settings
+     * @param \KnetikCloud\Model\CoreChallengeActivitySettings $core_settings Defines core settings about the activity that affect how it can be created/played by users. Values may be left null to inherit from parent activity.
+     * @return $this
+     */
+    public function setCoreSettings($core_settings)
+    {
+        $this->container['core_settings'] = $core_settings;
 
         return $this;
     }

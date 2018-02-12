@@ -1,6 +1,6 @@
 # KnetikCloud\TaxesApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -21,6 +21,8 @@ Method | HTTP request | Description
 > \KnetikCloud\Model\CountryTaxResource createCountryTax($tax_resource)
 
 Create a country tax
+
+<b>Permissions Needed:</b> TAX_ADMIN
 
 ### Example
 ```php
@@ -69,6 +71,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\StateTaxResource createStateTax($country_code_iso3, $tax_resource)
 
 Create a state tax
+
+<b>Permissions Needed:</b> TAX_ADMIN
 
 ### Example
 ```php
@@ -120,6 +124,8 @@ Name | Type | Description  | Notes
 
 Delete an existing tax
 
+<b>Permissions Needed:</b> TAX_ADMIN
+
 ### Example
 ```php
 <?php
@@ -157,7 +163,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -166,6 +172,8 @@ void (empty response body)
 > deleteStateTax($country_code_iso3, $state_code)
 
 Delete an existing state tax
+
+<b>Permissions Needed:</b> TAX_ADMIN
 
 ### Example
 ```php
@@ -206,7 +214,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -215,6 +223,8 @@ void (empty response body)
 > \KnetikCloud\Model\CountryTaxResource getCountryTax($country_code_iso3)
 
 Get a single tax
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -254,7 +264,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -264,7 +274,7 @@ Name | Type | Description  | Notes
 
 List and search taxes
 
-Get a list of taxes
+<b>Permissions Needed:</b> TAX_ADMIN
 
 ### Example
 ```php
@@ -308,7 +318,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -317,6 +327,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\StateTaxResource getStateTax($country_code_iso3, $state_code)
 
 Get a single state tax
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -358,7 +370,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -368,7 +380,7 @@ Name | Type | Description  | Notes
 
 List and search taxes across all countries
 
-Get a list of taxes
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -412,7 +424,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -422,7 +434,7 @@ Name | Type | Description  | Notes
 
 List and search taxes within a country
 
-Get a list of taxes
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -468,7 +480,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -477,6 +489,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\CountryTaxResource updateCountryTax($country_code_iso3, $tax_resource)
 
 Create or update a tax
+
+<b>Permissions Needed:</b> TAX_ADMIN
 
 ### Example
 ```php
@@ -527,6 +541,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\StateTaxResource updateStateTax($country_code_iso3, $state_code, $tax_resource)
 
 Create or update a state tax
+
+<b>Permissions Needed:</b> TAX_ADMIN
 
 ### Example
 ```php

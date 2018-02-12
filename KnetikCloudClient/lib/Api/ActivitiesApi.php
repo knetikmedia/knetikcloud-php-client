@@ -82,6 +82,274 @@ class ActivitiesApi
     }
 
     /**
+     * Operation addUser
+     *
+     * Add a user to an occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param bool $test if true, indicates that the user should NOT be added. This can be used to test for eligibility (optional, default to false)
+     * @param bool $bypass_restrictions if true, indicates that restrictions such as max player count should be ignored. Can only be used with ACTIVITIES_ADMIN (optional, default to false)
+     * @param \KnetikCloud\Model\IntWrapper $user_id The id of the user, or null for &#39;caller&#39; (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\ActivityOccurrenceResource
+     */
+    public function addUser($activity_occurrence_id, $test = 'false', $bypass_restrictions = 'false', $user_id = null)
+    {
+        list($response) = $this->addUserWithHttpInfo($activity_occurrence_id, $test, $bypass_restrictions, $user_id);
+        return $response;
+    }
+
+    /**
+     * Operation addUserWithHttpInfo
+     *
+     * Add a user to an occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param bool $test if true, indicates that the user should NOT be added. This can be used to test for eligibility (optional, default to false)
+     * @param bool $bypass_restrictions if true, indicates that restrictions such as max player count should be ignored. Can only be used with ACTIVITIES_ADMIN (optional, default to false)
+     * @param \KnetikCloud\Model\IntWrapper $user_id The id of the user, or null for &#39;caller&#39; (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\ActivityOccurrenceResource, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function addUserWithHttpInfo($activity_occurrence_id, $test = 'false', $bypass_restrictions = 'false', $user_id = null)
+    {
+        $returnType = '\KnetikCloud\Model\ActivityOccurrenceResource';
+        $request = $this->addUserRequest($activity_occurrence_id, $test, $bypass_restrictions, $user_id);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ActivityOccurrenceResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ActivityOccurrenceJoinResult', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation addUserAsync
+     *
+     * Add a user to an occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param bool $test if true, indicates that the user should NOT be added. This can be used to test for eligibility (optional, default to false)
+     * @param bool $bypass_restrictions if true, indicates that restrictions such as max player count should be ignored. Can only be used with ACTIVITIES_ADMIN (optional, default to false)
+     * @param \KnetikCloud\Model\IntWrapper $user_id The id of the user, or null for &#39;caller&#39; (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function addUserAsync($activity_occurrence_id, $test = 'false', $bypass_restrictions = 'false', $user_id = null)
+    {
+        return $this->addUserAsyncWithHttpInfo($activity_occurrence_id, $test, $bypass_restrictions, $user_id)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation addUserAsyncWithHttpInfo
+     *
+     * Add a user to an occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param bool $test if true, indicates that the user should NOT be added. This can be used to test for eligibility (optional, default to false)
+     * @param bool $bypass_restrictions if true, indicates that restrictions such as max player count should be ignored. Can only be used with ACTIVITIES_ADMIN (optional, default to false)
+     * @param \KnetikCloud\Model\IntWrapper $user_id The id of the user, or null for &#39;caller&#39; (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function addUserAsyncWithHttpInfo($activity_occurrence_id, $test = 'false', $bypass_restrictions = 'false', $user_id = null)
+    {
+        $returnType = '\KnetikCloud\Model\ActivityOccurrenceResource';
+        $request = $this->addUserRequest($activity_occurrence_id, $test, $bypass_restrictions, $user_id);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'addUser'
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param bool $test if true, indicates that the user should NOT be added. This can be used to test for eligibility (optional, default to false)
+     * @param bool $bypass_restrictions if true, indicates that restrictions such as max player count should be ignored. Can only be used with ACTIVITIES_ADMIN (optional, default to false)
+     * @param \KnetikCloud\Model\IntWrapper $user_id The id of the user, or null for &#39;caller&#39; (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function addUserRequest($activity_occurrence_id, $test = 'false', $bypass_restrictions = 'false', $user_id = null)
+    {
+        // verify the required parameter 'activity_occurrence_id' is set
+        if ($activity_occurrence_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $activity_occurrence_id when calling addUser');
+        }
+
+        $resourcePath = '/activity-occurrences/{activity_occurrence_id}/users';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        if ($test !== null) {
+            $queryParams['test'] = ObjectSerializer::toQueryValue($test);
+        }
+        // query params
+        if ($bypass_restrictions !== null) {
+            $queryParams['bypass_restrictions'] = ObjectSerializer::toQueryValue($bypass_restrictions);
+        }
+
+        // path params
+        if ($activity_occurrence_id !== null) {
+            $resourcePath = str_replace('{' . 'activity_occurrence_id' . '}', ObjectSerializer::toPathValue($activity_occurrence_id), $resourcePath);
+        }
+
+        // body params
+        $_tempBody = null;
+        if (isset($user_id)) {
+            $_tempBody = $user_id;
+        }
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'POST',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation createActivity
      *
      * Create an activity
@@ -938,7 +1206,7 @@ class ActivitiesApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1150,7 +1418,7 @@ class ActivitiesApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1427,7 +1695,7 @@ class ActivitiesApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1663,7 +1931,7 @@ class ActivitiesApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1899,7 +2167,7 @@ class ActivitiesApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -2135,7 +2403,7 @@ class ActivitiesApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -2385,7 +2653,7 @@ class ActivitiesApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -2449,7 +2717,7 @@ class ActivitiesApi
      * List activity occurrences
      *
      * @param string $filter_activity Filter for occurrences of the given activity ID (optional)
-     * @param string $filter_status Filter for occurrences of the given activity ID (optional)
+     * @param string $filter_status Filter for occurrences in the given status (optional)
      * @param int $filter_event Filter for occurrences played during the given event (optional)
      * @param int $filter_challenge Filter for occurrences played within the given challenge (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
@@ -2471,7 +2739,7 @@ class ActivitiesApi
      * List activity occurrences
      *
      * @param string $filter_activity Filter for occurrences of the given activity ID (optional)
-     * @param string $filter_status Filter for occurrences of the given activity ID (optional)
+     * @param string $filter_status Filter for occurrences in the given status (optional)
      * @param int $filter_event Filter for occurrences played during the given event (optional)
      * @param int $filter_challenge Filter for occurrences played within the given challenge (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
@@ -2546,7 +2814,7 @@ class ActivitiesApi
      * List activity occurrences
      *
      * @param string $filter_activity Filter for occurrences of the given activity ID (optional)
-     * @param string $filter_status Filter for occurrences of the given activity ID (optional)
+     * @param string $filter_status Filter for occurrences in the given status (optional)
      * @param int $filter_event Filter for occurrences played during the given event (optional)
      * @param int $filter_challenge Filter for occurrences played within the given challenge (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
@@ -2568,7 +2836,7 @@ class ActivitiesApi
      * List activity occurrences
      *
      * @param string $filter_activity Filter for occurrences of the given activity ID (optional)
-     * @param string $filter_status Filter for occurrences of the given activity ID (optional)
+     * @param string $filter_status Filter for occurrences in the given status (optional)
      * @param int $filter_event Filter for occurrences played during the given event (optional)
      * @param int $filter_challenge Filter for occurrences played within the given challenge (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
@@ -2614,7 +2882,7 @@ class ActivitiesApi
      * Create request for operation 'listActivityOccurrences'
      *
      * @param string $filter_activity Filter for occurrences of the given activity ID (optional)
-     * @param string $filter_status Filter for occurrences of the given activity ID (optional)
+     * @param string $filter_status Filter for occurrences in the given status (optional)
      * @param int $filter_event Filter for occurrences played during the given event (optional)
      * @param int $filter_challenge Filter for occurrences played within the given challenge (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
@@ -2671,7 +2939,7 @@ class ActivitiesApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -2723,6 +2991,240 @@ class ActivitiesApi
 
         return new Request(
             'GET',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation removeUser
+     *
+     * Remove a user from an occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param string $user_id The id of the user, or &#39;me&#39; (required)
+     * @param bool $ban if true, indicates that the user should not be allowed to re-join. Can only be set by host or admin (optional, default to false)
+     * @param bool $bypass_restrictions if true, indicates that restrictions such as current status should be ignored. Can only be used with ACTIVITIES_ADMIN (optional, default to false)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return void
+     */
+    public function removeUser($activity_occurrence_id, $user_id, $ban = 'false', $bypass_restrictions = 'false')
+    {
+        $this->removeUserWithHttpInfo($activity_occurrence_id, $user_id, $ban, $bypass_restrictions);
+    }
+
+    /**
+     * Operation removeUserWithHttpInfo
+     *
+     * Remove a user from an occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param string $user_id The id of the user, or &#39;me&#39; (required)
+     * @param bool $ban if true, indicates that the user should not be allowed to re-join. Can only be set by host or admin (optional, default to false)
+     * @param bool $bypass_restrictions if true, indicates that restrictions such as current status should be ignored. Can only be used with ACTIVITIES_ADMIN (optional, default to false)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function removeUserWithHttpInfo($activity_occurrence_id, $user_id, $ban = 'false', $bypass_restrictions = 'false')
+    {
+        $returnType = '';
+        $request = $this->removeUserRequest($activity_occurrence_id, $user_id, $ban, $bypass_restrictions);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation removeUserAsync
+     *
+     * Remove a user from an occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param string $user_id The id of the user, or &#39;me&#39; (required)
+     * @param bool $ban if true, indicates that the user should not be allowed to re-join. Can only be set by host or admin (optional, default to false)
+     * @param bool $bypass_restrictions if true, indicates that restrictions such as current status should be ignored. Can only be used with ACTIVITIES_ADMIN (optional, default to false)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function removeUserAsync($activity_occurrence_id, $user_id, $ban = 'false', $bypass_restrictions = 'false')
+    {
+        return $this->removeUserAsyncWithHttpInfo($activity_occurrence_id, $user_id, $ban, $bypass_restrictions)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation removeUserAsyncWithHttpInfo
+     *
+     * Remove a user from an occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param string $user_id The id of the user, or &#39;me&#39; (required)
+     * @param bool $ban if true, indicates that the user should not be allowed to re-join. Can only be set by host or admin (optional, default to false)
+     * @param bool $bypass_restrictions if true, indicates that restrictions such as current status should be ignored. Can only be used with ACTIVITIES_ADMIN (optional, default to false)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function removeUserAsyncWithHttpInfo($activity_occurrence_id, $user_id, $ban = 'false', $bypass_restrictions = 'false')
+    {
+        $returnType = '';
+        $request = $this->removeUserRequest($activity_occurrence_id, $user_id, $ban, $bypass_restrictions);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'removeUser'
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param string $user_id The id of the user, or &#39;me&#39; (required)
+     * @param bool $ban if true, indicates that the user should not be allowed to re-join. Can only be set by host or admin (optional, default to false)
+     * @param bool $bypass_restrictions if true, indicates that restrictions such as current status should be ignored. Can only be used with ACTIVITIES_ADMIN (optional, default to false)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function removeUserRequest($activity_occurrence_id, $user_id, $ban = 'false', $bypass_restrictions = 'false')
+    {
+        // verify the required parameter 'activity_occurrence_id' is set
+        if ($activity_occurrence_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $activity_occurrence_id when calling removeUser');
+        }
+        // verify the required parameter 'user_id' is set
+        if ($user_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $user_id when calling removeUser');
+        }
+
+        $resourcePath = '/activity-occurrences/{activity_occurrence_id}/users/{user_id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        if ($ban !== null) {
+            $queryParams['ban'] = ObjectSerializer::toQueryValue($ban);
+        }
+        // query params
+        if ($bypass_restrictions !== null) {
+            $queryParams['bypass_restrictions'] = ObjectSerializer::toQueryValue($bypass_restrictions);
+        }
+
+        // path params
+        if ($activity_occurrence_id !== null) {
+            $resourcePath = str_replace('{' . 'activity_occurrence_id' . '}', ObjectSerializer::toPathValue($activity_occurrence_id), $resourcePath);
+        }
+        // path params
+        if ($user_id !== null) {
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
+        }
+
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                []
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'DELETE',
             $url,
             $headers,
             $httpBody
@@ -2976,6 +3478,511 @@ class ActivitiesApi
     }
 
     /**
+     * Operation setActivityOccurrenceSettings
+     *
+     * Sets the settings of an activity occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param \KnetikCloud\Model\ActivityOccurrenceSettingsResource $settings The new settings (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\ActivityOccurrenceResource
+     */
+    public function setActivityOccurrenceSettings($activity_occurrence_id, $settings = null)
+    {
+        list($response) = $this->setActivityOccurrenceSettingsWithHttpInfo($activity_occurrence_id, $settings);
+        return $response;
+    }
+
+    /**
+     * Operation setActivityOccurrenceSettingsWithHttpInfo
+     *
+     * Sets the settings of an activity occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param \KnetikCloud\Model\ActivityOccurrenceSettingsResource $settings The new settings (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\ActivityOccurrenceResource, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function setActivityOccurrenceSettingsWithHttpInfo($activity_occurrence_id, $settings = null)
+    {
+        $returnType = '\KnetikCloud\Model\ActivityOccurrenceResource';
+        $request = $this->setActivityOccurrenceSettingsRequest($activity_occurrence_id, $settings);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ActivityOccurrenceResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setActivityOccurrenceSettingsAsync
+     *
+     * Sets the settings of an activity occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param \KnetikCloud\Model\ActivityOccurrenceSettingsResource $settings The new settings (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setActivityOccurrenceSettingsAsync($activity_occurrence_id, $settings = null)
+    {
+        return $this->setActivityOccurrenceSettingsAsyncWithHttpInfo($activity_occurrence_id, $settings)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation setActivityOccurrenceSettingsAsyncWithHttpInfo
+     *
+     * Sets the settings of an activity occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param \KnetikCloud\Model\ActivityOccurrenceSettingsResource $settings The new settings (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setActivityOccurrenceSettingsAsyncWithHttpInfo($activity_occurrence_id, $settings = null)
+    {
+        $returnType = '\KnetikCloud\Model\ActivityOccurrenceResource';
+        $request = $this->setActivityOccurrenceSettingsRequest($activity_occurrence_id, $settings);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'setActivityOccurrenceSettings'
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param \KnetikCloud\Model\ActivityOccurrenceSettingsResource $settings The new settings (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function setActivityOccurrenceSettingsRequest($activity_occurrence_id, $settings = null)
+    {
+        // verify the required parameter 'activity_occurrence_id' is set
+        if ($activity_occurrence_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $activity_occurrence_id when calling setActivityOccurrenceSettings');
+        }
+
+        $resourcePath = '/activity-occurrences/{activity_occurrence_id}/settings';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // path params
+        if ($activity_occurrence_id !== null) {
+            $resourcePath = str_replace('{' . 'activity_occurrence_id' . '}', ObjectSerializer::toPathValue($activity_occurrence_id), $resourcePath);
+        }
+
+        // body params
+        $_tempBody = null;
+        if (isset($settings)) {
+            $_tempBody = $settings;
+        }
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation setUserStatus
+     *
+     * Set a user's status within an occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param string $user_id The id of the user (required)
+     * @param string $status The new status (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \KnetikCloud\Model\ActivityUserResource
+     */
+    public function setUserStatus($activity_occurrence_id, $user_id, $status = null)
+    {
+        list($response) = $this->setUserStatusWithHttpInfo($activity_occurrence_id, $user_id, $status);
+        return $response;
+    }
+
+    /**
+     * Operation setUserStatusWithHttpInfo
+     *
+     * Set a user's status within an occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param string $user_id The id of the user (required)
+     * @param string $status The new status (optional)
+     * @throws \KnetikCloud\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \KnetikCloud\Model\ActivityUserResource, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function setUserStatusWithHttpInfo($activity_occurrence_id, $user_id, $status = null)
+    {
+        $returnType = '\KnetikCloud\Model\ActivityUserResource';
+        $request = $this->setUserStatusRequest($activity_occurrence_id, $user_id, $status);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 202:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\ActivityUserResource', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\KnetikCloud\Model\Result', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation setUserStatusAsync
+     *
+     * Set a user's status within an occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param string $user_id The id of the user (required)
+     * @param string $status The new status (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setUserStatusAsync($activity_occurrence_id, $user_id, $status = null)
+    {
+        return $this->setUserStatusAsyncWithHttpInfo($activity_occurrence_id, $user_id, $status)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation setUserStatusAsyncWithHttpInfo
+     *
+     * Set a user's status within an occurrence
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param string $user_id The id of the user (required)
+     * @param string $status The new status (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function setUserStatusAsyncWithHttpInfo($activity_occurrence_id, $user_id, $status = null)
+    {
+        $returnType = '\KnetikCloud\Model\ActivityUserResource';
+        $request = $this->setUserStatusRequest($activity_occurrence_id, $user_id, $status);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'setUserStatus'
+     *
+     * @param int $activity_occurrence_id The id of the activity occurrence (required)
+     * @param string $user_id The id of the user (required)
+     * @param string $status The new status (optional)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function setUserStatusRequest($activity_occurrence_id, $user_id, $status = null)
+    {
+        // verify the required parameter 'activity_occurrence_id' is set
+        if ($activity_occurrence_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $activity_occurrence_id when calling setUserStatus');
+        }
+        // verify the required parameter 'user_id' is set
+        if ($user_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $user_id when calling setUserStatus');
+        }
+
+        $resourcePath = '/activity-occurrences/{activity_occurrence_id}/users/{user_id}/status';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // path params
+        if ($activity_occurrence_id !== null) {
+            $resourcePath = str_replace('{' . 'activity_occurrence_id' . '}', ObjectSerializer::toPathValue($activity_occurrence_id), $resourcePath);
+        }
+        // path params
+        if ($user_id !== null) {
+            $resourcePath = str_replace('{' . 'user_id' . '}', ObjectSerializer::toPathValue($user_id), $resourcePath);
+        }
+
+        // body params
+        $_tempBody = null;
+        if (isset($status)) {
+            $_tempBody = $status;
+        }
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        return new Request(
+            'PUT',
+            $url,
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation updateActivity
      *
      * Update an activity
@@ -3222,36 +4229,36 @@ class ActivitiesApi
     }
 
     /**
-     * Operation updateActivityOccurrence
+     * Operation updateActivityOccurrenceStatus
      *
-     * Updated the status of an activity occurrence
+     * Update the status of an activity occurrence
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
-     * @param string $activity_occurrence_status The activity occurrence status object (optional)
+     * @param \KnetikCloud\Model\ValueWrapperString_ $activity_occurrence_status The activity occurrence status object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function updateActivityOccurrence($activity_occurrence_id, $activity_occurrence_status = null)
+    public function updateActivityOccurrenceStatus($activity_occurrence_id, $activity_occurrence_status = null)
     {
-        $this->updateActivityOccurrenceWithHttpInfo($activity_occurrence_id, $activity_occurrence_status);
+        $this->updateActivityOccurrenceStatusWithHttpInfo($activity_occurrence_id, $activity_occurrence_status);
     }
 
     /**
-     * Operation updateActivityOccurrenceWithHttpInfo
+     * Operation updateActivityOccurrenceStatusWithHttpInfo
      *
-     * Updated the status of an activity occurrence
+     * Update the status of an activity occurrence
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
-     * @param string $activity_occurrence_status The activity occurrence status object (optional)
+     * @param \KnetikCloud\Model\ValueWrapperString_ $activity_occurrence_status The activity occurrence status object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateActivityOccurrenceWithHttpInfo($activity_occurrence_id, $activity_occurrence_status = null)
+    public function updateActivityOccurrenceStatusWithHttpInfo($activity_occurrence_id, $activity_occurrence_status = null)
     {
         $returnType = '';
-        $request = $this->updateActivityOccurrenceRequest($activity_occurrence_id, $activity_occurrence_status);
+        $request = $this->updateActivityOccurrenceStatusRequest($activity_occurrence_id, $activity_occurrence_status);
 
         try {
 
@@ -3290,36 +4297,36 @@ class ActivitiesApi
     }
 
     /**
-     * Operation updateActivityOccurrenceAsync
+     * Operation updateActivityOccurrenceStatusAsync
      *
-     * Updated the status of an activity occurrence
+     * Update the status of an activity occurrence
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
-     * @param string $activity_occurrence_status The activity occurrence status object (optional)
+     * @param \KnetikCloud\Model\ValueWrapperString_ $activity_occurrence_status The activity occurrence status object (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateActivityOccurrenceAsync($activity_occurrence_id, $activity_occurrence_status = null)
+    public function updateActivityOccurrenceStatusAsync($activity_occurrence_id, $activity_occurrence_status = null)
     {
-        return $this->updateActivityOccurrenceAsyncWithHttpInfo($activity_occurrence_id, $activity_occurrence_status)->then(function ($response) {
+        return $this->updateActivityOccurrenceStatusAsyncWithHttpInfo($activity_occurrence_id, $activity_occurrence_status)->then(function ($response) {
             return $response[0];
         });
     }
 
     /**
-     * Operation updateActivityOccurrenceAsyncWithHttpInfo
+     * Operation updateActivityOccurrenceStatusAsyncWithHttpInfo
      *
-     * Updated the status of an activity occurrence
+     * Update the status of an activity occurrence
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
-     * @param string $activity_occurrence_status The activity occurrence status object (optional)
+     * @param \KnetikCloud\Model\ValueWrapperString_ $activity_occurrence_status The activity occurrence status object (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateActivityOccurrenceAsyncWithHttpInfo($activity_occurrence_id, $activity_occurrence_status = null)
+    public function updateActivityOccurrenceStatusAsyncWithHttpInfo($activity_occurrence_id, $activity_occurrence_status = null)
     {
         $returnType = '';
-        $request = $this->updateActivityOccurrenceRequest($activity_occurrence_id, $activity_occurrence_status);
+        $request = $this->updateActivityOccurrenceStatusRequest($activity_occurrence_id, $activity_occurrence_status);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
@@ -3336,18 +4343,18 @@ class ActivitiesApi
     }
 
     /**
-     * Create request for operation 'updateActivityOccurrence'
+     * Create request for operation 'updateActivityOccurrenceStatus'
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
-     * @param string $activity_occurrence_status The activity occurrence status object (optional)
+     * @param \KnetikCloud\Model\ValueWrapperString_ $activity_occurrence_status The activity occurrence status object (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function updateActivityOccurrenceRequest($activity_occurrence_id, $activity_occurrence_status = null)
+    protected function updateActivityOccurrenceStatusRequest($activity_occurrence_id, $activity_occurrence_status = null)
     {
         // verify the required parameter 'activity_occurrence_id' is set
         if ($activity_occurrence_id === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $activity_occurrence_id when calling updateActivityOccurrence');
+            throw new \InvalidArgumentException('Missing the required parameter $activity_occurrence_id when calling updateActivityOccurrenceStatus');
         }
 
         $resourcePath = '/activity-occurrences/{activity_occurrence_id}/status';

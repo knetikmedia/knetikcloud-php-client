@@ -72,6 +72,16 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for addUser
+     *
+     * Add a user to an occurrence.
+     *
+     */
+    public function testAddUser()
+    {
+    }
+
+    /**
      * Test case for createActivity
      *
      * Create an activity.
@@ -182,12 +192,42 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for removeUser
+     *
+     * Remove a user from an occurrence.
+     *
+     */
+    public function testRemoveUser()
+    {
+    }
+
+    /**
      * Test case for setActivityOccurrenceResults
      *
      * Sets the status of an activity occurrence to FINISHED and logs metrics.
      *
      */
     public function testSetActivityOccurrenceResults()
+    {
+    }
+
+    /**
+     * Test case for setActivityOccurrenceSettings
+     *
+     * Sets the settings of an activity occurrence.
+     *
+     */
+    public function testSetActivityOccurrenceSettings()
+    {
+    }
+
+    /**
+     * Test case for setUserStatus
+     *
+     * Set a user's status within an occurrence.
+     *
+     */
+    public function testSetUserStatus()
     {
     }
 
@@ -202,12 +242,12 @@ class ActivitiesApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test case for updateActivityOccurrence
+     * Test case for updateActivityOccurrenceStatus
      *
-     * Updated the status of an activity occurrence.
+     * Update the status of an activity occurrence.
      *
      */
-    public function testUpdateActivityOccurrence()
+    public function testUpdateActivityOccurrenceStatus()
     {
     }
 

@@ -56,6 +56,7 @@ class TemplateEmailResource implements ArrayAccess
     protected static $swaggerTypes = [
         'from' => 'string',
         'recipients' => 'int[]',
+        'subject' => 'string',
         'template_key' => 'string',
         'template_vars' => '\KnetikCloud\Model\KeyValuePairStringString_[]'
     ];
@@ -67,6 +68,7 @@ class TemplateEmailResource implements ArrayAccess
     protected static $swaggerFormats = [
         'from' => null,
         'recipients' => 'int32',
+        'subject' => null,
         'template_key' => null,
         'template_vars' => null
     ];
@@ -88,6 +90,7 @@ class TemplateEmailResource implements ArrayAccess
     protected static $attributeMap = [
         'from' => 'from',
         'recipients' => 'recipients',
+        'subject' => 'subject',
         'template_key' => 'template_key',
         'template_vars' => 'template_vars'
     ];
@@ -100,6 +103,7 @@ class TemplateEmailResource implements ArrayAccess
     protected static $setters = [
         'from' => 'setFrom',
         'recipients' => 'setRecipients',
+        'subject' => 'setSubject',
         'template_key' => 'setTemplateKey',
         'template_vars' => 'setTemplateVars'
     ];
@@ -112,6 +116,7 @@ class TemplateEmailResource implements ArrayAccess
     protected static $getters = [
         'from' => 'getFrom',
         'recipients' => 'getRecipients',
+        'subject' => 'getSubject',
         'template_key' => 'getTemplateKey',
         'template_vars' => 'getTemplateVars'
     ];
@@ -149,6 +154,7 @@ class TemplateEmailResource implements ArrayAccess
     {
         $this->container['from'] = isset($data['from']) ? $data['from'] : null;
         $this->container['recipients'] = isset($data['recipients']) ? $data['recipients'] : null;
+        $this->container['subject'] = isset($data['subject']) ? $data['subject'] : null;
         $this->container['template_key'] = isset($data['template_key']) ? $data['template_key'] : null;
         $this->container['template_vars'] = isset($data['template_vars']) ? $data['template_vars'] : null;
     }
@@ -228,6 +234,27 @@ class TemplateEmailResource implements ArrayAccess
     public function setRecipients($recipients)
     {
         $this->container['recipients'] = $recipients;
+
+        return $this;
+    }
+
+    /**
+     * Gets subject
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->container['subject'];
+    }
+
+    /**
+     * Sets subject
+     * @param string $subject The subject for email
+     * @return $this
+     */
+    public function setSubject($subject)
+    {
+        $this->container['subject'] = $subject;
 
         return $this;
     }

@@ -1,6 +1,6 @@
 # KnetikCloud\CurrenciesApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -15,6 +15,8 @@ Method | HTTP request | Description
 > \KnetikCloud\Model\CurrencyResource createCurrency($currency)
 
 Create a currency
+
+<b>Permissions Needed:</b> CURRENCIES_ADMIN
 
 ### Example
 ```php
@@ -64,6 +66,8 @@ Name | Type | Description  | Notes
 
 Delete a currency
 
+<b>Permissions Needed:</b> CURRENCIES_ADMIN
+
 ### Example
 ```php
 <?php
@@ -101,7 +105,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -110,6 +114,8 @@ void (empty response body)
 > \KnetikCloud\Model\PageResourceCurrencyResource_ getCurrencies($filter_default, $filter_enabled_currencies, $filter_type, $size, $page, $order)
 
 List and search currencies
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -159,7 +165,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -168,6 +174,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\CurrencyResource getCurrency($code)
 
 Get a single currency
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -207,7 +215,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -216,6 +224,8 @@ Name | Type | Description  | Notes
 > updateCurrency($code, $currency)
 
 Update a currency
+
+<b>Permissions Needed:</b> CURRENCIES_ADMIN
 
 ### Example
 ```php

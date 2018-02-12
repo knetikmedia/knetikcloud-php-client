@@ -1,6 +1,6 @@
 # KnetikCloud\PaymentsApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -19,6 +19,8 @@ Method | HTTP request | Description
 > \KnetikCloud\Model\PaymentMethodResource createPaymentMethod($user_id, $payment_method)
 
 Create a new payment method for a user
+
+<b>Permissions Needed:</b> PAYMENTS_ADMIN or owner
 
 ### Example
 ```php
@@ -70,6 +72,8 @@ Name | Type | Description  | Notes
 
 Delete an existing payment method for a user
 
+<b>Permissions Needed:</b> PAYMENTS_ADMIN or owner
+
 ### Example
 ```php
 <?php
@@ -109,7 +113,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -118,6 +122,8 @@ void (empty response body)
 > \KnetikCloud\Model\PaymentMethodResource getPaymentMethod($user_id, $id)
 
 Get a single payment method for a user
+
+<b>Permissions Needed:</b> PAYMENTS_ADMIN or owner
 
 ### Example
 ```php
@@ -159,7 +165,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -168,6 +174,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PaymentMethodTypeResource getPaymentMethodType($id)
 
 Get a single payment method type
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -207,7 +215,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -216,6 +224,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourcePaymentMethodTypeResource_ getPaymentMethodTypes($filter_name, $size, $page, $order)
 
 Get all payment method types
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -261,7 +271,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -270,6 +280,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PaymentMethodResource[] getPaymentMethods($user_id, $filter_name, $filter_payment_type, $filter_payment_method_type_id, $filter_payment_method_type_name, $size, $page, $order)
 
 Get all payment methods for a user
+
+<b>Permissions Needed:</b> PAYMENTS_ADMIN or owner
 
 ### Example
 ```php
@@ -323,7 +335,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -332,6 +344,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PaymentAuthorizationResource paymentAuthorization($request)
 
 Authorize payment of an invoice for later capture
+
+<b>Permissions Needed:</b> PAYMENTS_ADMIN or PAYMENTS_USER
 
 ### Example
 ```php
@@ -381,6 +395,8 @@ Name | Type | Description  | Notes
 
 Capture an existing invoice payment authorization
 
+<b>Permissions Needed:</b> PAYMENTS_ADMIN
+
 ### Example
 ```php
 <?php
@@ -427,6 +443,8 @@ void (empty response body)
 > \KnetikCloud\Model\PaymentMethodResource updatePaymentMethod($user_id, $id, $payment_method)
 
 Update an existing payment method for a user
+
+<b>Permissions Needed:</b> PAYMENTS_ADMIN or owner
 
 ### Example
 ```php

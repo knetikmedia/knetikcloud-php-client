@@ -1,6 +1,6 @@
 # KnetikCloud\StoreSubscriptionsApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -21,6 +21,8 @@ Method | HTTP request | Description
 > \KnetikCloud\Model\SubscriptionResource createSubscription($subscription_resource)
 
 Creates a subscription item and associated plans
+
+<b>Permissions Needed:</b> SUBSCRIPTIONS_ADMIN
 
 ### Example
 ```php
@@ -70,7 +72,7 @@ Name | Type | Description  | Notes
 
 Create a subscription template
 
-Subscription Templates define a type of subscription and the properties they have.
+Subscription Templates define a type of subscription and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -120,7 +122,7 @@ Name | Type | Description  | Notes
 
 Delete a subscription plan
 
-Must not be locked or a migration target
+Must not be locked or a migration target. <br><br><b>Permissions Needed:</b> SUBSCRIPTIONS_ADMIN
 
 ### Example
 ```php
@@ -161,7 +163,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -170,6 +172,8 @@ void (empty response body)
 > deleteSubscriptionTemplate($id, $cascade)
 
 Delete a subscription template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -210,7 +214,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -219,6 +223,8 @@ void (empty response body)
 > \KnetikCloud\Model\SubscriptionResource getSubscription($id)
 
 Retrieve a single subscription item and associated plans
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -258,7 +264,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -268,7 +274,7 @@ Name | Type | Description  | Notes
 
 Get a single subscription template
 
-Subscription Templates define a type of subscription and the properties they have.
+Subscription Templates define a type of subscription and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -308,7 +314,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -317,6 +323,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceSubscriptionTemplateResource_ getSubscriptionTemplates($size, $page, $order)
 
 List and search subscription templates
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or SUBSCRIPTIONS_ADMIN
 
 ### Example
 ```php
@@ -360,7 +368,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -369,6 +377,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceSubscriptionResource_ getSubscriptions($size, $page, $order)
 
 List available subscription items and associated plans
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -412,7 +422,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -421,6 +431,8 @@ Name | Type | Description  | Notes
 > processSubscriptions()
 
 Processes subscriptions and charge dues
+
+<b>Permissions Needed:</b> SUBSCRIPTIONS_ADMIN
 
 ### Example
 ```php
@@ -465,7 +477,7 @@ void (empty response body)
 
 Updates a subscription item and associated plans
 
-Will not remove plans left out
+Will not remove plans left out. <br><br><b>Permissions Needed:</b> SUBSCRIPTIONS_ADMIN
 
 ### Example
 ```php
@@ -515,6 +527,8 @@ void (empty response body)
 > \KnetikCloud\Model\SubscriptionTemplateResource updateSubscriptionTemplate($id, $subscription_template_resource)
 
 Update a subscription template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php

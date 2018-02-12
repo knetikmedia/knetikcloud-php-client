@@ -1,6 +1,6 @@
 # KnetikCloud\InvoicesApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -24,7 +24,7 @@ Method | HTTP request | Description
 
 Create an invoice
 
-Create an invoice(s) by providing a cart GUID. Note that there may be multiple invoices created, one per vendor.
+Create an invoice(s) by providing a cart GUID. Note that there may be multiple invoices created, one per vendor. <br><br><b>Permissions Needed:</b> INVOICES_USER or INVOICES_ADMIN
 
 ### Example
 ```php
@@ -74,6 +74,8 @@ Name | Type | Description  | Notes
 
 Lists available fulfillment statuses
 
+<b>Permissions Needed:</b> ANY
+
 ### Example
 ```php
 <?php
@@ -108,7 +110,7 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -117,6 +119,8 @@ This endpoint does not need any parameter.
 > \KnetikCloud\Model\InvoiceResource getInvoice($id)
 
 Retrieve an invoice
+
+<b>Permissions Needed:</b> INVOICES_USER and owner, or INVOICES_ADMIN
 
 ### Example
 ```php
@@ -156,7 +160,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -165,6 +169,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceInvoiceLogEntry_ getInvoiceLogs($id, $size, $page)
 
 List invoice logs
+
+<b>Permissions Needed:</b> INVOICES_USER and owner, or INVOICES_ADMIN
 
 ### Example
 ```php
@@ -208,7 +214,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -218,7 +224,7 @@ Name | Type | Description  | Notes
 
 Retrieve invoices
 
-Without INVOICES_ADMIN permission the results are automatically filtered for only the logged in user's invoices. It is recomended however that filter_user be added to avoid issues for admin users accidentally getting additional invoices.
+Without INVOICES_ADMIN permission the results are automatically filtered for only the logged in user's invoices. It is recomended however that filter_user be added to avoid issues for admin users accidentally getting additional invoices. <br><br><b>Permissions Needed:</b> INVOICES_USER and owner, or INVOICES_ADMIN
 
 ### Example
 ```php
@@ -247,7 +253,7 @@ $filter_vendor_name = "filter_vendor_name_example"; // string | Filters invoices
 $filter_sku = "filter_sku_example"; // string | Filters invoices by item sku
 $size = 25; // int | The number of objects returned per page
 $page = 1; // int | The number of the page returned, starting with 1
-$order = "1"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
+$order = "order_example"; // string | A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC]
 
 try {
     $result = $api_instance->getInvoices($filter_user, $filter_email, $filter_fulfillment_status, $filter_payment_status, $filter_item_name, $filter_external_ref, $filter_created_date, $filter_vendor_ids, $filter_currency, $filter_shipping_state_name, $filter_shipping_country_name, $filter_shipping, $filter_vendor_name, $filter_sku, $size, $page, $order);
@@ -278,7 +284,7 @@ Name | Type | Description  | Notes
  **filter_sku** | **string**| Filters invoices by item sku | [optional]
  **size** | **int**| The number of objects returned per page | [optional] [default to 25]
  **page** | **int**| The number of the page returned, starting with 1 | [optional] [default to 1]
- **order** | **string**| A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] | [optional] [default to 1]
+ **order** | **string**| A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] | [optional]
 
 ### Return type
 
@@ -290,7 +296,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -299,6 +305,8 @@ Name | Type | Description  | Notes
 > string[] getPaymentStatuses()
 
 Lists available payment statuses
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -334,7 +342,7 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -343,6 +351,8 @@ This endpoint does not need any parameter.
 > payInvoice($id, $request)
 
 Pay an invoice using a saved payment method
+
+<b>Permissions Needed:</b> INVOICES_USER and owner, or INVOICES_ADMIN
 
 ### Example
 ```php
@@ -393,7 +403,7 @@ void (empty response body)
 
 Set the fulfillment status of a bundled invoice item
 
-This allows external fulfillment systems to report success or failure. Fulfillment status changes are restricted by a specific flow determining which status can lead to which.
+This allows external fulfillment systems to report success or failure. Fulfillment status changes are restricted by a specific flow determining which status can lead to which. <br><br><b>Permissions Needed:</b> INVOICES_ADMIN
 
 ### Example
 ```php
@@ -448,6 +458,8 @@ void (empty response body)
 
 Set the external reference of an invoice
 
+<b>Permissions Needed:</b> INVOICES_ADMIN
+
 ### Example
 ```php
 <?php
@@ -497,7 +509,7 @@ void (empty response body)
 
 Set the fulfillment status of an invoice item
 
-This allows external fulfillment systems to report success or failure. Fulfillment status changes are restricted by a specific flow determining which status can lead to which.
+This allows external fulfillment systems to report success or failure. Fulfillment status changes are restricted by a specific flow determining which status can lead to which. <br><br><b>Permissions Needed:</b> INVOICES_ADMIN
 
 ### Example
 ```php
@@ -550,6 +562,8 @@ void (empty response body)
 
 Set the order notes of an invoice
 
+<b>Permissions Needed:</b> INVOICES_ADMIN
+
 ### Example
 ```php
 <?php
@@ -599,7 +613,7 @@ void (empty response body)
 
 Set the payment status of an invoice
 
-This may trigger fulfillment if setting the status to 'paid'. This is mainly intended to support external payment systems that cannot be incorporated into the payment method system. Payment status changes are restricted by a specific flow determining which status can lead to which.
+This may trigger fulfillment if setting the status to 'paid'. This is mainly intended to support external payment systems that cannot be incorporated into the payment method system. Payment status changes are restricted by a specific flow determining which status can lead to which. <br><br><b>Permissions Needed:</b> INVOICES_ADMIN
 
 ### Example
 ```php
@@ -649,6 +663,8 @@ void (empty response body)
 > updateBillingInfo($id, $billing_info_request)
 
 Set or update billing info
+
+<b>Permissions Needed:</b> INVOICES_USER and owner, or INVOICES_ADMIN
 
 ### Example
 ```php

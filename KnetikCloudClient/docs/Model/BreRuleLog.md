@@ -3,6 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**actions** | [**\KnetikCloud\Model\BreActionLog[]**](BreActionLog.md) | The actions of the BRE rule | [optional] 
 **ran** | **bool** | Whether the rule ran | [optional] 
 **reason** | **string** | The reason for the rule | [optional] 
 **rule_end_date** | **int** | The end date of the rule in seconds | [optional] 

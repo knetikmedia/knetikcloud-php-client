@@ -345,7 +345,7 @@ class BreGlobalResource implements ArrayAccess
 
     /**
      * Sets type
-     * @param string $type The variable type the global stores. See the See Bre Variables enpoint for list
+     * @param string $type The variable type the global stores. See the BRE variables endpoint for list
      * @return $this
      */
     public function setType($type)

@@ -1,6 +1,6 @@
 # KnetikCloud\CampaignsChallengesApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -34,7 +34,7 @@ Method | HTTP request | Description
 
 Create a challenge
 
-Challenges do not run on their own.  They must be added to a campaign before events will spawn.
+Challenges do not run on their own.  They must be added to a campaign before events will spawn. <br><br><b>Permissions Needed:</b> CHALLENGES_ADMIN
 
 ### Example
 ```php
@@ -83,6 +83,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\ChallengeActivityResource createChallengeActivity($challenge_id, $challenge_activity_resource, $validate_settings)
 
 Create a challenge activity
+
+<b>Permissions Needed:</b> CHALLENGES_ADMIN
 
 ### Example
 ```php
@@ -136,7 +138,7 @@ Name | Type | Description  | Notes
 
 Create a challenge activity template
 
-Challenge Activity Templates define a type of challenge activity and the properties they have
+Challenge Activity Templates define a type of challenge activity and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -186,7 +188,7 @@ Name | Type | Description  | Notes
 
 Create a challenge template
 
-Challenge Templates define a type of challenge and the properties they have
+Challenge Templates define a type of challenge and the properties they have. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -236,6 +238,8 @@ Name | Type | Description  | Notes
 
 Delete a challenge
 
+<b>Permissions Needed:</b> CHALLENGES_ADMIN
+
 ### Example
 ```php
 <?php
@@ -273,7 +277,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -283,7 +287,7 @@ void (empty response body)
 
 Delete a challenge activity
 
-A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge
+A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge. <br><br><b>Permissions Needed:</b> CHALLENGES_ADMIN
 
 ### Example
 ```php
@@ -324,7 +328,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -334,7 +338,7 @@ void (empty response body)
 
 Delete a challenge activity template
 
-If cascade = 'detach', it will force delete the template even if it's attached to other objects
+If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -375,7 +379,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -384,6 +388,8 @@ void (empty response body)
 > deleteChallengeEvent($id)
 
 Delete a challenge event
+
+<b>Permissions Needed:</b> CHALLENGES_ADMIN
 
 ### Example
 ```php
@@ -422,7 +428,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -432,7 +438,7 @@ void (empty response body)
 
 Delete a challenge template
 
-If cascade = 'detach', it will force delete the template even if it's attached to other objects
+If cascade = 'detach', it will force delete the template even if it's attached to other objects. <br><br><b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php
@@ -473,7 +479,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -482,6 +488,8 @@ void (empty response body)
 > \KnetikCloud\Model\ChallengeResource getChallenge($id)
 
 Retrieve a challenge
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -521,7 +529,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -530,6 +538,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceBareChallengeActivityResource_ getChallengeActivities($challenge_id, $size, $page, $order)
 
 List and search challenge activities
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -575,7 +585,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -585,7 +595,7 @@ Name | Type | Description  | Notes
 
 Get a single challenge activity
 
-A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge
+A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge. <br><br><b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -627,7 +637,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -636,6 +646,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\TemplateResource getChallengeActivityTemplate($id)
 
 Get a single challenge activity template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or CHALLENGES_ADMIN
 
 ### Example
 ```php
@@ -675,7 +687,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -684,6 +696,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceTemplateResource_ getChallengeActivityTemplates($size, $page, $order)
 
 List and search challenge activity templates
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or CHALLENGES_ADMIN
 
 ### Example
 ```php
@@ -727,7 +741,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -736,6 +750,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\ChallengeEventResource getChallengeEvent($id)
 
 Retrieve a single challenge event details
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -775,7 +791,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -784,6 +800,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceChallengeEventResource_ getChallengeEvents($filter_start_date, $filter_end_date, $filter_campaigns, $filter_challenge, $size, $page, $order)
 
 Retrieve a list of challenge events
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -835,7 +853,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -844,6 +862,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\TemplateResource getChallengeTemplate($id)
 
 Get a single challenge template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or CHALLENGES_ADMIN
 
 ### Example
 ```php
@@ -883,7 +903,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -892,6 +912,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceTemplateResource_ getChallengeTemplates($size, $page, $order)
 
 List and search challenge templates
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN or CHALLENGES_ADMIN
 
 ### Example
 ```php
@@ -935,7 +957,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -944,6 +966,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceChallengeResource_ getChallenges($filter_active_campaign, $filter_start_date, $filter_end_date, $size, $page, $order)
 
 Retrieve a list of challenges
+
+<b>Permissions Needed:</b> ANY
 
 ### Example
 ```php
@@ -993,7 +1017,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -1003,7 +1027,7 @@ Name | Type | Description  | Notes
 
 Update a challenge
 
-If the challenge is a copy, changes will propagate to all the related challenges
+If the challenge is a copy, changes will propagate to all the related challenges. <br><br><b>Permissions Needed:</b> CHALLENGES_ADMIN
 
 ### Example
 ```php
@@ -1055,7 +1079,7 @@ Name | Type | Description  | Notes
 
 Update a challenge activity
 
-A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge
+A challenge can have multiple instances of the same activity and thus the id used is of the specific entry within the challenge. <br><br><b>Permissions Needed:</b> CHALLENGES_ADMIN
 
 ### Example
 ```php
@@ -1111,6 +1135,8 @@ Name | Type | Description  | Notes
 
 Update an challenge activity template
 
+<b>Permissions Needed:</b> TEMPLATE_ADMIN
+
 ### Example
 ```php
 <?php
@@ -1160,6 +1186,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\TemplateResource updateChallengeTemplate($id, $challenge_template_resource)
 
 Update a challenge template
+
+<b>Permissions Needed:</b> TEMPLATE_ADMIN
 
 ### Example
 ```php

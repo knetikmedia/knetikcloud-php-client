@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 **activity_id** | **int** | The id of the activity | 
 **additional_properties** | [**map[string,\KnetikCloud\Model\Property]**](Property.md) | A map of additional properties, keyed on the property name.  Must match the names and types defined in the template for this item type | [optional] 
 **challenge_id** | **int** | The id of the challenge | [optional] 
+**core_settings** | [**\KnetikCloud\Model\CoreChallengeActivitySettings**](CoreChallengeActivitySettings.md) | Defines core settings about the activity that affect how it can be created/played by users. Values may be left null to inherit from parent activity. | [optional] 
 **entitlement** | [**\KnetikCloud\Model\ActivityEntitlementResource**](ActivityEntitlementResource.md) | The entitlement item needed to participate in the activity as part of this event. Null indicates free entry. When creating/updating only id is used. Item must be pre-existing | [optional] 
 **id** | **int** | The unique ID for this resource | [optional] 
 **reward_set** | [**\KnetikCloud\Model\RewardSetResource**](RewardSetResource.md) | The rewards to give at the end of each occurence of the activity. When creating/updating only id is used. Reward set must be pre-existing | [optional] 

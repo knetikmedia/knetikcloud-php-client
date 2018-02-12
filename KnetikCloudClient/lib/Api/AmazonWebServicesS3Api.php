@@ -273,7 +273,7 @@ class AmazonWebServicesS3Api
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -514,7 +514,7 @@ class AmazonWebServicesS3Api
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 

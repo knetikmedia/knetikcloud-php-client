@@ -99,6 +99,13 @@ class ChallengeActivityResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "core_settings"
+     */
+    public function testPropertyCoreSettings()
+    {
+    }
+
+    /**
      * Test attribute "entitlement"
      */
     public function testPropertyEntitlement()

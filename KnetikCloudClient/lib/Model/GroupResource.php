@@ -290,7 +290,7 @@ class GroupResource implements ArrayAccess
 
     /**
      * Sets description
-     * @param string $description A description of the group. Max 250 characters
+     * @param string $description A description of the group
      * @return $this
      */
     public function setDescription($description)

@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**description** | **string** | The description of the config.  Max 140 characters | [optional] 
+**description** | **string** | The description of the config.  Max 255 characters | [optional] 
 **name** | **string** | The name of the config | 
 **public_read** | **bool** | Whether the config is public for viewing. True means that it can be publicly viewed by all. Default: false | [optional] 
 **value** | **string** | The value of the config | [optional] 

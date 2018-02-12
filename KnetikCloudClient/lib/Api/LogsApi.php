@@ -459,7 +459,7 @@ class LogsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -528,13 +528,14 @@ class LogsApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:DESC)
+     * @param string $filter_rule_id Filter event logs by request id (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceBreEventLog_
      */
-    public function getBREEventLogs($filter_start_date = null, $filter_event_name = null, $filter_event_id = null, $size = '25', $page = '1', $order = 'id:DESC')
+    public function getBREEventLogs($filter_start_date = null, $filter_event_name = null, $filter_event_id = null, $size = '25', $page = '1', $order = 'id:DESC', $filter_rule_id = null)
     {
-        list($response) = $this->getBREEventLogsWithHttpInfo($filter_start_date, $filter_event_name, $filter_event_id, $size, $page, $order);
+        list($response) = $this->getBREEventLogsWithHttpInfo($filter_start_date, $filter_event_name, $filter_event_id, $size, $page, $order, $filter_rule_id);
         return $response;
     }
 
@@ -549,14 +550,15 @@ class LogsApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:DESC)
+     * @param string $filter_rule_id Filter event logs by request id (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceBreEventLog_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getBREEventLogsWithHttpInfo($filter_start_date = null, $filter_event_name = null, $filter_event_id = null, $size = '25', $page = '1', $order = 'id:DESC')
+    public function getBREEventLogsWithHttpInfo($filter_start_date = null, $filter_event_name = null, $filter_event_id = null, $size = '25', $page = '1', $order = 'id:DESC', $filter_rule_id = null)
     {
         $returnType = '\KnetikCloud\Model\PageResourceBreEventLog_';
-        $request = $this->getBREEventLogsRequest($filter_start_date, $filter_event_name, $filter_event_id, $size, $page, $order);
+        $request = $this->getBREEventLogsRequest($filter_start_date, $filter_event_name, $filter_event_id, $size, $page, $order, $filter_rule_id);
 
         try {
 
@@ -623,12 +625,13 @@ class LogsApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:DESC)
+     * @param string $filter_rule_id Filter event logs by request id (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getBREEventLogsAsync($filter_start_date = null, $filter_event_name = null, $filter_event_id = null, $size = '25', $page = '1', $order = 'id:DESC')
+    public function getBREEventLogsAsync($filter_start_date = null, $filter_event_name = null, $filter_event_id = null, $size = '25', $page = '1', $order = 'id:DESC', $filter_rule_id = null)
     {
-        return $this->getBREEventLogsAsyncWithHttpInfo($filter_start_date, $filter_event_name, $filter_event_id, $size, $page, $order)->then(function ($response) {
+        return $this->getBREEventLogsAsyncWithHttpInfo($filter_start_date, $filter_event_name, $filter_event_id, $size, $page, $order, $filter_rule_id)->then(function ($response) {
             return $response[0];
         });
     }
@@ -644,13 +647,14 @@ class LogsApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:DESC)
+     * @param string $filter_rule_id Filter event logs by request id (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getBREEventLogsAsyncWithHttpInfo($filter_start_date = null, $filter_event_name = null, $filter_event_id = null, $size = '25', $page = '1', $order = 'id:DESC')
+    public function getBREEventLogsAsyncWithHttpInfo($filter_start_date = null, $filter_event_name = null, $filter_event_id = null, $size = '25', $page = '1', $order = 'id:DESC', $filter_rule_id = null)
     {
         $returnType = '\KnetikCloud\Model\PageResourceBreEventLog_';
-        $request = $this->getBREEventLogsRequest($filter_start_date, $filter_event_name, $filter_event_id, $size, $page, $order);
+        $request = $this->getBREEventLogsRequest($filter_start_date, $filter_event_name, $filter_event_id, $size, $page, $order, $filter_rule_id);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
@@ -689,10 +693,11 @@ class LogsApi
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:DESC)
+     * @param string $filter_rule_id Filter event logs by request id (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getBREEventLogsRequest($filter_start_date = null, $filter_event_name = null, $filter_event_id = null, $size = '25', $page = '1', $order = 'id:DESC')
+    protected function getBREEventLogsRequest($filter_start_date = null, $filter_event_name = null, $filter_event_id = null, $size = '25', $page = '1', $order = 'id:DESC', $filter_rule_id = null)
     {
 
         $resourcePath = '/bre/logs/event-log';
@@ -726,6 +731,10 @@ class LogsApi
         if ($order !== null) {
             $queryParams['order'] = ObjectSerializer::toQueryValue($order);
         }
+        // query params
+        if ($filter_rule_id !== null) {
+            $queryParams['filter_rule_id'] = ObjectSerializer::toQueryValue($filter_rule_id);
+        }
 
 
 
@@ -736,7 +745,7 @@ class LogsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -972,7 +981,7 @@ class LogsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1038,6 +1047,7 @@ class LogsApi
      * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the log end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @param int $filter_status_code Filter forward logs by http status code (optional)
+     * @param int $filter_url Filter forward logs by URL starting with... (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:DESC)
@@ -1045,9 +1055,9 @@ class LogsApi
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\PageResourceForwardLog_
      */
-    public function getBREForwardLogs($filter_start_date = null, $filter_end_date = null, $filter_status_code = null, $size = '25', $page = '1', $order = 'id:DESC')
+    public function getBREForwardLogs($filter_start_date = null, $filter_end_date = null, $filter_status_code = null, $filter_url = null, $size = '25', $page = '1', $order = 'id:DESC')
     {
-        list($response) = $this->getBREForwardLogsWithHttpInfo($filter_start_date, $filter_end_date, $filter_status_code, $size, $page, $order);
+        list($response) = $this->getBREForwardLogsWithHttpInfo($filter_start_date, $filter_end_date, $filter_status_code, $filter_url, $size, $page, $order);
         return $response;
     }
 
@@ -1059,6 +1069,7 @@ class LogsApi
      * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the log end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @param int $filter_status_code Filter forward logs by http status code (optional)
+     * @param int $filter_url Filter forward logs by URL starting with... (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:DESC)
@@ -1066,10 +1077,10 @@ class LogsApi
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\PageResourceForwardLog_, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getBREForwardLogsWithHttpInfo($filter_start_date = null, $filter_end_date = null, $filter_status_code = null, $size = '25', $page = '1', $order = 'id:DESC')
+    public function getBREForwardLogsWithHttpInfo($filter_start_date = null, $filter_end_date = null, $filter_status_code = null, $filter_url = null, $size = '25', $page = '1', $order = 'id:DESC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceForwardLog_';
-        $request = $this->getBREForwardLogsRequest($filter_start_date, $filter_end_date, $filter_status_code, $size, $page, $order);
+        $request = $this->getBREForwardLogsRequest($filter_start_date, $filter_end_date, $filter_status_code, $filter_url, $size, $page, $order);
 
         try {
 
@@ -1133,15 +1144,16 @@ class LogsApi
      * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the log end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @param int $filter_status_code Filter forward logs by http status code (optional)
+     * @param int $filter_url Filter forward logs by URL starting with... (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:DESC)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getBREForwardLogsAsync($filter_start_date = null, $filter_end_date = null, $filter_status_code = null, $size = '25', $page = '1', $order = 'id:DESC')
+    public function getBREForwardLogsAsync($filter_start_date = null, $filter_end_date = null, $filter_status_code = null, $filter_url = null, $size = '25', $page = '1', $order = 'id:DESC')
     {
-        return $this->getBREForwardLogsAsyncWithHttpInfo($filter_start_date, $filter_end_date, $filter_status_code, $size, $page, $order)->then(function ($response) {
+        return $this->getBREForwardLogsAsyncWithHttpInfo($filter_start_date, $filter_end_date, $filter_status_code, $filter_url, $size, $page, $order)->then(function ($response) {
             return $response[0];
         });
     }
@@ -1154,16 +1166,17 @@ class LogsApi
      * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the log end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @param int $filter_status_code Filter forward logs by http status code (optional)
+     * @param int $filter_url Filter forward logs by URL starting with... (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:DESC)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getBREForwardLogsAsyncWithHttpInfo($filter_start_date = null, $filter_end_date = null, $filter_status_code = null, $size = '25', $page = '1', $order = 'id:DESC')
+    public function getBREForwardLogsAsyncWithHttpInfo($filter_start_date = null, $filter_end_date = null, $filter_status_code = null, $filter_url = null, $size = '25', $page = '1', $order = 'id:DESC')
     {
         $returnType = '\KnetikCloud\Model\PageResourceForwardLog_';
-        $request = $this->getBREForwardLogsRequest($filter_start_date, $filter_end_date, $filter_status_code, $size, $page, $order);
+        $request = $this->getBREForwardLogsRequest($filter_start_date, $filter_end_date, $filter_status_code, $filter_url, $size, $page, $order);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
@@ -1199,13 +1212,14 @@ class LogsApi
      * @param string $filter_start_date A comma separated string without spaces.  First value is the operator to search on, second value is the log start date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @param string $filter_end_date A comma separated string without spaces.  First value is the operator to search on, second value is the log end date, a unix timestamp in seconds.  Allowed operators: (GT, LT, EQ, GOE, LOE). (optional)
      * @param int $filter_status_code Filter forward logs by http status code (optional)
+     * @param int $filter_url Filter forward logs by URL starting with... (optional)
      * @param int $size The number of objects returned per page (optional, default to 25)
      * @param int $page The number of the page returned, starting with 1 (optional, default to 1)
      * @param string $order A comma separated list of sorting requirements in priority order, each entry matching PROPERTY_NAME:[ASC|DESC] (optional, default to id:DESC)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getBREForwardLogsRequest($filter_start_date = null, $filter_end_date = null, $filter_status_code = null, $size = '25', $page = '1', $order = 'id:DESC')
+    protected function getBREForwardLogsRequest($filter_start_date = null, $filter_end_date = null, $filter_status_code = null, $filter_url = null, $size = '25', $page = '1', $order = 'id:DESC')
     {
 
         $resourcePath = '/bre/logs/forward-log';
@@ -1226,6 +1240,10 @@ class LogsApi
         // query params
         if ($filter_status_code !== null) {
             $queryParams['filter_status_code'] = ObjectSerializer::toQueryValue($filter_status_code);
+        }
+        // query params
+        if ($filter_url !== null) {
+            $queryParams['filter_url'] = ObjectSerializer::toQueryValue($filter_url);
         }
         // query params
         if ($size !== null) {
@@ -1249,7 +1267,7 @@ class LogsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1485,7 +1503,7 @@ class LogsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 
@@ -1753,7 +1771,7 @@ class LogsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 

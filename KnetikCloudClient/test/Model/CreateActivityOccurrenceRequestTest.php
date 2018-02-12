@@ -92,6 +92,13 @@ class CreateActivityOccurrenceRequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "core_settings"
+     */
+    public function testPropertyCoreSettings()
+    {
+    }
+
+    /**
      * Test attribute "entitlement"
      */
     public function testPropertyEntitlement()
@@ -102,6 +109,13 @@ class CreateActivityOccurrenceRequestTest extends \PHPUnit_Framework_TestCase
      * Test attribute "event_id"
      */
     public function testPropertyEventId()
+    {
+    }
+
+    /**
+     * Test attribute "host"
+     */
+    public function testPropertyHost()
     {
     }
 

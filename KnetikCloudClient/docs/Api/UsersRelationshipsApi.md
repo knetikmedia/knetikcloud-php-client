@@ -1,6 +1,6 @@
 # KnetikCloud\UsersRelationshipsApi
 
-All URIs are relative to *https://devsandbox.knetikcloud.com*
+All URIs are relative to *https://sandbox.knetikcloud.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -15,6 +15,8 @@ Method | HTTP request | Description
 > \KnetikCloud\Model\UserRelationshipResource createUserRelationship($relationship)
 
 Create a user relationship
+
+<b>Permissions Needed:</b> RELATIONSHIPS_ADMIN
 
 ### Example
 ```php
@@ -64,6 +66,8 @@ Name | Type | Description  | Notes
 
 Delete a user relationship
 
+<b>Permissions Needed:</b> RELATIONSHIPS_ADMIN
+
 ### Example
 ```php
 <?php
@@ -101,7 +105,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -110,6 +114,8 @@ void (empty response body)
 > \KnetikCloud\Model\UserRelationshipResource getUserRelationship($id)
 
 Get a user relationship
+
+<b>Permissions Needed:</b> RELATIONSHIPS_USER or RELATIONSHIPS_ADMIN
 
 ### Example
 ```php
@@ -149,7 +155,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -158,6 +164,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceUserRelationshipResource_ getUserRelationships($size, $page, $order)
 
 Get a list of user relationships
+
+<b>Permissions Needed:</b> RELATIONSHIPS_USER or RELATIONSHIPS_ADMIN
 
 ### Example
 ```php
@@ -201,7 +209,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -210,6 +218,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\UserRelationshipResource updateUserRelationship($id, $relationship)
 
 Update a user relationship
+
+<b>Permissions Needed:</b> RELATIONSHIPS_ADMIN
 
 ### Example
 ```php

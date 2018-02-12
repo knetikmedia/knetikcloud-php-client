@@ -72,6 +72,66 @@ class MessagingApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for compileMessageTemplate
+     *
+     * Compile a message template.
+     *
+     */
+    public function testCompileMessageTemplate()
+    {
+    }
+
+    /**
+     * Test case for createMessageTemplate
+     *
+     * Create a message template.
+     *
+     */
+    public function testCreateMessageTemplate()
+    {
+    }
+
+    /**
+     * Test case for deleteMessageTemplate
+     *
+     * Delete an existing message template.
+     *
+     */
+    public function testDeleteMessageTemplate()
+    {
+    }
+
+    /**
+     * Test case for getMessageTemplate
+     *
+     * Get a single message template.
+     *
+     */
+    public function testGetMessageTemplate()
+    {
+    }
+
+    /**
+     * Test case for getMessageTemplates
+     *
+     * List and search message templates.
+     *
+     */
+    public function testGetMessageTemplates()
+    {
+    }
+
+    /**
+     * Test case for sendMessage1
+     *
+     * Send a message.
+     *
+     */
+    public function testSendMessage1()
+    {
+    }
+
+    /**
      * Test case for sendRawEmail
      *
      * Send a raw email to one or more users.
@@ -128,6 +188,26 @@ class MessagingApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function testSendTemplatedSMS()
+    {
+    }
+
+    /**
+     * Test case for sendWebsocket
+     *
+     * Send a websocket message.
+     *
+     */
+    public function testSendWebsocket()
+    {
+    }
+
+    /**
+     * Test case for updateMessageTemplate
+     *
+     * Update an existing message template.
+     *
+     */
+    public function testUpdateMessageTemplate()
     {
     }
 }

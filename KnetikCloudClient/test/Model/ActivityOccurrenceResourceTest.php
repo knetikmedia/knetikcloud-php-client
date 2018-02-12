@@ -85,9 +85,23 @@ class ActivityOccurrenceResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "bans"
+     */
+    public function testPropertyBans()
+    {
+    }
+
+    /**
      * Test attribute "challenge_activity_id"
      */
     public function testPropertyChallengeActivityId()
+    {
+    }
+
+    /**
+     * Test attribute "core_settings"
+     */
+    public function testPropertyCoreSettings()
     {
     }
 
@@ -109,6 +123,13 @@ class ActivityOccurrenceResourceTest extends \PHPUnit_Framework_TestCase
      * Test attribute "event_id"
      */
     public function testPropertyEventId()
+    {
+    }
+
+    /**
+     * Test attribute "host"
+     */
+    public function testPropertyHost()
     {
     }
 

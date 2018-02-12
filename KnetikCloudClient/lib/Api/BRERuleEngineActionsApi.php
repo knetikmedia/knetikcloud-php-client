@@ -282,7 +282,7 @@ class BRERuleEngineActionsApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                []
             );
         }
 

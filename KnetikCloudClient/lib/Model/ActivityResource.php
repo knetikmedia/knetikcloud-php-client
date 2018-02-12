@@ -56,6 +56,7 @@ class ActivityResource implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'additional_properties' => 'map[string,\KnetikCloud\Model\Property]',
+        'core_settings' => '\KnetikCloud\Model\CoreActivitySettings',
         'created_date' => 'int',
         'entitlements' => '\KnetikCloud\Model\ActivityEntitlementResource[]',
         'id' => 'int',
@@ -79,6 +80,7 @@ class ActivityResource implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'additional_properties' => null,
+        'core_settings' => null,
         'created_date' => 'int64',
         'entitlements' => null,
         'id' => 'int64',
@@ -112,6 +114,7 @@ class ActivityResource implements ArrayAccess
      */
     protected static $attributeMap = [
         'additional_properties' => 'additional_properties',
+        'core_settings' => 'core_settings',
         'created_date' => 'created_date',
         'entitlements' => 'entitlements',
         'id' => 'id',
@@ -136,6 +139,7 @@ class ActivityResource implements ArrayAccess
      */
     protected static $setters = [
         'additional_properties' => 'setAdditionalProperties',
+        'core_settings' => 'setCoreSettings',
         'created_date' => 'setCreatedDate',
         'entitlements' => 'setEntitlements',
         'id' => 'setId',
@@ -160,6 +164,7 @@ class ActivityResource implements ArrayAccess
      */
     protected static $getters = [
         'additional_properties' => 'getAdditionalProperties',
+        'core_settings' => 'getCoreSettings',
         'created_date' => 'getCreatedDate',
         'entitlements' => 'getEntitlements',
         'id' => 'getId',
@@ -209,6 +214,7 @@ class ActivityResource implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['additional_properties'] = isset($data['additional_properties']) ? $data['additional_properties'] : null;
+        $this->container['core_settings'] = isset($data['core_settings']) ? $data['core_settings'] : null;
         $this->container['created_date'] = isset($data['created_date']) ? $data['created_date'] : null;
         $this->container['entitlements'] = isset($data['entitlements']) ? $data['entitlements'] : null;
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
@@ -238,9 +244,6 @@ class ActivityResource implements ArrayAccess
         if ($this->container['name'] === null) {
             $invalid_properties[] = "'name' can't be null";
         }
-        if ($this->container['type'] === null) {
-            $invalid_properties[] = "'type' can't be null";
-        }
         return $invalid_properties;
     }
 
@@ -254,9 +257,6 @@ class ActivityResource implements ArrayAccess
     {
 
         if ($this->container['name'] === null) {
-            return false;
-        }
-        if ($this->container['type'] === null) {
             return false;
         }
         return true;
@@ -280,6 +280,27 @@ class ActivityResource implements ArrayAccess
     public function setAdditionalProperties($additional_properties)
     {
         $this->container['additional_properties'] = $additional_properties;
+
+        return $this;
+    }
+
+    /**
+     * Gets core_settings
+     * @return \KnetikCloud\Model\CoreActivitySettings
+     */
+    public function getCoreSettings()
+    {
+        return $this->container['core_settings'];
+    }
+
+    /**
+     * Sets core_settings
+     * @param \KnetikCloud\Model\CoreActivitySettings $core_settings Defines core settings about the activity that affect how it can be created/played by users.
+     * @return $this
+     */
+    public function setCoreSettings($core_settings)
+    {
+        $this->container['core_settings'] = $core_settings;
 
         return $this;
     }
