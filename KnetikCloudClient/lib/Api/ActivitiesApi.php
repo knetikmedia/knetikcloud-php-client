@@ -3730,7 +3730,7 @@ class ActivitiesApi
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
      * @param string $user_id The id of the user (required)
-     * @param string $status The new status (optional)
+     * @param \KnetikCloud\Model\ActivityUserStatusWrapper $status The new status (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ActivityUserResource
@@ -3748,7 +3748,7 @@ class ActivitiesApi
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
      * @param string $user_id The id of the user (required)
-     * @param string $status The new status (optional)
+     * @param \KnetikCloud\Model\ActivityUserStatusWrapper $status The new status (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ActivityUserResource, HTTP status code, HTTP response headers (array of strings)
@@ -3819,7 +3819,7 @@ class ActivitiesApi
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
      * @param string $user_id The id of the user (required)
-     * @param string $status The new status (optional)
+     * @param \KnetikCloud\Model\ActivityUserStatusWrapper $status The new status (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
@@ -3837,7 +3837,7 @@ class ActivitiesApi
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
      * @param string $user_id The id of the user (required)
-     * @param string $status The new status (optional)
+     * @param \KnetikCloud\Model\ActivityUserStatusWrapper $status The new status (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
@@ -3879,7 +3879,7 @@ class ActivitiesApi
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
      * @param string $user_id The id of the user (required)
-     * @param string $status The new status (optional)
+     * @param \KnetikCloud\Model\ActivityUserStatusWrapper $status The new status (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
@@ -4234,7 +4234,7 @@ class ActivitiesApi
      * Update the status of an activity occurrence
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
-     * @param \KnetikCloud\Model\ValueWrapperString_ $activity_occurrence_status The activity occurrence status object (optional)
+     * @param \KnetikCloud\Model\ActivityOccurrenceStatusWrapper $activity_occurrence_status The activity occurrence status object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
@@ -4250,7 +4250,7 @@ class ActivitiesApi
      * Update the status of an activity occurrence
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
-     * @param \KnetikCloud\Model\ValueWrapperString_ $activity_occurrence_status The activity occurrence status object (optional)
+     * @param \KnetikCloud\Model\ActivityOccurrenceStatusWrapper $activity_occurrence_status The activity occurrence status object (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
@@ -4302,7 +4302,7 @@ class ActivitiesApi
      * Update the status of an activity occurrence
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
-     * @param \KnetikCloud\Model\ValueWrapperString_ $activity_occurrence_status The activity occurrence status object (optional)
+     * @param \KnetikCloud\Model\ActivityOccurrenceStatusWrapper $activity_occurrence_status The activity occurrence status object (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
@@ -4319,7 +4319,7 @@ class ActivitiesApi
      * Update the status of an activity occurrence
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
-     * @param \KnetikCloud\Model\ValueWrapperString_ $activity_occurrence_status The activity occurrence status object (optional)
+     * @param \KnetikCloud\Model\ActivityOccurrenceStatusWrapper $activity_occurrence_status The activity occurrence status object (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
@@ -4346,7 +4346,7 @@ class ActivitiesApi
      * Create request for operation 'updateActivityOccurrenceStatus'
      *
      * @param int $activity_occurrence_id The id of the activity occurrence (required)
-     * @param \KnetikCloud\Model\ValueWrapperString_ $activity_occurrence_status The activity occurrence status object (optional)
+     * @param \KnetikCloud\Model\ActivityOccurrenceStatusWrapper $activity_occurrence_status The activity occurrence status object (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */

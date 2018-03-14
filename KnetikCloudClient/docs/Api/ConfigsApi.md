@@ -1,6 +1,6 @@
 # KnetikCloud\ConfigsApi
 
-All URIs are relative to *https://sandbox.knetikcloud.com*
+All URIs are relative to *https://jsapi-integration.us-east-1.elasticbeanstalk.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 Create a new config
 
-<b>Permissions Needed:</b> TOPICS_ADMIN
+<b>Permissions Needed:</b> CONFIGS_ADMIN
 
 ### Example
 ```php

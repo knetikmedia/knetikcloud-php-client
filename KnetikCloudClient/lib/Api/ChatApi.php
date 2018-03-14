@@ -2654,7 +2654,7 @@ class ChatApi
     }
 
     /**
-     * Operation sendMessage
+     * Operation sendChatMessage
      *
      * Send a message
      *
@@ -2663,14 +2663,14 @@ class ChatApi
      * @throws \InvalidArgumentException
      * @return \KnetikCloud\Model\ChatMessageResource
      */
-    public function sendMessage($chat_message_resource = null)
+    public function sendChatMessage($chat_message_resource = null)
     {
-        list($response) = $this->sendMessageWithHttpInfo($chat_message_resource);
+        list($response) = $this->sendChatMessageWithHttpInfo($chat_message_resource);
         return $response;
     }
 
     /**
-     * Operation sendMessageWithHttpInfo
+     * Operation sendChatMessageWithHttpInfo
      *
      * Send a message
      *
@@ -2679,10 +2679,10 @@ class ChatApi
      * @throws \InvalidArgumentException
      * @return array of \KnetikCloud\Model\ChatMessageResource, HTTP status code, HTTP response headers (array of strings)
      */
-    public function sendMessageWithHttpInfo($chat_message_resource = null)
+    public function sendChatMessageWithHttpInfo($chat_message_resource = null)
     {
         $returnType = '\KnetikCloud\Model\ChatMessageResource';
-        $request = $this->sendMessageRequest($chat_message_resource);
+        $request = $this->sendChatMessageRequest($chat_message_resource);
 
         try {
 
@@ -2739,7 +2739,7 @@ class ChatApi
     }
 
     /**
-     * Operation sendMessageAsync
+     * Operation sendChatMessageAsync
      *
      * Send a message
      *
@@ -2747,15 +2747,15 @@ class ChatApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function sendMessageAsync($chat_message_resource = null)
+    public function sendChatMessageAsync($chat_message_resource = null)
     {
-        return $this->sendMessageAsyncWithHttpInfo($chat_message_resource)->then(function ($response) {
+        return $this->sendChatMessageAsyncWithHttpInfo($chat_message_resource)->then(function ($response) {
             return $response[0];
         });
     }
 
     /**
-     * Operation sendMessageAsyncWithHttpInfo
+     * Operation sendChatMessageAsyncWithHttpInfo
      *
      * Send a message
      *
@@ -2763,10 +2763,10 @@ class ChatApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function sendMessageAsyncWithHttpInfo($chat_message_resource = null)
+    public function sendChatMessageAsyncWithHttpInfo($chat_message_resource = null)
     {
         $returnType = '\KnetikCloud\Model\ChatMessageResource';
-        $request = $this->sendMessageRequest($chat_message_resource);
+        $request = $this->sendChatMessageRequest($chat_message_resource);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             $responseBody = $response->getBody();
@@ -2797,13 +2797,13 @@ class ChatApi
     }
 
     /**
-     * Create request for operation 'sendMessage'
+     * Create request for operation 'sendChatMessage'
      *
      * @param \KnetikCloud\Model\ChatMessageResource $chat_message_resource The chat message resource (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function sendMessageRequest($chat_message_resource = null)
+    protected function sendChatMessageRequest($chat_message_resource = null)
     {
 
         $resourcePath = '/chat/messages';

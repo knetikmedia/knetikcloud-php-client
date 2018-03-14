@@ -92,6 +92,20 @@ class ForwardLogTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "event_id"
+     */
+    public function testPropertyEventId()
+    {
+    }
+
+    /**
+     * Test attribute "headers"
+     */
+    public function testPropertyHeaders()
+    {
+    }
+
+    /**
      * Test attribute "http_status_code"
      */
     public function testPropertyHttpStatusCode()
@@ -102,6 +116,13 @@ class ForwardLogTest extends \PHPUnit_Framework_TestCase
      * Test attribute "id"
      */
     public function testPropertyId()
+    {
+    }
+
+    /**
+     * Test attribute "method"
+     */
+    public function testPropertyMethod()
     {
     }
 
@@ -127,9 +148,30 @@ class ForwardLogTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "retryable"
+     */
+    public function testPropertyRetryable()
+    {
+    }
+
+    /**
+     * Test attribute "rule_id"
+     */
+    public function testPropertyRuleId()
+    {
+    }
+
+    /**
      * Test attribute "start_date"
      */
     public function testPropertyStartDate()
+    {
+    }
+
+    /**
+     * Test attribute "success"
+     */
+    public function testPropertySuccess()
     {
     }
 

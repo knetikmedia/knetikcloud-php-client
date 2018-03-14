@@ -1008,7 +1008,7 @@ class FulfillmentApi
      *
      * Update a fulfillment type
      *
-     * @param int $id The id (required)
+     * @param int $id The fulfillment id (required)
      * @param \KnetikCloud\Model\FulfillmentType $fulfillment_type The fulfillment type (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1024,7 +1024,7 @@ class FulfillmentApi
      *
      * Update a fulfillment type
      *
-     * @param int $id The id (required)
+     * @param int $id The fulfillment id (required)
      * @param \KnetikCloud\Model\FulfillmentType $fulfillment_type The fulfillment type (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1076,7 +1076,7 @@ class FulfillmentApi
      *
      * Update a fulfillment type
      *
-     * @param int $id The id (required)
+     * @param int $id The fulfillment id (required)
      * @param \KnetikCloud\Model\FulfillmentType $fulfillment_type The fulfillment type (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1093,7 +1093,7 @@ class FulfillmentApi
      *
      * Update a fulfillment type
      *
-     * @param int $id The id (required)
+     * @param int $id The fulfillment id (required)
      * @param \KnetikCloud\Model\FulfillmentType $fulfillment_type The fulfillment type (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1120,7 +1120,7 @@ class FulfillmentApi
     /**
      * Create request for operation 'updateFulfillmentType'
      *
-     * @param int $id The id (required)
+     * @param int $id The fulfillment id (required)
      * @param \KnetikCloud\Model\FulfillmentType $fulfillment_type The fulfillment type (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request

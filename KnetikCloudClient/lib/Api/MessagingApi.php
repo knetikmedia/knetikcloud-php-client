@@ -1264,7 +1264,7 @@ class MessagingApi
     }
 
     /**
-     * Operation sendMessage1
+     * Operation sendMessage
      *
      * Send a message
      *
@@ -1273,13 +1273,13 @@ class MessagingApi
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function sendMessage1($message_resource = null)
+    public function sendMessage($message_resource = null)
     {
-        $this->sendMessage1WithHttpInfo($message_resource);
+        $this->sendMessageWithHttpInfo($message_resource);
     }
 
     /**
-     * Operation sendMessage1WithHttpInfo
+     * Operation sendMessageWithHttpInfo
      *
      * Send a message
      *
@@ -1288,10 +1288,10 @@ class MessagingApi
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function sendMessage1WithHttpInfo($message_resource = null)
+    public function sendMessageWithHttpInfo($message_resource = null)
     {
         $returnType = '';
-        $request = $this->sendMessage1Request($message_resource);
+        $request = $this->sendMessageRequest($message_resource);
 
         try {
 
@@ -1330,7 +1330,7 @@ class MessagingApi
     }
 
     /**
-     * Operation sendMessage1Async
+     * Operation sendMessageAsync
      *
      * Send a message
      *
@@ -1338,15 +1338,15 @@ class MessagingApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function sendMessage1Async($message_resource = null)
+    public function sendMessageAsync($message_resource = null)
     {
-        return $this->sendMessage1AsyncWithHttpInfo($message_resource)->then(function ($response) {
+        return $this->sendMessageAsyncWithHttpInfo($message_resource)->then(function ($response) {
             return $response[0];
         });
     }
 
     /**
-     * Operation sendMessage1AsyncWithHttpInfo
+     * Operation sendMessageAsyncWithHttpInfo
      *
      * Send a message
      *
@@ -1354,10 +1354,10 @@ class MessagingApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function sendMessage1AsyncWithHttpInfo($message_resource = null)
+    public function sendMessageAsyncWithHttpInfo($message_resource = null)
     {
         $returnType = '';
-        $request = $this->sendMessage1Request($message_resource);
+        $request = $this->sendMessageRequest($message_resource);
 
         return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
             return [null, $response->getStatusCode(), $response->getHeaders()];
@@ -1374,13 +1374,13 @@ class MessagingApi
     }
 
     /**
-     * Create request for operation 'sendMessage1'
+     * Create request for operation 'sendMessage'
      *
      * @param \KnetikCloud\Model\MessageResource $message_resource The message to be sent (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function sendMessage1Request($message_resource = null)
+    protected function sendMessageRequest($message_resource = null)
     {
 
         $resourcePath = '/messaging/message';

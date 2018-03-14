@@ -2027,7 +2027,7 @@ class NotificationsApi
      *
      * @param string $user_id The id of the user or &#39;me&#39; (required)
      * @param string $notification_id The id of the notification (required)
-     * @param \KnetikCloud\Model\ValueWrapperString_ $notification status (optional)
+     * @param \KnetikCloud\Model\UserNotificationStatusWrapper $notification status (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
@@ -2044,7 +2044,7 @@ class NotificationsApi
      *
      * @param string $user_id The id of the user or &#39;me&#39; (required)
      * @param string $notification_id The id of the notification (required)
-     * @param \KnetikCloud\Model\ValueWrapperString_ $notification status (optional)
+     * @param \KnetikCloud\Model\UserNotificationStatusWrapper $notification status (optional)
      * @throws \KnetikCloud\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
@@ -2097,7 +2097,7 @@ class NotificationsApi
      *
      * @param string $user_id The id of the user or &#39;me&#39; (required)
      * @param string $notification_id The id of the notification (required)
-     * @param \KnetikCloud\Model\ValueWrapperString_ $notification status (optional)
+     * @param \KnetikCloud\Model\UserNotificationStatusWrapper $notification status (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
@@ -2115,7 +2115,7 @@ class NotificationsApi
      *
      * @param string $user_id The id of the user or &#39;me&#39; (required)
      * @param string $notification_id The id of the notification (required)
-     * @param \KnetikCloud\Model\ValueWrapperString_ $notification status (optional)
+     * @param \KnetikCloud\Model\UserNotificationStatusWrapper $notification status (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
@@ -2143,7 +2143,7 @@ class NotificationsApi
      *
      * @param string $user_id The id of the user or &#39;me&#39; (required)
      * @param string $notification_id The id of the notification (required)
-     * @param \KnetikCloud\Model\ValueWrapperString_ $notification status (optional)
+     * @param \KnetikCloud\Model\UserNotificationStatusWrapper $notification status (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */

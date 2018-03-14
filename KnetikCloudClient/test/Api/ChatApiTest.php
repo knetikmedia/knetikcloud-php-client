@@ -182,12 +182,12 @@ class ChatApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test case for sendMessage
+     * Test case for sendChatMessage
      *
      * Send a message.
      *
      */
-    public function testSendMessage()
+    public function testSendChatMessage()
     {
     }
 }

@@ -56,12 +56,18 @@ class ForwardLog implements ArrayAccess
     protected static $swaggerTypes = [
         'end_date' => 'int',
         'error_msg' => 'string',
+        'event_id' => 'string',
+        'headers' => 'string',
         'http_status_code' => 'int',
         'id' => 'string',
+        'method' => 'string',
         'payload' => 'object',
         'response' => 'string',
         'retry_count' => 'int',
+        'retryable' => 'bool',
+        'rule_id' => 'string',
         'start_date' => 'int',
+        'success' => 'bool',
         'url' => 'string'
     ];
 
@@ -72,12 +78,18 @@ class ForwardLog implements ArrayAccess
     protected static $swaggerFormats = [
         'end_date' => 'int64',
         'error_msg' => null,
+        'event_id' => null,
+        'headers' => null,
         'http_status_code' => 'int32',
         'id' => null,
+        'method' => null,
         'payload' => null,
         'response' => null,
         'retry_count' => 'int32',
+        'retryable' => null,
+        'rule_id' => null,
         'start_date' => 'int64',
+        'success' => null,
         'url' => null
     ];
 
@@ -98,12 +110,18 @@ class ForwardLog implements ArrayAccess
     protected static $attributeMap = [
         'end_date' => 'end_date',
         'error_msg' => 'error_msg',
+        'event_id' => 'event_id',
+        'headers' => 'headers',
         'http_status_code' => 'http_status_code',
         'id' => 'id',
+        'method' => 'method',
         'payload' => 'payload',
         'response' => 'response',
         'retry_count' => 'retry_count',
+        'retryable' => 'retryable',
+        'rule_id' => 'rule_id',
         'start_date' => 'start_date',
+        'success' => 'success',
         'url' => 'url'
     ];
 
@@ -115,12 +133,18 @@ class ForwardLog implements ArrayAccess
     protected static $setters = [
         'end_date' => 'setEndDate',
         'error_msg' => 'setErrorMsg',
+        'event_id' => 'setEventId',
+        'headers' => 'setHeaders',
         'http_status_code' => 'setHttpStatusCode',
         'id' => 'setId',
+        'method' => 'setMethod',
         'payload' => 'setPayload',
         'response' => 'setResponse',
         'retry_count' => 'setRetryCount',
+        'retryable' => 'setRetryable',
+        'rule_id' => 'setRuleId',
         'start_date' => 'setStartDate',
+        'success' => 'setSuccess',
         'url' => 'setUrl'
     ];
 
@@ -132,12 +156,18 @@ class ForwardLog implements ArrayAccess
     protected static $getters = [
         'end_date' => 'getEndDate',
         'error_msg' => 'getErrorMsg',
+        'event_id' => 'getEventId',
+        'headers' => 'getHeaders',
         'http_status_code' => 'getHttpStatusCode',
         'id' => 'getId',
+        'method' => 'getMethod',
         'payload' => 'getPayload',
         'response' => 'getResponse',
         'retry_count' => 'getRetryCount',
+        'retryable' => 'getRetryable',
+        'rule_id' => 'getRuleId',
         'start_date' => 'getStartDate',
+        'success' => 'getSuccess',
         'url' => 'getUrl'
     ];
 
@@ -174,12 +204,18 @@ class ForwardLog implements ArrayAccess
     {
         $this->container['end_date'] = isset($data['end_date']) ? $data['end_date'] : null;
         $this->container['error_msg'] = isset($data['error_msg']) ? $data['error_msg'] : null;
+        $this->container['event_id'] = isset($data['event_id']) ? $data['event_id'] : null;
+        $this->container['headers'] = isset($data['headers']) ? $data['headers'] : null;
         $this->container['http_status_code'] = isset($data['http_status_code']) ? $data['http_status_code'] : null;
         $this->container['id'] = isset($data['id']) ? $data['id'] : null;
+        $this->container['method'] = isset($data['method']) ? $data['method'] : null;
         $this->container['payload'] = isset($data['payload']) ? $data['payload'] : null;
         $this->container['response'] = isset($data['response']) ? $data['response'] : null;
         $this->container['retry_count'] = isset($data['retry_count']) ? $data['retry_count'] : null;
+        $this->container['retryable'] = isset($data['retryable']) ? $data['retryable'] : null;
+        $this->container['rule_id'] = isset($data['rule_id']) ? $data['rule_id'] : null;
         $this->container['start_date'] = isset($data['start_date']) ? $data['start_date'] : null;
+        $this->container['success'] = isset($data['success']) ? $data['success'] : null;
         $this->container['url'] = isset($data['url']) ? $data['url'] : null;
     }
 
@@ -251,6 +287,48 @@ class ForwardLog implements ArrayAccess
     }
 
     /**
+     * Gets event_id
+     * @return string
+     */
+    public function getEventId()
+    {
+        return $this->container['event_id'];
+    }
+
+    /**
+     * Sets event_id
+     * @param string $event_id
+     * @return $this
+     */
+    public function setEventId($event_id)
+    {
+        $this->container['event_id'] = $event_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets headers
+     * @return string
+     */
+    public function getHeaders()
+    {
+        return $this->container['headers'];
+    }
+
+    /**
+     * Sets headers
+     * @param string $headers
+     * @return $this
+     */
+    public function setHeaders($headers)
+    {
+        $this->container['headers'] = $headers;
+
+        return $this;
+    }
+
+    /**
      * Gets http_status_code
      * @return int
      */
@@ -288,6 +366,27 @@ class ForwardLog implements ArrayAccess
     public function setId($id)
     {
         $this->container['id'] = $id;
+
+        return $this;
+    }
+
+    /**
+     * Gets method
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->container['method'];
+    }
+
+    /**
+     * Sets method
+     * @param string $method
+     * @return $this
+     */
+    public function setMethod($method)
+    {
+        $this->container['method'] = $method;
 
         return $this;
     }
@@ -356,6 +455,48 @@ class ForwardLog implements ArrayAccess
     }
 
     /**
+     * Gets retryable
+     * @return bool
+     */
+    public function getRetryable()
+    {
+        return $this->container['retryable'];
+    }
+
+    /**
+     * Sets retryable
+     * @param bool $retryable
+     * @return $this
+     */
+    public function setRetryable($retryable)
+    {
+        $this->container['retryable'] = $retryable;
+
+        return $this;
+    }
+
+    /**
+     * Gets rule_id
+     * @return string
+     */
+    public function getRuleId()
+    {
+        return $this->container['rule_id'];
+    }
+
+    /**
+     * Sets rule_id
+     * @param string $rule_id
+     * @return $this
+     */
+    public function setRuleId($rule_id)
+    {
+        $this->container['rule_id'] = $rule_id;
+
+        return $this;
+    }
+
+    /**
      * Gets start_date
      * @return int
      */
@@ -372,6 +513,27 @@ class ForwardLog implements ArrayAccess
     public function setStartDate($start_date)
     {
         $this->container['start_date'] = $start_date;
+
+        return $this;
+    }
+
+    /**
+     * Gets success
+     * @return bool
+     */
+    public function getSuccess()
+    {
+        return $this->container['success'];
+    }
+
+    /**
+     * Sets success
+     * @param bool $success
+     * @return $this
+     */
+    public function setSuccess($success)
+    {
+        $this->container['success'] = $success;
 
         return $this;
     }

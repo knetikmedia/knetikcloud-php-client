@@ -1,6 +1,6 @@
 # KnetikCloud\ChatApi
 
-All URIs are relative to *https://sandbox.knetikcloud.com*
+All URIs are relative to *https://jsapi-integration.us-east-1.elasticbeanstalk.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -15,7 +15,7 @@ Method | HTTP request | Description
 [**getThreadMessages**](ChatApi.md#getThreadMessages) | **GET** /chat/threads/{id}/messages | List messages in a thread
 [**getTopicMessages**](ChatApi.md#getTopicMessages) | **GET** /chat/topics/{id}/messages | List messages in a topic
 [**removeChatBlacklist**](ChatApi.md#removeChatBlacklist) | **DELETE** /chat/users/{id}/blacklist/{blacklisted_user_id} | Remove a user from a blacklist
-[**sendMessage**](ChatApi.md#sendMessage) | **POST** /chat/messages | Send a message
+[**sendChatMessage**](ChatApi.md#sendChatMessage) | **POST** /chat/messages | Send a message
 
 
 # **acknowledgeChatMessage**
@@ -593,8 +593,8 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **sendMessage**
-> \KnetikCloud\Model\ChatMessageResource sendMessage($chat_message_resource)
+# **sendChatMessage**
+> \KnetikCloud\Model\ChatMessageResource sendChatMessage($chat_message_resource)
 
 Send a message
 
@@ -614,10 +614,10 @@ $api_instance = new KnetikCloud\Api\ChatApi(new \Http\Adapter\Guzzle6\Client());
 $chat_message_resource = new \KnetikCloud\Model\ChatMessageResource(); // \KnetikCloud\Model\ChatMessageResource | The chat message resource
 
 try {
-    $result = $api_instance->sendMessage($chat_message_resource);
+    $result = $api_instance->sendChatMessage($chat_message_resource);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling ChatApi->sendMessage: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling ChatApi->sendChatMessage: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```

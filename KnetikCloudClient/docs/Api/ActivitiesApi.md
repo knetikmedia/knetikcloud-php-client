@@ -1,6 +1,6 @@
 # KnetikCloud\ActivitiesApi
 
-All URIs are relative to *https://sandbox.knetikcloud.com*
+All URIs are relative to *https://jsapi-integration.us-east-1.elasticbeanstalk.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -448,7 +448,7 @@ Name | Type | Description  | Notes
 
 Load a single activity occurrence details
 
-<b>Permissions Needed:</b> ACTIVITIES_ADMIN
+<b>Permissions Needed:</b> ACTIVITIES_USER or ACTIVITIES_ADMIN
 
 ### Example
 ```php
@@ -602,7 +602,7 @@ Name | Type | Description  | Notes
 
 List activity occurrences
 
-<b>Permissions Needed:</b> ACTIVITIES_ADMIN
+<b>Permissions Needed:</b> ACTIVITIES_USER or ACTIVITIES_ADMIN
 
 ### Example
 ```php
@@ -717,7 +717,7 @@ void (empty response body)
 
 Sets the status of an activity occurrence to FINISHED and logs metrics
 
-In addition to user permissions requirements there is security based on the core_settings.results_trust setting.
+In addition to user permissions requirements there is security based on the core_settings.results_trust setting. <br><br><b>Permissions Needed:</b> ACTIVITIES_USER or ACTIVITIES_ADMIN
 
 ### Example
 ```php
@@ -768,6 +768,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\ActivityOccurrenceResource setActivityOccurrenceSettings($activity_occurrence_id, $settings)
 
 Sets the settings of an activity occurrence
+
+<b>Permissions Needed:</b> ACTIVITIES_USER and host or ACTIVITIES_ADMIN
 
 ### Example
 ```php
@@ -832,7 +834,7 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 $api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $activity_occurrence_id = 789; // int | The id of the activity occurrence
 $user_id = "user_id_example"; // string | The id of the user
-$status = "status_example"; // string | The new status
+$status = new \KnetikCloud\Model\ActivityUserStatusWrapper(); // \KnetikCloud\Model\ActivityUserStatusWrapper | The new status
 
 try {
     $result = $api_instance->setUserStatus($activity_occurrence_id, $user_id, $status);
@@ -849,7 +851,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **activity_occurrence_id** | **int**| The id of the activity occurrence |
  **user_id** | **string**| The id of the user |
- **status** | **string**| The new status | [optional]
+ **status** | [**\KnetikCloud\Model\ActivityUserStatusWrapper**](../Model/ActivityUserStatusWrapper.md)| The new status | [optional]
 
 ### Return type
 
@@ -923,7 +925,7 @@ Name | Type | Description  | Notes
 
 Update the status of an activity occurrence
 
-If setting to 'FINISHED' reward will be run based on current metrics that have been recorded already. Alternatively, see results endpoint to finish and record all metrics at once. Can be called by non-host participants if non_host_status_control is true
+If setting to 'FINISHED' reward will be run based on current metrics that have been recorded already. Alternatively, see results endpoint to finish and record all metrics at once. Can be called by non-host participants if non_host_status_control is true. <br><br><b>Permissions Needed:</b> ACTIVITIES_USER and host or ACTIVITIES_ADMIN
 
 ### Example
 ```php
@@ -937,7 +939,7 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 
 $api_instance = new KnetikCloud\Api\ActivitiesApi(new \Http\Adapter\Guzzle6\Client());
 $activity_occurrence_id = 789; // int | The id of the activity occurrence
-$activity_occurrence_status = new \KnetikCloud\Model\ValueWrapperString_(); // \KnetikCloud\Model\ValueWrapperString_ | The activity occurrence status object
+$activity_occurrence_status = new \KnetikCloud\Model\ActivityOccurrenceStatusWrapper(); // \KnetikCloud\Model\ActivityOccurrenceStatusWrapper | The activity occurrence status object
 
 try {
     $api_instance->updateActivityOccurrenceStatus($activity_occurrence_id, $activity_occurrence_status);
@@ -952,7 +954,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **activity_occurrence_id** | **int**| The id of the activity occurrence |
- **activity_occurrence_status** | [**\KnetikCloud\Model\ValueWrapperString_**](../Model/ValueWrapperString_.md)| The activity occurrence status object | [optional]
+ **activity_occurrence_status** | [**\KnetikCloud\Model\ActivityOccurrenceStatusWrapper**](../Model/ActivityOccurrenceStatusWrapper.md)| The activity occurrence status object | [optional]
 
 ### Return type
 

@@ -1,6 +1,6 @@
 # KnetikCloud\FulfillmentApi
 
-All URIs are relative to *https://sandbox.knetikcloud.com*
+All URIs are relative to *https://jsapi-integration.us-east-1.elasticbeanstalk.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -232,7 +232,7 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new KnetikCloud\Api\FulfillmentApi(new \Http\Adapter\Guzzle6\Client());
-$id = 56; // int | The id
+$id = 56; // int | The fulfillment id
 $fulfillment_type = new \KnetikCloud\Model\FulfillmentType(); // \KnetikCloud\Model\FulfillmentType | The fulfillment type
 
 try {
@@ -247,7 +247,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **int**| The id |
+ **id** | **int**| The fulfillment id |
  **fulfillment_type** | [**\KnetikCloud\Model\FulfillmentType**](../Model/FulfillmentType.md)| The fulfillment type | [optional]
 
 ### Return type

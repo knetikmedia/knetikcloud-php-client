@@ -303,7 +303,7 @@ class UserActivityResults implements ArrayAccess
 
     /**
      * Sets tags
-     * @param string[] $tags Any tags for the metric. Each unique tag will translate into a unique leaderboard. Maximum 5 tags and 50 characters each
+     * @param string[] $tags Any tags for the metric. Each unique tag will translate into a unique leaderboard. Maximum 10 tags and 50 characters each
      * @return $this
      */
     public function setTags($tags)

@@ -1,6 +1,6 @@
 # KnetikCloud\NotificationsApi
 
-All URIs are relative to *https://sandbox.knetikcloud.com*
+All URIs are relative to *https://jsapi-integration.us-east-1.elasticbeanstalk.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -21,6 +21,8 @@ Method | HTTP request | Description
 > \KnetikCloud\Model\NotificationTypeResource createNotificationType($notification_type)
 
 Create a notification type
+
+<b>Permissions Needed:</b> NOTIFICATIONS_ADMIN
 
 ### Example
 ```php
@@ -70,6 +72,8 @@ Name | Type | Description  | Notes
 
 Delete a notification type
 
+<b>Permissions Needed:</b> NOTIFICATIONS_ADMIN
+
 ### Example
 ```php
 <?php
@@ -116,6 +120,8 @@ void (empty response body)
 > \KnetikCloud\Model\NotificationTypeResource getNotificationType($id)
 
 Get a single notification type
+
+<b>Permissions Needed:</b> NOTIFICATIONS_ADMIN
 
 ### Example
 ```php
@@ -165,7 +171,7 @@ Name | Type | Description  | Notes
 
 List and search notification types
 
-Get a list of notification type with optional filtering
+Get a list of notification type with optional filtering. <br><br><b>Permissions Needed:</b> NOTIFICATIONS_ADMIN
 
 ### Example
 ```php
@@ -219,6 +225,8 @@ Name | Type | Description  | Notes
 
 View a user's notification settings for a type
 
+<b>Permissions Needed:</b> NOTIFICATIONS_ADMIN or self
+
 ### Example
 ```php
 <?php
@@ -268,6 +276,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceNotificationUserTypeResource_ getUserNotificationInfoList($user_id, $size, $page, $order)
 
 View a user's notification settings
+
+<b>Permissions Needed:</b> NOTIFICATIONS_ADMIN or self
 
 ### Example
 ```php
@@ -322,6 +332,8 @@ Name | Type | Description  | Notes
 > \KnetikCloud\Model\PageResourceUserNotificationResource_ getUserNotifications($id, $filter_status, $size, $page, $order)
 
 Get notifications
+
+<b>Permissions Needed:</b> NOTIFICATIONS_ADMIN or self
 
 ### Example
 ```php
@@ -379,6 +391,8 @@ Name | Type | Description  | Notes
 
 Send a notification
 
+<b>Permissions Needed:</b> NOTIFICATIONS_ADMIN
+
 ### Example
 ```php
 <?php
@@ -427,6 +441,8 @@ Name | Type | Description  | Notes
 
 Set notification status
 
+<b>Permissions Needed:</b> NOTIFICATIONS_ADMIN or self
+
 ### Example
 ```php
 <?php
@@ -440,7 +456,7 @@ KnetikCloud\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCES
 $api_instance = new KnetikCloud\Api\NotificationsApi(new \Http\Adapter\Guzzle6\Client());
 $user_id = "user_id_example"; // string | The id of the user or 'me'
 $notification_id = "notification_id_example"; // string | The id of the notification
-$notification = new \KnetikCloud\Model\ValueWrapperString_(); // \KnetikCloud\Model\ValueWrapperString_ | status
+$notification = new \KnetikCloud\Model\UserNotificationStatusWrapper(); // \KnetikCloud\Model\UserNotificationStatusWrapper | status
 
 try {
     $api_instance->setUserNotificationStatus($user_id, $notification_id, $notification);
@@ -456,7 +472,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **string**| The id of the user or &#39;me&#39; |
  **notification_id** | **string**| The id of the notification |
- **notification** | [**\KnetikCloud\Model\ValueWrapperString_**](../Model/ValueWrapperString_.md)| status | [optional]
+ **notification** | [**\KnetikCloud\Model\UserNotificationStatusWrapper**](../Model/UserNotificationStatusWrapper.md)| status | [optional]
 
 ### Return type
 
@@ -478,7 +494,7 @@ void (empty response body)
 
 Enable or disable direct notifications for a user
 
-Allows enabling or disabling messages for a given notification type when sent direct to the user. Notifications can still be retrieved by endpoint. For notifications broadcased to a topic, see the topic service to disable messages for the user there.
+Allows enabling or disabling messages for a given notification type when sent direct to the user. Notifications can still be retrieved by endpoint. For notifications broadcased to a topic, see the topic service to disable messages for the user there. <br><br><b>Permissions Needed:</b> NOTIFICATIONS_ADMIN or self
 
 ### Example
 ```php
@@ -530,6 +546,8 @@ void (empty response body)
 > \KnetikCloud\Model\NotificationTypeResource updateNotificationType($id, $notification_type)
 
 Update a notificationType
+
+<b>Permissions Needed:</b> NOTIFICATIONS_ADMIN
 
 ### Example
 ```php

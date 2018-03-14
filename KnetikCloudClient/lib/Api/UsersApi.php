@@ -910,7 +910,7 @@ class UsersApi
             throw new \InvalidArgumentException('Missing the required parameter $recipient_id when calling getDirectMessages1');
         }
 
-        $resourcePath = '/users/users/{recipient_id}/messages';
+        $resourcePath = '/users/{recipient_id}/messages';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];

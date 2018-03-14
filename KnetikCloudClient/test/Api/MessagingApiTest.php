@@ -122,12 +122,12 @@ class MessagingApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test case for sendMessage1
+     * Test case for sendMessage
      *
      * Send a message.
      *
      */
-    public function testSendMessage1()
+    public function testSendMessage()
     {
     }
 
